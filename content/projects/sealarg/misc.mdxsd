@@ -1,0 +1,12 @@
+# Misc
+
+this is some misc info
+
+          {frontmatter.external &&
+            <MetaText>
+              <span>
+                <FontAwesomeIcon icon="external-link-alt" fixedWidth/>
+                <Link to={`https://${frontmatter.external}`}> {frontmatter.external}</Link>
+              </span>
+            </MetaText>
+          }
