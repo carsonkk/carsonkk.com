@@ -8,7 +8,6 @@ tags:
   - "Linux"
 github: "carsonkk/drngs"
 external: "google.com"
-linkedMarkdownFile: "../sealarg/index.md"
 ---
 
 # DRNGS

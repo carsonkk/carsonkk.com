@@ -19,6 +19,7 @@ const RenderAst = new RehypeReact({
   createElement: React.createElement,
   components: {},
 }).Compiler
+const tabStrs = ['About', 'Posts', 'Misc', 'README']
 
 class ProjectPost extends React.Component {
   constructor(props) {
@@ -29,20 +30,15 @@ class ProjectPost extends React.Component {
       forkCount: '',
       license: '',
       homepage: '',
-      activeTab: 0,
+      readme: '',
+      activeTab: tabStrs[0],
     }
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick = (param) => (e) => {
-    this.setState({
-      activeTab: param
-    })
-  }
-
   componentDidMount() {
-    const github = this.props.data.markdownRemark.frontmatter.github
-    const external = this.props.data.markdownRemark.frontmatter.external
+    const { github, external } = this.props.data.markdownRemark.frontmatter
+    const reg = /\[([^#]+)]\(#.+?\)/g
     let homepage = ''
     if(github) {
       this.xhr = AjaxGet(`//api.github.com/repos/${github}`, (res) => {
@@ -59,6 +55,12 @@ class ProjectPost extends React.Component {
           homepage = res['homepage']
         }
       })
+      this.xhr = AjaxGet(`//api.github.com/repos/${github}/readme`, (res) => {
+        if(!res) {
+          return
+        }
+        this.setState({readme: atob(res['content']).replace(reg, '$1')})
+      })
     }
     if(external) {
       this.setState({homepage: external})
@@ -68,6 +70,12 @@ class ProjectPost extends React.Component {
     }
   }
 
+  handleClick = (param) => (e) => {
+    this.setState({
+      activeTab: param
+    })
+  }
+
   componentWillUnmount() {
     if(this.xhr) {
       this.xhr.abort()
@@ -75,10 +83,10 @@ class ProjectPost extends React.Component {
   }
 
   render() {
-    const { markdownRemark } = this.props.data
-    const { htmlAst, frontmatter, } = markdownRemark
-    const edges = this.props.data.allMarkdownRemark.edges
-    let posts = edges.map(edge => <BlogPostPreview key={edge.node.id} post={edge.node}/>)
+    const { markdownRemark, allMarkdownRemark } = this.props.data
+    const { htmlAst, frontmatter } = markdownRemark
+    let tabs = []
+    let contents = {}
     let tags
     const Banner = Styled.div`
       margin-bottom: 1.25rem;
@@ -196,28 +204,74 @@ class ProjectPost extends React.Component {
           width: 0.8125rem;
         }
       }
+      .readme {
+        h1, h2 {
+          padding-bottom: 0.3em;
+          border-bottom: 1px solid ${Colors.fadedText};
+        }
+        blockquote {
+          padding: 0 1em;
+          color: ${Colors.fadedText};
+          border-left: 0.25em solid ${Colors.fadedText};
+        }
+      }
     `
-    const tabs = [
+    tabs.push(
       <Button
+        key={tabStrs[0]}
         type='action'
-        text='About'
-        func={this.handleClick(0)}
+        text={tabStrs[0]}
+        icon={['fas', 'info-circle']}
+        func={this.handleClick(tabStrs[0])}
         radius='0rem 0rem 0.5rem 0.5rem'
-        active={this.state.activeTab == 0 ? 'active' : ''}
-      />,
-      <Button
-        type='action'
-        text='Posts'
-        func={this.handleClick(1)}
-        radius='0rem 0rem 0.5rem 0.5rem'
-        active={this.state.activeTab == 1 ? 'active' : ''}
+        active={this.state.activeTab == tabStrs[0] ? 'active' : ''}
       />
-    ]
-    const contents = [
-      RenderAst(htmlAst),
-      posts
-    ]
-    const readme = atob('IyBTZWFsYXJnCj4gQW4gZWFzeS10by11c2UgY29tbWFuZC1saW5lIGFyZ3Vt\nZW50IHBhcnNpbmcgbGlicmFyeSBmb3IgQwoKIyMgQWJvdXQKClNlYWxhcmcg\naXMgYSBjb21tYW5kLWxpbmUgcGFyc2luZyBsaWJyYXJ5IGRlc2lnbmVkIHRv\nIGJlIGFzIHN0cmFpZ2h0Zm9yd2FyZCBhcyBwb3NzaWJsZSB0byB1c2UuIEl0\nIGlzIGEgc21hbGwgd3JhcHBlciBhcm91bmQgdGhlIFBPU0lYIGBnZXRvcHRg\nL0dOVSBgZ2V0b3B0X2xvbmdgIHV0aWxpdGllcywgd3JpdHRlbiB0byBoaWRl\nIHRoZSBncnVudCB3b3JrIGFuZCBsZWFybmluZyBjdXJ2ZSBhc3NvY2lhdGVk\nIHdpdGggdGhlIGdldG9wdCBpbnRlcmZhY2UuIFNraXAgdG8gdGhlIFtHZXR0\naW5nIFN0YXJ0ZWRdKCNnZXR0aW5nLXN0YXJ0ZWQpIHNlY3Rpb24gYmVsb3cg\nZm9yIGEgZGVtb25zdHJhdGlvbiBvZiBTZWFsYXJnIGluIGFjdGlvbiBhbmQg\naG93IHRvIHF1aWNrbHkgYmVnaW4gaW50ZWdyYXRpbmcgdGhlIGxpYnJhcnkg\naW50byB5b3VyIHByb2plY3QuCgpXaGlsZSBnZXRvcHQgaXRzZWxmIGlzIGEg\nc29saWQsIHN0YW5kYXJkaXplZCBhcHByb2FjaCB0byBjb21tYW5kLWxpbmUg\ncGFyc2luZywgbGVhcm5pbmcgZW5vdWdoIGFib3V0IGl0IHRvIGF0dGFpbiBh\nIGRlc2lyYWJsZSBsZXZlbCBvZiByb2J1c3RuZXNzIGNhbiBvZnRlbiBnZXQg\naW4gdGhlIHdheSBvZiB0aGUgYWN0dWFsIHByb2plY3QgaXQncyBiZWluZyB1\nc2VkIGluLiBHZXRvcHQgaGFzIGJlZW4gd2lkZWx5IHVzZWQgZm9yIGRlY2Fk\nZXMgYW5kIGluc3BpcmVkIG1hbnkgc2ltaWxhciBsaWJyYXJpZXMgaW4gW290\naGVyIGxhbmd1YWdlc10oaHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kv\nR2V0b3B0I090aGVyX2xhbmd1YWdlcyksIGhvd2V2ZXIgb3RoZXIgbGlicmFy\naWVzIHN1Y2ggYXMgUHl0aG9uJ3MgW2FyZ3BhcnNlXShodHRwczovL2RvY3Mu\ncHl0aG9uLm9yZy8zL2hvd3RvL2FyZ3BhcnNlLmh0bWwpIGhhdmUgYmVlbiBk\nZXZlbG9wZWQgd2l0aCB0aGUgaW50ZW50IG9mIHByb3ZpZGluZyBhIG11Y2gg\nc2ltcGxlciBhbHRlcm5hdGl2ZSB0byB2ZXJib3NlIGFyZ3VtZW50IHBhcnNp\nbmcuIEFzIHN1Y2gsIHRoaXMgbGlicmFyeSBsZW5kcyBtdWNoIG9mIGl0cyBk\nZXNpZ24gY2hvaWNlcyB0byB0aGVzZSBuZXdlciBhbHRlcm5hdGl2ZSBsaWJy\nYXJpZXMuCgojIyBHZXR0aW5nIFN0YXJ0ZWQKClRoZSBzYW1wbGUgY29kZSBi\nZWxvdyBpbGx1c3RyYXRlcyBqdXN0IGhvdyBlYXN5IFNlYWxhcmcgaXMgdG8g\ndXNlIGluIDUgc3RlcHMuIEhlcmUgb3VyIHByb2dyYW0gdGFrZXMgYSBzdHJp\nbmcgYXMgYSBwb3NpdGlvbmFsIGFyZ3VtZW50IGFuZCBwcmludHMgaXQuIElm\nIHRoZSBvcHRpb2FubCBhcmd1bWVudCBgLW1gL2AtLW11bHRpcGxlYCBpcyB1\nc2VkLCB0aGUgcHJvZ3JhbSBwcmludHMgb3V0IHRoZSBzdHJpbmcgYXMgbWFu\neSB0aW1lcyBhcyBzcGVjaWZpZWQgYnkgdGhlIHZhbHVlIHBhc3NlZCB0byB0\naGUgb3B0aW9uLgoKYGBgYwojaW5jbHVkZSAic2VhbGFyZy5oIgoKaW50IG1h\naW4oaW50IGFyZ2MsIGNoYXIgKiphcmd2KSB7CiAgICBpbnQgaTsKICAgIGlu\ndCBjb3VudDsKICAgIGNoYXIgKnN0cjsKCiAgICAvLyAxLiBBbGxvY2F0ZSBh\nIFNlYWxQYXJzZXIgaW5zdGFuY2UKICAgIFNlYWxQYXJzZXIgKnBhcnNlciA9\nIG1hbGxvYyhzaXplb2YoU2VhbFBhcnNlcikpOwoKICAgIC8vIDIuIEluaXRp\nYWxpemUgdGhlIHBhcnNlcgogICAgSW5pdGlhbGl6ZShwYXJzZXIsICJQcmlu\ndHMgYSBzdHJpbmcgc29tZSBudW1iZXIgb2YgdGltZXMiLCAiVGhpcyBpcyBh\nIHByb2xvZ3VlIiwgIlRoaXMgaXMgYW4gZXBpbG9ndWUiLCBQU19TRUFMKTsK\nCiAgICAvLyAzLiBBZGQgYW55IG51bWJlciBvZiBvcHRpb25hbCBvciBwb3Np\ndGlvbmFsIGFyZ3VtZW50cwogICAgQWRkQXJndW1lbnQocGFyc2VyLCAibSIs\nICJtdWx0aXBsZSIsICJOdW1iZXIgb2Ygc3RyaW5nIGluc3RhbmNlcyB0byBw\ncmludCIsIEFLX09QVElPTkFMLCBBUl9SRVFVSVJFRCwgQUFfVkFMVUUsIFZU\nX0lOVCk7CiAgICBBZGRBcmd1bWVudChwYXJzZXIsIE5VTEwsICJzdHJpbmci\nLCAiU3RyaW5nIHRvIGJlIHByaW50ZWQiLCBBS19QT1NJVElPTkFMLCBBUl9S\nRVFVSVJFRCwgQUFfVkFMVUUsIFZUX1NUUklORyk7CgogICAgLy8gNC4gUGFy\nc2UgYWxsIHRoZSBhcmd1bWVudHMgYW5kIGNoZWNrIGZvciBhbnkgZXJyb3Jz\nCiAgICBQYXJzZShwYXJzZXIsIGFyZ2MsIGFyZ3YpOwogICAgaWYocGFyc2Vy\nLT5lcnIgIT0gMCkgewogICAgICAgIGZyZWUocGFyc2VyKTsKICAgICAgICBy\nZXR1cm4gcGFyc2VyLT5lcnI7CiAgICB9CgogICAgLy8gNS4gQWNjZXNzIGFy\nZ3VtZW50cyBieSBpbmRleCBpbiB0aGUgb3JkZXIgdGhleSB3ZXJlIGFkZGVk\nIHRvIHRoZSBwYXJzZXIKICAgIGNvdW50ID0gcGFyc2VyLT5hcmdzWzFdLnZh\nbHVlLmk7CiAgICBzdHIgPSBwYXJzZXItPmFyZ3NbMl0udmFsdWUuY3A7Cgog\nICAgZm9yKGkgPSAwOyBpIDwgY291bnQ7IGkrKykgewogICAgICAgIHByaW50\nZigiJXNcbiIsIHN0cik7CiAgICB9CgogICAgZnJlZShwYXJzZXIpOwogICAg\ncmV0dXJuIDA7Cn0KYGBgCgpXaGVuIGNvbXBpbGVkIGFuZCBydW4gd2l0aCB0\naGUgYC1oYC9gLS1oZWxwYCBvcHRpb24sIHRoZSBmb2xsb3dpbmcgdXNhZ2Ug\nc3RhdGVtZW50IGlzIGF1dG9tYXRpY2FsbHkgYnVpbHQgYW5kIHByaW50ZWQ6\nCgpgYGAKJCAuL3NhbXBsZV9wcm9ncmFtIC1oClVzYWdlOiBzYW1wbGVfcHJv\nZ3JhbSBbLWhdIFstbSBNVUxUSVBMRV0gU1RSSU5HClByaW50cyBhIHN0cmlu\nZyBzb21lIG51bWJlciBvZiB0aW1lcwoKVGhpcyBpcyBhIHByb2xvZ3VlCgpQ\nb3NpdGlvbmFsIEFyZ3VtZW50czoKICBTVFJJTkcgICAgICAgICAgICAgICAg\nICAgIFN0cmluZyB0byBiZSBwcmludGVkCiAgCk9wdGlvbmFsIEFyZ3VtZW50\nczoKICAtaCwgLS1oZWxwICAgICAgICAgICAgICAgIERpc3BsYXkgdGhpcyBo\nZWxwIG1lc3NhZ2UgYW5kIGV4aXQKICAtbSwgLS1tdWx0aXBsZSAgICAgICAg\nICAgIE51bWJlciBvZiBzdHJpbmcgaW5zdGFuY2VzIHRvIHByaW50CgpUaGlz\nIGlzIGFuIGVwaWxvZ3VlCiQKYGBgCgpUaGluZ3MgbGlrZSBtaXNzaW5nL2V4\nY2Vzc2l2ZSBhcmd1bWVudHMsIGludmFsaWQgYXJndW1lbnRzLCBhbmQgYmFz\naWMgdHlwZS9saW1pdCBjaGVja2luZyBhcmUgYWxsIGhhbmRsZWQgYXV0b21h\ndGljYWxseS4KCioqVG8gaW50ZWdyYXRlIFNlYWxhcmcgaW50byB5b3VyIHBy\nb2plY3Q6KioKCi0gQ29weSBgc3JjL3NlYWxhcmcuY2AgYW5kIGBpbmNsdWRl\nL3NlYWxhcmcuaGAgaW50byB5b3VyIHByb2plY3QgZm9sZGVyIGFuZCBhZGQg\ndGhlbSBhcyBkZXBlbmRlbmljZXMgaW4geW91ciBNYWtlZmlsZSwganVzdCBs\naWtlIHRoZSByZXN0IG9mIHlvdXIgY29kZSBmaWxlcwotIEFkZCBgI2luY2x1\nZGUgInNlYWxhcmcuaCJgIHRvIHdoZXJldmVyIHlvdSdsbCBiZSBkZWFsaW5n\nIHdpdGggY29tbWFuZC1saW5lIGFyZ3VtZW50cy0gdHlwaWNhbGx5IHRoaXMg\nd291bGQgYmUgdGhlIC5jIGZpbGUgY29udGFpbmluZyB5b3VyIGBtYWluYCBm\ndW5jdGlvbgotIFRyeSBjb21waWxpbmcgdG8gbWFrZSBzdXJlIHRoZSBsaWJy\nYXJ5IGNhbiBiZSBidWlsdCBhbG9uZ3NpZGUgeW91ciBjb2RlIHdpdGhvdXQg\nYW55IGlzc3Vlcy4gSWYgc28sIHlvdSdyZSByZWFkeSB0byBzdGFydCBtYWtp\nbmcgY2FsbHMgdG8gU2VhbGFyZydzIEFQSSBhbmQgcGFyc2Ugc29tZSBhcmd1\nbWVudHMhCgoqRm9yIGFkZGl0aW9uYWwgZXhhbXBsZXMsIGNoZWNrIG91dCBb\nYGV4YW1wbGUvYF0oZXhhbXBsZSkqCgoqRm9yIGZ1bGwgZG9jdW1lbnRhdGlv\nbiBvZiBTZWFsYXJnJ3MgQVBJLCBpbmNsdWRpbmcgaXRzIG1vcmUgYWR2YW5j\nZWQgc2VtYW50aWNzIGFuZCBmaW5lci1ncmFpbmVkIGNvbnRyb2wsIGNoZWNr\nIG91dCBbYGRvYy9gXShkb2MpKgoKIyMgUmVmZXJlbmNlcwoKV2FudCB0byBs\nZWFybiBtb3JlIGFib3V0IGdldG9wdD8gQ2xpY2sgdGhlIGxpbmtzIGJlbG93\nOgoKLSBbR05VIGRvY3MvZXhhbXBsZXMgb24gZ2V0b3B0L2dldG9wdF9sb25n\nXShodHRwczovL3d3dy5nbnUub3JnL3NvZnR3YXJlL2xpYmMvbWFudWFsL2h0\nbWxfbm9kZS9HZXRvcHQuaHRtbCkKLSBbTWFuIHBhZ2UgZ2V0b3B0KDMpXSho\ndHRwOi8vbWFuNy5vcmcvbGludXgvbWFuLXBhZ2VzL21hbjMvZ2V0b3B0LjMu\naHRtbCkKLSBbR2V0b3B0IG9uIFdpa2lwZWRpYV0oaHR0cHM6Ly9lbi53aWtp\ncGVkaWEub3JnL3dpa2kvR2V0b3B0KQotIFtJQk0gYXJ0aWNsZV0oaHR0cHM6\nLy93d3cuaWJtLmNvbS9kZXZlbG9wZXJ3b3Jrcy9haXgvbGlicmFyeS9hdS11\nbml4LWdldG9wdC5odG1sKQotIFtJbmZvcm1pdCBhcnRpY2xlXShodHRwOi8v\nd3d3LmluZm9ybWl0LmNvbS9hcnRpY2xlcy9hcnRpY2xlLmFzcHg/cD0xNzU3\nNzEmc2VxTnVtPTMpCi0gW1J1dGdlcnMgYXJ0aWNsZV0oaHR0cHM6Ly93d3cu\nY3MucnV0Z2Vycy5lZHUvfnB4ay80MTYvbm90ZXMvYy10dXRvcmlhbHMvZ2V0\nb3B0Lmh0bWwpCi0gW1NPIHBvc3RzXShodHRwczovL3N0YWNrb3ZlcmZsb3cu\nY29tL3F1ZXN0aW9ucy90YWdnZWQvYytnZXRvcHQp')
+    )
+    contents[tabStrs[0]] = [RenderAst(htmlAst)]
+    if(allMarkdownRemark) {
+      tabs.push(
+        <Button
+          key={tabStrs[1]}
+          type='action'
+          text={tabStrs[1]}
+          icon={['far', 'comment']}
+          func={this.handleClick(tabStrs[1])}
+          radius='0rem 0rem 0.5rem 0.5rem'
+          active={this.state.activeTab == tabStrs[1] ? 'active' : ''}
+        />
+      )
+      contents[tabStrs[1]] = [allMarkdownRemark.edges.map(
+        edge => <BlogPostPreview key={edge.node.id} post={edge.node}/>
+      )]
+    }
+    if(frontmatter.misc) {
+      tabs.push(
+        <Button
+          key={tabStrs[2]}
+          type='action'
+          text={tabStrs[2]}
+          icon={['fas', 'cogs']}
+          func={this.handleClick(tabStrs[2])}
+          radius='0rem 0rem 0.5rem 0.5rem'
+          active={this.state.activeTab == tabStrs[2] ? 'active' : ''}
+        />
+      )
+      contents[tabStrs[2]] = [RenderAst(frontmatter.misc.childMarkdownRemark.htmlAst)]
+    }
+    if(this.state.readme != '') {
+      tabs.push(
+        <Button
+          key={tabStrs[3]}
+          type='action'
+          text={tabStrs[3]}
+          icon={['fab', 'readme']}
+          func={this.handleClick(tabStrs[3])}
+          radius='0rem 0rem 0.5rem 0.5rem'
+          active={this.state.activeTab == tabStrs[3] ? 'active' : ''}
+        />
+      )
+      contents[tabStrs[3]] = [<ReactMarkdown key={'readme'} source={this.state.readme} className='readme'/>]
+    }
 
     if(markdownRemark.fields.tagSlugs) {
       const tagsArray = markdownRemark.fields.tagSlugs
@@ -308,7 +362,7 @@ class ProjectPost extends React.Component {
                 {this.state.homepage &&
                   <MetaText>
                     <span>
-                      <FontAwesomeIcon icon="external-link-alt" fixedWidth/>
+                      <FontAwesomeIcon icon="link" fixedWidth/>
                       <OutboundLink href={`//${this.state.homepage}`} target="_blank"> {this.state.homepage}</OutboundLink>
                     </span>
                   </MetaText>
@@ -319,15 +373,8 @@ class ProjectPost extends React.Component {
           <NavTabs tabs={tabs}></NavTabs>
         </PostHeader>
         <PostBody>
-          {RenderAst(htmlAst)}
+          {contents[this.state.activeTab]}
         </PostBody>
-        {RenderAst(frontmatter.linkedMarkdownFile.childMarkdownRemark.htmlAst)}
-        <div>
-          <ReactMarkdown source={readme}/>
-        </div>
-        <div>
-          {posts}
-        </div>
       </GutterContainer>
     )
   }
@@ -383,12 +430,9 @@ export const pageQuery = graphql`
         tags
         github
         external
-        linkedMarkdownFile {
+        misc {
           childMarkdownRemark {
             htmlAst
-            frontmatter {
-              description
-            }
           }
         }
       }

@@ -27,7 +27,7 @@ class BlogPostPreview extends React.Component {
         </span>
       )
     })
-    console.log(this.props)
+
     return (
       <BlogPostPreviewWrapper>
         <Link to={`/blog${this.props.post.fields.slug}`}>

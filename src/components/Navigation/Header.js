@@ -20,10 +20,6 @@ class Header extends React.Component {
       display: flex;
       flex-direction: row;
       justify-content: center;
-      margin: 0;
-      padding: 0;
-      font-size: 1.5rem;
-      line-height: 1.5;
     `
     const radius = '0.5rem 0.5rem 0 0'
     const customCss = `

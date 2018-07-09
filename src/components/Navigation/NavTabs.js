@@ -6,9 +6,10 @@ import { Colors } from '../../utils/Theme'
 class NavTabs extends React.Component {
   render() {
     const NavTabs = Styled.div`
+      display: flex;
       border-top: 0.125rem solid ${Colors.text};
     `
-    
+
     return (
       <NavTabs>
         {this.props.tabs}

@@ -2,7 +2,6 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import Styled from 'styled-components'
 
-import '../css/global.css'
 import '../css/prism-material.css'
 import Header from '../components/Navigation/Header'
 import Footer from '../components/Navigation/Footer'
@@ -24,12 +23,19 @@ class IndexLayout extends React.Component {
       
       a {
         color: ${Colors.text};
+        text-decoration: none;
       }
-
+      p > a,
+      li > a {
+        text-decoration: underline;
+      }
       h1, h2, h3, h4, h5, h6 {
         font-family: ${FontSerif};
+        line-height: 1;
       }
-
+      blockquote {
+        margin: 0;
+      }
       main {
         flex: 1;
       }

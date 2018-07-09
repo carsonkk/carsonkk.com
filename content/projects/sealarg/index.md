@@ -10,7 +10,7 @@ tags:
   - "Linux"
 github: "carsonkk/sealarg"
 external: "google.com"
-linkedMarkdownFile: "../sealarg/index.md"
+misc: "../tester/index.md"
 ---
 
 # Sealarg

@@ -11,9 +11,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
     graphql(
       `
         {
-          allMarkdownRemark(
-            limit: 1000
-          ) {
+          allMarkdownRemark {
             edges {
               node {
                 fields {
@@ -55,7 +53,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
           })
         }
       })
-
       let tags = []
       result.data.allMarkdownRemark.edges.forEach(edge => {
         if(_.get(edge, `node.frontmatter.tags`)) {
@@ -80,31 +77,49 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 
 exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
   const { createNodeField } = boundActionCreators
+  const contentRgx = /\/content\/(.+?)\//g
+  const internalRgx = /_(?:.+?)_/g
   if (node.internal.type === `File`) {
-    const parsedFilePath = path.parse(node.absolutePath).dir.split(`--`)
-    if(parsedFilePath.length > 1) {
-      const date = `${parsedFilePath[0].split(`/`).pop()}`
-      const slug = `/${parsedFilePath[1]}/`
-      createNodeField({ node, name: `date`, value: date })
-      createNodeField({ node, name: `slug`, value: slug })
-      createNodeField({ node, name: `kind`, value: `blog` })
-    } else {
-      const slug = `/${path.parse(node.absolutePath).dir.split(`/`).pop()}/`
-      createNodeField({ node, name: `slug`, value: slug })
-      createNodeField({ node, name: `kind`, value: `project` })
+    const filePath = path.parse(node.absolutePath).dir
+    const fileKind = contentRgx.exec(path.parse(node.absolutePath).dir)
+    if (fileKind != null) {
+      switch (fileKind[1]) {
+        case 'blog':
+          const parsedFilePath = path.parse(node.absolutePath).dir.split(`--`)
+          createNodeField({ node, name: `date`, value: `${parsedFilePath[0].split(`/`).pop()}` })
+          createNodeField({ node, name: `slug`, value: `/${parsedFilePath[1]}/` })
+          createNodeField({ node, name: `kind`, value: `blog` })
+          break;
+        case 'projects':
+          if(!internalRgx.test(filePath.split(`/`).pop())) {
+            createNodeField({ node, name: `slug`, value: `/${path.parse(node.absolutePath).dir.split(`/`).pop()}/` })
+            createNodeField({ node, name: `kind`, value: `project` })
+          }
+          else {
+            createNodeField({ node, name: `kind`, value: `internal` })
+          }
+          break
+        default:
+          break;
+      }
     }
-  } else if (node.internal.type === `MarkdownRemark` && typeof node.slug === `undefined`) {
+  } else if(node.internal.type === `MarkdownRemark` && typeof node.slug === `undefined`) {
     const fileNode = getNode(node.parent)
-    if(fileNode.fields.date) {
-      createNodeField({ node, name: `date`, value: fileNode.fields.date })
+    if (!internalRgx.test(fileNode.dir)) {
+      if(fileNode.fields.date) {
+        createNodeField({ node, name: `date`, value: fileNode.fields.date })
+      }
+      createNodeField({ node, name: `slug`, value: fileNode.fields.slug })
+      createNodeField({ node, name: `kind`, value: fileNode.fields.kind })
+      if(node.frontmatter.tags) {
+        const tagSlugs = node.frontmatter.tags.map(
+          tag => `/tags/${_.kebabCase(tag)}`
+        )
+        createNodeField({ node, name: `tagSlugs`, value: tagSlugs })
+      }
     }
-    createNodeField({ node, name: `slug`, value: fileNode.fields.slug })
-    createNodeField({ node, name: `kind`, value: fileNode.fields.kind })
-    if(node.frontmatter.tags) {
-      const tagSlugs = node.frontmatter.tags.map(
-        tag => `/tags/${_.kebabCase(tag)}`
-      )
-      createNodeField({ node, name: `tagSlugs`, value: tagSlugs })
+    else {
+      createNodeField({ node, name: `kind`, value: fileNode.fields.kind })
     }
   }
 }

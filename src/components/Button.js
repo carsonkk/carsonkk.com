@@ -31,7 +31,7 @@ class Button extends React.Component {
         transition: all 0.3s;
         display: block;
         margin: 0;
-        padding: 0.5rem;
+        padding: ${fs/3}rem ${fs/2}rem;
         border: ${this.props.border ? '2px solid white' : 'none'};
         border-radius: ${this.props.radius};
         cursor: pointer;
