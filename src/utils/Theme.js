@@ -70,6 +70,15 @@ export const Colors = {
   onePurpleAccent: '#c379c2',
 }
 
+export function RandomColor() {
+  const colors = [
+    '#d15d66','#e06c75','#d6b16c','#e5c07b',
+    '#ece08a','#f7eb95','#89b46a','#98c379',
+    '#47a7b3','#56b6c2','#b46ab3','#c379c2',
+  ]
+  return colors[Math.floor(Math.random()*colors.length)]
+}
+
 export const FontBase = ` 
   -apple-system, 
   BlinkMacSystemFont, 

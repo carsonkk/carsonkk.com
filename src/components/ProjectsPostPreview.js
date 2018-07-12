@@ -1,47 +1,107 @@
 import React from 'react'
 import Link from 'gatsby-link'
+import Img from 'gatsby-image'
 import Styled from 'styled-components'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import MetaText from '../components/MetaText'
+import { FontSans, RandomColor } from '../utils/Theme'
 
-class BlogPostPreview extends React.Component {
+class ProjectPostPreview extends React.Component {
   render() {
-    const tagsArray = this.props.post.fields.tagSlugs
-    let tags
-    const BlogPostPreviewWrapper = Styled.div`
-      margin-bottom: 3rem;
+    let Background
+    let backgroundImage
+    const ProjectPostPreviewWrapper = Styled.div`
+      position: relative;
+      flex: 0 0 ${100/3}%;
 
-      h1 {
-        margin-top: 0;
-        margin-bottom: 0.25rem;
+      :hover {
+        > a > div:last-child > h2 {
+          transition-delay: 0s;
+          transform: translateY(-0.5rem);
+        }
+        > a > div:last-child > div {
+          transition-delay: 0.1s;
+          opacity: 1;
+        }
+        > div:nth-child(2) {
+          opacity: 0.5;
+        }
+      }
+      * {
+        backface-visibility: hidden;
       }
     `
-    
-    tags = tagsArray.map((tag, i) => {
-      const divider = i < tagsArray.length - 1 && <span>{`, `}</span>
-      return (
-        <span key={tag}>
-          <Link to={tag}>{this.props.post.frontmatter.tags[i]}</Link>
-          {divider}
-        </span>
-      )
-    })
+    const PostPreview = Styled.div`
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+
+      h2 {
+        transition: transform 0.3s;
+        transition-delay: 0.1s;
+        transform: translateY(1.5rem);
+        margin: 0;
+        font-family: ${FontSans};
+        font-size: 2.5em;
+        text-align: center;
+      }
+    `
+    const BackgroundFilter = Styled.div`
+      transition: opacity 0.3s;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.7;
+      background-color: black;
+    `
+    const Description = Styled.div`
+      transition: opacity 0.3s;
+      transition-delay: 0s;
+      opacity: 0;
+      text-align: center;
+
+      span {
+        font-style: italic;
+      }
+    `
+    if(this.props.post.frontmatter.banner) {
+      Background = Styled.div``
+      backgroundImage = this.props.post.frontmatter.banner.childImageSharp.sizes
+    } else {
+      Background = Styled.div`
+        background-color: ${RandomColor()};
+
+        img {
+          display: none;
+        }
+      `
+      backgroundImage = this.props.ph.sizes
+    }
 
     return (
-      <BlogPostPreviewWrapper>
-        <Link to={`blog${this.props.post.fields.slug}`}>
-            <h1>{this.props.post.frontmatter.title}</h1>
+      <ProjectPostPreviewWrapper>
+        <Background>
+          <Img sizes={backgroundImage} alt="banner"/>
+        </Background>
+        <BackgroundFilter></BackgroundFilter>
+        <Link to={`projects${this.props.post.fields.slug}`}>
+          <PostPreview>
+            <h2>{this.props.post.frontmatter.name}</h2>
+            <Description>
+              <span>{this.props.post.frontmatter.description}</span>
+            </Description>
+          </PostPreview>
         </Link>
-        <MetaText>
-          <span><FontAwesomeIcon icon="tags" fixedWidth/> {tags}</span>
-        </MetaText>
-        <div>
-          <span>{this.props.post.excerpt}</span>
-        </div>
-      </BlogPostPreviewWrapper>
+      </ProjectPostPreviewWrapper>
     )
   }
 }
 
-export default BlogPostPreview
+export default ProjectPostPreview

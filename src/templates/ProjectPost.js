@@ -87,20 +87,19 @@ class ProjectPost extends React.Component {
     const { htmlAst, frontmatter } = markdownRemark
     let tabs = []
     let contents = {}
-    let tags
     const Banner = Styled.div`
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
     `
     const PostHeader = Styled.div`
       display: flex;
       flex-direction: column;
-      margin-bottom: 2.75rem;
+      margin-bottom: 3rem;
     `
     const HeaderContent = Styled.div`
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
     `
     const Left = Styled.div`
       display: flex;
@@ -147,8 +146,16 @@ class ProjectPost extends React.Component {
       }
     `
     const PostBody = Styled.div`
-      a.anchor svg {
-        fill: ${Colors.text};
+      h1, h2, h3, h4, h5, h6 {
+        :hover {
+          a.anchor svg {
+            fill: ${Colors.text};
+          }
+        }
+        a.anchor svg {
+          transition: all 0.3s;
+          fill: transparent;
+        }
       }
       h1 > a.anchor {
         margin-left: -3rem;
@@ -273,19 +280,6 @@ class ProjectPost extends React.Component {
       contents[tabStrs[3]] = [<ReactMarkdown key={'readme'} source={this.state.readme} className='readme'/>]
     }
 
-    if(markdownRemark.fields.tagSlugs) {
-      const tagsArray = markdownRemark.fields.tagSlugs
-      tags = tagsArray.map((tag, i) => {
-        const divider = i < tagsArray.length - 1 && <span>{`, `}</span>
-        return (
-          <span key={tag}>
-            <Link to={tag}>{markdownRemark.frontmatter.tags[i]}</Link>
-            {divider}
-          </span>
-        )
-      })
-    }
-
     return (
       <GutterContainer>
         <PostHeader>
@@ -306,9 +300,11 @@ class ProjectPost extends React.Component {
                 <div>
                   <Description>{frontmatter.description}</Description>
                 </div>
-                <MetaText>
-                  <span><FontAwesomeIcon icon="tags" fixedWidth/> {tags}</span>
-                </MetaText>
+                <MetaText sections={[{
+                  icon: ['fas', 'tags'],
+                  texts: markdownRemark.frontmatter.tags,
+                  links: markdownRemark.fields.tagSlugs,
+                }]}/>
               </div>
             </Left>
             <Right>
@@ -344,28 +340,26 @@ class ProjectPost extends React.Component {
               </div>
               <div>
                 {this.state.license && 
-                  <MetaText>
-                    <span>
-                      <FontAwesomeIcon icon="balance-scale" fixedWidth/>
-                      <span> {this.state.license} License</span>
-                    </span>
-                  </MetaText>
+                  <MetaText sections={[{
+                    icon: ['fas', 'balance-scale'],
+                    texts: [`${this.state.license} License`]
+                  }]}/>
                 }
                 {frontmatter.github &&
-                  <MetaText>
-                    <span>
-                      <FontAwesomeIcon icon={['fab', 'github']} fixedWidth/>
-                      <OutboundLink href={`//github.com/${frontmatter.github}`} target="_blank"> github.com/{frontmatter.github}</OutboundLink>
-                    </span>
-                  </MetaText>
+                  <MetaText sections={[{
+                    icon: ['fab', 'github'],
+                    texts: [`github.com/${frontmatter.github}`],
+                    links: [`//github.com/${frontmatter.github}`],
+                    type: 'external'
+                  }]}/>
                 }
                 {this.state.homepage &&
-                  <MetaText>
-                    <span>
-                      <FontAwesomeIcon icon="link" fixedWidth/>
-                      <OutboundLink href={`//${this.state.homepage}`} target="_blank"> {this.state.homepage}</OutboundLink>
-                    </span>
-                  </MetaText>
+                  <MetaText sections={[{
+                    icon: ['fas', 'link'],
+                    texts: [this.state.homepage],
+                    links: [`//${this.state.homepage}`],
+                    type: 'external'
+                  }]}/>
                 }
               </div>
             </Right>

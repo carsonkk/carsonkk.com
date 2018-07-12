@@ -1,13 +1,10 @@
 import React from 'react'
-import Link from 'gatsby-link'
 import Img from 'gatsby-image'
 import Styled from 'styled-components'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import RehypeReact from 'rehype-react'
 
 import MetaText from '../components/MetaText'
 import CopyButton from '../components/CopyButton'
-import ReadOnLink from '../components/ReadOnLink'
 import AdjacentPosts from '../components/Navigation/AdjacentPosts'
 import { GutterContainer } from '../components/Container'
 import { Colors } from '../utils/Theme'
@@ -29,7 +26,6 @@ class BlogPost extends React.Component {
     let nextDate = 8640000000000000
     let prevSlug = ''
     let nextSlug = ''
-    let tags
     const Blog = Styled.div`
       position: relative;
       display: flex;
@@ -53,7 +49,7 @@ class BlogPost extends React.Component {
       background-color: ${Colors.background};
     `
     const PostHeader = Styled.div`
-      padding-bottom: 2.75rem;
+      margin-bottom: 3rem;
 
       h1 {
         margin-top: 0;
@@ -65,10 +61,20 @@ class BlogPost extends React.Component {
     const PostBody = Styled.div`
       position: relative;
 
+      h1, h2, h3, h4, h5, h6 {
+        :hover {
+          a.anchor svg {
+            fill: ${Colors.text};
+          }
+        }
+        a.anchor svg {
+          transition: all 0.3s;
+          fill: transparent;
+        }
+      }
       a.anchor svg {
         fill: ${Colors.text};
       }
-
       h1 > a.anchor {
         margin-left: -3rem;
         padding-right: 0.5rem;
@@ -78,7 +84,6 @@ class BlogPost extends React.Component {
           width: 2.5rem;
         }
       }
-
       h2 > a.anchor {
         margin-left: -2.375rem;
         padding-right: 0.5rem;
@@ -88,7 +93,6 @@ class BlogPost extends React.Component {
           width: 1.875rem;
         }
       }
-
       h3 > a.anchor {
         margin-left: -1.9375rem;
         padding-right: 0.5rem;
@@ -98,7 +102,6 @@ class BlogPost extends React.Component {
           width: 1.4375rem;
         }
       }
-
       h4 > a.anchor {
         margin-left: -1.75rem;
         padding-right: 0.5rem;
@@ -108,7 +111,6 @@ class BlogPost extends React.Component {
           width: 1.25rem;
         }
       }
-
       h5 > a.anchor {
         margin-left: -1.5rem;
         padding-right: 0.5rem;
@@ -118,7 +120,6 @@ class BlogPost extends React.Component {
           width: 1rem;
         }
       }
-
       h6 > a.anchor {
         margin-left: -1.3125rem;
         padding-right: 0.5rem;
@@ -130,22 +131,8 @@ class BlogPost extends React.Component {
       }
     `
     const PostFooter = Styled.div`
-      padding-top: 2.75rem;
+      margin-top: 3rem;
     `
-
-    if(markdownRemark.fields.tagSlugs) {
-      const tagsArray = markdownRemark.fields.tagSlugs
-      tags = tagsArray.map((tag, i) => {
-        const divider = i < tagsArray.length - 1 && <span>{`, `}</span>
-        return (
-          <span key={tag}>
-            <Link to={tag}>{markdownRemark.frontmatter.tags[i]}</Link>
-            {divider}
-          </span>
-        )
-      })
-    }
-
     edges.forEach(edge => {
       someDate = Date.parse(edge.node.fields.date)
       if(
@@ -175,30 +162,46 @@ class BlogPost extends React.Component {
           <GutterContainer>
             <PostHeader>
               <h1>{frontmatter.title}</h1>
-              <MetaText>
-                <span><FontAwesomeIcon icon={['far', 'calendar-alt']} fixedWidth/> {FancyDate(currDate)}</span>
-                <span className="meta-inline"><FontAwesomeIcon icon={['far', 'clock']} fixedWidth/> {markdownRemark.timeToRead} min read</span>
-              </MetaText>
-              <MetaText>
-                <span><FontAwesomeIcon icon="tags" fixedWidth/> {tags}</span>
-              </MetaText>
+              <MetaText sections={[
+                {
+                  icon: ['far', 'calendar-alt'],
+                  texts: [FancyDate(currDate)]
+                },
+                {
+                  icon: ['far', 'clock'],
+                  texts: [`${markdownRemark.timeToRead} min read`]
+                }
+              ]}/>
+              <MetaText sections={[{
+                icon: ['fas', 'tags'],
+                texts: markdownRemark.frontmatter.tags,
+                links: markdownRemark.fields.tagSlugs,
+              }]}/>
               {frontmatter.project &&
-                <MetaText>
-                  <span><FontAwesomeIcon icon="asterisk" fixedWidth/><Link to={frontmatter.project}> Associated Project</Link></span>
-                </MetaText>
+                <MetaText sections={[{
+                  icon: ['fas', 'asterisk'],
+                  texts: ['Associated Project'],
+                  links: [`${frontmatter.project}`]
+                }]}/>
               }
             </PostHeader>
             <PostBody>{RenderAst(htmlAst)}</PostBody>
             <PostFooter>
               {frontmatter.reddit &&
-                <MetaText>
-                  <ReadOnLink href={frontmatter.reddit} site="Reddit"/>
-                </MetaText>
+                <MetaText sections={[{
+                  icon: ['fab', 'reddit-alien'],
+                  texts: ['Read and discuss this post on Reddit'],
+                  links: [`${frontmatter.reddit}`],
+                  type: 'external'
+                }]}/>
               }
               {frontmatter.medium &&
-                <MetaText>
-                  <ReadOnLink href={frontmatter.medium} site="Medium"/>
-                </MetaText>
+                <MetaText sections={[{
+                  icon: ['fab', 'medium-m'],
+                  texts: ['Read and discuss this post on Medium'],
+                  links: [`${frontmatter.medium}`],
+                  type: 'external'
+                }]}/>
               }
               <AdjacentPosts prev={prevSlug} next={nextSlug}/>
             </PostFooter>

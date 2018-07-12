@@ -60,6 +60,24 @@ module.exports = {
         trackingId: "YOUR_GOOGLE_ANALYTICS_TRACKING_ID",
       },
     },
+    {
+      resolve: `gatsby-plugin-favicon`,
+      options: {
+        logo: "./src/icons/favicon.png",
+        injectHTML: true,
+        icons: {
+          android: true,
+          appleIcon: true,
+          appleStartup: true,
+          coast: false,
+          favicons: true,
+          firefox: true,
+          twitter: true,
+          yandex: false,
+          windows: true
+        }
+      }
+    },
     'gatsby-plugin-react-helmet',
   ],
 }

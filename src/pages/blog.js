@@ -25,7 +25,7 @@ class BlogPage extends React.Component {
     let posts = {}
     let years = []
     const YearWrapper = Styled.div`
-      margin-left: -7rem;
+      margin-left: -8rem;
     `
     const YearSelect = Styled.div`
       position: absolute;
@@ -77,6 +77,7 @@ export const pageQuery = graphql`
       edges {
         node {
           id
+          timeToRead
           excerpt(pruneLength: 140)
           fields {
             date
@@ -85,15 +86,9 @@ export const pageQuery = graphql`
           }
           frontmatter {
             title
-            tags
           }
         }
       }
     }
   }
 `
-{/* <div key={yearStr}>
-<button className={(this.state.year == yearStr) ? 'active' : ''} onClick={this.handleClick(yearStr)}>
-  <span>{yearStr}</span>
-</button>
-</div> */}

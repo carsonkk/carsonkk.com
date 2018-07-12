@@ -1,4 +1,5 @@
 ---
+banner: "neature.jpg"
 name: "drngs"
 description: "Experimenting with deterministic rngs"
 tags:

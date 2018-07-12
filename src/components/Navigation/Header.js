@@ -12,6 +12,7 @@ class Header extends React.Component {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      z-index: 100;
       background-color: ${Colors.foreground};
       box-shadow: 0rem 0rem 1.5rem -0.25rem black;
     `

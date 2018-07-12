@@ -1,41 +1,62 @@
 import React from 'react'
 import Link from 'gatsby-link'
 import Styled from 'styled-components'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import MetaText from '../components/MetaText'
+import { Colors } from '../utils/Theme'
+import { FancyDate } from '../utils/Helpers'
 
 class BlogPostPreview extends React.Component {
   render() {
-    const tagsArray = this.props.post.fields.tagSlugs
-    let tags
+    const currDate = Date.parse(this.props.post.fields.date)
     const BlogPostPreviewWrapper = Styled.div`
       margin-bottom: 3rem;
+    `
+    const Title = Styled.div`
+      line-height: 1;
 
-      h1 {
-        margin-top: 0;
-        margin-bottom: 0.25rem;
+      a {
+        display: inline-flex;
+        line-height: 1.55;
+
+        :hover {
+          div {
+            transform: scaleY(1);
+          }
+        }
+        div {
+          transition: transform 0.3s;
+          transform-origin: top;
+          transform: scaleY(0);
+          min-width: 0.25rem;
+          margin-left: -1rem;
+          margin-right: 0.75rem;
+          background-color: ${Colors.text};
+        }
+        h1 {
+          margin: 0;
+        }
       }
     `
-    
-    tags = tagsArray.map((tag, i) => {
-      const divider = i < tagsArray.length - 1 && <span>{`, `}</span>
-      return (
-        <span key={tag}>
-          <Link to={tag}>{this.props.post.frontmatter.tags[i]}</Link>
-          {divider}
-        </span>
-      )
-    })
 
     return (
       <BlogPostPreviewWrapper>
-        <Link to={`/blog${this.props.post.fields.slug}`}>
-            <h1>{this.props.post.frontmatter.title}</h1>
-        </Link>
-        <MetaText>
-          <span><FontAwesomeIcon icon="tags" fixedWidth/> {tags}</span>
-        </MetaText>
+        <Title>
+          <Link to={`/blog${this.props.post.fields.slug}`}>
+              <div></div>
+              <h1>{this.props.post.frontmatter.title}</h1>
+          </Link>
+        </Title>
+        <MetaText sections={[
+          {
+            icon: ['far', 'calendar-alt'],
+            texts: [FancyDate(currDate)]
+          },
+          {
+            icon: ['far', 'clock'],
+            texts: [`${this.props.post.timeToRead} min read`]
+          }
+        ]}/>
         <div>
           <span>{this.props.post.excerpt}</span>
         </div>
