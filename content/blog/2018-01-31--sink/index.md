@@ -1,12 +1,14 @@
 ---
 banner: "banner.jpg"
 title: "Hello World: The remark Kitchen Sink"
+icon: code
 tags:
   - "AI"
   - "Machine Learning"
   - "Internet of Things"
   - "Buzzwords"
-project: "/code"
+  - Sealarg
+project: "Sealarg"
 reddit: "https://reddit.com"
 medium: "https://medium.com"
 ---

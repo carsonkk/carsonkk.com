@@ -1,13 +1,14 @@
 ---
 name: "Testerg"
 description: "Not a github project fsd Trtbrh"
+icon: dice-one
 tags:
-  - "blah"
+  - "Testerg"
   - "C"
   - "Command Line"
   - "Linux"
-external: "google.com"
-misc: "_misc_/index.md"
+website: "google.com"
+misc: "__misc__/index.md"
 ---
 
 # Tester

@@ -35,7 +35,7 @@ class Logo extends React.Component {
       .wrap-border {
         display: flex;
 
-        a {
+        span {
           padding-left: 0.5rem;
           padding-right: 0.25rem;
         }
@@ -44,12 +44,12 @@ class Logo extends React.Component {
       .top-border, .bottom-border {
         transform: scaleX(0);
         width: 100%;
-        height: ${this.props.size / 20}rem;
+        height: ${this.props.size / 16}rem;
       }
 
       .left-border, .right-border {
         transform: scaleY(0);
-        width: ${this.props.size / 20}rem;
+        width: ${this.props.size / 16}rem;
       }
     `
     const today = new Date()
@@ -200,13 +200,15 @@ class Logo extends React.Component {
 
     return (
       <Logo>
-        <div className='top-border'></div>
-        <div className='wrap-border'>
-          <div className='left-border'></div>
-          <Link to="/">kk.</Link>
-          <div className='right-border'></div>
-        </div>
-        <div className='bottom-border'></div>
+        <Link to="/">
+          <div className='top-border'></div>
+          <div className='wrap-border'>
+            <div className='left-border'></div>
+            <span>kk.</span>
+            <div className='right-border'></div>
+          </div>
+          <div className='bottom-border'></div>
+        </Link>
       </Logo>
     )
   }

@@ -1,11 +1,8 @@
 import React from 'react'
-import Link from 'gatsby-link'
 import Img from 'gatsby-image'
 import ReactMarkdown from 'react-markdown'
 import Styled from 'styled-components'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import RehypeReact from 'rehype-react'
-import { OutboundLink } from 'gatsby-plugin-google-analytics'
 
 import MetaText from '../components/MetaText'
 import { GutterContainer } from '../components/Container'
@@ -29,7 +26,7 @@ class ProjectPost extends React.Component {
       starCount: '',
       forkCount: '',
       license: '',
-      homepage: '',
+      website: '',
       readme: '',
       activeTab: tabStrs[0],
     }
@@ -37,7 +34,7 @@ class ProjectPost extends React.Component {
   }
 
   componentDidMount() {
-    const { github, external } = this.props.data.markdownRemark.frontmatter
+    const { github, website } = this.props.data.markdownRemark.frontmatter
     const reg = /\[([^#]+)]\(#.+?\)/g
     let homepage = ''
     if(github) {
@@ -62,11 +59,11 @@ class ProjectPost extends React.Component {
         this.setState({readme: atob(res['content']).replace(reg, '$1')})
       })
     }
-    if(external) {
-      this.setState({homepage: external})
+    if(website) {
+      this.setState({website})
     }
     else if(homepage) {
-      this.setState({homepage})
+      this.setState({website: homepage})
     }
   }
 
@@ -291,8 +288,8 @@ class ProjectPost extends React.Component {
           <HeaderContent>
             <Left>
               <NameWrapper>
-                {frontmatter.icon &&
-                  <Img resolutions={frontmatter.icon.childImageSharp.resolutions} alt="icon"/>
+                {frontmatter.logo &&
+                  <Img resolutions={frontmatter.logo.childImageSharp.resolutions} alt="logo"/>
                 }
                 <h1>{frontmatter.name}</h1>
               </NameWrapper>
@@ -353,11 +350,11 @@ class ProjectPost extends React.Component {
                     type: 'external'
                   }]}/>
                 }
-                {this.state.homepage &&
+                {this.state.website &&
                   <MetaText sections={[{
                     icon: ['fas', 'link'],
-                    texts: [this.state.homepage],
-                    links: [`//${this.state.homepage}`],
+                    texts: [this.state.website],
+                    links: [`//${this.state.website}`],
                     type: 'external'
                   }]}/>
                 }
@@ -377,22 +374,23 @@ class ProjectPost extends React.Component {
 export default ProjectPost
 
 export const pageQuery = graphql`
-  query ProjectPostBySlug($slug: String!) {
+  query ProjectPostBySlug($slug: String!, $targetTag: String!) {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "blog"} tagSlugs: {regex: $slug}}}, 
+      filter: {fields: {kind: {eq: "blog"}, targetTag: {regex: $targetTag}}}, 
       sort: {order: DESC, fields: [fields___date]}
     ) {
       edges {
         node {
           id
+          timeToRead
           excerpt(pruneLength: 140)
           fields {
             date
             slug
-            tagSlugs
           }
           frontmatter {
             title
+            icon
             tags
           }
         }
@@ -412,7 +410,7 @@ export const pageQuery = graphql`
             }
           }
         }
-        icon {
+        logo {
           childImageSharp {
             resolutions(width: 100, height: 100, cropFocus: CENTER) {
               ...GatsbyImageSharpResolutions
@@ -423,7 +421,7 @@ export const pageQuery = graphql`
         description
         tags
         github
-        external
+        website
         misc {
           childMarkdownRemark {
             htmlAst

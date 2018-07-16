@@ -3,6 +3,7 @@ import Link from 'gatsby-link'
 import Img from 'gatsby-image'
 import Styled from 'styled-components'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { OutboundLink } from 'gatsby-plugin-google-analytics'
 
 import { FontSans, RandomColor } from '../utils/Theme'
 
@@ -100,6 +101,26 @@ class ProjectPostPreview extends React.Component {
       `
       backgroundImage = this.props.ph.sizes
     }
+    const content = <PostPreview>
+        <div></div>
+        <h2>{this.props.post.frontmatter.name}</h2>
+        <Description>
+          <span>{this.props.post.frontmatter.description}</span>
+        </Description>
+        <Icon>
+          <FontAwesomeIcon icon={this.props.post.frontmatter.icon}/>
+        </Icon>
+      </PostPreview>
+    let foreground
+    if(this.props.post.frontmatter.external) {
+      foreground = <OutboundLink href={this.props.post.frontmatter.external} target="_blank">
+          {content}
+        </OutboundLink>
+    } else {
+      foreground = <Link to={`${this.props.post.fields.slug}`}>
+          {content}
+        </Link>
+    }
 
     return (
       <ProjectPostPreviewWrapper>
@@ -107,18 +128,7 @@ class ProjectPostPreview extends React.Component {
           <Img sizes={backgroundImage} alt="banner"/>
         </Background>
         <BackgroundFilter></BackgroundFilter>
-        <Link to={`${this.props.post.fields.slug}`}>
-          <PostPreview>
-            <div></div>
-            <h2>{this.props.post.frontmatter.name}</h2>
-            <Description>
-              <span>{this.props.post.frontmatter.description}</span>
-            </Description>
-            <Icon>
-              <FontAwesomeIcon icon={this.props.post.frontmatter.icon}/>
-            </Icon>
-          </PostPreview>
-        </Link>
+        {foreground}
       </ProjectPostPreviewWrapper>
     )
   }

@@ -1,16 +1,17 @@
 ---
-banner: "neature.jpg"
-icon: "seal.jpg"
-name: "Sealarg"
-description: "An easy-to-use command line parsing library"
+banner: neature.jpg
+logo: seal.jpg
+name: Sealarg
+description: An easy-to-use command line parsing library
+icon: code
 tags:
-  - "Sealarg"
-  - "C"
-  - "Command Line"
-  - "Linux"
-github: "carsonkk/sealarg"
-external: "google.com"
-misc: "../tester/index.md"
+  - Sealarg
+  - C
+  - Command Line
+  - Linux
+github: carsonkk/sealarg
+website: google.com
+misc: ../tester/index.md
 ---
 
 # Sealarg

@@ -87,37 +87,33 @@ class Button extends React.Component {
       }
       ${this.props.css}
     `
-    const content = () => {
-      return (
-        <span>
-          {(this.props.icon.length != 0 && this.props.isIconLeft) &&
-            <FontAwesomeIcon icon={this.props.icon} className={this.props.fixedWidth ? `fa-fw` : ``}/>
-          }
-          {this.props.text.length != 0 &&
-            <span data-title={this.props.text}>{this.props.text}</span>
-          }
-          {(this.props.icon.length != 0 && !this.props.isIconLeft) &&
-            <FontAwesomeIcon icon={this.props.icon} className={this.props.fixedWidth ? `fa-fw` : ``}/>
-          }
-        </span>
-      )
-    }
+    const content = <span>
+        {(this.props.icon.length != 0 && this.props.isIconLeft) &&
+          <FontAwesomeIcon icon={this.props.icon} className={this.props.fixedWidth ? `fa-fw` : ``}/>
+        }
+        {this.props.text.length != 0 &&
+          <span data-title={this.props.text}>{this.props.text}</span>
+        }
+        {(this.props.icon.length != 0 && !this.props.isIconLeft) &&
+          <FontAwesomeIcon icon={this.props.icon} className={this.props.fixedWidth ? `fa-fw` : ``}/>
+        }
+      </span>
 
     return (
       <Button>
         {this.props.type == 'internal' &&
           <Link to={this.props.href} activeClassName={`active`}>
-            {content()}
+            {content}
           </Link>
         }
         {this.props.type == 'external' &&
           <OutboundLink href={this.props.href} title={this.props.title} target="_blank">
-            {content()}
+            {content}
           </OutboundLink>
         }
         {this.props.type == 'action' &&
           <button onClick={this.props.func} className={this.props.active} type="button">
-            {content()}
+            {content}
           </button>
         }
       </Button>

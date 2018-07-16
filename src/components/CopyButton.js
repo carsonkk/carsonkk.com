@@ -1,5 +1,4 @@
 import React from 'react'
-import Styled from 'styled-components'
 
 import Button from './Button'
 import { Colors } from '../utils/Theme'
@@ -51,7 +50,7 @@ class CopyButton extends React.Component {
         font-weight: bold;
         color: ${Colors.background};
         background-color: ${Colors.text};
-  
+
         :hover {
           opacity: 1;
         }
@@ -68,49 +67,10 @@ class CopyButton extends React.Component {
         text='Copy'
         func={this.handleClick()}
         css={customCss}
+        size='sm'
       />
     )
   }
 }
 
 export default CopyButton
-
-// const Button = Styled.button`
-// transition: opacity 0.25s;
-// display: block;
-// position: absolute;
-// right: 0;
-// margin-top: 0.5rem;
-// margin-right: 0.5rem;
-// padding: 0.5rem 0.75rem;
-// border: 1px solid transparent;
-// border-radius: 0.5rem;
-// opacity: 0.25;
-// cursor: pointer;
-// line-height: 0
-// text-align: center;
-// text-decoration: none;
-// font-size: 1rem;
-// font-weight: bold;
-// color: ${Colors.foreground};
-// background-color: ${Colors.text};
-
-// :hover {
-//   transition: opacity 0.25s;
-//   text-decoration: none;
-//   opacity: 1;
-// }
-
-// :focus {
-//   outline: none;
-// }
-
-// :active {
-//   background-color: ${Colors.lighter};
-//   border-color: ${Colors.light};
-// }
-
-// p {
-//   margin: 0;
-// }
-// `

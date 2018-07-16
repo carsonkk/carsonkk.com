@@ -82,10 +82,11 @@ export const pageQuery = graphql`
           fields {
             date
             slug
-            tagSlugs
           }
           frontmatter {
             title
+            icon
+            tags
           }
         }
       }

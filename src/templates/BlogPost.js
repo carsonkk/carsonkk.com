@@ -8,7 +8,7 @@ import CopyButton from '../components/CopyButton'
 import AdjacentPosts from '../components/Navigation/AdjacentPosts'
 import { GutterContainer } from '../components/Container'
 import { Colors } from '../utils/Theme'
-import { FancyDate } from '../utils/Helpers'
+import { FancyDateMDY } from '../utils/Helpers'
 
 const RenderAst = new RehypeReact({
   createElement: React.createElement,
@@ -135,19 +135,13 @@ class BlogPost extends React.Component {
     `
     edges.forEach(edge => {
       someDate = Date.parse(edge.node.fields.date)
-      if(
-        someDate < currDate && 
-        someDate > prevDate
-      ) {
+      if(someDate < currDate && someDate > prevDate) {
         prevDate = someDate
-        prevSlug = `/blog${edge.node.fields.slug}`
+        prevSlug = edge.node.fields.slug
       }
-      else if(
-        someDate > currDate && 
-        someDate < nextDate
-      ) {
+      else if(someDate > currDate && someDate < nextDate) {
         nextDate = someDate
-        nextSlug = `/blog${edge.node.fields.slug}`
+        nextSlug = edge.node.fields.slug
       }
     })
 
@@ -165,7 +159,7 @@ class BlogPost extends React.Component {
               <MetaText sections={[
                 {
                   icon: ['far', 'calendar-alt'],
-                  texts: [FancyDate(currDate)]
+                  texts: [FancyDateMDY(currDate)]
                 },
                 {
                   icon: ['far', 'clock'],
@@ -180,8 +174,15 @@ class BlogPost extends React.Component {
               {frontmatter.project &&
                 <MetaText sections={[{
                   icon: ['fas', 'asterisk'],
-                  texts: ['Associated Project'],
-                  links: [`${frontmatter.project}`]
+                  texts: [`Related: ${frontmatter.project}`],
+                  links: [`/projects/${fields.targetTag}`]
+                }]}/>
+              }
+              {frontmatter.misc &&
+                <MetaText sections={[{
+                  icon: ['fas', 'asterisk'],
+                  texts: [`Related: ${frontmatter.misc}`],
+                  links: [`/misc/${fields.targetTag}`]
                 }]}/>
               }
             </PostHeader>
@@ -233,6 +234,7 @@ export const pageQuery = graphql`
         date
         slug
         tagSlugs
+        targetTag
       }
       frontmatter {
         banner {

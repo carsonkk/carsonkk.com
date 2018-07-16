@@ -48,7 +48,7 @@ class Header extends React.Component {
 
     return (
       <NavHeader>
-        <Logo size={5}/>
+        <Logo size={4}/>
         <NavItems>
           <Button
             type='internal'

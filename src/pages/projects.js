@@ -1,9 +1,7 @@
 import React from 'react'
 import Styled from 'styled-components'
 
-import { Container } from '../components/Container'
 import ProjectsPostPreview from '../components/ProjectsPostPreview'
-import { Colors } from '../utils/Theme'
 
 class ProjectsPage extends React.Component {
   render() {
@@ -28,7 +26,7 @@ export default ProjectsPage
 export const pageQuery = graphql`
   query ProjectsQuery {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "project"}}}
+      filter: {fields: {kind: {eq: "project"} type: {eq: "page"}}}
       sort: {order: ASC, fields: [fields___slug]}
     ) {
       edges {
@@ -36,7 +34,6 @@ export const pageQuery = graphql`
           id
           fields {
             slug
-            tagSlugs
           }
           frontmatter {
             banner {
@@ -46,6 +43,7 @@ export const pageQuery = graphql`
                 }
               }
             }
+            icon
             name
             description
           }

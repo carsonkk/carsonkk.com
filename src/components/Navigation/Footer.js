@@ -1,6 +1,7 @@
 import React from 'react'
 import Styled from 'styled-components'
 
+import Logo from './Logo'
 import Button from '../Button'
 import Social from '../../utils/Social'
 import { Colors } from '../../utils/Theme'
@@ -10,11 +11,27 @@ class Footer extends React.Component {
     let socialLinks = []
     let customCss
     const NavFooter = Styled.footer`
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       position: relative;
       z-index: 1;
       padding-top: 4rem;
       padding-bottom: 1rem;
       background-color: ${Colors.background};
+    `
+    const NavHome = Styled.div`
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+
+      > div:first-child, > div:last-child {
+        flex: 1;
+        align-self: center;
+        height: 0.125rem;
+        margin: 0 1rem;
+        background-color: ${Colors.text};
+      }
     `
     const NavItems = Styled.nav`
       display: flex;
@@ -23,7 +40,6 @@ class Footer extends React.Component {
       margin: 0;
       padding: 0;
     `
-
     for(let i in Social) {
       customCss = `
         a {
@@ -55,9 +71,16 @@ class Footer extends React.Component {
 
     return (
       <NavFooter>
-        <NavItems>
-          {socialLinks}
-        </NavItems>
+        <div>
+          <NavHome>
+            <div></div>
+            <Logo size={2}/>
+            <div></div>
+          </NavHome>
+          <NavItems>
+            {socialLinks}
+          </NavItems>
+        </div>
       </NavFooter>
     )
   }

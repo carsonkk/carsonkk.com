@@ -4,7 +4,7 @@ import Styled from 'styled-components'
 
 import MetaText from '../components/MetaText'
 import { Colors } from '../utils/Theme'
-import { FancyDate } from '../utils/Helpers'
+import { FancyDateMD } from '../utils/Helpers'
 
 class BlogPostPreview extends React.Component {
   render() {
@@ -42,15 +42,19 @@ class BlogPostPreview extends React.Component {
     return (
       <BlogPostPreviewWrapper>
         <Title>
-          <Link to={`/blog${this.props.post.fields.slug}`}>
+          <Link to={`${this.props.post.fields.slug}`}>
               <div></div>
               <h1>{this.props.post.frontmatter.title}</h1>
           </Link>
         </Title>
         <MetaText sections={[
           {
+            icon: ['fas', this.props.post.frontmatter.icon],
+            texts: [this.props.post.frontmatter.tags[0]]
+          },
+          {
             icon: ['far', 'calendar-alt'],
-            texts: [FancyDate(currDate)]
+            texts: [FancyDateMD(currDate)]
           },
           {
             icon: ['far', 'clock'],

@@ -2,7 +2,6 @@ import React from 'react'
 import Styled from 'styled-components'
 
 import Button from '../Button'
-import Logo from './Logo'
 
 class AdjacentPosts extends React.Component {
   render() {
@@ -22,7 +21,6 @@ class AdjacentPosts extends React.Component {
           text='Prev'
           css={this.props.prev ? '' : 'visibility: hidden;'}
         />
-        <Logo size={(5/3)}/>
         <Button
           type='internal'
           href={this.props.next ? this.props.next : '/'}

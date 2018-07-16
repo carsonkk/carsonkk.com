@@ -1,16 +1,59 @@
 import React from 'react'
-import Link from 'gatsby-link'
+import Styled from 'styled-components'
 
-class WhateverPage extends React.Component {
+import ProjectsPostPreview from '../components/ProjectsPostPreview'
+
+class MiscPage extends React.Component {
   render() {
+    const edges = this.props.data.allMarkdownRemark.edges
+    const posts = edges.map(edge => <ProjectsPostPreview key={edge.node.id} post={edge.node} ph={this.props.data.placeholder}/>)
+    const Misc = Styled.div`
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    `
+
     return (
-      <div>
-        <h1>Temp page</h1>
-        <p>Welcome</p>
-        <Link to="/">Go back to the homepage</Link>
-      </div>
-    );
+      <Misc>
+        {posts}
+      </Misc>
+    )
   }
 }
 
-export default WhateverPage
+export default MiscPage
+
+export const pageQuery = graphql`
+  query MiscQuery {
+    allMarkdownRemark(
+      filter: {fields: {kind: {eq: "misc"}}}
+      sort: {order: ASC, fields: [fields___slug]}
+    ) {
+      edges {
+        node {
+          id
+          fields {
+            slug
+          }
+          frontmatter {
+            banner {
+              childImageSharp {
+                sizes(maxWidth: 600, maxHeight: 300, cropFocus: CENTER) {
+                  ...GatsbyImageSharpSizes
+                }
+              }
+            }
+            icon
+            name
+            description
+          }
+        }
+      }
+    }
+    placeholder: imageSharp(id: { regex: "/neature.jpg/" }) {
+      sizes(maxWidth: 600, maxHeight: 300, cropFocus: CENTER) {
+        ...GatsbyImageSharpSizes
+      }
+    }
+  }
+`
