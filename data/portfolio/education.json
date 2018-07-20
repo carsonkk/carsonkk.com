@@ -1,0 +1,26 @@
+[
+  {
+    "university": "University of California, Santa Barbara",
+    "abbreviation": "UCSB",
+    "degree": "BS, Computer Engineering",
+    "gpa": "3.76",
+    "details": [
+      "SB Hacks Member",
+      "TBP Honors Society Officer",
+      "Little/Big Engineer Officer",
+      "Regents Scholar",
+      "Honors Program"
+    ]
+  },
+  {
+    "university": "University of California, Santa Barbara",
+    "abbreviation": "UCSB",
+    "degree": "MS, Computer Science",
+    "gpa": "3.78",
+    "details": [
+      "Emphasis in Systems",
+      "Graduate Student Researcher",
+      "Teaching Assitant"
+    ]
+  }
+]

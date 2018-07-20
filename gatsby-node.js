@@ -7,10 +7,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
   const { createPage } = boundActionCreators
 
   return new Promise((resolve, ) => {
-    const blogPostTemplate = path.resolve(`src/templates/BlogPost.js`)
-    const projectPostTemplate = path.resolve(`src/templates/ProjectPost.js`)
-    const taggedPostsTemplate = path.resolve(`src/templates/TaggedPosts.js`)
-    const externalTemplate = path.resolve(`src/templates/External.js`)
     graphql(`
       {
         allMarkdownRemark {
@@ -42,7 +38,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             case 'blog':
               createPage({
                 path: fields.slug,
-                component: blogPostTemplate,
+                component: path.resolve(`src/templates/BlogPost.js`),
                 context: {
                   slug: fields.slug,
                 },
@@ -51,7 +47,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             case 'project':
               createPage({
                 path: fields.slug,
-                component: projectPostTemplate,
+                component: path.resolve(`src/templates/ProjectPost.js`),
                 context: {
                   slug: fields.slug,
                   targetTag: fields.targetTag,
@@ -62,7 +58,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               if(fields.type == 'external' ) {
                 createPage({
                   path: fields.slug,
-                  component: externalTemplate,
+                  component: path.resolve(`src/templates/ExternalPost.js`),
                   context: {
                     slug: fields.slug,
                   },
@@ -83,7 +79,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         const tagPath = `/tags/${_.kebabCase(tag)}`
         createPage({
           path: tagPath,
-          component: taggedPostsTemplate,
+          component: path.resolve(`src/templates/TaggedPosts.js`),
           context: {
             tag,
           },

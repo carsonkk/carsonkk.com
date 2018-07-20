@@ -3,7 +3,6 @@ import Link from 'gatsby-link'
 import Styled from 'styled-components'
 
 import MetaText from '../components/MetaText'
-import { Colors } from '../utils/Theme'
 import { FancyDateMD } from '../utils/Helpers'
 
 class BlogPostPreview extends React.Component {
@@ -31,7 +30,7 @@ class BlogPostPreview extends React.Component {
           min-width: 0.25rem;
           margin-left: -1rem;
           margin-right: 0.75rem;
-          background-color: ${Colors.text};
+          background-color: ${props => props.theme.text};
         }
         h1 {
           margin: 0;

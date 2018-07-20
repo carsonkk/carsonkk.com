@@ -6,10 +6,9 @@ import RehypeReact from 'rehype-react'
 
 import MetaText from '../components/MetaText'
 import { GutterContainer } from '../components/Container'
-import { Colors, FontSans } from '../utils/Theme'
+import { FontSans } from '../utils/Theme'
 import Button from '../components/Button'
 import AjaxGet from '../utils/Ajax'
-import NavTabs from '../components/Navigation/NavTabs'
 import BlogPostPreview from '../components/BlogPostPreview'
 
 const RenderAst = new RehypeReact({
@@ -107,10 +106,8 @@ class ProjectPost extends React.Component {
       display: flex;
       flex-direction: row;
       align-items: center;
-
       .gatsby-image-outer-wrapper {
         margin-right: 1rem;
-
         img {
           border-radius: 50%;
         }
@@ -134,7 +131,6 @@ class ProjectPost extends React.Component {
       flex-direction: row;
       justify-content: space-between;
       margin-bottom: 0.25rem;
-
       > span:not(:first-child) {
         padding-left: 0.5rem;
       }
@@ -142,11 +138,34 @@ class ProjectPost extends React.Component {
         padding-right: 0.5rem;
       }
     `
+    const GitHubButton = Styled(Button)`
+      && {
+        a {
+          padding: 0.375rem 0.5rem;
+          border: 2px solid ${props => props.theme.text};
+          font-size: 1rem;
+          span > svg {
+            font-size: 0.675rem;
+          }
+        }
+      }
+    `
+    const NavTabs = Styled.div`
+      display: flex;
+      border-top: 0.125rem solid ${props => props.theme.text};
+    `
+    const NavButton = Styled(Button)`
+      && {
+        button {
+          border-radius: 0 0 0.5rem 0.5rem;
+        }
+      }
+    `
     const PostBody = Styled.div`
       h1, h2, h3, h4, h5, h6 {
         :hover {
           a.anchor svg {
-            fill: ${Colors.text};
+            fill: ${props => props.theme.text};
           }
         }
         a.anchor svg {
@@ -211,36 +230,34 @@ class ProjectPost extends React.Component {
       .readme {
         h1, h2 {
           padding-bottom: 0.3em;
-          border-bottom: 1px solid ${Colors.fadedText};
+          border-bottom: 1px solid ${props => props.theme.caption};
         }
         blockquote {
           padding: 0 1em;
-          color: ${Colors.fadedText};
-          border-left: 0.25em solid ${Colors.fadedText};
+          color: ${props => props.theme.caption};
+          border-left: 0.25em solid ${props => props.theme.caption};
         }
       }
     `
     tabs.push(
-      <Button
+      <NavButton
         key={tabStrs[0]}
         type='action'
         text={tabStrs[0]}
         icon={['fas', 'info-circle']}
         func={this.handleClick(tabStrs[0])}
-        radius='0rem 0rem 0.5rem 0.5rem'
         active={this.state.activeTab == tabStrs[0] ? 'active' : ''}
       />
     )
     contents[tabStrs[0]] = [RenderAst(htmlAst)]
     if(allMarkdownRemark) {
       tabs.push(
-        <Button
+        <NavButton
           key={tabStrs[1]}
           type='action'
           text={tabStrs[1]}
           icon={['far', 'comment']}
           func={this.handleClick(tabStrs[1])}
-          radius='0rem 0rem 0.5rem 0.5rem'
           active={this.state.activeTab == tabStrs[1] ? 'active' : ''}
         />
       )
@@ -250,13 +267,12 @@ class ProjectPost extends React.Component {
     }
     if(frontmatter.misc) {
       tabs.push(
-        <Button
+        <NavButton
           key={tabStrs[2]}
           type='action'
           text={tabStrs[2]}
           icon={['fas', 'cogs']}
           func={this.handleClick(tabStrs[2])}
-          radius='0rem 0rem 0.5rem 0.5rem'
           active={this.state.activeTab == tabStrs[2] ? 'active' : ''}
         />
       )
@@ -264,13 +280,12 @@ class ProjectPost extends React.Component {
     }
     if(this.state.readme != '') {
       tabs.push(
-        <Button
+        <NavButton
           key={tabStrs[3]}
           type='action'
           text={tabStrs[3]}
           icon={['fab', 'readme']}
           func={this.handleClick(tabStrs[3])}
-          radius='0rem 0rem 0.5rem 0.5rem'
           active={this.state.activeTab == tabStrs[3] ? 'active' : ''}
         />
       )
@@ -308,29 +323,23 @@ class ProjectPost extends React.Component {
               <div>
                 {frontmatter.github &&
                   <ButtonRow>
-                    <Button
+                    <GitHubButton
                       type='external'
                       href={`//github.com/${frontmatter.github}/watchers`}
                       icon={['fas', 'eye']}
                       text={`Watch ${this.state.watchCount}`}
-                      size='sm'
-                      border={true}
                     />
-                    <Button
+                    <GitHubButton
                       type='external'
                       href={`//github.com/${frontmatter.github}/stargazers`}
                       icon={['fas', 'star']}
                       text={`Star ${this.state.starCount}`}
-                      size='sm'
-                      border={true}
                     />
-                    <Button
+                    <GitHubButton
                       type='external'
                       href={`//github.com/${frontmatter.github}/network`}
                       icon={['fas', 'code-branch']}
                       text={`Fork ${this.state.forkCount}`}
-                      size='sm'
-                      border={true}
                     />
                   </ButtonRow>
                 }
@@ -361,7 +370,9 @@ class ProjectPost extends React.Component {
               </div>
             </Right>
           </HeaderContent>
-          <NavTabs tabs={tabs}></NavTabs>
+          <NavTabs>
+            {tabs}
+          </NavTabs>
         </PostHeader>
         <PostBody>
           {contents[this.state.activeTab]}

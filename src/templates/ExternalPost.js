@@ -12,7 +12,9 @@ class External extends React.Component {
       height: 100vh;
       background-color: white;
     `
-    window.location.replace(this.props.data.markdownRemark.frontmatter.external)
+    if(typeof window !== 'undefined') {
+      window.location.replace(this.props.data.markdownRemark.frontmatter.external)
+    }
     return(
       <RedirectBackground/>
     )

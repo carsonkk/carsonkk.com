@@ -1,0 +1,74 @@
+[
+  {
+    "title": "Graduate Student Researcher",
+    "company": {
+      "text": "UCSB RACELab",
+      "url": "https://www.cs.ucsb.edu/~ckrintz/racelab.html"
+    },
+    "location": "Santa Barbara, CA",
+    "start": "October 2016",
+    "end": "Present",
+    "work": [
+      "Research work related to Distributed Systems, Cloud Computing and Edge Computing"
+    ]
+  },
+  {
+    "title": "Embedded Systems Engineer Intern",
+    "company": {
+      "text": "Raytheon",
+      "url": "https://www.raytheon.com"
+    },
+    "location": "Goleta, CA",
+    "start": "June 2016",
+    "end": "September 2016",
+    "work": [
+      "Research & development focused on integrating hardware designs for high definition image capture with an internal development platform using Xilinx Vivado and SDK",
+      "Configuring & documenting an image-capture storage system for said platform"
+    ]
+  },
+  {
+    "title": "Software Engineer Intern",
+    "company": {
+      "text": "Teradyne",
+      "url": "https://www.teradyne.com"
+    },
+    "location": "Agoura Hills, CA",
+    "start": "June 2015",
+    "end": "March 2016",
+    "work": [
+      "Software development primarily using C# and .NET",
+      "Engineering a VB6/VBA-to-VB.NET transpiler in C# utilizing COM & Interop services and source code parsing based on a verbose set of regular expressions",
+      "Developing an automated file activity detection program to proactively detect and handle depreciated and mal-referenced files within individual Visual Basic projects throughout the codebase"
+    ]
+  },
+  {
+    "title": "QA Automation Intern",
+    "company": {
+      "text": "Zobrist Consulting Group, Inc.",
+      "url": "https://www.zobristinc.com"
+    },
+    "location": "Woodland Hills, CA",
+    "start": "June 2014",
+    "end": "May 2015",
+    "work": [
+      "QA testing multiple website builds and releases for functionality across various platforms",
+      "Agile development and maintenance of an automated regression software package for core QA tests in Java using Selenium",
+      "Leadership position in QA team: managing workflow, daily scrums, and new QA team member training"
+    ]
+  },
+  {
+    "title": "Web Development Intern",
+    "company": {
+      "text": "Zobrist Enterprises",
+      "url": "https://www.zobristcube.com"
+    },
+    "location": "Woodland Hills, CA",
+    "start": "June 2014",
+    "end": "May 2015",
+    "work": [
+      "Webmaster of company's initial website built on WordPress",
+      "Marketing solutions including a Kickstarter for the company's product",
+      "Consulting on web development, UI/UX, and marketing strategies"
+    ]
+  }
+]

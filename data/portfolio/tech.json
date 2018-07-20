@@ -1,0 +1,48 @@
+[
+  {
+    "languages": [
+      "C",
+      "C++",
+      "C#",
+      "Python",
+      "Ruby",
+      "JavaScript",
+      "Java",
+      "HTML/JSX/ERB",
+      "CSS/SCSS"
+    ],
+    "libraries": [
+      "React",
+      "Gatsby",
+      "Rails",
+      "jQuery",
+      "Bootstrap",
+      ".NET",
+      "Flask",
+      "MongoDB",
+      "PostgreSQL",
+      "Node",
+      "OpenCV",
+      "numpy",
+      "ZooKeeper",
+      "libfuse",
+      "WPF",
+      "pthreads",
+      "Express"
+    ],
+    "tools": [
+      "Unity",
+      "Git",
+      "VSCode",
+      "Vivado",
+      "Photoshop",
+      "Blender",
+      "Eagle",
+      "Visual Studio",
+      "AWS",
+      "GAE",
+      "Eucalyptus",
+      "Linux"
+    ]
+  }
+]

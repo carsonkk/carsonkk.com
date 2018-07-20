@@ -1,0 +1,22 @@
+[
+  {
+    "software": [
+      "Functional Programming",
+      "API Design",
+      "Data Structures & Algorithms",
+      "QA Automation",
+      "Web Development",
+      "Distributed Systems Development",
+      "Software Development"
+    ],
+    "hardware": [
+      "Board Design & Layout",
+      "Analog Circuit Design",
+      "Digital Circuit Design",
+      "Embedded Systems",
+      "Sensor Interfacing",
+      "Mobile Embedded Systems",
+      "Computer Architechure"
+    ]
+  }
+]

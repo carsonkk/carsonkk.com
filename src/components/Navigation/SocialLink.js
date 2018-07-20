@@ -3,8 +3,6 @@ import Styled from 'styled-components'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
 
-import { Colors } from '../../utils/Theme'
-
 class SocialLink extends React.Component {
   render() {
     const SocialWrapper = Styled.span`
@@ -18,7 +16,7 @@ class SocialLink extends React.Component {
         
         :hover {
           color: ${this.props.color};
-          background-color: ${Colors.text};
+          background-color: ${props => props.theme.text};
         }
 
         svg {

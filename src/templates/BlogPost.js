@@ -7,7 +7,6 @@ import MetaText from '../components/MetaText'
 import CopyButton from '../components/CopyButton'
 import AdjacentPosts from '../components/Navigation/AdjacentPosts'
 import { GutterContainer } from '../components/Container'
-import { Colors } from '../utils/Theme'
 import { FancyDateMDY } from '../utils/Helpers'
 
 const RenderAst = new RehypeReact({
@@ -36,7 +35,6 @@ class BlogPost extends React.Component {
       
       div {
         position: fixed;
-        z-index: -1;
         width: 100%;
         height: 34rem;
         margin-top: -7rem;
@@ -46,7 +44,7 @@ class BlogPost extends React.Component {
       position: relative;
       flex: 1;
       box-shadow: 0rem 0rem 1.5rem -0.25rem black;
-      background-color: ${Colors.background};
+      background-color: ${props => props.theme.primary};
     `
     const PostHeader = Styled.div`
       margin-bottom: 3rem;
@@ -64,7 +62,7 @@ class BlogPost extends React.Component {
       h1, h2, h3, h4, h5, h6 {
         :hover {
           a.anchor svg {
-            fill: ${Colors.text};
+            fill: ${props => props.theme.text};
           }
         }
         a.anchor svg {
@@ -73,7 +71,7 @@ class BlogPost extends React.Component {
         }
       }
       a.anchor svg {
-        fill: ${Colors.text};
+        fill: ${props => props.theme.text};
       }
       h1 > a.anchor {
         margin-left: -3rem;

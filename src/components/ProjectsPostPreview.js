@@ -4,7 +4,7 @@ import Img from 'gatsby-image'
 import Styled from 'styled-components'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import { FontSans, RandomColor } from '../utils/Theme'
+import { DarkTheme, FontSans, RandomColor } from '../utils/Theme'
 
 class ProjectPostPreview extends React.Component {
   render() {
@@ -45,7 +45,7 @@ class ProjectPostPreview extends React.Component {
       width: 100%;
       height: 100%;
       overflow: hidden;
-
+      color: ${DarkTheme.text};
       div:first-child {
         flex: 2;
       }
@@ -75,7 +75,6 @@ class ProjectPostPreview extends React.Component {
       opacity: 0;
       text-align: center;
       flex-grow: 1;
-
       span {
         font-style: italic;
       }
@@ -93,7 +92,6 @@ class ProjectPostPreview extends React.Component {
     } else {
       Background = Styled.div`
         background-color: ${RandomColor()};
-
         img {
           display: none;
         }

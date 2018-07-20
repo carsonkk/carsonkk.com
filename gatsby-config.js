@@ -2,15 +2,19 @@
 
 module.exports = {
   siteMetadata: {
-    title: 'kk.',
     author: 'Kyle Carson',
+    about: 'Software & Computer Engineer',
+    title: 'kk.',
     description: 'Project write-ups, blogging, and whatever else',
     url: 'http://carsonkk.com',
+    text: 'carsonkk.com',
+    home: '/'
   },
   plugins: [
     'gatsby-plugin-styled-components',
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
+    `gatsby-transformer-json`,
     {
       resolve: 'gatsby-source-filesystem',
       options: {
@@ -30,6 +34,13 @@ module.exports = {
       options: {
         name: `content`,
         path: `${__dirname}/content`,
+      }
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `data`,
+        path: `${__dirname}/data`,
       }
     },
     {
@@ -63,7 +74,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-favicon`,
       options: {
-        logo: "./src/icons/favicon.png",
+        logo: "./src/images/favicon.png",
         injectHTML: true,
         icons: {
           android: true,

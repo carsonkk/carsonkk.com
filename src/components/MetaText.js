@@ -1,31 +1,38 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
+import Img from 'gatsby-image'
 import Styled from 'styled-components'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
 
-import { Colors } from '../utils/Theme'
-
 class MetaText extends React.Component {
   render() {
-    const Section = Styled.span`
-      padding-right: 1rem;
-      font-size: 1rem;
-      color: ${Colors.fadedText};
-
-      svg {
-        padding-right: 0.25rem;
-      }
-      span > a {
-        transition: all 0.3s;
-        text-decoration: none;
-        color: ${Colors.fadedText};
-
-        :hover {
-          text-decoration: underline;
-          color: ${Colors.text};
+    const MetaText = Styled.div`
+      span {
+        display: flex-inline;
+        align-items: center;
+        font-size: 1rem;
+        color: ${props => props.theme.caption};
+        div {
+          display: inline-block;
         }
+        svg, div {
+          align-self: center;
+          padding-right: 0.25rem;
+        }
+        span > a {
+          transition: all 0.3s;
+          text-decoration: none;
+          color: ${props => props.theme.caption};
+          :hover {
+            text-decoration: underline;
+            color: ${props => props.theme.text};
+          }
+        }
+      }
+      > span:not(:first-child) {
+        padding-left: 1rem;
       }
     `
     const contents = this.props.sections.map(section => {
@@ -55,19 +62,22 @@ class MetaText extends React.Component {
         sectionContent = <span>{section.texts[0]}</span>
       }
       return (
-        <Section key={sectionKey}>
+        <span key={sectionKey}>
           {section.icon &&
             <FontAwesomeIcon icon={section.icon} fixedWidth/>
           }
+          {section.image &&
+            <Img resolutions={section.image} className="svg-inline--fa fa-github fa-w-16 fa-fw "/>
+          }
           {sectionContent}
-        </Section>
+        </span>
       )
     })
 
     return (
-      <div>
+      <MetaText className={this.props.className}>
         {contents}
-      </div>
+      </MetaText>
     )
   }
 }

@@ -11,23 +11,35 @@ class AdjacentPosts extends React.Component {
       margin-top: 1rem;
       font-size: 1.5rem;
     `
+    const LeftButton = Styled(Button)`
+      && {
+        a {
+          visibility: ${this.props.prev ? 'visible' : 'hidden'};
+        }
+      }
+    `
+    const RightButton = Styled(Button)`
+      && {
+        a {
+          visibility: ${this.props.next ? 'visible' : 'hidden'};
+        }
+      }
+    `
 
     return (
       <AdjacentPosts>
-        <Button
+        <LeftButton
           type='internal'
           href={this.props.prev ? this.props.prev : '/'}
           icon={['fas', 'angle-left']}
           text='Prev'
-          css={this.props.prev ? '' : 'visibility: hidden;'}
         />
-        <Button
+        <RightButton
           type='internal'
           href={this.props.next ? this.props.next : '/'}
           icon={['fas', 'angle-right']}
           text='Next'
           isIconLeft={false}
-          css={this.props.next ? '' : 'visibility: hidden;'}
         />
       </AdjacentPosts>
     )

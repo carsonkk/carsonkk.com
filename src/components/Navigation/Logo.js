@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'gatsby-link'
 import Styled from 'styled-components'
 
-import { Colors, FontBase } from '../../utils/Theme'
+import { FontBase } from '../../utils/Theme'
 
 class Logo extends React.Component {
   render() {
@@ -26,12 +26,10 @@ class Logo extends React.Component {
           transform: scaleY(1);
         }
       }
-
       .top-border, .bottom-border, .left-border, .right-border {
         transition: transform 0.4s;
-        background-color: ${Colors.text};
+        background-color: ${props => props.theme.text};
       }
-
       .wrap-border {
         display: flex;
 
@@ -40,13 +38,11 @@ class Logo extends React.Component {
           padding-right: 0.25rem;
         }
       }
-
       .top-border, .bottom-border {
         transform: scaleX(0);
         width: 100%;
         height: ${this.props.size / 16}rem;
       }
-
       .left-border, .right-border {
         transform: scaleY(0);
         width: ${this.props.size / 16}rem;

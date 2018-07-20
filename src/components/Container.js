@@ -12,10 +12,9 @@ export const Container = Styled.div`
 `
 
 export const GutterContainer = Container.extend`
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  padding: 1.5rem;
   ${Media.xl`max-width: 50rem`}
 `
 

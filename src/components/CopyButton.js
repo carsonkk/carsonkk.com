@@ -1,7 +1,8 @@
 import React from 'react'
+import Styled from 'styled-components'
 
 import Button from './Button'
-import { Colors } from '../utils/Theme'
+import { DarkTheme } from '../utils/Theme'
 
 class CopyButton extends React.Component {
   constructor(props) {
@@ -40,34 +41,36 @@ class CopyButton extends React.Component {
   }
 
   render() {
-    const customCss = `
-      button {
-        transition: opacity 0.3s;
-        position: absolute;
-        right: 0;
-        margin: 0.5rem 0.5rem 0 0;
-        opacity: 0.25;
-        font-weight: bold;
-        color: ${Colors.background};
-        background-color: ${Colors.text};
-
-        :hover {
-          opacity: 1;
-        }
-        span > svg {
-          color: ${Colors.background};
+    const CopyButton = Styled(Button)`
+      && {
+        button {
+          transition: opacity 0.3s;
+          position: absolute;
+          right: 0;
+          margin: 0.5rem 0.5rem 0 0;
+          padding: 0.375rem 0.5rem;
+          opacity: 0.25;
+          font-size: 1rem;
+          font-weight: bold;
+          color: ${DarkTheme.primary};
+          background-color: ${DarkTheme.text};
+          :hover {
+            opacity: 1;
+          }
+          span > svg {
+            font-size: 0.675rem;
+            color: ${DarkTheme.primary};
+          }
         }
       }
     `
 
     return (
-      <Button
+      <CopyButton
         type='action'
         icon={['fas', 'clone']}
         text='Copy'
         func={this.handleClick()}
-        css={customCss}
-        size='sm'
       />
     )
   }

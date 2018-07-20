@@ -29,7 +29,14 @@ class BlogPage extends React.Component {
     `
     const YearSelect = Styled.div`
       position: absolute;
-      border-right: 0.25rem solid white;
+      border-right: 0.25rem solid ${props => props.theme.text};
+    `
+    const YearButton = Styled(Button)`
+      && {
+        button {
+          border-radius: 0.5rem 0 0 0.5rem;
+        }
+      }
     `
 
     edges.forEach(edge => {
@@ -40,11 +47,10 @@ class BlogPage extends React.Component {
       else {
         posts[yearStr] = [<BlogPostPreview key={edge.node.id} post={edge.node}/>]
         years.push(
-          <Button key={yearStr}
+          <YearButton key={yearStr}
             type='action'
             text={yearStr}
             func={this.handleClick(yearStr)}
-            radius='0.5rem 0rem 0rem 0.5rem'
             active={this.state.year == yearStr ? 'active' : ''}
           />
         )
