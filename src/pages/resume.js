@@ -269,7 +269,7 @@ class ResumePage extends React.Component {
             </NameWrapper>
             <div>
               <span>{currentJob.title}</span>
-              <span>@ {currentJob.company.text}, {currentJob.location}</span>
+              <span>{currentJob.company.text}, {currentJob.location}</span>
             </div>
           </HeaderLeft>
           <HeaderRight>

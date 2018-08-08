@@ -1,7 +1,7 @@
 ---
 banner: "neature.jpg"
 title: "Old sink"
-date: "2016-04-15"
+featured: true
 icon: code
 tags:
   - "AI"

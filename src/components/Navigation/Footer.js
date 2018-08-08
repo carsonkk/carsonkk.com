@@ -7,6 +7,7 @@ import Button from '../Button'
 class Footer extends React.Component {
   render() {
     const NavFooter = Styled.footer`
+      flex: 0 1 auto;
       display: flex;
       flex-direction: column;
       align-items: center;

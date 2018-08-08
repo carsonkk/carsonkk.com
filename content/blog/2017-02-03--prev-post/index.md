@@ -1,7 +1,7 @@
 ---
 banner: "neature.jpg"
 title: "Prev Post"
-date: "2016-04-14"
+featured: false
 icon: code
 tags:
   - "AI"

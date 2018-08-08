@@ -27,12 +27,12 @@ class BlogPostPreview extends React.Component {
           transition: transform 0.3s;
           transform-origin: top;
           transform: scaleY(0);
-          min-width: 0.25rem;
+          width: 0.25rem;
           margin-left: -1rem;
           margin-right: 0.75rem;
           background-color: ${props => props.theme.text};
         }
-        h1 {
+        h2 {
           margin: 0;
         }
       }
@@ -43,7 +43,7 @@ class BlogPostPreview extends React.Component {
         <Title>
           <Link to={`${this.props.post.fields.slug}`}>
               <div></div>
-              <h1>{this.props.post.frontmatter.title}</h1>
+              <h2>{this.props.post.frontmatter.title}</h2>
           </Link>
         </Title>
         <MetaText sections={[

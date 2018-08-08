@@ -1,19 +1,25 @@
 import React from 'react'
-import Link from 'gatsby-link'
 import Img from 'gatsby-image'
+import Link from 'gatsby-link'
 import Styled from 'styled-components'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import { DarkTheme, FontSans, RandomColor } from '../utils/Theme'
+import { DarkTheme } from '../utils/Theme'
+import { RandomColor } from '../utils/Theme'
 
-class ProjectPostPreview extends React.Component {
+class PostImagePreview extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      color: `${RandomColor()}`
+    }
+  }
   render() {
-    let Background
-    let backgroundImage
-    const ProjectPostPreviewWrapper = Styled.div`
+    const { post, image } = this.props
+    const { frontmatter } = post
+    const PostImagePreviewWrapper = Styled.div`
+      flex: 1 0 ${100/3}%;
       position: relative;
-      flex: 0 0 ${100/3}%;
-
       :hover {
         > a > div:last-child > h2 {
           transition-delay: 0s;
@@ -54,7 +60,6 @@ class ProjectPostPreview extends React.Component {
         transition-delay: 0.1s;
         transform: translateY(1.5rem);
         margin: 0;
-        font-family: ${FontSans};
         font-size: 2.5em;
         text-align: center;
       }
@@ -86,40 +91,34 @@ class ProjectPostPreview extends React.Component {
       opacity: 0;
       font-size: 2rem;
     `
-    if(this.props.post.frontmatter.banner) {
-      Background = Styled.div``
-      backgroundImage = this.props.post.frontmatter.banner.childImageSharp.sizes
-    } else {
-      Background = Styled.div`
-        background-color: ${RandomColor()};
-        img {
-          display: none;
-        }
-      `
-      backgroundImage = this.props.ph.sizes
-    }
+    const BackgroundImage = frontmatter.bSingle ? Styled.div`` : Styled.div`
+      background-color: ${this.state.color};
+      img {
+        display: none;
+      }
+    `
 
     return (
-      <ProjectPostPreviewWrapper>
-        <Background>
-          <Img sizes={backgroundImage} alt="banner"/>
-        </Background>
-        <BackgroundFilter></BackgroundFilter>
-        <Link to={`${this.props.post.fields.slug}`}>
+      <PostImagePreviewWrapper>
+        <BackgroundImage>
+          <Img sizes={image} alt="Image Preview"/>
+        </BackgroundImage>
+        <BackgroundFilter/>
+        <Link to={`${post.fields.slug}`}>
           <PostPreview>
             <div></div>
-            <h2>{this.props.post.frontmatter.name}</h2>
+            <h2>{frontmatter.name}</h2>
             <Description>
-              <span>{this.props.post.frontmatter.description}</span>
+              <span>{frontmatter.description}</span>
             </Description>
             <Icon>
-              <FontAwesomeIcon icon={this.props.post.frontmatter.icon}/>
+              <FontAwesomeIcon icon={frontmatter.icon}/>
             </Icon>
           </PostPreview>
         </Link>
-      </ProjectPostPreviewWrapper>
+      </PostImagePreviewWrapper>
     )
   }
 }
 
-export default ProjectPostPreview
+export default PostImagePreview

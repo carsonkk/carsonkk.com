@@ -3,6 +3,7 @@ banner: "neature.jpg"
 name: "drngs"
 description: "Experimenting with deterministic rngs"
 icon: code
+featured: true
 tags:
   - "drngs"
   - "C"

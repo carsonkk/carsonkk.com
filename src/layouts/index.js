@@ -5,7 +5,7 @@ import Styled, { ThemeProvider } from 'styled-components'
 import '../css/prism-material.css'
 import Header from '../components/Navigation/Header'
 import Footer from '../components/Navigation/Footer'
-import { DarkTheme, LightTheme, FontSans, FontSerif } from '../utils/Theme'
+import { DarkTheme, LightTheme, FontSans } from '../utils/Theme'
 
 class IndexLayout extends React.Component {
   constructor(props) {
@@ -26,6 +26,7 @@ class IndexLayout extends React.Component {
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      height: 100%;
       font-family: ${FontSans};
       font-size: 1.25rem;
       line-height: 1.55;
@@ -42,15 +43,15 @@ class IndexLayout extends React.Component {
         text-decoration: underline;
       }
       h1, h2, h3, h4, h5, h6 {
-        font-family: ${FontSerif};
+        font-family: ${FontSans};
         line-height: 1;
       }
       blockquote {
         margin: 0;
       }
-      main {
-        flex: 1;
-      }
+    `
+    const MainWrapper = Styled.main`
+      flex: 1 1 auto;
     `
 
     return(
@@ -62,9 +63,9 @@ class IndexLayout extends React.Component {
             <link rel="canonical" href={`${metadata.url}${this.props.location.pathname}`}/>
           </Helmet>
           <Header/>
-          <main>
+          <MainWrapper>
             {this.props.children()}
-          </main>
+          </MainWrapper>
           <Footer 
             links={this.props.data.allSocialJson.edges}
             isDarkTheme={this.state.isDarkTheme} 

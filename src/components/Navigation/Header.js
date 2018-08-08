@@ -9,10 +9,12 @@ import { RandomIcon } from '../../utils/Theme'
 class Header extends React.Component {
   render() {
     const NavHeader = Styled.header`
+      flex: 0 1 auto;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       z-index: 100;
+      min-height: 15vh;
       background-color: ${props => props.theme.secondary};
       box-shadow: 0rem 0rem 1.5rem -0.25rem black;
     `
@@ -75,12 +77,6 @@ class Header extends React.Component {
             href='/about'
             icon={['fas', 'tree']}
             text='About'
-          />
-          <TabButton
-            type='internal'
-            href='/resume'
-            icon={['fas', 'paper-plane']}
-            text='Resume'
           />
         </NavItems>
       </NavHeader>

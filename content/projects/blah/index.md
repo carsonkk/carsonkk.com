@@ -2,6 +2,7 @@
 name: "Blah"
 description: "Not a github project fsd Trtbrh Blah Blah Blah"
 icon: code
+featured: true
 tags:
   - "Blah"
   - "C"

@@ -8,6 +8,7 @@ import CopyButton from '../components/CopyButton'
 import AdjacentPosts from '../components/Navigation/AdjacentPosts'
 import { GutterContainer } from '../components/Container'
 import { FancyDateMDY } from '../utils/Helpers'
+import { FontSerif } from '../utils/Theme'
 
 const RenderAst = new RehypeReact({
   createElement: React.createElement,
@@ -29,6 +30,9 @@ class BlogPost extends React.Component {
       position: relative;
       display: flex;
       flex-direction: column;
+      h1, h2, h3, h4, h5, h6 {
+        font-family: ${FontSerif};
+      }
     `
     const Banner = Styled.div`
       flex: 0 0 20rem;

@@ -1,22 +1,12 @@
 import React from 'react'
-import Styled from 'styled-components'
 
-import ProjectsPostPreview from '../components/ProjectsPostPreview'
+import PostImagePreviewSection from '../components/PostImagePreviewSection'
 
 class ProjectsPage extends React.Component {
   render() {
-    const edges = this.props.data.allMarkdownRemark.edges
-    const posts = edges.map(edge => <ProjectsPostPreview key={edge.node.id} post={edge.node} ph={this.props.data.placeholder}/>)
-    const Projects = Styled.div`
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    `
-
+    const { data } = this.props
     return (
-      <Projects>
-        {posts}
-      </Projects>
+      <PostImagePreviewSection posts={data.allMarkdownRemark.edges} data={data}/>
     )
   }
 }
@@ -24,7 +14,7 @@ class ProjectsPage extends React.Component {
 export default ProjectsPage
 
 export const pageQuery = graphql`
-  query ProjectsQuery {
+  query ProjectsPageQuery {
     allMarkdownRemark(
       filter: {fields: {kind: {eq: "project"} type: {eq: "page"}}}
       sort: {order: ASC, fields: [fields___slug]}
@@ -36,9 +26,23 @@ export const pageQuery = graphql`
             slug
           }
           frontmatter {
-            banner {
+            bSingle: banner {
               childImageSharp {
                 sizes(maxWidth: 600, maxHeight: 300, cropFocus: CENTER) {
+                  ...GatsbyImageSharpSizes
+                }
+              }
+            }
+            bDouble: banner {
+              childImageSharp {
+                sizes(maxWidth: 900, maxHeight: 300, cropFocus: CENTER) {
+                  ...GatsbyImageSharpSizes
+                }
+              }
+            }
+            bTriple: banner {
+              childImageSharp {
+                sizes(maxWidth: 1800, maxHeight: 300, cropFocus: CENTER) {
                   ...GatsbyImageSharpSizes
                 }
               }
@@ -50,10 +54,6 @@ export const pageQuery = graphql`
         }
       }
     }
-    placeholder: imageSharp(id: { regex: "/neature.jpg/" }) {
-      sizes(maxWidth: 600, maxHeight: 300, cropFocus: CENTER) {
-        ...GatsbyImageSharpSizes
-      }
-    }
+    ...PlaceholderImageFragment
   }
 `
