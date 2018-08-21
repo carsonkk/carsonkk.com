@@ -1,9 +1,10 @@
 import React from 'react'
 import Styled from 'styled-components'
 
-import { GutterContainer } from '../components/Container'
-import Button from '../components/Button'
-import BlogPostPreview from '../components/BlogPostPreview'
+import GenericButton from '../components/GenericButton'
+import TextPreview from '../components/TextPreview'
+import { PaddedContainer } from '../utils/Container'
+
 
 class BlogPage extends React.Component {
   constructor(props) {
@@ -21,33 +22,53 @@ class BlogPage extends React.Component {
   }
 
   render() {
-    const edges = this.props.data.allMarkdownRemark.edges
+    const { edges } = this.props.data.allMarkdownRemark
     let posts = {}
     let years = []
-    const YearWrapper = Styled.div`
-      margin-left: -8rem;
+
+    const BlogPageWrapper = Styled.div`
+      display: flex;
+      flex-direction: column;
+    `
+    const Searchbar = Styled.div`
+      margin: 2rem;
+    `
+    const BlogBodyWrapper = Styled.div`
+      display: flex;
+      justify-content: center;
+    `
+    const FilterWrapper = Styled.div`
+      display: flex;
+      flex-direction: column;
+      margin-right: 2rem;
+    `
+    const PreviewWrapper = Styled.div`
+      flex: 1;
     `
     const YearSelect = Styled.div`
-      position: absolute;
       border-right: 0.25rem solid ${props => props.theme.text};
     `
-    const YearButton = Styled(Button)`
+    const YearButton = Styled(GenericButton)`
       && {
         button {
           border-radius: 0.5rem 0 0 0.5rem;
         }
       }
     `
+    const Pagination = Styled.div`
+      margin: 2rem;
+    `
 
     edges.forEach(edge => {
       const yearStr = edge.node.fields.date.substring(0,4)
       if(yearStr in posts) {
-        posts[yearStr].push(<BlogPostPreview key={edge.node.id} post={edge.node}/>)
+        posts[yearStr].push(<TextPreview key={edge.node.id} post={edge.node}/>)
       }
       else {
-        posts[yearStr] = [<BlogPostPreview key={edge.node.id} post={edge.node}/>]
+        posts[yearStr] = [<TextPreview key={edge.node.id} post={edge.node}/>]
         years.push(
-          <YearButton key={yearStr}
+          <YearButton 
+            key={yearStr}
             type='action'
             text={yearStr}
             func={this.handleClick(yearStr)}
@@ -58,16 +79,26 @@ class BlogPage extends React.Component {
     })
 
     return (
-      <GutterContainer>
-        <YearWrapper>
-          <YearSelect>
-            {years}
-          </YearSelect>
-        </YearWrapper>
-        <div>
-          {posts[this.state.year]}
-        </div>
-      </GutterContainer>
+      <PaddedContainer>
+        <BlogPageWrapper>
+          <Searchbar>
+          </Searchbar>
+          <BlogBodyWrapper>
+            <FilterWrapper>
+              <div>
+                <YearSelect>
+                  {years}
+                </YearSelect>
+              </div>
+            </FilterWrapper>
+            <PreviewWrapper>
+              {posts[this.state.year]}
+            </PreviewWrapper>
+          </BlogBodyWrapper>
+          <Pagination>
+          </Pagination>
+        </BlogPageWrapper>
+      </PaddedContainer>
     )
   }
 }
@@ -82,18 +113,7 @@ export const pageQuery = graphql`
     ) {
       edges {
         node {
-          id
-          timeToRead
-          excerpt(pruneLength: 140)
-          fields {
-            date
-            slug
-          }
-          frontmatter {
-            title
-            icon
-            tags
-          }
+          ...TextPreviewFragment
         }
       }
     }

@@ -1,23 +1,26 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Img from 'gatsby-image'
 import Link from 'gatsby-link'
 import Styled from 'styled-components'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import { DarkTheme } from '../utils/Theme'
-import { RandomColor } from '../utils/Theme'
+import { DarkTheme, RandomColor } from '../utils/Theme'
 
-class PostImagePreview extends React.Component {
+
+class ImagePreview extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       color: `${RandomColor()}`
     }
   }
+
   render() {
     const { post, image } = this.props
     const { frontmatter } = post
-    const PostImagePreviewWrapper = Styled.div`
+
+    const ImagePreviewWrapper = Styled.div`
       flex: 1 0 ${100/3}%;
       position: relative;
       :hover {
@@ -90,6 +93,7 @@ class PostImagePreview extends React.Component {
       margin: 0 1rem 0.5rem 0;
       opacity: 0;
       font-size: 2rem;
+      color: ${props => props.theme.color};
     `
     const BackgroundImage = frontmatter.bSingle ? Styled.div`` : Styled.div`
       background-color: ${this.state.color};
@@ -99,7 +103,7 @@ class PostImagePreview extends React.Component {
     `
 
     return (
-      <PostImagePreviewWrapper>
+      <ImagePreviewWrapper>
         <BackgroundImage>
           <Img sizes={image} alt="Image Preview"/>
         </BackgroundImage>
@@ -116,9 +120,14 @@ class PostImagePreview extends React.Component {
             </Icon>
           </PostPreview>
         </Link>
-      </PostImagePreviewWrapper>
+      </ImagePreviewWrapper>
     )
   }
 }
 
-export default PostImagePreview
+ImagePreview.propTypes = {
+  post: PropTypes.object.isRequired,
+  image: PropTypes.object.isRequired
+}
+
+export default ImagePreview

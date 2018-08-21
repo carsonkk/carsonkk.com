@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Sealarg",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+      "Argument parsing library written for C",
+      "Options to enable C89 or POSIX compliance",
+      "Similar interface to Python's argparse library"
+    ]
+  }
+]

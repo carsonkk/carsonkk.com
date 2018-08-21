@@ -1,0 +1,19 @@
+[
+  {
+    "software": [
+      "Software Development",
+      "Full Stack Web Development",
+      "API Design",
+      "Functional Programming",
+      "Object Oriented Programming",
+      "Data Structures & Algorithms",
+      "QA Automation"
+    ],
+    "hardware": [
+      "Board Design & Layout",
+      "Analog Circuit Design",
+      "Digital Circuit Design",
+      "Sensor Interfacing"
+    ]
+  }
+]

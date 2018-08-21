@@ -5,15 +5,16 @@ import RehypeReact from 'rehype-react'
 
 import MetaText from '../components/MetaText'
 import CopyButton from '../components/CopyButton'
-import AdjacentPosts from '../components/Navigation/AdjacentPosts'
-import { GutterContainer } from '../components/Container'
-import { FancyDateMDY } from '../utils/Helpers'
-import { FontSerif } from '../utils/Theme'
+import AdjacentPosts from '../components/AdjacentPosts'
+import { PostContainer } from '../utils/Container'
+import { FancyDateMDY } from '../utils/Date'
+import { FontSerif } from '../utils/Text'
 
 const RenderAst = new RehypeReact({
   createElement: React.createElement,
   components: { 'copy-button': CopyButton },
 }).Compiler
+
 
 class BlogPost extends React.Component {
   render() {
@@ -26,6 +27,7 @@ class BlogPost extends React.Component {
     let nextDate = 8640000000000000
     let prevSlug = ''
     let nextSlug = ''
+    
     const Blog = Styled.div`
       position: relative;
       display: flex;
@@ -135,6 +137,7 @@ class BlogPost extends React.Component {
     const PostFooter = Styled.div`
       margin-top: 3rem;
     `
+
     edges.forEach(edge => {
       someDate = Date.parse(edge.node.fields.date)
       if(someDate < currDate && someDate > prevDate) {
@@ -155,60 +158,65 @@ class BlogPost extends React.Component {
           </div>
         </Banner>
         <ShadowWrapper>
-          <GutterContainer>
+          <PostContainer>
             <PostHeader>
               <h1>{frontmatter.title}</h1>
-              <MetaText sections={[
-                {
-                  icon: ['far', 'calendar-alt'],
-                  texts: [FancyDateMDY(currDate)]
-                },
-                {
-                  icon: ['far', 'clock'],
-                  texts: [`${markdownRemark.timeToRead} min read`]
-                }
-              ]}/>
-              <MetaText sections={[{
-                icon: ['fas', 'tags'],
-                texts: markdownRemark.frontmatter.tags,
-                links: markdownRemark.fields.tagSlugs,
-              }]}/>
+              <MetaText
+                type='text'
+                icon={['far', 'calendar-alt']}
+                texts={[FancyDateMDY(currDate)]}
+                isInline={true}
+              />
+              <MetaText
+                type='text'
+                icon={['far', 'clock']}
+                texts={[`${markdownRemark.timeToRead} min read`]}
+                isInline={true}
+              />
+              <MetaText
+                type='internal'
+                icon={['fas', 'tags']}
+                texts={markdownRemark.frontmatter.tags}
+                links={markdownRemark.fields.tagSlugs}
+              />
               {frontmatter.project &&
-                <MetaText sections={[{
-                  icon: ['fas', 'asterisk'],
-                  texts: [`Related: ${frontmatter.project}`],
-                  links: [`/projects/${fields.targetTag}`]
-                }]}/>
+                <MetaText
+                  type='internal'
+                  icon={['fas', 'asterisk']}
+                  texts={[`Related: ${frontmatter.project}`]}
+                  links={[`/projects/${fields.targetTag}`]}
+                />
               }
               {frontmatter.misc &&
-                <MetaText sections={[{
-                  icon: ['fas', 'asterisk'],
-                  texts: [`Related: ${frontmatter.misc}`],
-                  links: [`/misc/${fields.targetTag}`]
-                }]}/>
+                <MetaText
+                  type='internal'
+                  icon={['fas', 'asterisk']}
+                  texts={[`Related: ${frontmatter.misc}`]}
+                  links={[`/misc/${fields.targetTag}`]}
+                />
               }
             </PostHeader>
             <PostBody>{RenderAst(htmlAst)}</PostBody>
             <PostFooter>
               {frontmatter.reddit &&
-                <MetaText sections={[{
-                  icon: ['fab', 'reddit-alien'],
-                  texts: ['Read and discuss this post on Reddit'],
-                  links: [`${frontmatter.reddit}`],
-                  type: 'external'
-                }]}/>
+                <MetaText
+                  type='external'
+                  icon={['fab', 'reddit-alien']}
+                  texts={['Read and discuss this post on Reddit']}
+                  links={[`${frontmatter.reddit}`]}
+                />
               }
               {frontmatter.medium &&
-                <MetaText sections={[{
-                  icon: ['fab', 'medium-m'],
-                  texts: ['Read and discuss this post on Medium'],
-                  links: [`${frontmatter.medium}`],
-                  type: 'external'
-                }]}/>
+                <MetaText
+                  type='external'
+                  icon={['fab', 'medium-m']}
+                  texts={['Read and discuss this post on Medium']}
+                  links={[`${frontmatter.medium}`]}
+                />
               }
               <AdjacentPosts prev={prevSlug} next={nextSlug}/>
             </PostFooter>
-          </GutterContainer>
+          </PostContainer>
         </ShadowWrapper>
       </Blog>
     )

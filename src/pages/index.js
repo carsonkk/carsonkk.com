@@ -2,18 +2,20 @@ import React from 'react'
 import Img from 'gatsby-image'
 import Styled from 'styled-components'
 
-import { FontBase, DarkTheme } from '../utils/Theme'
-import Button from '../components/Button'
-import BlogPostPreview from '../components/BlogPostPreview'
-import PostImagePreviewSection from '../components/PostImagePreviewSection'
+import GenericButton from '../components/GenericButton'
+import TextPreview from '../components/TextPreview'
+import ImagePreviewSection from '../components/ImagePreviewSection'
+import { DarkTheme } from '../utils/Theme'
+import { PaddedContainer } from '../utils/Container';
 
 class IndexPage extends React.Component {
   render() {
     const { data } = this.props
     const { neature } = data
-    const recentBlogPostEdges = data.recentBlogPosts.edges
-    const featuredBlogPostEdges = data.featuredBlogPosts.edges
     const featuredProjectPostEdges = data.featuredProjectPosts.edges
+    const recentBlogPosts = data.recentBlogPosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
+    const featuredBlogPosts = data.featuredBlogPosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
+
     const IndexWrapper = Styled.div`
       display: flex;
       flex-direction: column;
@@ -34,7 +36,7 @@ class IndexPage extends React.Component {
       opacity: 0.7;
       background-color: black;
     `
-    const IntroBlurb = Styled.div`
+    const IntroBlurb = Styled(PaddedContainer)`
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -43,14 +45,13 @@ class IndexPage extends React.Component {
       bottom: 20%;
       left: 0;
       right: 0;
-      width: 60%;
       overflow: hidden;
-      margin: auto;
-      padding: 2rem;
       text-align: center;
       h1 {
-        font-family: ${FontBase};
         font-size: 4rem;
+        span {
+          color: ${props => props.theme.color};
+        }
       }
     `
     const ButtonRow = Styled.div`
@@ -63,28 +64,34 @@ class IndexPage extends React.Component {
         margin-left: 1.5rem;
       }
     `
-    const DarkButton = Styled(Button)`
-      a {
-        color: ${DarkTheme.text};
-        :hover {
-          color: ${DarkTheme.primary};
-          background-color: ${DarkTheme.text};
-          span > svg {
-            color: ${DarkTheme.primary};
-          }
-        }
-        span > svg {
+    const DarkButton = Styled(GenericButton)`
+      && {
+        a {
           color: ${DarkTheme.text};
+          :hover {
+            background-color: ${DarkTheme.text};
+            svg {
+              color: ${props => props.theme.color};
+            }
+            span > span {
+              color: ${DarkTheme.primary};
+            }
+          }
+          svg {
+            color: ${DarkTheme.text};
+          }
         }
       }
     `
-    const BlogSection = Styled.div`
+    const ShadowWrapper = Styled.div`
+      z-index: 1;
+      box-shadow: 0rem 0rem 1.5rem -0.25rem black;
+    `
+    const BlogSection = Styled(PaddedContainer)`
       display: flex;
       flex-direction: row;
       padding-top: 2rem;
       padding-bottom: 2rem;
-      z-index: 1;
-      box-shadow: 0rem 0rem 1.5rem -0.25rem black;
     `
     const BlogColumn = Styled.div`
       padding-left: 2rem;
@@ -96,14 +103,11 @@ class IndexPage extends React.Component {
       margin: 2rem;
       background-color: ${props => props.theme.text};
     `
-    const ContactSection = Styled.div`
+    const ContactSection = Styled(PaddedContainer)`
       padding-top: 2rem;
-      z-index: 1;
       text-align: center;
-      box-shadow: 0rem 0rem 1.5rem -0.25rem black;
     `
-    const recentBlogPosts = recentBlogPostEdges.map(edge => <BlogPostPreview key={edge.node.id} post={edge.node}/>)
-    const featuredBlogPosts = featuredBlogPostEdges.map(edge => <BlogPostPreview key={edge.node.id} post={edge.node}/>)
+    
     return (
       <IndexWrapper>
         <IntroSection>
@@ -114,7 +118,7 @@ class IndexPage extends React.Component {
           </Background>
           <BackgroundFilter/>
           <IntroBlurb>
-            <h1>Hey, my name's Kyle</h1>
+            <h1>Hey, my name's <span>Kyle</span></h1>
             <p>I'm a Software &amp; Computer Engineer from California with a passion for systems.
               This site is meant to consolidate the blog posts, tutorials, project writeups
               and everything else I've thrown together over the years.
@@ -122,35 +126,39 @@ class IndexPage extends React.Component {
             <ButtonRow>
               <DarkButton
                 type='internal'
-                href='/about'
-                icon={['fas', 'tree']}
+                to='/about'
                 text='About Me'
+                icon={['fas', 'tree']}
               />
               <DarkButton
                 type='internal'
-                href='/resume'
-                icon={['fas', 'paper-plane']}
+                to='/resume'
                 text='My Resume'
+                icon={['fas', 'paper-plane']}
               />
             </ButtonRow>
           </IntroBlurb>
         </IntroSection>
-        <BlogSection>
-          <BlogColumn>
-            <h1>Recent Posts</h1>
-            {recentBlogPosts}
-          </BlogColumn>
-          <Divider/>
-          <BlogColumn>
-            <h1>Featured Posts</h1>
-            {featuredBlogPosts}
-          </BlogColumn>
-        </BlogSection>
-        <PostImagePreviewSection posts={featuredProjectPostEdges} data={data}/>
-        <ContactSection>
-          <h1>Want to get in touch?</h1>
-          <p>Shoot me an email or check out any of the other links below to find me elsewhere on the web</p>
-        </ContactSection>
+        <ShadowWrapper>
+          <BlogSection>
+            <BlogColumn>
+              <h1>Recent Posts</h1>
+              {recentBlogPosts}
+            </BlogColumn>
+            <Divider/>
+            <BlogColumn>
+              <h1>Featured Posts</h1>
+              {featuredBlogPosts}
+            </BlogColumn>
+          </BlogSection>
+        </ShadowWrapper>
+        <ImagePreviewSection posts={featuredProjectPostEdges} data={data}/>
+        <ShadowWrapper>
+          <ContactSection>
+            <h1>Want to get in touch?</h1>
+            <p>Shoot me an email or check out any of the other links below to find me elsewhere on the web</p>
+          </ContactSection>
+        </ShadowWrapper>
       </IndexWrapper>
     )
   }
@@ -167,18 +175,7 @@ export const pageQuery = graphql`
     ) {
       edges {
         node {
-          id
-          timeToRead
-          excerpt(pruneLength: 140)
-          fields {
-            date
-            slug
-          }
-          frontmatter {
-            title
-            icon
-            tags
-          }
+          ...TextPreviewFragment
         }
       }
     }
@@ -189,18 +186,7 @@ export const pageQuery = graphql`
     ) {
       edges {
         node {
-          id
-          timeToRead
-          excerpt(pruneLength: 140)
-          fields {
-            date
-            slug
-          }
-          frontmatter {
-            title
-            icon
-            tags
-          }
+          ...TextPreviewFragment
         }
       }
     }

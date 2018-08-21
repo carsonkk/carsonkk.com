@@ -8,7 +8,7 @@
   },
   {
     "name": "linkedin",
-    "url": "https://linkedin.com/in/carsonkk",
+    "url": "https://www.linkedin.com/in/carsonkk",
     "text": "LinkedIn",
     "color": "#0077b5",
     "icon": ["fab", "linkedin-in"]
@@ -22,7 +22,7 @@
   },
   {
     "name": "reddit",
-    "url": "https://reddit.com/carsonkk",
+    "url": "https://www.reddit.com/user/carsonkk",
     "text": "Reddit",
     "color": "#ff4500",
     "icon": ["fab", "reddit-alien"]
@@ -43,14 +43,14 @@
   },
   {
     "name": "behance",
-    "url": "https://behance.com",
+    "url": "https://www.behance.net/carsonkk",
     "text": "Behance",
     "color": "#0057ff",
     "icon": ["fab", "behance"]
   },
   {
     "naurlme": "flickr",
-    "url": "https://www.flickr.com/photos/carsonkk/",
+    "url": "https://www.flickr.com/photos/carsonkk",
     "text": "Flickr",
     "color": "#ff0083",
     "icon": ["fab", "flickr"]

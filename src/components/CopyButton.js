@@ -1,8 +1,9 @@
 import React from 'react'
 import Styled from 'styled-components'
 
-import Button from './Button'
+import GenericButton from './GenericButton'
 import { DarkTheme } from '../utils/Theme'
+
 
 class CopyButton extends React.Component {
   constructor(props) {
@@ -41,10 +42,9 @@ class CopyButton extends React.Component {
   }
 
   render() {
-    const CopyButton = Styled(Button)`
+    const CopyButtonWrapper = Styled(GenericButton)`
       && {
         button {
-          transition: opacity 0.3s;
           position: absolute;
           right: 0;
           margin: 0.5rem 0.5rem 0 0;
@@ -57,19 +57,19 @@ class CopyButton extends React.Component {
           :hover {
             opacity: 1;
           }
-          span > svg {
+          svg {
             font-size: 0.675rem;
-            color: ${DarkTheme.primary};
+            color: ${DarkTheme.color};
           }
         }
       }
     `
 
     return (
-      <CopyButton
+      <CopyButtonWrapper
         type='action'
-        icon={['fas', 'clone']}
         text='Copy'
+        icon={['fas', 'clone']}
         func={this.handleClick()}
       />
     )

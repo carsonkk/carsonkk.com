@@ -4,18 +4,20 @@ import ReactMarkdown from 'react-markdown'
 import Styled from 'styled-components'
 import RehypeReact from 'rehype-react'
 
+import GenericButton from '../components/GenericButton'
 import MetaText from '../components/MetaText'
-import { GutterContainer } from '../components/Container'
+import TextPreview from '../components/TextPreview'
+import { PostContainer } from '../utils/Container'
 import { FontSans } from '../utils/Theme'
-import Button from '../components/Button'
 import AjaxGet from '../utils/Ajax'
-import BlogPostPreview from '../components/BlogPostPreview'
 
 const RenderAst = new RehypeReact({
   createElement: React.createElement,
   components: {},
 }).Compiler
+
 const tabStrs = ['About', 'Posts', 'Misc', 'README']
+
 
 class ProjectPost extends React.Component {
   constructor(props) {
@@ -83,6 +85,7 @@ class ProjectPost extends React.Component {
     const { htmlAst, frontmatter } = markdownRemark
     let tabs = []
     let contents = {}
+
     const Banner = Styled.div`
       margin-bottom: 1rem;
     `
@@ -138,15 +141,15 @@ class ProjectPost extends React.Component {
         padding-right: 0.5rem;
       }
     `
-    const GitHubButton = Styled(Button)`
+    const GitHubButton = Styled(GenericButton)`
       && {
+        svg {
+          font-size: 0.675rem;
+        }
         a {
           padding: 0.375rem 0.5rem;
           border: 2px solid ${props => props.theme.text};
           font-size: 1rem;
-          span > svg {
-            font-size: 0.675rem;
-          }
         }
       }
     `
@@ -154,7 +157,7 @@ class ProjectPost extends React.Component {
       display: flex;
       border-top: 0.125rem solid ${props => props.theme.text};
     `
-    const NavButton = Styled(Button)`
+    const NavButton = Styled(GenericButton)`
       && {
         button {
           border-radius: 0 0 0.5rem 0.5rem;
@@ -239,6 +242,7 @@ class ProjectPost extends React.Component {
         }
       }
     `
+
     tabs.push(
       <NavButton
         key={tabStrs[0]}
@@ -249,7 +253,9 @@ class ProjectPost extends React.Component {
         active={this.state.activeTab == tabStrs[0] ? 'active' : ''}
       />
     )
+
     contents[tabStrs[0]] = [RenderAst(htmlAst)]
+
     if(allMarkdownRemark) {
       tabs.push(
         <NavButton
@@ -262,7 +268,7 @@ class ProjectPost extends React.Component {
         />
       )
       contents[tabStrs[1]] = [allMarkdownRemark.edges.map(
-        edge => <BlogPostPreview key={edge.node.id} post={edge.node}/>
+        edge => <TextPreview key={edge.node.id} post={edge.node}/>
       )]
     }
     if(frontmatter.misc) {
@@ -293,7 +299,7 @@ class ProjectPost extends React.Component {
     }
 
     return (
-      <GutterContainer>
+      <PostContainer>
         <PostHeader>
           {frontmatter.banner &&
             <Banner>
@@ -312,11 +318,12 @@ class ProjectPost extends React.Component {
                 <div>
                   <Description>{frontmatter.description}</Description>
                 </div>
-                <MetaText sections={[{
-                  icon: ['fas', 'tags'],
-                  texts: markdownRemark.frontmatter.tags,
-                  links: markdownRemark.fields.tagSlugs,
-                }]}/>
+                <MetaText
+                  type='internal'
+                  icon={['fas', 'tags']}
+                  texts={markdownRemark.frontmatter.tags}
+                  links={markdownRemark.fields.tagSlugs}
+                />
               </div>
             </Left>
             <Right>
@@ -325,47 +332,48 @@ class ProjectPost extends React.Component {
                   <ButtonRow>
                     <GitHubButton
                       type='external'
-                      href={`//github.com/${frontmatter.github}/watchers`}
-                      icon={['fas', 'eye']}
+                      to={`//github.com/${frontmatter.github}/watchers`}
                       text={`Watch ${this.state.watchCount}`}
+                      icon={['fas', 'eye']}
                     />
                     <GitHubButton
                       type='external'
-                      href={`//github.com/${frontmatter.github}/stargazers`}
-                      icon={['fas', 'star']}
+                      to={`//github.com/${frontmatter.github}/stargazers`}
                       text={`Star ${this.state.starCount}`}
+                      icon={['fas', 'star']}
                     />
                     <GitHubButton
                       type='external'
-                      href={`//github.com/${frontmatter.github}/network`}
-                      icon={['fas', 'code-branch']}
+                      to={`//github.com/${frontmatter.github}/network`}
                       text={`Fork ${this.state.forkCount}`}
+                      icon={['fas', 'code-branch']}
                     />
                   </ButtonRow>
                 }
               </div>
               <div>
                 {this.state.license && 
-                  <MetaText sections={[{
-                    icon: ['fas', 'balance-scale'],
-                    texts: [`${this.state.license} License`]
-                  }]}/>
+                  <MetaText
+                    type='text'
+                    icon={['fas', 'balance-scale']}
+                    texts={[`${this.state.license} License`]}
+                  />
                 }
                 {frontmatter.github &&
-                  <MetaText sections={[{
-                    icon: ['fab', 'github'],
-                    texts: [`github.com/${frontmatter.github}`],
-                    links: [`//github.com/${frontmatter.github}`],
-                    type: 'external'
-                  }]}/>
+                  <MetaText
+                    type='external'
+                    icon={['fab', 'github']}
+                    texts={[`github.com/${frontmatter.github}`]}
+                    links={[`//github.com/${frontmatter.github}`]}
+                  />
                 }
                 {this.state.website &&
-                  <MetaText sections={[{
-                    icon: ['fas', 'link'],
-                    texts: [this.state.website],
-                    links: [`//${this.state.website}`],
-                    type: 'external'
-                  }]}/>
+                  <MetaText
+                    type='external'
+                    icon={['fas', 'link']}
+                    texts={[this.state.website]}
+                    links={[`//${this.state.website}`]}
+                  />
                 }
               </div>
             </Right>
@@ -377,7 +385,7 @@ class ProjectPost extends React.Component {
         <PostBody>
           {contents[this.state.activeTab]}
         </PostBody>
-      </GutterContainer>
+      </PostContainer>
     )
   }
 }
@@ -392,18 +400,7 @@ export const pageQuery = graphql`
     ) {
       edges {
         node {
-          id
-          timeToRead
-          excerpt(pruneLength: 140)
-          fields {
-            date
-            slug
-          }
-          frontmatter {
-            title
-            icon
-            tags
-          }
+          ...TextPreviewFragment
         }
       }
     }

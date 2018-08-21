@@ -2,47 +2,47 @@
   {
     "languages": [
       "C",
-      "C++",
-      "C#",
       "Python",
-      "Ruby",
-      "JavaScript",
+      "C#",
+      "C++",
       "Java",
+      "JavaScript",
       "HTML/JSX/ERB",
-      "CSS/SCSS"
+      "CSS/SCSS",
+      "Ruby"
     ],
     "libraries": [
+      "Rails",
       "React",
       "Gatsby",
-      "Rails",
       "jQuery",
       "Bootstrap",
-      ".NET",
+      "Node",
+      "Express",
       "Flask",
+      ".NET",
       "MongoDB",
       "PostgreSQL",
-      "Node",
       "OpenCV",
       "numpy",
       "ZooKeeper",
-      "libfuse",
-      "WPF",
       "pthreads",
-      "Express"
+      "libfuse",
+      "WPF"
     ],
-    "tools": [
-      "Unity",
-      "Git",
+    "software": [
       "VSCode",
-      "Vivado",
-      "Photoshop",
-      "Blender",
-      "Eagle",
-      "Visual Studio",
+      "Git",
+      "Eucalyptus",
       "AWS",
       "GAE",
-      "Eucalyptus",
-      "Linux"
+      "Visual Studio",
+      "Eagle",
+      "Vivado",
+      "Unity",
+      "Photoshop",
+      "Blender",
+      "Linux (Mint/CentOS)"
     ]
   }
 ]

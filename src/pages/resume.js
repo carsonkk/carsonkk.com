@@ -1,49 +1,46 @@
 import React from 'react'
-import Link from 'gatsby-link'
 import Img from 'gatsby-image'
-import Styled from 'styled-components'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { OutboundLink } from 'gatsby-plugin-google-analytics'
+import Styled, { ThemeProvider } from 'styled-components'
 
-import { GutterContainer } from '../components/Container'
+import SmartLink from '../components/SmartLink'
 import MetaText from '../components/MetaText'
-import { FontSans } from '../utils/Theme'
+import { LightTheme } from '../utils/Theme'
+import { FontSans, TextI } from '../utils/Text'
+import { PostContainer } from '../utils/Container'
+import { SIGBREAK } from 'constants';
+
 
 class ResumePage extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {isDarkTheme: false}
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  handleClick() {
-    this.setState(prevState => ({
-      isDarkTheme: !prevState.isDarkTheme
-    }));
-  }
-
   render() {
     const { data } = this.props
     const { siteMetadata } = data.site
-    const { allSocialJson, allExperienceJson, allEducationJson, 
-      skillJson, techJson, interestJson, me, favicon } = data
-    let email, linkedin, github
-    const ResumeWrapper = GutterContainer.extend`
+    const { allSocialJson, allExperienceJson, allProjectsJson, allProjectsRemark, 
+            allEducationJson, skillsJson, interestsJson, techJson, me } = data
+
+    const ResumeWrapper = PostContainer.extend`
       display: flex;
       flex-direction: column;
       box-shadow: 0rem 0rem 1.5rem rgba(0,0,0,0.3);
+      font-size: 1rem;
+      color: ${props => props.theme.text};
+      background-color: ${props => props.theme.primary};
     `
     const Header = Styled.div`
       display: flex;
+      flex-direction: column;
+      padding-bottom: 0.5rem;
+      border-bottom: 0.125rem solid rgba(0,0,0,0.1);
+    `
+    const HeaderTop = Styled.div`
+      display: flex;
       justify-content: space-between;
-      padding-bottom: 1.5rem;
-      border-bottom: 2px solid ${props => props.theme.caption};
     `
     const HeaderLeft = Styled.div`
+      flex: 1;
       display: flex;
       flex-direction: column;
-      > div:last-child {
-        margin-top: 0.5rem;
+      margin-right: 1.5rem;
+      > div {
         span {
           display: block;
           line-height: 1.25;
@@ -67,109 +64,155 @@ class ResumePage extends React.Component {
         }
       }
       h1 {
-        margin: 0;
+        margin-top: 0;
+        margin-bottom: 0.25rem;
         font-family: ${FontSans};
-        font-size: 3em;
+        font-size: 4.5rem;
       }
       span {
-        font-size: 1.125rem;
         font-weight: bold;
+        font-size: 1.25rem;
         color: ${props => props.theme.caption};
       }
     `
     const HeaderRight = Styled.div`
       display: flex;
       flex-direction: column;
+      margin-left: 1.5rem;
+      color: ${props => props.theme.text};
+    `
+    const HomeLinkText = Styled(MetaText)`
+      && {
+        svg {
+          color: ${props => props.theme.color}; 
+        }
+      }
+    `
+    const HeaderBottom = Styled.div`
+      display: flex;
+      justify-content: center;
+      margin-top: 0.5rem;
     `
     const Body = Styled.div`
       display: flex;
       justify-content: flex-end;
-      padding-top: 1.5rem;
-      h2, h3 {
+      margin-top: 1.5rem;
+      h2, h4 {
+        position: relative;
+        margin-top: 0;
+        margin-bottom: 0.25rem;
         font-family: ${FontSans};
+      }
+      h2 {
+        padding-bottom: 0.25rem;
+          :before {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 0.25rem;
+          background-color: ${props => props.theme.color};
+        }
+      }
+      ul {
+        margin: 0;
       }
     `
     const BodyLeft = Styled.div`
+      flex: 1 1 70%;
       display: flex;
       flex-direction: column;
-      flex-basis: 70%;
       padding-right: 1.5rem;
+      > div:first-child {
+        margin-top: 0;
+      }
     `
     const BodyRight = Styled.div`
+      flex: 1 1 30%;
       display: flex;
       flex-direction: column;
-      flex-basis: 30%;
       padding-left: 1.5rem;
-      border-left: 2px solid ${props => props.theme.caption};
-    `
-    const LinkText = Styled(MetaText)`
-      && {
-        span {
-          display: flex;
-          font-size: 1.25rem;
-          color: ${props => props.theme.text};
-          span > a {
-            color: ${props => props.theme.text};
-          }
-        }
+      border-left: 0.125rem solid rgba(0,0,0,0.1);
+      > div:first-child {
+        margin-top: 0;
       }
     `
     const SideSection = Styled.div`
       display: flex;
       flex-direction: column;
+      margin-top: 2rem;
     `
     const SideSubsection = Styled.div`
       display: flex;
       flex-direction: column;
+      margin-top: 1rem;
     `
-    allSocialJson.edges.forEach(edge => {
+
+    let email, linkedin, github
+    const socialLinks = allSocialJson.edges.map((edge, i) => {
       const { node } = edge
-      switch(node.name) {
-        case 'email':
-          email = <LinkText sections={[{
-            icon: node.icon,
-            texts: [node.url.split(':')[1]],
-            links: [node.url],
-            type: 'external'
-          }]}/>
-          break
-        case 'linkedin':
-          linkedin = <LinkText sections={[{
-            icon: node.icon,
-            texts: [node.url.split('//')[1]],
-            links: [node.url],
-            type: 'external'
-          }]}/>
-          break
-        case 'github':
-          github = <LinkText sections={[{
-            icon: node.icon,
-            texts: [node.url.split('//')[1]],
-            links: [node.url],
-            type: 'external'
-          }]}/>
-          break
+      let linkText = node.url
+      
+      if(node.name == 'email') {
+        email = i
+        linkText = linkText.substring(7)
       }
+      else if(node.name == 'linkedin') {
+        linkedin = i
+        linkText = linkText.substring(12)
+      }
+      else if(node.name == 'github') {
+        github = i
+        linkText = linkText.substring(8)
+      }
+
+      const LinkText = Styled(MetaText)`
+        && {
+          svg {
+            color: ${node.color}; 
+          }
+        }
+      `
+
+      return (
+        <LinkText
+          type='external'
+          icon={node.icon}
+          texts={[linkText]}
+          links={[node.url]}
+        />
+      )
     })
-    
+    const home = <HomeLinkText
+      type='internal'
+      icon={['fas', 'tree']}
+      texts={['carsonkk.com']}
+      links={['/']}
+    />
+
     const currentJob = allExperienceJson.edges[0].node
+    const statusSection = <TextI>I am currently a {currentJob.title} at {currentJob.company.text} in {currentJob.location}</TextI>
+
     const experienceSection = <SideSection>
       <h2>EXPERIENCE</h2>
       {allExperienceJson.edges.map((edge, i) => {
         const { node } = edge
         return(
           <SideSubsection key={i}>
-            <h3>{node.title}</h3>
+            <h4>{node.title}</h4>
             <span>
-              <OutboundLink href={node.company.url} target="_blank">
-                {node.company.text}
-              </OutboundLink>
+              <SmartLink 
+                theme={LightTheme}
+                type='external'
+                to={node.company.url}
+                text={node.company.text}
+              />
               <span>, {node.location}</span>
             </span>
-            <span>{node.start} - {node.end}</span>
-            
+            <TextI>{node.begin} - {node.end}</TextI>
             <ul>
-              {node.work.map((item, i) => {
+              {node.details.map((item, i) => {
                 return(
                   <li key={i}>{item}</li>
                 )
@@ -179,47 +222,132 @@ class ResumePage extends React.Component {
         )
       })}
     </SideSection>
+
+    const projectsSection = <SideSection>
+      <h2>PROJECTS</h2>
+      {allProjectsJson.edges.map((edge, i) => {
+        console.log(edge.node)
+        const { node } = edge
+        let remark
+        
+        for(let pjct of allProjectsRemark.edges) {
+          if(pjct.node.frontmatter.name == node.name) {
+            remark = pjct.node
+            break
+          }
+        }
+        const { slug } = remark.fields
+        const { github, website, description } = remark.frontmatter
+        
+        return(
+          <SideSubsection key={i}>
+            <h4>{node.name}</h4>
+            <span>
+              <span>
+                <SmartLink
+                  theme={LightTheme}
+                  type='internal'
+                  to={node.slug ? node.slug : slug}
+                  text='Writeup'
+                />
+              </span>
+              {(node.github || github) &&
+                <span>
+                  <span> // </span>
+                  <SmartLink
+                    theme={LightTheme}
+                    type='external'
+                    to={node.github ? node.github : `//github.com/${github}`}
+                    text='GitHub'
+                  />
+                </span>
+              }
+              {(node.website || website) &&
+                <span>
+                  <span> // </span>
+                  <SmartLink
+                    theme={LightTheme}
+                    type='external'
+                    to={node.website ? node.website : `//${website}`}
+                    text='Website'
+                  />
+                </span>
+              }
+            </span>
+            <TextI>{node.description ? node.description : description}</TextI>
+            <ul>
+              {node.details.map((item, i) => {
+                return(
+                  <li key={i}>{item}</li>
+                )
+              })}
+            </ul>
+          </SideSubsection>
+        )
+      })}
+    </SideSection>
+
     const educationSection = <SideSection>
       <h2>EDUCATION</h2>
       {allEducationJson.edges.map((edge, i) => {
         const { node } = edge
         return(
           <SideSubsection key={i}>
-            <h3>{node.degree}</h3>
-            <span>{node.university}</span>
-            <span>{node.gpa} GPA</span>
-            {node.details.map((detail, i) => {
-              return (
-                <span key={i}>{detail}</span>
-              )
-            })}
+            <h4>{node.degree.fullname}</h4>
+            <span>
+              <SmartLink
+                type='external'
+                to={node.department.url}
+                text={node.department.fullname}
+              />
+              {`, ${node.university.shorthand}`}
+            </span>
+            <TextI>Class of {node.degree.class}</TextI>
+            <ul>
+              {node.details.map((detail, i) => {
+                return (
+                  <li key={i}>{detail}</li>
+                )
+              })}
+            </ul>
           </SideSubsection>
         )
       })}
     </SideSection>
-    const skillSection = <SideSection>
+
+    const skillsSection = <SideSection>
       <h2>SKILLS</h2>
       <SideSubsection>
-        <h3>SOFTWARE</h3>
-        {skillJson.software.map((skill, i) => {
+        <h4>SOFTWARE</h4>
+        {skillsJson.software.map((skill, i) => {
           return (
             <span key={i}>{skill}</span>
           )
         })}
       </SideSubsection>
       <SideSubsection>
-        <h3>HARDWARE</h3>
-        {skillJson.hardware.map((skill, i) => {
+        <h4>HARDWARE</h4>
+        {skillsJson.hardware.map((skill, i) => {
           return (
             <span key={i}>{skill}</span>
           )
         })}
       </SideSubsection>
     </SideSection>
+
+    const interestsSection = <SideSection>
+    <h2>INTERESTS</h2>
+    {interestsJson.buzzwords.map((buzzword, i) => {
+      return (
+        <span key={i}>{buzzword}</span>
+      )
+    })}
+    </SideSection>
+
     const techSection = <SideSection>
       <h2>TECH</h2>
       <SideSubsection>
-        <h3>LANGUAGES</h3>
+        <h4>LANGUAGES</h4>
         {techJson.languages.map((language, i) => {
           return (
             <span key={i}>{language}</span>
@@ -227,7 +355,7 @@ class ResumePage extends React.Component {
         })}
       </SideSubsection>
       <SideSubsection>
-        <h3>LIBRARIES</h3>
+        <h4>LIBRARIES</h4>
         {techJson.libraries.map((library, i) => {
           return (
             <span key={i}>{library}</span>
@@ -235,66 +363,56 @@ class ResumePage extends React.Component {
         })}
       </SideSubsection>
       <SideSubsection>
-        <h3>SOFTWARE</h3>
-        {techJson.tools.map((tool, i) => {
+        <h4>SOFTWARE</h4>
+        {techJson.software.map((tool, i) => {
           return (
             <span key={i}>{tool}</span>
           )
         })}
       </SideSubsection>
     </SideSection>
-    const interestSection = <SideSection>
-      <h2>INTERESTS</h2>
-      <SideSubsection>
-        {interestJson.buzzwords.map((buzzword, i) => {
-          return (
-            <span key={i}>{buzzword}</span>
-          )
-        })}
-      </SideSubsection>
-    </SideSection>
 
     return (
-      <ResumeWrapper>
-        <Header>
-          <HeaderLeft>
-            <NameWrapper>
-              {me &&
-                <Img resolutions={me.resolutions} alt="Me"/>
-              }
-              <div>
-                <h1>{siteMetadata.author}</h1>
-                <span>{siteMetadata.about}</span>
-              </div>
-            </NameWrapper>
-            <div>
-              <span>{currentJob.title}</span>
-              <span>{currentJob.company.text}, {currentJob.location}</span>
-            </div>
-          </HeaderLeft>
-          <HeaderRight>
-            {email}
-            {linkedin}
-            {github}
-            <LinkText sections={[{
-              image: favicon.resolutions,
-              texts: [siteMetadata.text],
-              links: [siteMetadata.home]
-            }]}/>
-          </HeaderRight>
-        </Header>
-        <Body>
-          <BodyLeft>
-            {experienceSection}
-          </BodyLeft>
-          <BodyRight>
-            {educationSection}
-            {skillSection}
-            {techSection}
-            {interestSection}
-          </BodyRight>
-        </Body>
-      </ResumeWrapper>
+      <ThemeProvider theme={LightTheme}>
+        <ResumeWrapper>
+          <Header>
+            <HeaderTop>
+              <HeaderLeft>
+                <NameWrapper>
+                  {me &&
+                    <Img resolutions={me.resolutions} alt="Me"/>
+                  }
+                  <div>
+                    <h1>{siteMetadata.author}</h1>
+                    <span>{siteMetadata.about}</span>
+                  </div>
+                </NameWrapper>
+              </HeaderLeft>
+              <HeaderRight>
+                {socialLinks[email]}
+                {socialLinks[linkedin]}
+                {socialLinks[github]}
+                {home}
+              </HeaderRight>
+            </HeaderTop>
+            <HeaderBottom>
+              {statusSection}
+            </HeaderBottom>
+          </Header>
+          <Body>
+            <BodyLeft>
+              {experienceSection}
+              {projectsSection}
+            </BodyLeft>
+            <BodyRight>
+              {educationSection}
+              {skillsSection}
+              {interestsSection}
+              {techSection}
+            </BodyRight>
+          </Body>
+        </ResumeWrapper>
+      </ThemeProvider>
     )
   }
 }
@@ -331,41 +449,75 @@ export const pageQuery = graphql`
             url
           }
           location
-          start
+          begin
           end
-          work
+          details
+        }
+      }
+    }
+    allProjectsJson {
+      edges {
+        node {
+          name
+          slug
+          github
+          website
+          description
+          details
+        }
+      }
+    }
+    allProjectsRemark: allMarkdownRemark(
+      filter: {fields: {kind: {eq: "project"} type: {eq: "page"}}}
+      sort: {order: ASC, fields: [fields___slug]}
+    ) {
+      edges {
+        node {
+          id
+          fields {
+            slug
+          }
+          frontmatter {
+            name
+            description
+            github
+            website
+          }
         }
       }
     }
     allEducationJson {
       edges {
         node {
-          university
-          degree
-          gpa
+          university {
+            shorthand
+          }
+          department {
+            fullname
+            url
+          }
+          degree {
+            fullname
+            class
+          }
           details
         }
       }
     }
-    skillJson {
+    skillsJson {
       software
       hardware
+    }
+    interestsJson {
+      buzzwords
     }
     techJson {
       languages
       libraries
-      tools
-    }
-    interestJson {
-      buzzwords
+      software
     }
     me: imageSharp(id: { regex: "/me.png/" }) {
-      resolutions(width: 100, height: 100, cropFocus: NORTH) {
-        ...GatsbyImageSharpResolutions
-      }
-    }
-    favicon: imageSharp(id: { regex: "/favicon.png/" }) {
-      resolutions(width: 32, height: 32) {
+      resolutions(width: 120, height: 120) {
         ...GatsbyImageSharpResolutions
       }
     }

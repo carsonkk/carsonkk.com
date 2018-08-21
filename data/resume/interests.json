@@ -2,18 +2,18 @@
   {
     "buzzwords": [
       "Distributed Systems",
+      "Cloud/Edge Computing",
       "Operating Systems",
       "File Systems",
-      "Cloud Computing",
-      "Edge Computing",
-      "Networking",
+      "Scalable Web Services",
+      "Databases",
+      "Embedded Systems",
       "IoT",
       "Machine Learning",
-      "Scalable Web Services",
       "Game Development",
-      "Databases",
+      "Networking",
       "Security",
-      "Embedded Systems"
+      "Computer Architecure"
     ]
   }
 ]

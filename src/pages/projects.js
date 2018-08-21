@@ -1,12 +1,12 @@
 import React from 'react'
 
-import PostImagePreviewSection from '../components/PostImagePreviewSection'
+import ImagePreviewSection from '../components/ImagePreviewSection'
 
 class ProjectsPage extends React.Component {
   render() {
     const { data } = this.props
     return (
-      <PostImagePreviewSection posts={data.allMarkdownRemark.edges} data={data}/>
+      <ImagePreviewSection posts={data.allMarkdownRemark.edges} data={data}/>
     )
   }
 }

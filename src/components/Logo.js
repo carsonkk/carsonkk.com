@@ -1,27 +1,30 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 import Styled from 'styled-components'
 
-import { FontBase } from '../../utils/Theme'
+import { FontBase } from '../utils/Text'
+
 
 class Logo extends React.Component {
   render() {
+    const { size } = this.props
+    const today = new Date()
     let Logo
+
     const LogoBase = Styled.div`
       display: flex;
       flex-direction: column;
-      margin: ${this.props.size/(10/3)}rem auto;
+      margin: ${size/4}rem auto;
       font-family: ${FontBase};
-      font-size: ${this.props.size}rem;
+      font-size: ${size}rem;
       font-style: italic;
       font-weight: bold;
       line-height: 1;
-
       :hover {
         .top-border, .bottom-border {
           transform: scaleX(1);
         }
-
         .left-border, .right-border {
           transform: scaleY(1);
         }
@@ -32,7 +35,6 @@ class Logo extends React.Component {
       }
       .wrap-border {
         display: flex;
-
         span {
           padding-left: 0.5rem;
           padding-right: 0.25rem;
@@ -41,14 +43,13 @@ class Logo extends React.Component {
       .top-border, .bottom-border {
         transform: scaleX(0);
         width: 100%;
-        height: ${this.props.size / 16}rem;
+        height: ${size / 16}rem;
       }
       .left-border, .right-border {
         transform: scaleY(0);
-        width: ${this.props.size / 16}rem;
+        width: ${size / 16}rem;
       }
     `
-    const today = new Date()
     switch (today.getDay()) {
       case 0:
         Logo = LogoBase.extend`
@@ -208,6 +209,10 @@ class Logo extends React.Component {
       </Logo>
     )
   }
+}
+
+Logo.propTypes = {
+  size: PropTypes.number.isRequired
 }
 
 export default Logo

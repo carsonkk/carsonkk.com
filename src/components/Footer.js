@@ -1,12 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Styled from 'styled-components'
 
 import Logo from './Logo'
-import Button from '../Button'
+import GenericButton from './GenericButton'
+
 
 class Footer extends React.Component {
   render() {
-    const NavFooter = Styled.footer`
+    const { links, isDarkTheme, handleClickTheme } = this.props
+
+    const FooterWrapper = Styled.footer`
       flex: 0 1 auto;
       display: flex;
       flex-direction: column;
@@ -51,7 +55,7 @@ class Footer extends React.Component {
       margin: 0;
       padding: 0;
     `
-    const ThemeButton = Styled(Button)`
+    const ThemeButton = Styled(GenericButton)`
       && {
         position: absolute;
         bottom: 0;
@@ -62,31 +66,32 @@ class Footer extends React.Component {
           padding: 0.25rem 0.125rem;
           :hover {
             background-color: transparent;
-            span > svg {
+            svg {
               color: ${props => props.theme.toggle};
             }
           }
-          span > svg {
+          svg {
             vertical-align: middle;
             font-size: 2rem;
           }
         }
       }
     `
-    const items = this.props.links.map((link, i) => {
+    
+    const items = links.map((link, i) => {
       const { node } = link
-      const SocialButton = Styled(Button)`
+      const SocialButton = Styled(GenericButton)`
         && {
           a {
             margin: 0 0.5rem;
             padding: 0.25rem 0.125rem;
             :hover {
               background-color: ${props => props.theme.social};
-              span > svg {
+              svg {
                 color: ${node.color};
               }
             }
-            span > svg {
+            svg {
               vertical-align: middle;
               font-size: 2rem;
             }
@@ -97,16 +102,16 @@ class Footer extends React.Component {
         <SocialButton 
           key={i}
           type='external'
-          href={node.url}
+          to={node.url}
           title={node.text}
           icon={node.icon}
-          fixedWidth={true}
+          isFixedWidth={true}
         />
       )
     })
 
     return (
-      <NavFooter>
+      <FooterWrapper>
         <div>
           <div>
             <div>
@@ -122,15 +127,21 @@ class Footer extends React.Component {
           </div>
           <ThemeButton
             type='action'
-            icon={this.props.isDarkTheme ? ['fas', 'moon'] : ['fas', 'sun']}
-            title={this.props.isDarkTheme ? 'brighter than a thousand suns...' : 'my eyes, they burn! go back!'}
-            func={this.props.handleClickTheme}
-            fixedWidth={true}
+            title={isDarkTheme ? 'brighter than a thousand suns...' : 'my eyes, they burn! go back!'}
+            icon={isDarkTheme ? ['fas', 'moon'] : ['fas', 'sun']}
+            func={handleClickTheme}
+            isFixedWidth={true}
           />
         </div>
-      </NavFooter>
+      </FooterWrapper>
     )
   }
+}
+
+Footer.propTypes = {
+  links: PropTypes.array.isRequired,
+  handleClickTheme: PropTypes.func.isRequired,
+  isDarkTheme: PropTypes.bool.isRequired
 }
 
 export default Footer

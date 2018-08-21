@@ -3,6 +3,7 @@ const path = require(`path`)
 
 let targetTags = []
 
+
 exports.createPages = ({ graphql, boundActionCreators }) => {
   const { createPage } = boundActionCreators
 

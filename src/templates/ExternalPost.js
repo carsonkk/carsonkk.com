@@ -13,7 +13,7 @@ class External extends React.Component {
       background-color: white;
     `
     if(typeof window !== 'undefined') {
-      window.location.replace(this.props.data.markdownRemark.frontmatter.external)
+      window.location.replace(this.props.data.markdownRemark.frontmatter.website)
     }
     return(
       <RedirectBackground/>
@@ -27,7 +27,7 @@ export const pageQuery = graphql`
   query ExternalPostQuery($slug: String!) {
     markdownRemark(fields: {slug: {eq: $slug}}) {
       frontmatter {
-        external
+        website
       }
     }
   }

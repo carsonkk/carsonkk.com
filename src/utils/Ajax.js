@@ -5,8 +5,7 @@ export default function AjaxGet(url, callback) {
   }
   const xhr = new XMLHttpRequest()
   xhr.onreadystatechange = () => {
-    if (xhr.readyState === XMLHttpRequest.DONE &&
-        xhr.status === 200) {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       callback(JSON.parse(xhr.responseText))
     }
   }

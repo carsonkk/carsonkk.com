@@ -1,26 +1,50 @@
 [
   {
-    "university": "University of California, Santa Barbara",
-    "abbreviation": "UCSB",
-    "degree": "BS, Computer Engineering",
-    "gpa": "3.76",
-    "details": [
-      "SB Hacks Member",
-      "TBP Honors Society Officer",
-      "Little/Big Engineer Officer",
-      "Regents Scholar",
-      "Honors Program"
-    ]
-  },
-  {
-    "university": "University of California, Santa Barbara",
-    "abbreviation": "UCSB",
-    "degree": "MS, Computer Science",
-    "gpa": "3.78",
+    "university": {
+      "fullanme": "University of California, Santa Barbara",
+      "shorthand": "UC Santa Barbara",
+      "abbreviation": "UCSB",
+      "url": "https://www.ucsb.edu"
+    },
+    "department": {
+      "fullname": "Computer Science",
+      "abbreviation": "CS",
+      "url": "https://www.cs.ucsb.edu"
+    },
+    "degree": {
+      "fullname": "Master's of Science",
+      "abbreviation": "MS",
+      "class": "2018"
+    },
     "details": [
       "Emphasis in Systems",
       "Graduate Student Researcher",
       "Teaching Assitant"
+    ]
+  },
+  {
+    "university": {
+      "fullanme": "University of California, Santa Barbara",
+      "shorthand": "UC Santa Barbara",
+      "abbreviation": "UCSB",
+      "url": "https://www.ucsb.edu"
+    },
+    "department": {
+      "fullname": "Computer Engineering",
+      "abbreviation": "CE",
+      "url": "https://www.ce.ucsb.edu"
+    },
+    "degree": {
+      "fullname": "Bachelor's of Science",
+      "abbreviation": "BS",
+      "class": "2017"
+    },
+    "details": [
+      "Regents Scholar",
+      "Honors Program",
+      "SB Hacks Organizer",
+      "TBP Honors Society Officer",
+      "Little/Big Engineer Officer"
     ]
   }
 ]

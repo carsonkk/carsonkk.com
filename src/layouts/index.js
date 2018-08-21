@@ -3,9 +3,11 @@ import Helmet from 'react-helmet'
 import Styled, { ThemeProvider } from 'styled-components'
 
 import '../css/prism-material.css'
-import Header from '../components/Navigation/Header'
-import Footer from '../components/Navigation/Footer'
-import { DarkTheme, LightTheme, FontSans } from '../utils/Theme'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import { DarkTheme, LightTheme } from '../utils/Theme'
+import { FontSans, LinkStyle } from '../utils/Text'
+
 
 class IndexLayout extends React.Component {
   constructor(props) {
@@ -29,25 +31,34 @@ class IndexLayout extends React.Component {
       height: 100%;
       font-family: ${FontSans};
       font-size: 1.25rem;
-      line-height: 1.55;
+      line-height: 1.5;
       text-align: left;
       box-sizing: border-box;
       color: ${props => props.theme.text};
       background-color: ${props => props.theme.primary};
-      a {
-        color: ${props => props.theme.text};
-        text-decoration: none;
-      }
-      p > a,
-      li > a {
-        text-decoration: underline;
-      }
       h1, h2, h3, h4, h5, h6 {
         font-family: ${FontSans};
         line-height: 1;
       }
       blockquote {
         margin: 0;
+      }
+      a {
+        text-decoration: none;
+        color: ${props => props.theme.text};
+      }
+      p, li {
+        ${LinkStyle}
+        a {
+          transition: all 0.3s;
+          color: ${props => props.theme.color};
+          :hover {
+            color: ${props => props.theme.accent};
+          }
+          :before {
+            background-color: ${props => props.theme.accent};
+          }
+        }
       }
     `
     const MainWrapper = Styled.main`

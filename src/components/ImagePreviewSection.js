@@ -1,9 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Styled from 'styled-components'
 
-import PostImagePreview from './PostImagePreview'
+import ImagePreview from './ImagePreview'
 
-class PostImagePreviewSection extends React.Component {
+
+class ImagePreviewSection extends React.Component {
   render() {
     const { data, posts } = this.props
     const { pSingle, pDouble, pTriple } = data
@@ -16,23 +18,29 @@ class PostImagePreviewSection extends React.Component {
       else if(posts.length%3 == 1 && i == posts.length-1) {
         background = bTriple ? bTriple.childImageSharp.sizes : pTriple.sizes
       }
-      return(<PostImagePreview key={post.node.id} post={post.node} image={background}/>)
+      return(<ImagePreview key={post.node.id} post={post.node} image={background}/>)
     })
-    const PostImagePreviewSectionWrapper = Styled.div`
+    
+    const ImagePreviewSectionWrapper = Styled.div`
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
     `
 
     return (
-      <PostImagePreviewSectionWrapper>
+      <ImagePreviewSectionWrapper>
         {previews}
-      </PostImagePreviewSectionWrapper>
+      </ImagePreviewSectionWrapper>
     )
   }
 }
 
-export default PostImagePreviewSection
+ImagePreviewSection.propTypes = {
+  data: PropTypes.object.isRequired,
+  posts: PropTypes.array.isRequired
+}
+
+export default ImagePreviewSection
 
 export const componentQuery = graphql`
   fragment PlaceholderImageFragment on RootQueryType {

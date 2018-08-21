@@ -1,6 +1,3 @@
-import { css } from 'styled-components'
-import PtSans from 'typeface-pt-sans'
-import PtSerif from 'typeface-pt-serif'
 import fontawesome from '@fortawesome/fontawesome'
 import regular from '@fortawesome/fontawesome-free-regular'
 import solid from '@fortawesome/fontawesome-free-solid'
@@ -47,7 +44,8 @@ export function RandomIcon() {
 export const DarkTheme = {
   primary:   '#282c34',
   secondary: '#21252b',
-  accent:    '#3a4253',
+  color:     '#2182ff',
+  accent:    '#6ecfff',
   text:      '#f4f4f4',
   caption:   '#bbbbbb',
   social:    '#f4f4f4',
@@ -56,7 +54,8 @@ export const DarkTheme = {
 export const LightTheme = {
   primary:   '#f9f9f9',
   secondary: '#e2e2e2',
-  accent:    '#f6f6f6',
+  color:     '#2182ff',
+  accent:    '#2c5c86',
   text:      '#2a2a2a',
   caption:   '#4f4f4f',
   social:    'transparent',
@@ -84,43 +83,3 @@ export function RandomColor() {
   ]
   return colors[Math.floor(Math.random()*colors.length)]
 }
-export const FontBase = ` 
-  -apple-system, 
-  BlinkMacSystemFont, 
-  "Segoe UI", 
-  Roboto, 
-  "Helvetica Neue", 
-  Arial, 
-  sans-serif, 
-  "Apple Color Emoji", 
-  "Segoe UI Emoji", 
-  "Segoe UI Symbol"
-`
-export const FontSans = `
-  "PT Sans", 
-  ${FontBase}
-`
-export const FontSerif = `
-  "PT Serif", 
-  ${FontBase}
-`
-const MinWidth = {
-  s: 576,
-  m: 800,
-  l: 1024,
-  xl: 1248,
-}
-export const MaxWidth = {
-  s: 544,
-  m: 768,
-  l: 992,
-  xl: 1216,
-}
-export const Media = Object.keys(MinWidth).reduce((acc, label) => {
-  acc[label] = (...args) => css`
-    @media (min-width: ${MinWidth[label] / 16}rem) {
-      ${css(...args)}
-    }
-  `
-  return acc
-}, {})

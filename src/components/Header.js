@@ -2,9 +2,10 @@ import React from 'react'
 import Styled, { keyframes } from 'styled-components'
 import { fadeInUp, fadeOutDown } from 'react-animations'
 
-import Button from '../Button'
+import GenericButton from './GenericButton'
 import Logo from './Logo'
-import { RandomIcon } from '../../utils/Theme'
+import { RandomIcon } from '../utils/Theme'
+
 
 class Header extends React.Component {
   render() {
@@ -14,7 +15,6 @@ class Header extends React.Component {
       flex-direction: column;
       justify-content: space-between;
       z-index: 100;
-      min-height: 15vh;
       background-color: ${props => props.theme.secondary};
       box-shadow: 0rem 0rem 1.5rem -0.25rem black;
     `
@@ -24,17 +24,17 @@ class Header extends React.Component {
       flex-direction: row;
       justify-content: center;
     `
-    const TabButton = Styled(Button)`
+    const TabButton = Styled(GenericButton)`
       && {
         a {
           border-radius: 0.5rem 0.5rem 0 0;
           :hover {
-            span > svg {
+            svg {
               animation: 0.3s ${keyframes`${fadeInUp}`};
               visibility: visible;
             }
           }
-          span > svg {
+          svg {
             animation: 0.3s ${keyframes`${fadeOutDown}`};
             transition: visibility 0.3s;
             visibility: hidden;
@@ -42,7 +42,7 @@ class Header extends React.Component {
           }
         }
         a.active {
-          span > svg {
+          svg {
             animation: none;
             visibility: visible;
           }
@@ -55,28 +55,34 @@ class Header extends React.Component {
         <NavItems>
           <TabButton
             type='internal'
-            href='/blog'
-            icon={['far', 'comment']}
+            to='/blog'
             text='Blog'
+            icon={['far', 'comment']}
           />
           <TabButton
             type='internal'
-            href='/projects'
-            icon={['fas', 'code']}
+            to='/projects'
             text='Projects'
+            icon={['fas', 'code']}
           />
           <TabButton
             type='internal'
-            href='/misc'
-            icon={RandomIcon()}
+            to='/misc'
             text='Misc'
-            fixedWidth={true}
+            icon={RandomIcon()}
+            isFixedWidth={true}
           />
           <TabButton
             type='internal'
-            href='/about'
-            icon={['fas', 'tree']}
+            to='/about'
             text='About'
+            icon={['fas', 'tree']}
+          />
+          <TabButton
+            type='internal'
+            to='/resume'
+            text='Resume'
+            icon={['fas', 'paper-plane']}
           />
         </NavItems>
       </NavHeader>
