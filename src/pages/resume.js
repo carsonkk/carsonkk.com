@@ -1,9 +1,7 @@
 import React from 'react'
 import Img from 'gatsby-image'
 import Styled, { ThemeProvider } from 'styled-components'
-//import html2canvas from 'html2canvas'
-//import jsPDF from 'jspdf'
-import SmartButton from '../components/SmartButton'
+import GenericButton from '../components/GenericButton'
 import SmartLink from '../components/SmartLink'
 import MetaText from '../components/MetaText'
 import { LightTheme } from '../utils/Theme'
@@ -16,14 +14,11 @@ const rootId = 'resume-root'
 class ResumePage extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      download: () => { return }
-    }
-    //this.handleClick = this.handleClick.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
-  componentDidMount() {
-    this.setState({download: HtmlToPdf(`#${rootId}`, 1)})
+  handleClick = () => (e) => {
+    HtmlToPdf('Resume-KyleCarson.pdf', `#${rootId}`, 1)
   }
 
   render() {
@@ -35,6 +30,7 @@ class ResumePage extends React.Component {
     const ResumeWrapper = PostContainer.extend`
       display: flex;
       flex-direction: column;
+      
       box-shadow: 0rem 0rem 1.5rem rgba(0,0,0,0.3);
       font-size: 1rem;
       color: ${props => props.theme.text};
@@ -409,11 +405,11 @@ class ResumePage extends React.Component {
 
     return (
       <div>
-        <SmartButton
+        <GenericButton
           type='action'
           text='Download'
           icon={['fas', 'paper-plane']}
-          func={this.download}
+          func={this.handleClick()}
         />
         <ThemeProvider theme={LightTheme}>
           <ResumeWrapper id={rootId}>

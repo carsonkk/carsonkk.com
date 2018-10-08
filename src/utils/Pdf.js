@@ -1,8 +1,7 @@
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 
-export default function HtmlToPdf(selector, quality) {
-  const filename = 'resumexs.pdf'
+export default function HtmlToPdf(filename, selector, quality) {
   html2canvas(
     document.querySelector(selector), 
     {scale: quality}
