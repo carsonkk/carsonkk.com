@@ -1,16 +1,31 @@
 import React from 'react'
 import Img from 'gatsby-image'
 import Styled, { ThemeProvider } from 'styled-components'
-
+//import html2canvas from 'html2canvas'
+//import jsPDF from 'jspdf'
+import SmartButton from '../components/SmartButton'
 import SmartLink from '../components/SmartLink'
 import MetaText from '../components/MetaText'
 import { LightTheme } from '../utils/Theme'
 import { FontSans, TextI } from '../utils/Text'
 import { PostContainer } from '../utils/Container'
-import { SIGBREAK } from 'constants';
+import HtmlToPdf from '../utils/Pdf'
 
+const rootId = 'resume-root'
 
 class ResumePage extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      download: () => { return }
+    }
+    //this.handleClick = this.handleClick.bind(this)
+  }
+
+  componentDidMount() {
+    this.setState({download: HtmlToPdf(`#${rootId}`, 1)})
+  }
+
   render() {
     const { data } = this.props
     const { siteMetadata } = data.site
@@ -120,7 +135,7 @@ class ResumePage extends React.Component {
       }
     `
     const BodyLeft = Styled.div`
-      flex: 1 1 70%;
+      flex: 1 1 73%;
       display: flex;
       flex-direction: column;
       padding-right: 1.5rem;
@@ -129,7 +144,7 @@ class ResumePage extends React.Component {
       }
     `
     const BodyRight = Styled.div`
-      flex: 1 1 30%;
+      flex: 1 1 27%;
       display: flex;
       flex-direction: column;
       padding-left: 1.5rem;
@@ -146,6 +161,9 @@ class ResumePage extends React.Component {
     const SideSubsection = Styled.div`
       display: flex;
       flex-direction: column;
+      margin-top: 1rem;
+    `
+    const SideSubsectionList = Styled.div`
       margin-top: 1rem;
     `
 
@@ -226,7 +244,6 @@ class ResumePage extends React.Component {
     const projectsSection = <SideSection>
       <h2>PROJECTS</h2>
       {allProjectsJson.edges.map((edge, i) => {
-        console.log(edge.node)
         const { node } = edge
         let remark
         
@@ -300,7 +317,7 @@ class ResumePage extends React.Component {
                 to={node.department.url}
                 text={node.department.fullname}
               />
-              {`, ${node.university.shorthand}`}
+              {`, ${node.university.abbreviation}`}
             </span>
             <TextI>Class of {node.degree.class}</TextI>
             <ul>
@@ -346,73 +363,99 @@ class ResumePage extends React.Component {
 
     const techSection = <SideSection>
       <h2>TECH</h2>
-      <SideSubsection>
+      <SideSubsectionList>
         <h4>LANGUAGES</h4>
         {techJson.languages.map((language, i) => {
+          let divider = ''
+          if(i < techJson.languages.length-1) {
+            divider = <span>, </span>
+          }
           return (
-            <span key={i}>{language}</span>
+            <span key={i}>
+              {language}{divider}
+            </span>
           )
         })}
-      </SideSubsection>
-      <SideSubsection>
+      </SideSubsectionList>
+      <SideSubsectionList>
         <h4>LIBRARIES</h4>
         {techJson.libraries.map((library, i) => {
+          let divider = ''
+          if(i < techJson.libraries.length-1) {
+            divider = <span>, </span>
+          }
           return (
-            <span key={i}>{library}</span>
+            <span key={i}>
+              {library}{divider}
+            </span>
           )
         })}
-      </SideSubsection>
-      <SideSubsection>
+      </SideSubsectionList>
+      <SideSubsectionList>
         <h4>SOFTWARE</h4>
-        {techJson.software.map((tool, i) => {
+        {techJson.softwares.map((software, i) => {
+          let divider = ''
+          if(i < techJson.softwares.length-1) {
+            divider = <span>, </span>
+          }
           return (
-            <span key={i}>{tool}</span>
+            <span key={i}>
+              {software}{divider}
+            </span>
           )
         })}
-      </SideSubsection>
+      </SideSubsectionList>
     </SideSection>
 
     return (
-      <ThemeProvider theme={LightTheme}>
-        <ResumeWrapper>
-          <Header>
-            <HeaderTop>
-              <HeaderLeft>
-                <NameWrapper>
-                  {me &&
-                    <Img resolutions={me.resolutions} alt="Me"/>
-                  }
-                  <div>
-                    <h1>{siteMetadata.author}</h1>
-                    <span>{siteMetadata.about}</span>
-                  </div>
-                </NameWrapper>
-              </HeaderLeft>
-              <HeaderRight>
-                {socialLinks[email]}
-                {socialLinks[linkedin]}
-                {socialLinks[github]}
-                {home}
-              </HeaderRight>
-            </HeaderTop>
-            <HeaderBottom>
-              {statusSection}
-            </HeaderBottom>
-          </Header>
-          <Body>
-            <BodyLeft>
-              {experienceSection}
-              {projectsSection}
-            </BodyLeft>
-            <BodyRight>
-              {educationSection}
-              {skillsSection}
-              {interestsSection}
-              {techSection}
-            </BodyRight>
-          </Body>
-        </ResumeWrapper>
-      </ThemeProvider>
+      <div>
+        <SmartButton
+          type='action'
+          text='Download'
+          icon={['fas', 'paper-plane']}
+          func={this.download}
+        />
+        <ThemeProvider theme={LightTheme}>
+          <ResumeWrapper id={rootId}>
+            <Header>
+              <HeaderTop>
+                <HeaderLeft>
+                  <NameWrapper>
+                    {me &&
+                      <Img resolutions={me.resolutions} alt="Me"/>
+                    }
+                    <div>
+                      <h1>{siteMetadata.author}</h1>
+                      <span>{siteMetadata.about}</span>
+                    </div>
+                  </NameWrapper>
+                </HeaderLeft>
+                <HeaderRight>
+                  {socialLinks[email]}
+                  {socialLinks[linkedin]}
+                  {socialLinks[github]}
+                  {home}
+                </HeaderRight>
+              </HeaderTop>
+              <HeaderBottom>
+                {statusSection}
+              </HeaderBottom>
+            </Header>
+            <Body>
+              <BodyLeft>
+                {experienceSection}
+                {projectsSection}
+              </BodyLeft>
+              <BodyRight>
+                {educationSection}
+                {skillsSection}
+                {interestsSection}
+                {techSection}
+              </BodyRight>
+            </Body>
+          </ResumeWrapper>
+        </ThemeProvider>
+      </div>
     )
   }
 }
@@ -491,6 +534,7 @@ export const pageQuery = graphql`
         node {
           university {
             shorthand
+            abbreviation
           }
           department {
             fullname
@@ -514,7 +558,7 @@ export const pageQuery = graphql`
     techJson {
       languages
       libraries
-      software
+      softwares
     }
     me: imageSharp(id: { regex: "/me.png/" }) {
       resolutions(width: 120, height: 120) {

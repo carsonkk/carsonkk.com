@@ -30,7 +30,7 @@
       "libfuse",
       "WPF"
     ],
-    "software": [
+    "softwares": [
       "VSCode",
       "Git",
       "Eucalyptus",
@@ -42,7 +42,7 @@
       "Unity",
       "Photoshop",
       "Blender",
-      "Linux (Mint/CentOS)"
+      "Linux(Mint/CentOS)"
     ]
   }
 ]
