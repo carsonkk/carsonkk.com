@@ -1,46 +1,93 @@
 import React from 'react'
+import ReactDOMServer from 'react-dom/server'
 import Img from 'gatsby-image'
 import Styled, { ThemeProvider } from 'styled-components'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { PDFExport } from '@progress/kendo-react-pdf'
+import canvg from 'canvg'
+
 import GenericButton from '../components/GenericButton'
 import SmartLink from '../components/SmartLink'
 import MetaText from '../components/MetaText'
 import { LightTheme } from '../utils/Theme'
 import { FontSans, TextI } from '../utils/Text'
-import { PostContainer } from '../utils/Container'
-import HtmlToPdf from '../utils/Pdf'
+import { PaperContainer } from '../utils/Container'
 
-const rootId = 'resume-root'
 
 class ResumePage extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      canvasLoaded: false,
+      icons: [
+        {
+          arr: ["far", "envelope"],
+          color: '#d93025',
+          img: null
+        },
+        {
+          arr: ["fab", "linkedin-in"],
+          color: '#0077b5',
+          img: null
+        },
+        {
+          arr: ["fab", "github"],
+          color: '#000000',
+          img: null
+        }
+      ]
+    }
     this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick = () => (e) => {
-    HtmlToPdf('Resume-KyleCarson.pdf', `#${rootId}`, 1)
+    this.resume.save()
+  }
+
+  convertSVGToImage(icons) {
+    let canv = this.refs.canvas
+    if(!this.state.canvasLoaded) {
+      this.setState({canvasLoaded: true})
+      canv.getContext('2d')
+      icons.forEach((icon) => {
+        let htmlString = ReactDOMServer.renderToStaticMarkup(
+          <FontAwesomeIcon icon={icon.arr} size={'3x'} style={
+            {color: icon.color, height: '128px', width: '128px'}
+          }/>
+        )
+        canvg(canv, htmlString)
+        icon.img = canv.toDataURL('image/png')
+      })
+      this.setState({})
+    }
+  }
+
+  componentDidMount() {
+    this.convertSVGToImage(this.state.icons)
   }
 
   render() {
     const { data } = this.props
     const { siteMetadata } = data.site
     const { allSocialJson, allExperienceJson, allProjectsJson, allProjectsRemark, 
-            allEducationJson, skillsJson, interestsJson, techJson, me } = data
+            allEducationJson, skillsJson, interestsJson, techJson, me, favicon } = data
+    const today = new Date()
 
-    const ResumeWrapper = PostContainer.extend`
+    // Use 'px' only for proper rendering through PDFExport
+    const ResumeWrapper = Styled.div`
+      padding: 32px;
       display: flex;
       flex-direction: column;
-      
-      box-shadow: 0rem 0rem 1.5rem rgba(0,0,0,0.3);
-      font-size: 1rem;
+      box-shadow: 0 0 24px rgba(0,0,0,0.3);
+      font-size: 16px;
       color: ${props => props.theme.text};
-      background-color: ${props => props.theme.primary};
+      background-color: white;
     `
     const Header = Styled.div`
       display: flex;
       flex-direction: column;
-      padding-bottom: 0.5rem;
-      border-bottom: 0.125rem solid rgba(0,0,0,0.1);
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(0,0,0,0.1);
     `
     const HeaderTop = Styled.div`
       display: flex;
@@ -50,7 +97,7 @@ class ResumePage extends React.Component {
       flex: 1;
       display: flex;
       flex-direction: column;
-      margin-right: 1.5rem;
+      margin-right: 24px;
       > div {
         span {
           display: block;
@@ -69,60 +116,65 @@ class ResumePage extends React.Component {
       flex-direction: row;
       align-items: center;
       .gatsby-image-outer-wrapper {
-        margin-right: 1rem;
+        margin-right: 16px;
         img {
           border-radius: 50%;
         }
       }
       h1 {
         margin-top: 0;
-        margin-bottom: 0.25rem;
+        margin-bottom: 4px;
         font-family: ${FontSans};
-        font-size: 4.5rem;
+        font-size: 72px;
       }
       span {
         font-weight: bold;
-        font-size: 1.25rem;
+        font-size: 20px;
         color: ${props => props.theme.caption};
       }
     `
     const HeaderRight = Styled.div`
       display: flex;
       flex-direction: column;
-      margin-left: 1.5rem;
+      margin-left: 24px;
       color: ${props => props.theme.text};
     `
-    const HomeLinkText = Styled(MetaText)`
+    const LinkText = Styled(MetaText)`
       && {
-        svg {
-          color: ${props => props.theme.color}; 
+        img, div {
+          display: inline-block;
+          width: 1em;
+          height: 1em;
+          vertical-align: -0.125em;
+          font-size: 1em;
+          text-align: center; 
         }
       }
     `
     const HeaderBottom = Styled.div`
       display: flex;
       justify-content: center;
-      margin-top: 0.5rem;
+      margin-top: 8px;
     `
     const Body = Styled.div`
       display: flex;
       justify-content: flex-end;
-      margin-top: 1.5rem;
+      margin-top: 8px;
       h2, h4 {
         position: relative;
         margin-top: 0;
-        margin-bottom: 0.25rem;
+        margin-bottom: 4px;
         font-family: ${FontSans};
       }
       h2 {
-        padding-bottom: 0.25rem;
+        padding-bottom: 4px;
           :before {
           content: '';
           position: absolute;
           bottom: 0;
           left: 0;
           width: 100%;
-          height: 0.25rem;
+          height: 4px;
           background-color: ${props => props.theme.color};
         }
       }
@@ -134,7 +186,7 @@ class ResumePage extends React.Component {
       flex: 1 1 73%;
       display: flex;
       flex-direction: column;
-      padding-right: 1.5rem;
+      padding-right: 24px;
       > div:first-child {
         margin-top: 0;
       }
@@ -143,8 +195,8 @@ class ResumePage extends React.Component {
       flex: 1 1 27%;
       display: flex;
       flex-direction: column;
-      padding-left: 1.5rem;
-      border-left: 0.125rem solid rgba(0,0,0,0.1);
+      padding-left: 24px;
+      border-left: 2px solid rgba(0,0,0,0.1);
       > div:first-child {
         margin-top: 0;
       }
@@ -152,22 +204,23 @@ class ResumePage extends React.Component {
     const SideSection = Styled.div`
       display: flex;
       flex-direction: column;
-      margin-top: 2rem;
+      margin-top: 32px;
     `
     const SideSubsection = Styled.div`
       display: flex;
       flex-direction: column;
-      margin-top: 1rem;
+      margin-top: 16px;
     `
     const SideSubsectionList = Styled.div`
-      margin-top: 1rem;
+      margin-top: 16px;
     `
 
     let email, linkedin, github
     const socialLinks = allSocialJson.edges.map((edge, i) => {
       const { node } = edge
       let linkText = node.url
-      
+      let iconImg = []
+
       if(node.name == 'email') {
         email = i
         linkText = linkText.substring(7)
@@ -180,29 +233,35 @@ class ResumePage extends React.Component {
         github = i
         linkText = linkText.substring(8)
       }
-
-      const LinkText = Styled(MetaText)`
-        && {
-          svg {
-            color: ${node.color}; 
+      
+      {this.state.canvasLoaded &&
+        this.state.icons.forEach((icon) => {
+          if(icon.arr[1] == node.icon[1]) {
+            iconImg.push(icon.img)
           }
-        }
-      `
+        })
+      }
 
       return (
-        <LinkText
-          type='external'
-          icon={node.icon}
-          texts={[linkText]}
-          links={[node.url]}
-        />
+        <span>
+          {this.state.canvasLoaded &&
+            <LinkText
+              type='external'
+              icon={iconImg}
+              texts={[linkText]}
+              links={[node.url]}
+              iconType='img'
+            />
+          }
+        </span>
       )
     })
-    const home = <HomeLinkText
+    const home = <LinkText
       type='internal'
-      icon={['fas', 'tree']}
+      icon={[favicon.sizes]}
       texts={['carsonkk.com']}
       links={['/']}
+      iconType='gimg'
     />
 
     const currentJob = allExperienceJson.edges[0].node
@@ -405,52 +464,64 @@ class ResumePage extends React.Component {
 
     return (
       <div>
+        {!this.state.canvasLoaded && <canvas ref="canvas" style={{ display: 'none' }}/>}
         <GenericButton
           type='action'
           text='Download'
           icon={['fas', 'paper-plane']}
           func={this.handleClick()}
         />
-        <ThemeProvider theme={LightTheme}>
-          <ResumeWrapper id={rootId}>
-            <Header>
-              <HeaderTop>
-                <HeaderLeft>
-                  <NameWrapper>
-                    {me &&
-                      <Img resolutions={me.resolutions} alt="Me"/>
-                    }
-                    <div>
-                      <h1>{siteMetadata.author}</h1>
-                      <span>{siteMetadata.about}</span>
-                    </div>
-                  </NameWrapper>
-                </HeaderLeft>
-                <HeaderRight>
-                  {socialLinks[email]}
-                  {socialLinks[linkedin]}
-                  {socialLinks[github]}
-                  {home}
-                </HeaderRight>
-              </HeaderTop>
-              <HeaderBottom>
-                {statusSection}
-              </HeaderBottom>
-            </Header>
-            <Body>
-              <BodyLeft>
-                {experienceSection}
-                {projectsSection}
-              </BodyLeft>
-              <BodyRight>
-                {educationSection}
-                {skillsSection}
-                {interestsSection}
-                {techSection}
-              </BodyRight>
-            </Body>
-          </ResumeWrapper>
-        </ThemeProvider>
+        <PDFExport
+          author='Kyle Carson'
+          creator='Kyle Carson'
+          paperSize={'Letter'}
+          fileName={`Kyle_Carson_Resume_${today.toLocaleDateString("en-US").replace(/\//g, '-')}.pdf`}
+          scale={0.5}
+          ref={(r) => this.resume = r}
+        >
+          <ThemeProvider theme={LightTheme}>
+            <PaperContainer>
+              <ResumeWrapper>
+                <Header>
+                  <HeaderTop>
+                    <HeaderLeft>
+                      <NameWrapper>
+                        {me &&
+                          <Img resolutions={me.resolutions} alt="Me"/>
+                        }
+                        <div>
+                          <h1>{siteMetadata.author}</h1>
+                          <span>{siteMetadata.about}</span>
+                        </div>
+                      </NameWrapper>
+                    </HeaderLeft>
+                    <HeaderRight>
+                      {socialLinks[email]}
+                      {socialLinks[linkedin]}
+                      {socialLinks[github]}
+                      {home}
+                    </HeaderRight>
+                  </HeaderTop>
+                  <HeaderBottom>
+                    {statusSection}
+                  </HeaderBottom>
+                </Header>
+                <Body>
+                  <BodyLeft>
+                    {experienceSection}
+                    {projectsSection}
+                  </BodyLeft>
+                  <BodyRight>
+                    {educationSection}
+                    {skillsSection}
+                    {interestsSection}
+                    {techSection}
+                  </BodyRight>
+                </Body>
+              </ResumeWrapper>
+            </PaperContainer>
+          </ThemeProvider>
+        </PDFExport>
       </div>
     )
   }
@@ -559,6 +630,11 @@ export const pageQuery = graphql`
     me: imageSharp(id: { regex: "/me.png/" }) {
       resolutions(width: 120, height: 120) {
         ...GatsbyImageSharpResolutions
+      }
+    }
+    favicon: imageSharp(id: { regex: "/favicon.png/" }) {
+      sizes(maxWidth: 128, maxHeight: 128) {
+        ...GatsbyImageSharpSizes
       }
     }
   }
