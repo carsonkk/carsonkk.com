@@ -2,6 +2,7 @@
 name: "Testerg"
 description: "Not a github project fsd Trtbrh"
 icon: dice-one
+draft: true
 tags:
   - "Testerg"
   - "C"

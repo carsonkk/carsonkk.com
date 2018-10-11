@@ -227,7 +227,9 @@ export default BlogPost
 
 export const pageQuery = graphql`
   query BlogPostBySlug($slug: String!) {
-    allMarkdownRemark(filter: {fields: {kind: {eq: "blog"}}}) {
+    allMarkdownRemark(
+      filter: {fields: {kind: {eq: "blog"}} frontmatter: {draft: {ne: true}}}
+    ) {
       edges {
         node {
           fields {

@@ -1,7 +1,7 @@
 ---
 banner: "banner.jpg"
 title: "Hello World: The remark Kitchen Sink"
-featured: true
+feature: true
 icon: code
 tags:
   - "AI"

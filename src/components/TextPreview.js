@@ -88,6 +88,7 @@ export const componentQuery = graphql`
       title
       icon
       tags
+      draft
     }
   }
 `

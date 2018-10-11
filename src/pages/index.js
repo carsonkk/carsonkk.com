@@ -170,7 +170,7 @@ export const pageQuery = graphql`
   query IndexPageQuery {
     recentBlogPosts: allMarkdownRemark(
       limit: 3
-      filter: {fields: {kind: {eq: "blog"}}}
+      filter: {fields: {kind: {eq: "blog"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
       sort: {order: DESC, fields: [fields___date]}
     ) {
       edges {
@@ -181,7 +181,7 @@ export const pageQuery = graphql`
     }
     featuredBlogPosts: allMarkdownRemark(
       limit: 3
-      filter: {fields: {kind: {eq: "blog"}} frontmatter: {featured: {eq: true}}}
+      filter: {fields: {kind: {eq: "blog"} type: {eq: "page"}} frontmatter: {draft: {ne: true} feature: {eq: true}}}
       sort: {order: DESC, fields: [fields___date]}
     ) {
       edges {
@@ -192,7 +192,7 @@ export const pageQuery = graphql`
     }
     featuredProjectPosts: allMarkdownRemark(
       limit: 6
-      filter: {fields: {kind: {eq: "project"} type: {eq: "page"}}  frontmatter: {featured: {eq: true}}}
+      filter: {fields: {kind: {eq: "project"} type: {eq: "page"}} frontmatter: {draft: {ne: true} feature: {eq: true}}}
       sort: {order: ASC, fields: [fields___slug]}
     ) {
       edges {

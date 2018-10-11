@@ -16,7 +16,7 @@ export default ProjectsPage
 export const pageQuery = graphql`
   query ProjectsPageQuery {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "project"} type: {eq: "page"}}}
+      filter: {fields: {kind: {eq: "project"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
       sort: {order: ASC, fields: [fields___slug]}
     ) {
       edges {
@@ -50,6 +50,7 @@ export const pageQuery = graphql`
             icon
             name
             description
+            draft
           }
         }
       }

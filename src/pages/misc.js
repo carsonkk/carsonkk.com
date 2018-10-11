@@ -16,7 +16,7 @@ export default MiscPage
 export const pageQuery = graphql`
   query MiscPageQuery {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "misc"}}}
+      filter: {fields: {kind: {eq: "misc"}} frontmatter: {draft: {ne: true}}}
       sort: {order: ASC, fields: [fields___slug]}
     ) {
       edges {

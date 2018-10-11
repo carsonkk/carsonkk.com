@@ -108,7 +108,7 @@ export default BlogPage
 export const pageQuery = graphql`
   query BlogQuery {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "blog"}}}
+      filter: {fields: {kind: {eq: "blog"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
       sort: {order: DESC, fields: [fields___date]}
     ) {
       edges {
