@@ -16,7 +16,7 @@ const MaxWidth = {
 
 const Media = Object.keys(MinWidth).reduce((acc, label) => {
   acc[label] = (...args) => css`
-    @media (min-width: ${MinWidth[label] / 16}rem) {
+    @media (min-width: ${MinWidth[label]/16}rem) {
       ${css(...args)}
     }
   `
@@ -29,21 +29,19 @@ export const Container = Styled.div`
   ${Media.s`max-width: ${MaxWidth.s/16}rem`}
   ${Media.m`max-width: ${MaxWidth.m/16}rem`}
   ${Media.l`max-width: ${MaxWidth.l/16}rem`}
-`
-// ${Media.xl`max-width: ${MaxWidth.xl/16}rem`}
 
+`
+//  ${Media.xl`max-width: ${MaxWidth.xl/16}rem`}
 export const PaddedContainer = Container.extend`
   padding-left: 4rem;
   padding-right: 4rem;
 `
 
 export const PostContainer = Container.extend`
-  margin-top: 4rem;
-  margin-bottom: 4rem;
-  padding: 2rem;
+  padding: 4rem 2rem;
 `
 
-const PaperMinWidth = {
+export const PaperMinWidth = {
   s: 491,
   m: 644,
   l: 950,
@@ -73,10 +71,14 @@ const PaperMedia = Object.keys(PaperMinWidth).reduce((acc, label) => {
 
 export const PaperContainer = Styled.div`
   margin: auto;
+  overflow: hidden;
   ${PaperMedia.s`width: ${PaperWidth.s}px`}
   ${PaperMedia.m`width: ${PaperWidth.m}px`}
   ${PaperMedia.l`width: ${PaperWidth.l}px`}
   ${PaperMedia.xl`width: ${PaperWidth.xl}px`}
+`
+
+export const PaperSizedContainer = PaperContainer.extend`
   ${PaperMedia.s`height: ${PaperHeight.s}px`}
   ${PaperMedia.m`height: ${PaperHeight.m}px`}
   ${PaperMedia.l`height: ${PaperHeight.l}px`}

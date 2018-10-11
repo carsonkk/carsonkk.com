@@ -10,6 +10,10 @@
     "end": "Present",
     "details": [
       "Research work related to Distributed Systems, Cloud Computing and Edge Computing"
+    ],
+    "tags": [
+      "software",
+      "web"
     ]
   },
   {
@@ -24,6 +28,9 @@
     "details": [
       "Research & development focused on integrating hardware designs for high definition image capture with an internal development platform using Xilinx Vivado and SDK",
       "Configuring & documenting an image-capture storage system for said platform"
+    ],
+    "tags": [
+      "hardware"
     ]
   },
   {
@@ -36,9 +43,11 @@
     "begin": "June 2015",
     "end": "March 2016",
     "details": [
-      "Software development primarily using C# and .NET",
       "Engineering a VB6/VBA-to-VB.NET transpiler in C# utilizing COM & Interop services and source code parsing based on a verbose set of regular expressions",
-      "Developing an automated file activity detection program to proactively detect and handle depreciated and mal-referenced files within individual Visual Basic projects throughout the codebase"
+      "Developing an automated file activity detection tool to proactively detect and handle depreciated and mal-referenced files within individual VB projects throughout the codebase"
+    ],
+    "tags": [
+      "software"
     ]
   },
   {
@@ -54,6 +63,10 @@
       "QA testing multiple website builds and releases for functionality across various platforms",
       "Agile development and maintenance of an automated regression software package for core QA tests in Java using Selenium",
       "Leadership position in QA team: managing workflow, daily scrums, and new QA team member training"
+    ],
+    "tags": [
+      "software",
+      "web"
     ]
   },
   {
@@ -67,8 +80,10 @@
     "end": "May 2015",
     "details": [
       "Webmaster of company's initial website built on WordPress",
-      "Marketing solutions including a Kickstarter for the company's product",
-      "Consulting on web development, UI/UX, and marketing strategies"
+      "Marketing solutions including a Kickstarter for the company's product"
+    ],
+    "tags": [
+      "web"
     ]
   }
 ]

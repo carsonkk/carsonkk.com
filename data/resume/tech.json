@@ -1,48 +1,87 @@
 [
   {
-    "languages": [
-      "C",
-      "Python",
-      "C#",
-      "C++",
-      "Java",
-      "JavaScript",
-      "HTML/JSX/ERB",
-      "CSS/SCSS",
-      "Ruby"
-    ],
-    "libraries": [
-      "Rails",
-      "React",
-      "Gatsby",
-      "jQuery",
-      "Bootstrap",
-      "Node",
-      "Express",
-      "Flask",
-      ".NET",
-      "MongoDB",
-      "PostgreSQL",
-      "OpenCV",
-      "numpy",
-      "ZooKeeper",
-      "pthreads",
-      "libfuse",
-      "WPF"
-    ],
-    "softwares": [
-      "VSCode",
-      "Git",
-      "Eucalyptus",
-      "AWS",
-      "GAE",
-      "Visual Studio",
-      "Eagle",
-      "Vivado",
-      "Unity",
-      "Photoshop",
-      "Blender",
-      "Linux(Mint/CentOS)"
-    ]
+    "software": {
+      "languages": [
+        "C",
+        "Python",
+        "C#",
+        "Java",
+        "C++",
+        "Ruby"
+      ],
+      "libraries": [
+        ".NET",
+        "ZooKeeper",
+        "pthreads",
+        "OpenCV",
+        "numpy",
+        "libfuse",
+        "WPF"
+      ],
+      "softwares": [
+        "VSCode",
+        "Git",
+        "Eucalyptus",
+        "AWS",
+        "GAE",
+        "Visual Studio",
+        "Linux(Mint/CentOS)",
+        "Unity",
+        "Photoshop",
+        "Blender"
+      ]
+    },
+    "web": {
+      "languages": [
+        "JavaScript",
+        "Ruby",
+        "Python",
+        "HTML/JSX/ERB",
+        "CSS/SCSS"
+      ],
+      "libraries": [
+        "Rails",
+        "React",
+        "Gatsby",
+        "jQuery",
+        "Bootstrap",
+        "Node",
+        "Express",
+        "Flask",
+        "MongoDB",
+        "PostgreSQL",
+        "ZooKeeper"
+      ],
+      "softwares": [
+        "VSCode",
+        "Git",
+        "Eucalyptus",
+        "AWS",
+        "GAE",
+        "Linux(Mint/CentOS)",
+        "Photoshop",
+        "Illustrator"
+      ]
+    },
+    "hardware": {
+      "languages": [
+        "C",
+        "C++",
+        "Verilog",
+        "SystemVerilog",
+        "MIPS"
+      ],
+      "libraries": [
+        "Xilinx SDK"
+      ],
+      "softwares": [
+        "VSCode",
+        "Git",
+        "Linux(Mint/CentOS)",
+        "Eagle",
+        "Arduino",
+        "Vivado"
+      ]
+    }
   }
 ]

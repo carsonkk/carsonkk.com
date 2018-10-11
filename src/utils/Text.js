@@ -2,12 +2,10 @@ import Styled from 'styled-components'
 import PtSans from 'typeface-pt-sans'
 import PtSerif from 'typeface-pt-serif'
 
-import { Colors } from './Theme'
-
 
 export const Text = Styled.span`
-  font-style: none;
-  font-weight: regular;
+  font-style: normal;
+  font-weight: normal;
   text-decoration: none;
 `
 

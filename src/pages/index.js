@@ -11,7 +11,7 @@ import { PaddedContainer } from '../utils/Container';
 class IndexPage extends React.Component {
   render() {
     const { data } = this.props
-    const { neature } = data
+    const { hiking } = data
     const featuredProjectPostEdges = data.featuredProjectPosts.edges
     const recentBlogPosts = data.recentBlogPosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
     const featuredBlogPosts = data.featuredBlogPosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
@@ -112,8 +112,8 @@ class IndexPage extends React.Component {
       <IndexWrapper>
         <IntroSection>
           <Background>
-            {neature &&
-              <Img sizes={neature.sizes} alt="neature"/>
+            {hiking &&
+              <Img sizes={hiking.sizes} alt="hiking"/>
             }
           </Background>
           <BackgroundFilter/>
@@ -191,7 +191,7 @@ export const pageQuery = graphql`
       }
     }
     featuredProjectPosts: allMarkdownRemark(
-      limit: 3
+      limit: 6
       filter: {fields: {kind: {eq: "project"} type: {eq: "page"}}  frontmatter: {featured: {eq: true}}}
       sort: {order: ASC, fields: [fields___slug]}
     ) {
@@ -231,8 +231,8 @@ export const pageQuery = graphql`
       }
     }
     ...PlaceholderImageFragment
-    neature: imageSharp(id: { regex: "/neature.jpg/" }) {
-      sizes(maxWidth: 1500, maxHeight: 750, cropFocus: CENTER) {
+    hiking: imageSharp(id: { regex: "/hiking.jpg/" }) {
+      sizes(maxWidth: 1500, maxHeight: 750, cropFocus: NORTH) {
         ...GatsbyImageSharpSizes
       }
     }

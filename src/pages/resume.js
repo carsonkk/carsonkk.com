@@ -1,24 +1,40 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import ReactDOMServer from 'react-dom/server'
 import Img from 'gatsby-image'
 import Styled, { ThemeProvider } from 'styled-components'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { PDFExport } from '@progress/kendo-react-pdf'
+import Select from 'react-select'
+import { savePDF } from '@progress/kendo-react-pdf'
 import canvg from 'canvg'
+import _ from 'lodash'
 
+import '../css/resume.css'
 import GenericButton from '../components/GenericButton'
 import SmartLink from '../components/SmartLink'
 import MetaText from '../components/MetaText'
 import { LightTheme } from '../utils/Theme'
 import { FontSans, TextI } from '../utils/Text'
-import { PaperContainer } from '../utils/Container'
+import { PaperContainer, PaperSizedContainer, PaperMinWidth } from '../utils/Container'
+
+const resumeTypeOptions = [
+  { value: 'software', label: 'Software' },
+  { value: 'web', label: 'Web' },
+  { value: 'hardware', label: 'Hardware' },
+  { value: 'all', label: 'All (CV)' },
+]
 
 
 class ResumePage extends React.Component {
+  resume
+
   constructor(props) {
     super(props)
     this.state = {
+      resumeTypeSelected: resumeTypeOptions[0],
       canvasLoaded: false,
+      pdfScale: 0.5,
+      windowWidth: window.innerWidth,
       icons: [
         {
           arr: ["far", "envelope"],
@@ -34,14 +50,69 @@ class ResumePage extends React.Component {
           arr: ["fab", "github"],
           color: '#000000',
           img: null
+        },
+        {
+          arr: ["fas", "circle"],
+          color: '#000000',
+          img: null
         }
       ]
     }
-    this.handleClick = this.handleClick.bind(this)
+    this.handleResumeSelect = this.handleResumeSelect.bind(this)
+    this.handleDownloadPdf = this.handleDownloadPdf.bind(this)
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
   }
 
-  handleClick = () => (e) => {
-    this.resume.save()
+  componentDidMount() {
+    this.convertSVGToImage(this.state.icons)
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  handleResumeSelect = (resumeTypeSelected) => {
+    this.setState({resumeTypeSelected})
+  }
+
+  handleDownloadPdf = () => {
+    const { siteMetadata } = this.props.data.site
+    const today = new Date()
+    let resumeType
+
+    if(this.state.windowWidth >= PaperMinWidth.xl) {
+      this.state.pdfScale = 0.5
+    }
+    else if(this.state.windowWidth >= PaperMinWidth.l) {
+      this.state.pdfScale = 0.75
+    }
+    else if(this.state.windowWidth >= PaperMinWidth.m) {
+      this.state.pdfScale = 1.0
+    }
+    else {
+      this.state.pdfScale = 4/3
+    }
+
+    if(this.state.resumeTypeSelected.value == 'all') {
+      resumeType = 'CV'
+    }
+    else {
+      resumeType = this.state.resumeTypeSelected.label
+    }
+
+    savePDF(ReactDOM.findDOMNode(this.resume), {
+      author: siteMetadata.author,
+      creator: siteMetadata.author,
+      paperSize: 'Letter',
+      fileName: `Kyle Carson ${resumeType} Resume ${today.toLocaleDateString("en-US").replace(/\//g, '-')}.pdf`,
+      scale: this.state.pdfScale
+    })
+  }
+
+  updateWindowDimensions() {
+    this.setState({windowWidth: window.innerWidth})
   }
 
   convertSVGToImage(icons) {
@@ -51,43 +122,59 @@ class ResumePage extends React.Component {
       canv.getContext('2d')
       icons.forEach((icon) => {
         let htmlString = ReactDOMServer.renderToStaticMarkup(
-          <FontAwesomeIcon icon={icon.arr} size={'3x'} style={
+          <FontAwesomeIcon icon={icon.arr} size={'4x'} style={
             {color: icon.color, height: '128px', width: '128px'}
           }/>
         )
         canvg(canv, htmlString)
         icon.img = canv.toDataURL('image/png')
       })
-      this.setState({})
     }
   }
 
-  componentDidMount() {
-    this.convertSVGToImage(this.state.icons)
-  }
-
   render() {
+    const { resumeTypeSelected, canvasLoaded, icons } = this.state
     const { data } = this.props
     const { siteMetadata } = data.site
     const { allSocialJson, allExperienceJson, allProjectsJson, allProjectsRemark, 
-            allEducationJson, skillsJson, interestsJson, techJson, me, favicon } = data
-    const today = new Date()
-
-    // Use 'px' only for proper rendering through PDFExport
-    const ResumeWrapper = Styled.div`
-      padding: 32px;
+      allEducationJson, skillsJson, interestsJson, techJson, me, favicon } = data
+    
+    const ResumePageWrapper = Styled.div`
       display: flex;
       flex-direction: column;
-      box-shadow: 0 0 24px rgba(0,0,0,0.3);
-      font-size: 16px;
+      margin-bottom: 2rem;
+      padding: 2rem;
+    `
+    const FilterContainer = PaperContainer.extend`
+      padding-bottom: 20rem;
+    `
+    const FilterWrapper = Styled.div`
+      display: flex;
+      margin: 2rem 0rem;
+      > div {
+        min-width: 12rem;
+        margin-right: 2rem;
+        cursor: pointer;
+      }
+    `
+    const ResumeContainer = PaperSizedContainer.extend`
+      margin-top: -20rem;
+    `
+    const ResumeWrapper = Styled.div`
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      height: calc(100% - 4rem);
+      box-shadow: 0 0 1.5rem rgba(0,0,0,0.3);
+      font-size: 1rem;
+      line-height: 1.375;
       color: ${props => props.theme.text};
       background-color: white;
     `
     const Header = Styled.div`
       display: flex;
       flex-direction: column;
-      padding-bottom: 8px;
-      border-bottom: 2px solid rgba(0,0,0,0.1);
+      border-bottom: 0.125rem solid rgba(0,0,0,0.1);
     `
     const HeaderTop = Styled.div`
       display: flex;
@@ -97,17 +184,10 @@ class ResumePage extends React.Component {
       flex: 1;
       display: flex;
       flex-direction: column;
-      margin-right: 24px;
-      > div {
+      div {
         span {
           display: block;
           line-height: 1.25;
-          a {
-            transition: all 0.3s;
-            :hover {
-              text-decoration: underline;
-            }
-          }
         }
       }
     `
@@ -116,87 +196,105 @@ class ResumePage extends React.Component {
       flex-direction: row;
       align-items: center;
       .gatsby-image-outer-wrapper {
-        margin-right: 16px;
+        margin-right: 1rem;
         img {
-          border-radius: 50%;
+          border-radius: 100%;
         }
       }
       h1 {
         margin-top: 0;
-        margin-bottom: 4px;
+        margin-bottom: 0.25rem;
         font-family: ${FontSans};
-        font-size: 72px;
+        font-size: 4rem;
       }
       span {
         font-weight: bold;
-        font-size: 20px;
+        font-size: 1.25rem;
         color: ${props => props.theme.caption};
       }
     `
     const HeaderRight = Styled.div`
       display: flex;
       flex-direction: column;
-      margin-left: 24px;
+      margin-left: 1.5rem;
       color: ${props => props.theme.text};
     `
     const LinkText = Styled(MetaText)`
       && {
-        img, div {
+        margin: 0;
+        font-size: 1.125rem;
+        svg, img, div {
           display: inline-block;
+          margin-right: 0.5rem;
           width: 1em;
           height: 1em;
           vertical-align: -0.125em;
-          font-size: 1em;
           text-align: center; 
         }
       }
     `
     const HeaderBottom = Styled.div`
-      display: flex;
-      justify-content: center;
-      margin-top: 8px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 0.5rem;
+      font-size: 1.125rem;
     `
     const Body = Styled.div`
       display: flex;
       justify-content: flex-end;
-      margin-top: 8px;
+      margin-top: 1rem;
+      height: 100%;
       h2, h4 {
         position: relative;
         margin-top: 0;
-        margin-bottom: 4px;
+        margin-bottom: 0.25rem;
         font-family: ${FontSans};
       }
       h2 {
-        padding-bottom: 4px;
-          :before {
+        padding-bottom: 0.25rem;
+        font-size: 1.375em;
+        :before {
           content: '';
           position: absolute;
           bottom: 0;
           left: 0;
           width: 100%;
-          height: 4px;
+          height: 0.25rem;
           background-color: ${props => props.theme.color};
         }
       }
       ul {
         margin: 0;
+        li {
+          position: relative;
+          span {
+            top: -0.125em;
+            img {
+              width: 0.25em;
+              display: none;
+            }
+          }
+        }
       }
     `
     const BodyLeft = Styled.div`
-      flex: 1 1 73%;
+      flex: 1 1 77%;
       display: flex;
       flex-direction: column;
-      padding-right: 24px;
+      padding-right: 1.5rem;
       > div:first-child {
         margin-top: 0;
       }
     `
+    const BodyColumn = Styled.div`
+      width: 0.125rem;
+      background-color: rgba(0,0,0,0.1);
+    `
     const BodyRight = Styled.div`
-      flex: 1 1 27%;
+      flex: 1 1 22%;
       display: flex;
       flex-direction: column;
-      padding-left: 24px;
-      border-left: 2px solid rgba(0,0,0,0.1);
+      padding-left: 1.5rem;
       > div:first-child {
         margin-top: 0;
       }
@@ -204,17 +302,18 @@ class ResumePage extends React.Component {
     const SideSection = Styled.div`
       display: flex;
       flex-direction: column;
-      margin-top: 32px;
+      margin-top: 1rem;
     `
     const SideSubsection = Styled.div`
       display: flex;
       flex-direction: column;
-      margin-top: 16px;
+      margin-top: 0.5rem;
     `
     const SideSubsectionList = Styled.div`
-      margin-top: 16px;
+      margin-top: 0.5rem;
     `
 
+    // Social Links
     let email, linkedin, github
     const socialLinks = allSocialJson.edges.map((edge, i) => {
       const { node } = edge
@@ -234,8 +333,8 @@ class ResumePage extends React.Component {
         linkText = linkText.substring(8)
       }
       
-      {this.state.canvasLoaded &&
-        this.state.icons.forEach((icon) => {
+      {canvasLoaded &&
+        icons.forEach((icon) => {
           if(icon.arr[1] == node.icon[1]) {
             iconImg.push(icon.img)
           }
@@ -244,7 +343,7 @@ class ResumePage extends React.Component {
 
       return (
         <span>
-          {this.state.canvasLoaded &&
+          {canvasLoaded &&
             <LinkText
               type='external'
               icon={iconImg}
@@ -256,26 +355,40 @@ class ResumePage extends React.Component {
         </span>
       )
     })
-    const home = <LinkText
-      type='internal'
-      icon={[favicon.sizes]}
-      texts={['carsonkk.com']}
-      links={['/']}
-      iconType='gimg'
-    />
+    const home = <span>
+      {canvasLoaded &&
+        <LinkText
+          type='internal'
+          icon={[favicon.sizes]}
+          texts={['carsonkk.com']}
+          links={['/']}
+          iconType='gimg'
+        />
+      }
+    </span>
 
+    // Current Job status
     const currentJob = allExperienceJson.edges[0].node
-    const statusSection = <TextI>I am currently a {currentJob.title} at {currentJob.company.text} in {currentJob.location}</TextI>
+    const statusSection = <TextI>
+      I am currently a {currentJob.title} at {currentJob.company.text} in {currentJob.location}
+    </TextI>
 
+    // Experience section
     const experienceSection = <SideSection>
       <h2>EXPERIENCE</h2>
-      {allExperienceJson.edges.map((edge, i) => {
+      {allExperienceJson.edges.filter((edge) => {
+        const { node } = edge
+        if(node.tags.includes(resumeTypeSelected.value) || resumeTypeSelected.value == 'all') {
+          return true
+        }
+        return false
+      }).map((edge, i) => {
         const { node } = edge
         return(
           <SideSubsection key={i}>
             <h4>{node.title}</h4>
             <span>
-              <SmartLink 
+              <SmartLink
                 theme={LightTheme}
                 type='external'
                 to={node.company.url}
@@ -287,7 +400,10 @@ class ResumePage extends React.Component {
             <ul>
               {node.details.map((item, i) => {
                 return(
-                  <li key={i}>{item}</li>
+                  <li key={i}>
+                    <span className='fa-li'><img src={icons[3].img}/></span>
+                    <span>{item}</span>
+                  </li>
                 )
               })}
             </ul>
@@ -296,9 +412,16 @@ class ResumePage extends React.Component {
       })}
     </SideSection>
 
+    // Projects section
     const projectsSection = <SideSection>
       <h2>PROJECTS</h2>
-      {allProjectsJson.edges.map((edge, i) => {
+      {allProjectsJson.edges.filter((edge) => {
+        const { node } = edge
+        if(node.tags.includes(resumeTypeSelected.value) || resumeTypeSelected.value == 'all') {
+          return true
+        }
+        return false
+      }).map((edge, i) => {
         const { node } = edge
         let remark
         
@@ -350,7 +473,10 @@ class ResumePage extends React.Component {
             <ul>
               {node.details.map((item, i) => {
                 return(
-                  <li key={i}>{item}</li>
+                  <li key={i}>
+                    <span className='fa-li'><img src={icons[3].img}/></span>
+                    <span>{item}</span>
+                  </li>
                 )
               })}
             </ul>
@@ -359,6 +485,7 @@ class ResumePage extends React.Component {
       })}
     </SideSection>
 
+    // Education side section
     const educationSection = <SideSection>
       <h2>EDUCATION</h2>
       {allEducationJson.edges.map((edge, i) => {
@@ -378,7 +505,10 @@ class ResumePage extends React.Component {
             <ul>
               {node.details.map((detail, i) => {
                 return (
-                  <li key={i}>{detail}</li>
+                  <li key={i}>
+                    <span className='fa-li'><img src={icons[3].img}/></span>
+                    <span>{detail}</span>
+                  </li>
                 )
               })}
             </ul>
@@ -387,6 +517,7 @@ class ResumePage extends React.Component {
       })}
     </SideSection>
 
+    // Skills side section
     const skillsSection = <SideSection>
       <h2>SKILLS</h2>
       <SideSubsection>
@@ -397,32 +528,64 @@ class ResumePage extends React.Component {
           )
         })}
       </SideSubsection>
-      <SideSubsection>
-        <h4>HARDWARE</h4>
-        {skillsJson.hardware.map((skill, i) => {
-          return (
-            <span key={i}>{skill}</span>
-          )
-        })}
-      </SideSubsection>
+      {['software', 'web', 'all'].includes(resumeTypeSelected.value) && 
+        <SideSubsection>
+          <h4>WEB</h4>
+          {skillsJson.web.map((skill, i) => {
+            return (
+              <span key={i}>{skill}</span>
+            )
+          })}
+        </SideSubsection>
+      }
+      {['hardware', 'all'].includes(resumeTypeSelected.value) && 
+        <SideSubsection>
+          <h4>HARDWARE</h4>
+          {skillsJson.hardware.map((skill, i) => {
+            return (
+              <span key={i}>{skill}</span>
+            )
+          })}
+        </SideSubsection>
+      }
     </SideSection>
 
-    const interestsSection = <SideSection>
-    <h2>INTERESTS</h2>
-    {interestsJson.buzzwords.map((buzzword, i) => {
-      return (
-        <span key={i}>{buzzword}</span>
+    // Tech side section
+    let techType
+    if(resumeTypeSelected.value == 'software') {
+      techType = techJson.software
+    }
+    else if(resumeTypeSelected.value == 'web') {
+      techType = techJson.web
+    }
+    else if(resumeTypeSelected.value == 'hardware') {
+      techType = techJson.hardware
+    }
+    else {
+      techType = {'languages': [], 'libraries': [], 'softwares': []}
+      techType.languages = _.union(
+        techJson.software.languages, 
+        techJson.web.languages, 
+        techJson.hardware.languages,
       )
-    })}
-    </SideSection>
-
+      techType.libraries = _.union(
+        techJson.software.libraries, 
+        techJson.web.libraries, 
+        techJson.hardware.libraries,
+      )
+      techType.softwares = _.union(
+        techJson.software.softwares, 
+        techJson.web.softwares, 
+        techJson.hardware.softwares,
+      )
+    }
     const techSection = <SideSection>
       <h2>TECH</h2>
       <SideSubsectionList>
         <h4>LANGUAGES</h4>
-        {techJson.languages.map((language, i) => {
+        {techType.languages.map((language, i) => {
           let divider = ''
-          if(i < techJson.languages.length-1) {
+          if(i < techType.languages.length-1) {
             divider = <span>, </span>
           }
           return (
@@ -434,9 +597,9 @@ class ResumePage extends React.Component {
       </SideSubsectionList>
       <SideSubsectionList>
         <h4>LIBRARIES</h4>
-        {techJson.libraries.map((library, i) => {
+        {techType.libraries.map((library, i) => {
           let divider = ''
-          if(i < techJson.libraries.length-1) {
+          if(i < techType.libraries.length-1) {
             divider = <span>, </span>
           }
           return (
@@ -448,9 +611,9 @@ class ResumePage extends React.Component {
       </SideSubsectionList>
       <SideSubsectionList>
         <h4>SOFTWARE</h4>
-        {techJson.softwares.map((software, i) => {
+        {techType.softwares.map((software, i) => {
           let divider = ''
-          if(i < techJson.softwares.length-1) {
+          if(i < techType.softwares.length-1) {
             divider = <span>, </span>
           }
           return (
@@ -462,67 +625,80 @@ class ResumePage extends React.Component {
       </SideSubsectionList>
     </SideSection>
 
+    // Interests side section
+    const interestsSection = <SideSection>
+    <h2>INTERESTS</h2>
+    {interestsJson.buzzwords.map((buzzword, i) => {
+      return (
+        <span key={i}>{buzzword}</span>
+      )
+    })}
+    </SideSection>
+
     return (
-      <div>
-        {!this.state.canvasLoaded && <canvas ref="canvas" style={{ display: 'none' }}/>}
-        <GenericButton
-          type='action'
-          text='Download'
-          icon={['fas', 'paper-plane']}
-          func={this.handleClick()}
-        />
-        <PDFExport
-          author='Kyle Carson'
-          creator='Kyle Carson'
-          paperSize={'Letter'}
-          fileName={`Kyle_Carson_Resume_${today.toLocaleDateString("en-US").replace(/\//g, '-')}.pdf`}
-          scale={0.5}
-          ref={(r) => this.resume = r}
-        >
-          <ThemeProvider theme={LightTheme}>
-            <PaperContainer>
-              <ResumeWrapper>
-                <Header>
-                  <HeaderTop>
-                    <HeaderLeft>
-                      <NameWrapper>
-                        {me &&
-                          <Img resolutions={me.resolutions} alt="Me"/>
-                        }
-                        <div>
-                          <h1>{siteMetadata.author}</h1>
-                          <span>{siteMetadata.about}</span>
-                        </div>
-                      </NameWrapper>
-                    </HeaderLeft>
-                    <HeaderRight>
-                      {socialLinks[email]}
-                      {socialLinks[linkedin]}
-                      {socialLinks[github]}
-                      {home}
-                    </HeaderRight>
-                  </HeaderTop>
-                  <HeaderBottom>
-                    {statusSection}
-                  </HeaderBottom>
-                </Header>
-                <Body>
-                  <BodyLeft>
-                    {experienceSection}
-                    {projectsSection}
-                  </BodyLeft>
-                  <BodyRight>
-                    {educationSection}
-                    {skillsSection}
-                    {interestsSection}
-                    {techSection}
-                  </BodyRight>
-                </Body>
-              </ResumeWrapper>
-            </PaperContainer>
-          </ThemeProvider>
-        </PDFExport>
-      </div>
+      <ResumePageWrapper>
+        {!canvasLoaded && <canvas ref='canvas' style={{ display: 'none' }}/>}
+        <FilterContainer>
+          <FilterWrapper>
+            <Select
+              name='resume-type'
+              options={resumeTypeOptions}
+              value={resumeTypeSelected}
+              onChange={this.handleResumeSelect}
+              isSearchable={false}
+            />
+            <GenericButton
+              type='action'
+              text='Download'
+              icon={['fas', 'download']}
+              func={this.handleDownloadPdf}
+            />
+          </FilterWrapper>
+        </FilterContainer>
+        <ThemeProvider theme={LightTheme}>
+          <ResumeContainer>
+            <ResumeWrapper className='resume-root' ref={(resume) => this.resume = resume}>
+              <Header>
+                <HeaderTop>
+                  <HeaderLeft>
+                    <NameWrapper>
+                      {me &&
+                        <Img resolutions={me.resolutions} alt='Me'/>
+                      }
+                      <div>
+                        <h1>{siteMetadata.author}</h1>
+                        <span>{siteMetadata.about}</span>
+                      </div>
+                    </NameWrapper>
+                  </HeaderLeft>
+                  <HeaderRight>
+                    {socialLinks[email]}
+                    {socialLinks[linkedin]}
+                    {socialLinks[github]}
+                    {home}
+                  </HeaderRight>
+                </HeaderTop>
+                <HeaderBottom>
+                  {statusSection}
+                </HeaderBottom>
+              </Header>
+              <Body>
+                <BodyLeft>
+                  {experienceSection}
+                  {projectsSection}
+                </BodyLeft>
+                <BodyColumn/>
+                <BodyRight>
+                  {educationSection}
+                  {skillsSection}
+                  {techSection}
+                  {interestsSection}
+                </BodyRight>
+              </Body>
+            </ResumeWrapper>
+          </ResumeContainer>
+        </ThemeProvider>
+      </ResumePageWrapper>
     )
   }
 }
@@ -562,6 +738,7 @@ export const pageQuery = graphql`
           begin
           end
           details
+          tags
         }
       }
     }
@@ -574,6 +751,7 @@ export const pageQuery = graphql`
           website
           description
           details
+          tags
         }
       }
     }
@@ -617,18 +795,31 @@ export const pageQuery = graphql`
     }
     skillsJson {
       software
+      web
       hardware
     }
     interestsJson {
       buzzwords
     }
     techJson {
-      languages
-      libraries
-      softwares
+      software {
+        languages
+        libraries
+        softwares
+      }
+      web {
+        languages
+        libraries
+        softwares
+      }
+      hardware {
+        languages
+        libraries
+        softwares
+      }
     }
     me: imageSharp(id: { regex: "/me.png/" }) {
-      resolutions(width: 120, height: 120) {
+      resolutions(width: 100, height: 100) {
         ...GatsbyImageSharpResolutions
       }
     }

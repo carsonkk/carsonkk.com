@@ -2,13 +2,15 @@
   {
     "software": [
       "Software Development",
-      "Full Stack Web Development",
-      "API Design",
-      "Data Structures & Algorithms",
       "Functional Programming",
       "Object Oriented Programming",
-      "Multithreaded Programming",
-      "QA Automation"
+      "Multithreaded Programming"
+    ],
+    "web": [
+      "Frontend Web Development",
+      "Backend Web Development",
+      "API Design",
+      "Web Design"
     ],
     "hardware": [
       "Board Design & Layout",

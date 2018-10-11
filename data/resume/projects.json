@@ -7,8 +7,24 @@
     "description": "",
     "details": [
       "Argument parsing library written for C",
-      "Options to enable C89 or POSIX compliance",
       "Similar interface to Python's argparse library"
+    ],
+    "tags": [
+      "software"
+    ]
+  },
+  {
+    "name": "Clog",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+      "Logging library written for C",
+      "Verbose set of features including multithreading support"
+    ],
+    "tags": [
+      "software"
     ]
   }
 ]

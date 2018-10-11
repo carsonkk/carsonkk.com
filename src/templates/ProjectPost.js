@@ -49,8 +49,10 @@ class ProjectPost extends React.Component {
           forkCount: res['forks_count'],
           license: res['license']['spdx_id'],
         })
-        if(res['homepage'] != '' && !res['homepage'].includes('carsonkk')) {
-          homepage = res['homepage']
+        if(res['homepage'] != null) {
+          if(res['homepage'] != '' && !res['homepage'].includes('carsonkk')) {
+            homepage = res['homepage']
+          }
         }
       })
       this.xhr = AjaxGet(`//api.github.com/repos/${github}/readme`, (res) => {
@@ -427,6 +429,7 @@ export const pageQuery = graphql`
         }
         name
         description
+        featured
         tags
         github
         website

@@ -1,0 +1,29 @@
+.k-pdf-export .resume-root {
+  font-family: "PT Sans", sans-serif;
+  font-size: 1rem;
+}
+
+.k-pdf-export .resume-root ul {
+  list-style: none;
+}
+
+.k-pdf-export .resume-root ul > li > span > img {
+  display: inline;
+}
+
+@font-face {
+  font-family: "PT Sans";
+  src: url("../fonts/PTSansRegular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "PT Sans";
+  font-weight: bold;
+  src: url("../fonts/PTSansBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "PT Sans";
+  font-style: italic;
+  src: url("../fonts/PTSansItalic.ttf") format("truetype");
+}
