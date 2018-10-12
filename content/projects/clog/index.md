@@ -1,6 +1,4 @@
 ---
-banner: neature.jpg
-logo: seal.jpg
 name: Clog
 description: A simple, versatile logging library for C
 icon: code

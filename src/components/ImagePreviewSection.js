@@ -9,8 +9,10 @@ class ImagePreviewSection extends React.Component {
   render() {
     const { data, posts } = this.props
     const { pSingle, pDouble, pTriple } = data
+    const angles = [1, 45, 90, 135, 180, 225, 270, 315, 359]
     const previews = posts.map((post, i) => {
       const { bSingle, bDouble, bTriple } = post.node.frontmatter
+      const angle = `${angles[Math.floor(Math.random()*angles.length)]}deg`
       let background = bSingle ? bSingle.childImageSharp.sizes : pSingle.sizes
       if(posts.length%3 == 2 && i >= posts.length-2) {
         background = bDouble ? bDouble.childImageSharp.sizes : pDouble.sizes
@@ -18,7 +20,7 @@ class ImagePreviewSection extends React.Component {
       else if(posts.length%3 == 1 && i == posts.length-1) {
         background = bTriple ? bTriple.childImageSharp.sizes : pTriple.sizes
       }
-      return(<ImagePreview key={post.node.id} post={post.node} image={background}/>)
+      return(<ImagePreview key={post.node.id} post={post.node} image={background} angle={angle}/>)
     })
     
     const ImagePreviewSectionWrapper = Styled.div`

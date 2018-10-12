@@ -1,16 +1,14 @@
 ---
-banner: "neature.jpg"
-name: "drngs"
-description: "Experimenting with deterministic rngs"
+name: drngs
+description: Experimenting with deterministic RNGs
 icon: code
 feature: true
 tags:
-  - "drngs"
-  - "C"
-  - "Command Line"
-  - "Linux"
-github: "carsonkk/drngs"
-website: "google.com"
+  - drngs
+  - C
+  - Command Line
+  - Linux
+github: carsonkk/drngs
 ---
 
 # DRNGS

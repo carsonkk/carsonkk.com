@@ -12,12 +12,14 @@ class ImagePreview extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      color: `${RandomColor()}`
+      primaryColor: `${RandomColor()}`,
+      secondaryColor: `${RandomColor()}`,
     }
   }
 
   render() {
-    const { post, image } = this.props
+    const { primaryColor, secondaryColor } = this.state
+    const { post, image, angle } = this.props
     const { frontmatter } = post
 
     const ImagePreviewWrapper = Styled.div`
@@ -96,7 +98,7 @@ class ImagePreview extends React.Component {
       color: ${props => props.theme.color};
     `
     const BackgroundImage = frontmatter.bSingle ? Styled.div`` : Styled.div`
-      background-color: ${this.state.color};
+      background: linear-gradient(${angle}, ${primaryColor}, ${secondaryColor});
       img {
         display: none;
       }

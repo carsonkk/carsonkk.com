@@ -6,7 +6,6 @@
     "website": "",
     "description": "",
     "details": [
-      "Argument parsing library written for C",
       "Similar interface to Python's argparse library"
     ],
     "tags": [
@@ -20,11 +19,66 @@
     "website": "",
     "description": "",
     "details": [
-      "Logging library written for C",
       "Verbose set of features including multithreading support"
     ],
     "tags": [
       "software"
+    ]
+  },
+  {
+    "name": "highdim",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+      "Tool for analyzing Gaussians"
+    ],
+    "tags": [
+      "software"
+    ]
+  },
+  {
+    "name": "Luber",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+      "Web application targeted at gig-economy car rental",
+      "Built to be a scalable service running on AWS Elastic Beanstalk/EC2 with load testing through Tsung"
+    ],
+    "tags": [
+      "web"
+    ]
+  },
+  {
+    "name": "drngs",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+      "Implementation and evaluation of various deterministic RNG's",
+      "C library wrapper for a better RNG function"
+    ],
+    "tags": [
+      "software"
+    ]
+  },
+  {
+    "name": "blockstore",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+      "Database using a blockchain implementation for distributed reads and writes",
+      "Key-value store interface with support for batched queries"
+    ],
+    "tags": [
+      "software",
+      "web"
     ]
   }
 ]

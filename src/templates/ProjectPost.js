@@ -46,9 +46,11 @@ class ProjectPost extends React.Component {
         this.setState({
           watchCount: res['subscribers_count'],
           starCount: res['stargazers_count'],
-          forkCount: res['forks_count'],
-          license: res['license']['spdx_id'],
+          forkCount: res['forks_count']
         })
+        if(res['license'] != null) {
+          this.setState({license: res['license']['spdx_id']})
+        }
         if(res['homepage'] != null) {
           if(res['homepage'] != '' && !res['homepage'].includes('carsonkk')) {
             homepage = res['homepage']
@@ -89,7 +91,15 @@ class ProjectPost extends React.Component {
     let contents = {}
 
     const Banner = Styled.div`
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
+      .gatsby-image-wrapper {
+        max-height: 12rem;
+        img {
+          right: 0 !important;
+          margin: auto !important;
+          width: ${frontmatter.allowCropping ? '100%' : 'auto'} !important;
+        }
+      }
     `
     const PostHeader = Styled.div`
       display: flex;
@@ -134,7 +144,6 @@ class ProjectPost extends React.Component {
     const ButtonRow = Styled.div`
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
       margin-bottom: 0.25rem;
       > span:not(:first-child) {
         padding-left: 0.5rem;
@@ -299,6 +308,7 @@ class ProjectPost extends React.Component {
       )
       contents[tabStrs[3]] = [<ReactMarkdown key={'readme'} source={this.state.readme} className='readme'/>]
     }
+    const x = {}
 
     return (
       <PostContainer>
@@ -415,7 +425,7 @@ export const pageQuery = graphql`
       frontmatter {
         banner {
           childImageSharp {
-            sizes(maxWidth: 800, maxHeight: 250, cropFocus: CENTER) {
+            sizes(maxWidth: 1600, cropFocus: CENTER) {
               ...GatsbyImageSharpSizes
             }
           }
@@ -434,6 +444,7 @@ export const pageQuery = graphql`
         tags
         github
         website
+        allowCropping
         misc {
           childMarkdownRemark {
             htmlAst

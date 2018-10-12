@@ -1,5 +1,6 @@
 ---
 banner: neature.jpg
+allowCropping: true
 logo: seal.jpg
 name: Sealarg
 description: An easy-to-use command line argument parsing library for C
@@ -10,8 +11,6 @@ tags:
   - Command Line
   - Linux
 github: carsonkk/sealarg
-website: google.com
-misc: ../tester/index.md
 ---
 
 # Sealarg
