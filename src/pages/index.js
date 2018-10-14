@@ -19,6 +19,7 @@ class IndexPage extends React.Component {
     const IndexWrapper = Styled.div`
       display: flex;
       flex-direction: column;
+      width: 100%;
     `
     const IntroSection = Styled.div`
       position: relative;
@@ -83,10 +84,6 @@ class IndexPage extends React.Component {
         }
       }
     `
-    const ShadowWrapper = Styled.div`
-      z-index: 1;
-      box-shadow: 0rem 0rem 1.5rem -0.25rem black;
-    `
     const BlogSection = Styled(PaddedContainer)`
       display: flex;
       flex-direction: row;
@@ -106,6 +103,11 @@ class IndexPage extends React.Component {
     const ContactSection = Styled(PaddedContainer)`
       padding-top: 2rem;
       text-align: center;
+    `
+    const ShadowWrapper = Styled.div`
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 0 1rem 0 black;
     `
     
     return (

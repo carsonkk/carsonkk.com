@@ -14,9 +14,10 @@ class Header extends React.Component {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
       z-index: 100;
       background-color: ${props => props.theme.secondary};
-      box-shadow: 0rem 0rem 1.5rem -0.25rem black;
+      box-shadow: 0 0 1rem 0 black;
     `
     const NavItems = Styled.nav`
       flex: 1;

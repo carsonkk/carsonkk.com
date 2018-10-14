@@ -75,6 +75,9 @@ export const Colors = {
   onePurple: '#b46ab3',
   onePurpleAccent: '#c379c2',
 }
+export function RandomRange(min, max) {
+  return Math.floor(Math.random()*(max-min+1))+min
+}
 export function RandomColor() {
   const colors = [
     '#d15d66','#e06c75','#d6b16c','#e5c07b',
@@ -83,3 +86,45 @@ export function RandomColor() {
   ]
   return colors[Math.floor(Math.random()*colors.length)]
 }
+export function RandomAngle() {
+  const angles = [1, 20, 40, 60, 80, 100, 120, 140, 160, 
+    180, 200, 220, 240, 260, 280, 300, 320, 340
+  ]
+  return angles[Math.floor(Math.random()*angles.length)]
+}
+export function AngleToPercents(angle) {
+  let percents = [100, 0, 0, 100]
+  if((angle >= 225 && angle < 315) || (angle >= 45 && angle < 135)) {
+    const base = angle > 180 ? 225 : 45
+    const divisor = 90
+    percents = [0, 100*(1-(angle-base)/divisor), 100, 100*((angle-base)/divisor)]
+  }
+  else {
+    let base = 0
+    let divisor = 0
+    if(angle < 45) {
+      base = 0
+      divisor = 45
+    }
+    else if(angle >= 315) {
+      base = 315
+      divisor = 45
+    }
+    else {
+      base = 135
+      divisor = 90
+    }
+    percents = [100*((angle-base)/divisor), 0, 100*(1-(angle-base)/divisor), 100]
+  }
+  return percents
+}
+
+export const VerticalInsetShadow = `::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0rem 0.5rem 1.25rem -0.5rem black, inset 0rem -0.5rem 1.25rem -0.5rem black;
+}`

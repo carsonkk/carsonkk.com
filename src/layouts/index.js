@@ -29,6 +29,8 @@ class IndexLayout extends React.Component {
       flex-direction: column;
       min-height: 100vh;
       height: 100%;
+      position: relative;
+      z-index: 1;
       font-family: ${FontSans};
       font-size: 1.25rem;
       line-height: 1.5;
@@ -55,14 +57,15 @@ class IndexLayout extends React.Component {
           :hover {
             color: ${props => props.theme.accent};
           }
-          :before {
+          ::before {
             background-color: ${props => props.theme.accent};
           }
         }
       }
     `
     const MainWrapper = Styled.main`
-      flex: 1 1 auto;
+      flex: 0 1 auto;
+      display: flex;
     `
 
     return(

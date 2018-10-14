@@ -35,7 +35,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
       }
       result.data.allMarkdownRemark.edges.forEach(edge => {
         const { fields, frontmatter } = edge.node
-        if(fields.type != 'subpage' && frontmatter.draft != true) {
+        if(fields.type != 'subpage' && !frontmatter.draft) {
           switch (fields.kind) {
             case 'blog':
               createPage({
@@ -73,7 +73,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
       let tags = []
       result.data.allMarkdownRemark.edges.forEach(edge => {
         const { frontmatter } = edge.node
-        if(frontmatter.draft != true && _.get(edge, `node.frontmatter.tags`)) {
+        if(frontmatter.tags && !frontmatter.draft) {
           tags = tags.concat(frontmatter.tags)
         }
       })

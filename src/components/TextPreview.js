@@ -5,7 +5,6 @@ import Styled from 'styled-components'
 import MetaText from '../components/MetaText'
 import { FancyDateMD } from '../utils/Date'
 
-
 class TextPreview extends React.Component {
   render() {
     const { fields, frontmatter, timeToRead, excerpt } = this.props.post
@@ -31,7 +30,7 @@ class TextPreview extends React.Component {
           width: 0.25rem;
           margin-left: -1rem;
           margin-right: 0.75rem;
-          background-color: ${props => props.theme.color};
+          background-color: ${props => props.theme.text};
         }
         h3 {
           margin: 0;

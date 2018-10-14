@@ -133,7 +133,7 @@ class ResumePage extends React.Component {
   }
 
   render() {
-    const { resumeTypeSelected, canvasLoaded, icons } = this.state
+    const { generatingPdf, resumeTypeSelected, canvasLoaded, icons } = this.state
     const { data } = this.props
     const { siteMetadata } = data.site
     const { allSocialJson, allExperienceJson, allProjectsJson, allProjectsRemark, 
@@ -142,6 +142,7 @@ class ResumePage extends React.Component {
     const ResumePageWrapper = Styled.div`
       display: flex;
       flex-direction: column;
+      width: 100%;
       margin-bottom: 2rem;
       padding: 2rem;
     `
@@ -151,21 +152,28 @@ class ResumePage extends React.Component {
     const FilterWrapper = Styled.div`
       display: flex;
       margin: 2rem 0rem;
-      > div {
+      > :first-child {
         min-width: 12rem;
+      }
+      > :not(:last-child) {
         margin-right: 2rem;
-        cursor: pointer;
+      }
+      > :last-child {
+        align-self: center;
+        svg {
+          margin-right: 0.5rem;
+        }
       }
     `
     const ResumeContainer = PaperSizedContainer.extend`
       margin-top: -20rem;
+      box-shadow: 0.5rem 0.5rem 1.5rem rgba(0,0,0,0.3);
     `
     const ResumeWrapper = Styled.div`
       padding: 2rem;
       display: flex;
       flex-direction: column;
       height: calc(100% - 4rem);
-      box-shadow: 0 0 1.5rem rgba(0,0,0,0.3);
       font-size: 1rem;
       line-height: 1.375;
       color: ${props => props.theme.text};
@@ -253,7 +261,7 @@ class ResumePage extends React.Component {
       h2 {
         padding-bottom: 0.25rem;
         font-size: 1.375em;
-        :before {
+        ::before {
           content: '';
           position: absolute;
           bottom: 0;

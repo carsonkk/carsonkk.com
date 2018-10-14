@@ -29,6 +29,7 @@ class BlogPage extends React.Component {
     const BlogPageWrapper = Styled.div`
       display: flex;
       flex-direction: column;
+      width: 100%;
     `
     const Searchbar = Styled.div`
       margin: 2rem;

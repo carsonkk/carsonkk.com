@@ -19,7 +19,7 @@ class SmartLink extends React.Component {
         :hover {
           color: ${props => props.theme.accent};
         }
-        :before {
+        ::before {
           background-color: ${props => props.theme.accent};
         }
       }

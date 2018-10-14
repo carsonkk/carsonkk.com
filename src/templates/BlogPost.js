@@ -32,13 +32,13 @@ class BlogPost extends React.Component {
       position: relative;
       display: flex;
       flex-direction: column;
+      width: 100%;
       h1, h2, h3, h4, h5, h6 {
         font-family: ${FontSerif};
       }
     `
     const Banner = Styled.div`
       flex: 0 0 20rem;
-      
       div {
         position: fixed;
         width: 100%;

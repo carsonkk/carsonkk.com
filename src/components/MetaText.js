@@ -28,7 +28,7 @@ class MetaText extends React.Component {
           :hover {
             color: ${props => props.theme.text};
           }
-          :before {
+          ::before {
             background-color: ${props => props.theme.text};
           }
         }

@@ -2,30 +2,31 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Img from 'gatsby-image'
 import Link from 'gatsby-link'
-import Styled from 'styled-components'
+import Styled, { keyframes } from 'styled-components'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import { DarkTheme, RandomColor } from '../utils/Theme'
+import { DarkTheme, RandomRange, RandomColor, RandomAngle, AngleToPercents } from '../utils/Theme'
 
 
 class ImagePreview extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      primaryColor: `${RandomColor()}`,
-      secondaryColor: `${RandomColor()}`,
-    }
-  }
-
   render() {
-    const { primaryColor, secondaryColor } = this.state
-    const { post, image, angle } = this.props
+    const { post, image } = this.props
     const { frontmatter } = post
+    const angle = RandomAngle()
+    const percents = AngleToPercents((angle+45)%360)
 
     const ImagePreviewWrapper = Styled.div`
+      transition: all 0.3s;
       flex: 1 0 ${100/3}%;
       position: relative;
+      overflow: hidden;
       :hover {
+        > div:first-child {
+          transform: scale(1.1);
+        }
+        > div:nth-child(2) {
+          opacity: 0.5;
+        }
         > a > div:last-child > h2 {
           transition-delay: 0s;
           transform: translateY(-0.5rem);
@@ -37,9 +38,6 @@ class ImagePreview extends React.Component {
         > a > div:last-child > div:last-child {
           transition: opacity 0.4s;
           opacity: 1;
-        }
-        > div:nth-child(2) {
-          opacity: 0.5;
         }
       }
       * {
@@ -67,6 +65,7 @@ class ImagePreview extends React.Component {
         margin: 0;
         font-size: 2.5em;
         text-align: center;
+        padding: 0 1rem;
       }
     `
     const BackgroundFilter = Styled.div`
@@ -82,6 +81,7 @@ class ImagePreview extends React.Component {
     const Description = Styled.div`
       transition: opacity 0.3s;
       transition-delay: 0s;
+      padding: 0 1rem;
       opacity: 0;
       text-align: center;
       flex-grow: 1;
@@ -95,10 +95,18 @@ class ImagePreview extends React.Component {
       margin: 0 1rem 0.5rem 0;
       opacity: 0;
       font-size: 2rem;
-      color: ${props => props.theme.color};
     `
-    const BackgroundImage = frontmatter.bSingle ? Styled.div`` : Styled.div`
-      background: linear-gradient(${angle}, ${primaryColor}, ${secondaryColor});
+    const breathing = keyframes`
+      0% { background-position:${percents[0]}% ${percents[1]}% }
+      50% { background-position:${percents[2]}% ${percents[3]}% }
+      100% { background-position:${percents[0]}% ${percents[1]}% }
+    `
+    const BackgroundImage = frontmatter.bSingle ? Styled.div`
+      transition: transform 0.4s;
+    ` : Styled.div`
+      background: linear-gradient(${angle}deg, ${RandomColor()}, ${RandomColor()});
+      background-size: 400% 400%;
+      animation: ${breathing} ${RandomRange(4, 10)}s ease infinite;
       img {
         display: none;
       }

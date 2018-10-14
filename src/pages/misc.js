@@ -1,12 +1,29 @@
 import React from 'react'
+import Styled from 'styled-components'
 
 import ImagePreviewSection from '../components/ImagePreviewSection'
+
 
 class MiscPage extends React.Component {
   render() {
     const { data } = this.props
+
+    const MiscPageWrapper = Styled.div`
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    `
+    const ShadowWrapper = Styled.div`
+      flex: 1;
+      z-index: 1;
+      box-shadow: 0rem 0rem 1rem 0 black;
+    `
+
     return (
-      <ImagePreviewSection posts={data.allMarkdownRemark.edges} data={data}/>
+      <MiscPageWrapper>
+        <ImagePreviewSection posts={data.allMarkdownRemark.edges} data={data}/>
+        <ShadowWrapper/>
+      </MiscPageWrapper>
     )
   }
 }

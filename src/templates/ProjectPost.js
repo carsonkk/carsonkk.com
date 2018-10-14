@@ -90,6 +90,9 @@ class ProjectPost extends React.Component {
     let tabs = []
     let contents = {}
 
+    const ProjectPostWrapper = PostContainer.extend`
+      width: 100%;
+    `
     const Banner = Styled.div`
       margin-bottom: 2rem;
       .gatsby-image-wrapper {
@@ -311,7 +314,7 @@ class ProjectPost extends React.Component {
     const x = {}
 
     return (
-      <PostContainer>
+      <ProjectPostWrapper>
         <PostHeader>
           {frontmatter.banner &&
             <Banner>
@@ -397,7 +400,7 @@ class ProjectPost extends React.Component {
         <PostBody>
           {contents[this.state.activeTab]}
         </PostBody>
-      </PostContainer>
+      </ProjectPostWrapper>
     )
   }
 }

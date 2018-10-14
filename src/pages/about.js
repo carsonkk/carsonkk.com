@@ -2,7 +2,7 @@ import React from 'react'
 import Img from 'gatsby-image'
 import Styled from 'styled-components'
 
-import { DarkTheme } from '../utils/Theme'
+import { DarkTheme, VerticalInsetShadow } from '../utils/Theme'
 
 
 class AboutPage extends React.Component {
@@ -12,10 +12,12 @@ class AboutPage extends React.Component {
 
     const AboutWrapper = Styled.div`
       position: relative;
+      width: 100%;
       color: ${DarkTheme.text};
     `
     const Background = Styled.div`
       height: 100%;
+      ${VerticalInsetShadow}
     `
     const BackgroundFilter = Styled.div`
       position: absolute;

@@ -49,7 +49,7 @@ export const LinkStyle = `
     cursor: pointer;
     text-decoration: none;
     white-space: nowrap;
-    :before {
+    ::before {
       transition: all 0.3s;
       content: '';
       position: absolute;
@@ -60,7 +60,7 @@ export const LinkStyle = `
       visibility: hidden;
       transform: scaleX(0);
     }
-    :hover:before {
+    :hover::before {
       visibility: visible;
       transform: scaleX(1);
     }
