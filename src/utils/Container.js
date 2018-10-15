@@ -41,10 +41,10 @@ export const PostContainer = Container.extend`
 `
 
 export const PaperMinWidth = {
-  s: 523,
-  m: 676,
-  l: 982,
-  xl: 1288
+  s: 555,
+  m: 708,
+  l: 1014,
+  xl: 1320
 }
 const PaperWidth = {
   s: 459,   // 0.75x

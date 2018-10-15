@@ -133,11 +133,11 @@ class ResumePage extends React.Component {
   }
 
   render() {
-    const { generatingPdf, resumeTypeSelected, canvasLoaded, icons } = this.state
+    const { resumeTypeSelected, canvasLoaded, icons } = this.state
     const { data } = this.props
     const { siteMetadata } = data.site
     const { allSocialJson, allExperienceJson, allProjectsJson, allProjectsRemark, 
-      allEducationJson, skillsJson, interestsJson, techJson, me, favicon } = data
+      allEducationJson, skillsJson, interestsJson, techJson, headshot, favicon } = data
     
     const ResumePageWrapper = Styled.div`
       display: flex;
@@ -670,8 +670,8 @@ class ResumePage extends React.Component {
                 <HeaderTop>
                   <HeaderLeft>
                     <NameWrapper>
-                      {me &&
-                        <Img resolutions={me.resolutions} alt='Me'/>
+                      {headshot &&
+                        <Img resolutions={headshot.resolutions} alt='Me'/>
                       }
                       <div>
                         <h1>{siteMetadata.author}</h1>
@@ -826,7 +826,7 @@ export const pageQuery = graphql`
         softwares
       }
     }
-    me: imageSharp(id: { regex: "/me.png/" }) {
+    headshot: imageSharp(id: { regex: "/headshot.png/" }) {
       resolutions(width: 100, height: 100) {
         ...GatsbyImageSharpResolutions
       }

@@ -97,9 +97,15 @@ class ImagePreview extends React.Component {
       font-size: 2rem;
     `
     const breathing = keyframes`
-      0% { background-position:${percents[0]}% ${percents[1]}% }
-      50% { background-position:${percents[2]}% ${percents[3]}% }
-      100% { background-position:${percents[0]}% ${percents[1]}% }
+      0% { 
+        background-position:${percents[0]}% ${percents[1]}%;
+      }
+      50% { 
+        background-position:${percents[2]}% ${percents[3]}%;
+      }
+      100% { 
+        background-position:${percents[0]}% ${percents[1]}%;
+      }
     `
     const BackgroundImage = frontmatter.bSingle ? Styled.div`
       transition: transform 0.4s;
