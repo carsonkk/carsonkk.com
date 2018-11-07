@@ -37,10 +37,10 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         const { fields, frontmatter } = edge.node
         if(fields.type != 'subpage' && !frontmatter.draft) {
           switch (fields.kind) {
-            case 'blog':
+            case 'articles':
               createPage({
                 path: fields.slug,
-                component: path.resolve(`src/templates/BlogPost.js`),
+                component: path.resolve(`src/templates/ArticlePost.js`),
                 context: {
                   slug: fields.slug,
                 },
@@ -104,11 +104,11 @@ exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
     const fileKind = contentRgx.exec(filePath)
     if (fileKind != null) {
       switch (fileKind[1]) {
-        case 'blog':
+        case 'articles':
           slugTarget = slugTarget.split(`--`)
           slugTarget[1] = _.kebabCase(slugTarget[1])
-          createNodeField({ node, name: `kind`, value: `blog` })
-          createNodeField({ node, name: `slug`, value: `/blog/${slugTarget[1]}` })
+          createNodeField({ node, name: `kind`, value: `articles` })
+          createNodeField({ node, name: `slug`, value: `/articles/${slugTarget[1]}` })
           createNodeField({ node, name: `type`, value: `page` })
           createNodeField({ node, name: `date`, value: `${slugTarget[0]}` })
           break;
@@ -143,16 +143,16 @@ exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
     createNodeField({ node, name: `kind`, value: fileNode.fields.kind })
     createNodeField({ node, name: `type`, value: fileNode.fields.type })
     if(fileNode.fields.type != 'subpage') {
-      if(fileNode.fields.kind == 'blog') {
+      if(fileNode.fields.kind == 'articles') {
         createNodeField({ node, name: `date`, value: fileNode.fields.date })
-        let blogTargetTag = ''
+        let articlesTargetTag = ''
         node.frontmatter.tags.forEach(tag => {
           tag = _.kebabCase(tag)
-          if(targetTags.indexOf(`/${tag}/`) != -1 && blogTargetTag == '') {
-            blogTargetTag = tag
+          if(targetTags.indexOf(`/${tag}/`) != -1 && articlesTargetTag == '') {
+            articlesTargetTag = tag
           }
         })
-        createNodeField({ node, name: `targetTag`, value: blogTargetTag })
+        createNodeField({ node, name: `targetTag`, value: articlesTargetTag })
       } else if(fileNode.fields.type != 'external') {
         createNodeField({ node, name: `targetTag`, value: fileNode.fields.targetTag })
       }

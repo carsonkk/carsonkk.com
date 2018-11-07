@@ -56,8 +56,8 @@ class Header extends React.Component {
         <NavItems>
           <TabButton
             type='internal'
-            to='/blog'
-            text='Blog'
+            to='/articles'
+            text='Articles'
             icon={['far', 'comment']}
           />
           <TabButton
@@ -75,15 +75,15 @@ class Header extends React.Component {
           />
           <TabButton
             type='internal'
-            to='/about'
-            text='About'
-            icon={['fas', 'tree']}
-          />
-          <TabButton
-            type='internal'
             to='/resume'
             text='Resume'
             icon={['fas', 'paper-plane']}
+          />
+          <TabButton
+            type='internal'
+            to='/search'
+            text='Search'
+            icon={['fas', 'search']}
           />
         </NavItems>
       </NavHeader>

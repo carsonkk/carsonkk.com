@@ -12,7 +12,7 @@ class MetaText extends React.Component {
     const { className, type, icon, texts, links, iconType, isInline, svgToImg } = this.props
 
     const MetaText = Styled.div`
-      display: ${isInline ? 'inline-block' : 'block'};
+      display: ${isInline ? 'inline-flex' : 'flex'};
       margin: 0.125rem ${isInline ? '1rem' : '0'} 0.125rem 0;
       font-size: 1rem;
       color: ${props => props.theme.caption};
@@ -58,21 +58,25 @@ class MetaText extends React.Component {
 
     return (
       <MetaText className={className}>
-        {iconType == 'fa' &&
-          <FontAwesomeIcon icon={icon} fixedWidth/>
-        }
-        {iconType == 'svg' &&
-          <object data={icon[0]} type="image/svg+xml">
-            <img src="../images/favicon.png"/>
-          </object>
-        }
-        {iconType == 'img' &&
-          <img src={icon[0]}/>
-        }
-        {iconType == 'gimg' &&
-          <Img sizes={icon[0]}/>
-        }
-        {contents}
+        <div>
+          {iconType == 'fa' &&
+            <FontAwesomeIcon icon={icon} fixedWidth/>
+          }
+          {iconType == 'svg' &&
+            <object data={icon[0]} type="image/svg+xml">
+              <img src="../images/favicon.png"/>
+            </object>
+          }
+          {iconType == 'img' &&
+            <img src={icon[0]}/>
+          }
+          {iconType == 'gimg' &&
+            <Img sizes={icon[0]}/>
+          }
+        </div>
+        <div>
+          {contents}
+        </div>
       </MetaText>
     )
   }

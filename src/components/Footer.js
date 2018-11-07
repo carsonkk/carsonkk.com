@@ -11,11 +11,10 @@ class Footer extends React.Component {
     const { links, isDarkTheme, handleClickTheme } = this.props
 
     const FooterWrapper = Styled.footer`
-      flex: 1 1 auto;
+      flex: 0 1 auto;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-end;
       position: relative;
       z-index: 100;
       padding-top: 4rem;

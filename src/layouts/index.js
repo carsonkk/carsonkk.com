@@ -64,7 +64,7 @@ class IndexLayout extends React.Component {
       }
     `
     const MainWrapper = Styled.main`
-      flex: 0 1 auto;
+      flex: 1 1 auto;
       display: flex;
     `
 

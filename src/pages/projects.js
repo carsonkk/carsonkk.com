@@ -15,7 +15,9 @@ class ProjectsPage extends React.Component {
     `
     const ShadowWrapper = Styled.div`
       flex: 1;
+      position: relative;
       z-index: 1;
+      min-height: 1rem;
       box-shadow: 0rem 0rem 1rem 0 black;
     `
 

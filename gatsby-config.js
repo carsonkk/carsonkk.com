@@ -5,7 +5,7 @@ module.exports = {
     author: 'Kyle Carson',
     about: 'Software & Computer Engineer',
     title: 'kk.',
-    description: 'Project write-ups, blogging, and whatever else',
+    description: 'Personal site for articles, project write-ups, and whatever else',
     url: 'http://carsonkk.com',
     text: 'carsonkk.com',
     home: '/'

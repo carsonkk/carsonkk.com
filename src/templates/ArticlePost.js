@@ -16,7 +16,7 @@ const RenderAst = new RehypeReact({
 }).Compiler
 
 
-class BlogPost extends React.Component {
+class ArticlePost extends React.Component {
   render() {
     const { edges } = this.props.data.allMarkdownRemark
     const { markdownRemark } = this.props.data
@@ -25,10 +25,10 @@ class BlogPost extends React.Component {
     let someDate
     let prevDate = -8640000000000000
     let nextDate = 8640000000000000
-    let prevSlug = ''
-    let nextSlug = ''
+    let prevSlug = '/articles'
+    let nextSlug = '/articles'
     
-    const Blog = Styled.div`
+    const Article = Styled.div`
       position: relative;
       display: flex;
       flex-direction: column;
@@ -151,7 +151,7 @@ class BlogPost extends React.Component {
     })
 
     return (
-      <Blog>
+      <Article>
         <Banner>
           <div>
             <Img sizes={frontmatter.banner.childImageSharp.sizes} alt="Banner"/>
@@ -218,17 +218,17 @@ class BlogPost extends React.Component {
             </PostFooter>
           </PostContainer>
         </ShadowWrapper>
-      </Blog>
+      </Article>
     )
   }
 }
 
-export default BlogPost
+export default ArticlePost
 
 export const pageQuery = graphql`
-  query BlogPostBySlug($slug: String!) {
+  query ArticlePostBySlug($slug: String!) {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "blog"}} frontmatter: {draft: {ne: true}}}
+      filter: {fields: {kind: {eq: "articles"}} frontmatter: {draft: {ne: true}}}
     ) {
       edges {
         node {

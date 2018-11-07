@@ -4,7 +4,8 @@ allowCropping: false
 logo: favicon.png
 name: Luber
 description: A ridesharing App
-icon: code
+category: Web
+icon: desktop
 tags:
   - Luber
   - Ruby
@@ -13,7 +14,7 @@ tags:
   - AWS
   - Scalable Services
 github: carsonkk/Luber
-website: luber.fun
+website: luber-services.herokuapp.com
 ---
 
 # Luber

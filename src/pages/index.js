@@ -13,8 +13,8 @@ class IndexPage extends React.Component {
     const { data } = this.props
     const { hiking } = data
     const featuredProjectPostEdges = data.featuredProjectPosts.edges
-    const recentBlogPosts = data.recentBlogPosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
-    const featuredBlogPosts = data.featuredBlogPosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
+    const recentArticlePosts = data.recentArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
+    const featuredArticlePosts = data.featuredArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
 
     const IndexWrapper = Styled.div`
       display: flex;
@@ -84,13 +84,13 @@ class IndexPage extends React.Component {
         }
       }
     `
-    const BlogSection = Styled(PaddedContainer)`
+    const ArticleSection = Styled(PaddedContainer)`
       display: flex;
       flex-direction: row;
       padding-top: 2rem;
       padding-bottom: 2rem;
     `
-    const BlogColumn = Styled.div`
+    const ArticleColumn = Styled.div`
       padding-left: 2rem;
       padding-right: 2rem;
     `
@@ -122,15 +122,15 @@ class IndexPage extends React.Component {
           <IntroBlurb>
             <h1>Hey, my name's <span>Kyle</span></h1>
             <p>I'm a Software &amp; Computer Engineer from California with a passion for systems.
-              This site is meant to consolidate the blog posts, tutorials, project writeups
+              This site is meant to consolidate the articles, tutorials, project writeups
               and everything else I've thrown together over the years.
             </p>
             <ButtonRow>
               <DarkButton
                 type='internal'
-                to='/about'
-                text='About Me'
-                icon={['fas', 'tree']}
+                to='/projects'
+                text='My Projects'
+                icon={['fas', 'code']}
               />
               <DarkButton
                 type='internal'
@@ -142,23 +142,23 @@ class IndexPage extends React.Component {
           </IntroBlurb>
         </IntroSection>
         <ShadowWrapper>
-          <BlogSection>
-            <BlogColumn>
+          <ArticleSection>
+            <ArticleColumn>
               <h1>Recent Posts</h1>
-              {recentBlogPosts}
-            </BlogColumn>
+              {recentArticlePosts}
+            </ArticleColumn>
             <Divider/>
-            <BlogColumn>
+            <ArticleColumn>
               <h1>Featured Posts</h1>
-              {featuredBlogPosts}
-            </BlogColumn>
-          </BlogSection>
+              {featuredArticlePosts}
+            </ArticleColumn>
+          </ArticleSection>
         </ShadowWrapper>
         <ImagePreviewSection posts={featuredProjectPostEdges} data={data}/>
         <ShadowWrapper>
           <ContactSection>
             <h1>Want to get in touch?</h1>
-            <p>Shoot me an email or check out any of the other links below to find me elsewhere on the web</p>
+            <p>Shoot an email to kyle@&lt;this website&gt; or check out any of the other links below to find me elsewhere on the web</p>
           </ContactSection>
         </ShadowWrapper>
       </IndexWrapper>
@@ -170,9 +170,9 @@ export default IndexPage
 
 export const pageQuery = graphql`
   query IndexPageQuery {
-    recentBlogPosts: allMarkdownRemark(
+    recentArticlePosts: allMarkdownRemark(
       limit: 3
-      filter: {fields: {kind: {eq: "blog"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
+      filter: {fields: {kind: {eq: "articles"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
       sort: {order: DESC, fields: [fields___date]}
     ) {
       edges {
@@ -181,9 +181,9 @@ export const pageQuery = graphql`
         }
       }
     }
-    featuredBlogPosts: allMarkdownRemark(
+    featuredArticlePosts: allMarkdownRemark(
       limit: 3
-      filter: {fields: {kind: {eq: "blog"} type: {eq: "page"}} frontmatter: {draft: {ne: true} feature: {eq: true}}}
+      filter: {fields: {kind: {eq: "articles"} type: {eq: "page"}} frontmatter: {draft: {ne: true} feature: {eq: true}}}
       sort: {order: DESC, fields: [fields___date]}
     ) {
       edges {

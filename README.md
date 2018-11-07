@@ -1,3 +1,3 @@
 # [carsonkk.com](http://carsonkk.com)
 
-> My personal website for project write-ups, blogging, and whatever else
+> My personal website for articles, project write-ups, and whatever else

@@ -1,6 +1,6 @@
 {
   "name": "carsonkk.com",
-  "description": "My personal website for project write-ups, blogging, and whatever else",
+  "description": "My personal website for articles, project write-ups, and whatever else",
   "version": "1.0.0",
   "author": "Kyle Carson",
   "dependencies": {
@@ -33,6 +33,7 @@
     "react-animations": "^1.0.0",
     "react-helmet": "^5.2.0",
     "react-markdown": "^3.3.4",
+    "react-pdf": "3.0.5",
     "react-select": "2.1.0",
     "rehype-react": "^3.0.2",
     "styled-components": "^3.2.6",

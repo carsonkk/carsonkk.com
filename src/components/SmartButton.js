@@ -23,11 +23,13 @@ class SmartButton extends React.Component {
     const SmartButtonWrapper = Styled.span`
       display: block;
       a, button {
-        display: block;
         cursor: pointer;
         line-height: 1;
         svg {
           padding: 0 ${(iconText && isIconLeft) ? `0.25rem` : `0`} 0 ${(iconText && !isIconLeft) ? `0.25rem` : `0`};
+        }
+        > span {
+          display: inline-block;
         }
         span > span {
           text-align: center;

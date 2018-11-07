@@ -14,7 +14,7 @@ class GenericButton extends React.Component {
       a, button {
         transition: all 0.3s;
         margin: 0;
-        padding: 0.5rem 0.75rem;
+        padding: 0.375rem 0.75rem;
         border: none;
         border-radius: 0.375rem;
         font-family: ${FontSans};

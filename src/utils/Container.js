@@ -4,14 +4,12 @@ import Styled, { css } from 'styled-components'
 const MinWidth = {
   s: 608,
   m: 832,
-  l: 1056,
-  xl: 1280
+  l: 1056
 }
 const MaxWidth = {
   s: 544,
   m: 768,
-  l: 992,
-  xl: 1216
+  l: 992
 }
 
 const Media = Object.keys(MinWidth).reduce((acc, label) => {
@@ -29,7 +27,6 @@ export const Container = Styled.div`
   ${Media.s`max-width: ${MaxWidth.s/16}rem`}
   ${Media.m`max-width: ${MaxWidth.m/16}rem`}
   ${Media.l`max-width: ${MaxWidth.l/16}rem`}
-  ${Media.xl`max-width: ${MaxWidth.xl/16}rem`}
 `
 
 export const PaddedContainer = Container.extend`
@@ -37,7 +34,7 @@ export const PaddedContainer = Container.extend`
 `
 
 export const PostContainer = Container.extend`
-  padding: 4rem 4rem;
+  padding: 4rem;
 `
 
 export const PaperMinWidth = {

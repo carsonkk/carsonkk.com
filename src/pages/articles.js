@@ -6,7 +6,7 @@ import TextPreview from '../components/TextPreview'
 import { PaddedContainer } from '../utils/Container'
 
 
-class BlogPage extends React.Component {
+class ArticlesPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -26,7 +26,7 @@ class BlogPage extends React.Component {
     let posts = {}
     let years = []
 
-    const BlogPageWrapper = Styled.div`
+    const ArticlesPageWrapper = Styled.div`
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -34,7 +34,7 @@ class BlogPage extends React.Component {
     const Searchbar = Styled.div`
       margin: 2rem;
     `
-    const BlogBodyWrapper = Styled.div`
+    const ArticlesBodyWrapper = Styled.div`
       display: flex;
       justify-content: center;
     `
@@ -81,10 +81,10 @@ class BlogPage extends React.Component {
 
     return (
       <PaddedContainer>
-        <BlogPageWrapper>
+        <ArticlesPageWrapper>
           <Searchbar>
           </Searchbar>
-          <BlogBodyWrapper>
+          <ArticlesBodyWrapper>
             <FilterWrapper>
               <div>
                 <YearSelect>
@@ -95,21 +95,21 @@ class BlogPage extends React.Component {
             <PreviewWrapper>
               {posts[this.state.year]}
             </PreviewWrapper>
-          </BlogBodyWrapper>
+          </ArticlesBodyWrapper>
           <Pagination>
           </Pagination>
-        </BlogPageWrapper>
+        </ArticlesPageWrapper>
       </PaddedContainer>
     )
   }
 }
 
-export default BlogPage
+export default ArticlesPage
 
 export const pageQuery = graphql`
-  query BlogQuery {
+  query ArticlesQuery {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "blog"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
+      filter: {fields: {kind: {eq: "articles"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
       sort: {order: DESC, fields: [fields___date]}
     ) {
       edges {

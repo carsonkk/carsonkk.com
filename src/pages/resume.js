@@ -154,6 +154,36 @@ class ResumePage extends React.Component {
       margin: 2rem 0rem;
       > :first-child {
         min-width: 12rem;
+        > div:first-child {
+          transition: all 0.3s;
+          color: ${props => props.theme.text};
+          background-color: transparent;
+          :hover, :active {
+            cursor: pointer;
+            color: ${props => props.theme.primary};
+            background-color: ${props => props.theme.text};
+            > div > div {
+              color: ${props => props.theme.primary};
+            }
+          }
+          *:focus {
+            outline: none;
+          }
+          > div > div {
+            color: ${props => props.theme.text};
+          }
+        }
+        > div:nth-child(3) {
+          transition: all 0.3s;
+          color: ${props => props.theme.primary};
+          background-color: ${props => props.theme.text};
+          :hover, :active {
+            cursor: pointer;
+          }
+          *:focus {
+            outline: none;
+          }
+        }
       }
       > :not(:last-child) {
         margin-right: 2rem;
@@ -477,8 +507,11 @@ class ResumePage extends React.Component {
                 </span>
               }
             </span>
-            <TextI>{node.description ? node.description : description}</TextI>
             <ul>
+              <li>
+                <span className='fa-li'><img src={icons[3].img}/></span>
+                <span>{node.description ? node.description : description}</span>
+              </li>
               {node.details.map((item, i) => {
                 return(
                   <li key={i}>
@@ -635,12 +668,12 @@ class ResumePage extends React.Component {
 
     // Interests side section
     const interestsSection = <SideSection>
-    <h2>INTERESTS</h2>
-    {interestsJson.buzzwords.map((buzzword, i) => {
-      return (
-        <span key={i}>{buzzword}</span>
-      )
-    })}
+      <h2>INTERESTS</h2>
+      {interestsJson.buzzwords.map((buzzword, i) => {
+        return (
+          <span key={i}>{buzzword}</span>
+        )
+      })}
     </SideSection>
 
     return (
@@ -654,6 +687,7 @@ class ResumePage extends React.Component {
               value={resumeTypeSelected}
               onChange={this.handleResumeSelect}
               isSearchable={false}
+              className='resume-select'
             />
             <GenericButton
               type='action'

@@ -17,14 +17,14 @@ class AdjacentPosts extends React.Component {
     const LeftButton = Styled(GenericButton)`
       && {
         a {
-          visibility: ${prev != '' ? 'visible' : 'hidden'};
+          visibility: ${prev != '/articles' ? 'visible' : 'hidden'};
         }
       }
     `
     const RightButton = Styled(GenericButton)`
       && {
         a {
-          visibility: ${next != '' ? 'visible' : 'hidden'};
+          visibility: ${next != '/articles' ? 'visible' : 'hidden'};
         }
       }
     `

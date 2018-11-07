@@ -119,6 +119,7 @@ class ProjectPost extends React.Component {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      padding-right: 4rem;
     `
     const NameWrapper = Styled.div`
       display: flex;
@@ -311,7 +312,6 @@ class ProjectPost extends React.Component {
       )
       contents[tabStrs[3]] = [<ReactMarkdown key={'readme'} source={this.state.readme} className='readme'/>]
     }
-    const x = {}
 
     return (
       <ProjectPostWrapper>
@@ -410,7 +410,7 @@ export default ProjectPost
 export const pageQuery = graphql`
   query ProjectPostBySlug($slug: String!, $targetTag: String!) {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "blog"} targetTag: {regex: $targetTag}} frontmatter: {draft: {ne: true}}}, 
+      filter: {fields: {kind: {eq: "articles"} targetTag: {regex: $targetTag}} frontmatter: {draft: {ne: true}}}, 
       sort: {order: DESC, fields: [fields___date]}
     ) {
       edges {
