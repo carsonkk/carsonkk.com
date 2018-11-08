@@ -20,7 +20,6 @@ Clog is my first real attempt at building a software library for C that could ac
 - Supporting usage in a multi-threaded setting
 - Allowing the end-user to supply their own allocator
 - Multiple means of actually using the library:
-
   * Simply dropping the main `.c` and `.h` files into ones project
   * Using `make` to build/test the library's functionality
   * Using `cmake` to include the library

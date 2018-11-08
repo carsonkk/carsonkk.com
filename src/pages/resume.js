@@ -261,13 +261,15 @@ class ResumePage extends React.Component {
       && {
         margin: 0;
         font-size: 1.125rem;
-        svg, img, div {
-          display: inline-block;
-          margin-right: 0.5rem;
-          width: 1em;
-          height: 1em;
-          vertical-align: -0.125em;
-          text-align: center; 
+        > div:first-child {
+          svg, img, div {
+            display: inline-block;
+            margin-right: 0.5rem;
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.125em;
+            text-align: center; 
+          }
         }
       }
     `
@@ -282,7 +284,7 @@ class ResumePage extends React.Component {
       justify-content: flex-end;
       margin-top: 1rem;
       height: 100%;
-      h2, h4 {
+      h2, h3 {
         position: relative;
         margin-top: 0;
         margin-bottom: 0.25rem;
@@ -290,7 +292,7 @@ class ResumePage extends React.Component {
       }
       h2 {
         padding-bottom: 0.25rem;
-        font-size: 1.375em;
+        font-size: 1.75em;
         ::before {
           content: '';
           position: absolute;
@@ -300,6 +302,9 @@ class ResumePage extends React.Component {
           height: 0.25rem;
           background-color: ${props => props.theme.color};
         }
+      }
+      h3 {
+        font-size: 1.15em;
       }
       ul {
         margin: 0;
@@ -345,10 +350,10 @@ class ResumePage extends React.Component {
     const SideSubsection = Styled.div`
       display: flex;
       flex-direction: column;
-      margin-top: 0.5rem;
+      margin-top: 0.75rem;
     `
     const SideSubsectionList = Styled.div`
-      margin-top: 0.5rem;
+      margin-top: 0.75rem;
     `
 
     // Social Links
@@ -424,7 +429,7 @@ class ResumePage extends React.Component {
         const { node } = edge
         return(
           <SideSubsection key={i}>
-            <h4>{node.title}</h4>
+            <h3>{node.title}</h3>
             <span>
               <SmartLink
                 theme={LightTheme}
@@ -474,7 +479,7 @@ class ResumePage extends React.Component {
         
         return(
           <SideSubsection key={i}>
-            <h4>{node.name}</h4>
+            <h3>{node.name}</h3>
             <span>
               <span>
                 <SmartLink
@@ -533,7 +538,7 @@ class ResumePage extends React.Component {
         const { node } = edge
         return(
           <SideSubsection key={i}>
-            <h4>{node.degree.fullname}</h4>
+            <h3>{node.degree.fullname}</h3>
             <span>
               <SmartLink
                 type='external'
@@ -562,7 +567,7 @@ class ResumePage extends React.Component {
     const skillsSection = <SideSection>
       <h2>SKILLS</h2>
       <SideSubsection>
-        <h4>SOFTWARE</h4>
+        <h3>SOFTWARE</h3>
         {skillsJson.software.map((skill, i) => {
           return (
             <span key={i}>{skill}</span>
@@ -571,7 +576,7 @@ class ResumePage extends React.Component {
       </SideSubsection>
       {['software', 'web', 'all'].includes(resumeTypeSelected.value) && 
         <SideSubsection>
-          <h4>WEB</h4>
+          <h3>WEB</h3>
           {skillsJson.web.map((skill, i) => {
             return (
               <span key={i}>{skill}</span>
@@ -581,7 +586,7 @@ class ResumePage extends React.Component {
       }
       {['hardware', 'all'].includes(resumeTypeSelected.value) && 
         <SideSubsection>
-          <h4>HARDWARE</h4>
+          <h3>HARDWARE</h3>
           {skillsJson.hardware.map((skill, i) => {
             return (
               <span key={i}>{skill}</span>
@@ -623,7 +628,7 @@ class ResumePage extends React.Component {
     const techSection = <SideSection>
       <h2>TECH</h2>
       <SideSubsectionList>
-        <h4>LANGUAGES</h4>
+        <h3>LANGUAGES</h3>
         {techType.languages.map((language, i) => {
           let divider = ''
           if(i < techType.languages.length-1) {
@@ -637,7 +642,7 @@ class ResumePage extends React.Component {
         })}
       </SideSubsectionList>
       <SideSubsectionList>
-        <h4>LIBRARIES</h4>
+        <h3>LIBRARIES</h3>
         {techType.libraries.map((library, i) => {
           let divider = ''
           if(i < techType.libraries.length-1) {
@@ -651,7 +656,7 @@ class ResumePage extends React.Component {
         })}
       </SideSubsectionList>
       <SideSubsectionList>
-        <h4>SOFTWARE</h4>
+        <h3>SOFTWARE</h3>
         {techType.softwares.map((software, i) => {
           let divider = ''
           if(i < techType.softwares.length-1) {

@@ -45,6 +45,9 @@ class IndexLayout extends React.Component {
       blockquote {
         margin: 0;
       }
+      li > p {
+        margin: 0;
+      }
       a {
         text-decoration: none;
         color: ${props => props.theme.text};

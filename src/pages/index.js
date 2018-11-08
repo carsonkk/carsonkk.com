@@ -1,17 +1,78 @@
 import React from 'react'
 import Img from 'gatsby-image'
 import Styled from 'styled-components'
+import imagesLoaded from 'imagesloaded'
 
+import crystalize from '../images/crystalize-s.jpg'
 import GenericButton from '../components/GenericButton'
 import TextPreview from '../components/TextPreview'
 import ImagePreviewSection from '../components/ImagePreviewSection'
 import { DarkTheme } from '../utils/Theme'
-import { PaddedContainer } from '../utils/Container';
+import { PaddedContainer } from '../utils/Container'
+import { Slideshow, MoveSlider } from '../utils/Slideshow'
+
+const tickRate = 8000
+const slideCount = 3
+let slideContents
 
 class IndexPage extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      index: 0
+    }
+    this.tick = this.tick.bind(this)
+  }
+
+  componentDidMount() {
+    slideContents = this.LaunchShow()
+    //setTimeout(function() {
+      this.intervalHandle = setInterval(this.tick, tickRate)
+    //}, tickRate/2)
+    
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalHandle)
+  }
+
+  tick() {
+    this.setState(prevState => ({
+      index: (prevState.index+1)%slideCount
+    }))
+    MoveSlider(false, slideContents, this.state.index)
+  }
+
+  LaunchShow() {
+    imagesLoaded('.image-container', function() {
+      var spriteImages = document.querySelectorAll('.slide-image');
+      var spriteImagesSrc = [];
+
+      for (var i = 0; i < spriteImages.length; i++) {
+        var img = spriteImages[i].getElementsByTagName('img')[1]
+        if(img != undefined && img != null) {
+          spriteImagesSrc.push(img.getAttribute('src'));
+        }
+      }
+
+      var initCanvasSlideshow = new Slideshow({
+        sprites: spriteImagesSrc,
+        displacementImage: crystalize,
+        autoPlay: false,
+        displaceScale: [300, 300],
+        fullScreen: false,
+        centerSprites: true,
+        wacky: true,
+        appendElement : document.querySelector('.image-container'),
+        tickRate: tickRate
+      });
+    });
+  }
+
   render() {
     const { data } = this.props
-    const { hiking } = data
+    const { hiking_1, hiking_2, hiking_3 } = data
+    const images = [hiking_1, hiking_2, hiking_3]
     const featuredProjectPostEdges = data.featuredProjectPosts.edges
     const recentArticlePosts = data.recentArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
     const featuredArticlePosts = data.featuredArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
@@ -27,6 +88,15 @@ class IndexPage extends React.Component {
     `
     const Background = Styled.div`
       height: 100%;
+      position: relative;
+      > div:first-child {
+        position: absolute;
+        z-index: 0;
+      }
+      canvas {
+        display: block;
+        position: absolute;
+      }
     `
     const BackgroundFilter = Styled.div`
       position: absolute;
@@ -108,14 +178,26 @@ class IndexPage extends React.Component {
       position: relative;
       z-index: 1;
       box-shadow: 0 0 1rem 0 black;
+      background-color: ${props => props.theme.primary};
     `
     
     return (
       <IndexWrapper>
         <IntroSection>
-          <Background>
-            {hiking &&
-              <Img sizes={hiking.sizes} alt="hiking"/>
+          <Background className="image-container">  
+            <div>
+              {hiking_1 &&
+                <Img sizes={hiking_1.sizes} alt="hiking-1" className="slide-image"/>
+              }
+              {hiking_2 &&
+                <Img sizes={hiking_2.sizes} alt="hiking-2" className="slide-image"/>
+              }
+              {hiking_3 &&
+                <Img sizes={hiking_3.sizes} alt="hiking-3" className="slide-image"/>
+              }
+            </div>
+            {images[(this.state.index+1)%slideCount] &&
+              <Img sizes={images[(this.state.index+1)%slideCount].sizes} alt="placeholder"/>
             }
           </Background>
           <BackgroundFilter/>
@@ -233,8 +315,18 @@ export const pageQuery = graphql`
       }
     }
     ...PlaceholderImageFragment
-    hiking: imageSharp(id: { regex: "/hiking.jpg/" }) {
-      sizes(maxWidth: 1500, maxHeight: 750, cropFocus: NORTH) {
+    hiking_1: imageSharp(id: { regex: "/hiking-1.jpg/" }) {
+      sizes(maxWidth: 1920, maxHeight: 1080, cropFocus: NORTH) {
+        ...GatsbyImageSharpSizes
+      }
+    }
+    hiking_2: imageSharp(id: { regex: "/hiking-2.jpg/" }) {
+      sizes(maxWidth: 1920, maxHeight: 1080) {
+        ...GatsbyImageSharpSizes
+      }
+    }
+    hiking_3: imageSharp(id: { regex: "/hiking-3.jpg/" }) {
+      sizes(maxWidth: 1920, maxHeight: 1080, cropFocus: SOUTH) {
         ...GatsbyImageSharpSizes
       }
     }

@@ -84,7 +84,7 @@ class Footer extends React.Component {
         && {
           a {
             margin: 0 0.5rem;
-            padding: 0.25rem 0.125rem;
+            padding: 0.25rem 0.125rem 0.5rem 0.125rem;
             :hover {
               background-color: ${props => props.theme.social};
               svg {
@@ -127,7 +127,7 @@ class Footer extends React.Component {
           </div>
           <ThemeButton
             type='action'
-            title={isDarkTheme ? 'brighter than a thousand suns...' : 'my eyes, they burn! go back!'}
+            title={isDarkTheme ? 'Brighter than a thousand suns...' : 'My eyes, they burn! Go back!'}
             icon={isDarkTheme ? ['fas', 'moon'] : ['fas', 'sun']}
             func={handleClickTheme}
             isFixedWidth={true}
