@@ -2,46 +2,12 @@ import React from 'react'
 import Img from 'gatsby-image'
 import Styled from 'styled-components'
 
-import imagesLoaded from 'imagesloaded'
-
-import crystalize from '../images/crystalize-s.jpg'
-
 import GenericButton from '../components/GenericButton'
 import { DarkTheme } from '../utils/Theme'
 import { PaddedContainer } from '../utils/Container';
-import { Slideshow } from '../utils/Slideshow'
 
 
 class SearchPage extends React.Component {
-  componentDidMount() {
-    this.LaunchShow()
-  }
-
-  LaunchShow() {
-    imagesLoaded('.image-container', function() {
-      var spriteImages = document.querySelectorAll('.slide-image');
-      var spriteImagesSrc = [];
-
-      for (var i = 0; i < spriteImages.length; i++) {
-        var img = spriteImages[i].getElementsByTagName('img')[1]
-        if(img != undefined && img != null) {
-          spriteImagesSrc.push(img.getAttribute('src'));
-        }
-      }
-
-      var initCanvasSlideshow = new Slideshow({
-        sprites: spriteImagesSrc,
-        displacementImage: crystalize,
-        autoPlay: false,
-        displaceScale: [300, 300],
-        fullScreen: true,
-        centerSprites: true,
-        wacky: true,
-        appendElement : document.querySelector('.image-container')
-      });
-    });
-  }
-
   render() {
     const { data } = this.props
     const { hiking_1, hiking_2, hiking_3 } = data
