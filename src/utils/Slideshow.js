@@ -4,9 +4,7 @@ import {TweenMax, Power1, Power2} from "gsap/umd/TweenMax";
 
 /// ---------------------------
 //  TRANSITION BETWEEN SLIDES
-/// ---------------------------    
-//var isPlaying   = false;  
-//var slideImages = slidesContainer.children;    
+/// ---------------------------   
 export function MoveSlider(isPlaying, slideImages, newIndex) {
   isPlaying = true;
   var baseTimeline = new TimelineMax({onComplete: function () {
@@ -26,7 +24,6 @@ export function MoveSlider(isPlaying, slideImages, newIndex) {
     return;
   }        
 
-  // DEMO 4
   baseTimeline
   .to(displacementFilter.scale, 1, { x: options.displaceScale[0], y: options.displaceScale[1], ease: Power1.easeOut  })
   .to(slideImages[that.currentIndex], 0.5, { alpha: 0, ease: Power2.easeOut }, 0.2)
@@ -35,10 +32,6 @@ export function MoveSlider(isPlaying, slideImages, newIndex) {
 };
 
 export function Slideshow(options) {
-  //  SCOPE
-  /// ---------------------------      
-  var that = this;
-
   //  OPTIONS
   /// ---------------------------      
   options                     = options || {};
@@ -72,101 +65,6 @@ export function Slideshow(options) {
   var displacementSprite = new PIXI.Sprite.fromImage(options.displacementImage);
   var displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite);
 
-  //  TEXTS
-  /// ---------------------------    
-  var style = new PIXI.TextStyle({
-    fill: options.textColor,
-    wordWrap: true,
-    wordWrapWidth: 400,
-    fontSize: 36
-  });
-
-  //  SLIDES ARRAY INDEX
-  /// ---------------------------    
-  //this.currentIndex = 0;
-
-  /// ---------------------------
-  //  INITIALISE PIXI
-  /// ---------------------------      
-  this.initPixi = function() {
-    // Add canvas to the HTML
-    options.appendElement.appendChild(renderer.view);
-
-    // Add child container to the main container 
-    stage.addChild(slidesContainer);
-
-    // Enable Interactions
-    stage.interactive = true;
-
-    // Fit renderer to the screen
-    if (options.fullScreen === true) {
-      renderer.view.style.objectFit = 'cover';
-      renderer.view.style.width     = '100%';
-      renderer.view.style.height    = '100%';
-      renderer.view.style.top       = '50%';
-      renderer.view.style.left      = '50%';
-      renderer.view.style.webkitTransform = 'translate(-50%, -50%) scale(1.2)';
-      renderer.view.style.transform = 'translate(-50%, -50%) scale(1.2)';           
-    } else {
-      renderer.view.style.width     = '100%';
-      renderer.view.style.top       = '50%';
-      renderer.view.style.left      = '50%';
-      renderer.view.style.webkitTransform = 'translate(-50%, -50%)';
-      renderer.view.style.transform = 'translate(-50%, -50%)';          
-    }
-    displacementSprite.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT;
-
-    // Set the filter to stage and set some default values for the animation
-    stage.filters = [displacementFilter];        
-
-    if (options.autoPlay === false) {
-      displacementFilter.scale.x = 0;
-      displacementFilter.scale.y = 0;
-    }
-    if (options.wacky === true) {
-      displacementSprite.anchor.set(0.5);
-      displacementSprite.x = renderer.width / 2;
-      displacementSprite.y = renderer.height / 2; 
-    }
-    displacementSprite.scale.x = 2;
-    displacementSprite.scale.y = 2;
-
-    // PIXI tries to fit the filter bounding box to the renderer so we optionally bypass
-    displacementFilter.autoFit = options.displaceAutoFit;
-    
-    stage.addChild(displacementSprite);
-  };
-
-  /// ---------------------------
-  //  LOAD SLIDES TO CANVAS
-  /// ---------------------------          
-  this.loadPixiSprites = function(sprites) {
-    var rSprites = options.sprites;
-    var rTexts   = options.texts;
-    for (var i = 0; i < rSprites.length; i++) {
-      var texture = new PIXI.Texture.fromImage(sprites[i]);
-      var image   = new PIXI.Sprite(texture);
-
-      if (rTexts) {
-        var richText = new PIXI.Text(rTexts[i], style);
-        image.addChild(richText);
-        richText.anchor.set(0.5);
-        richText.x = image.width / 2;
-        richText.y = image.height / 2;                     
-      }
-      if (options.centerSprites === true) {
-        image.anchor.set(0.5);
-        image.x = renderer.width / 2;
-        image.y = renderer.height / 2;            
-      }
-      // image.transform.scale.x = 1.3;
-      // image.transform.scale.y = 1.3;
-      if (i !== 0 ) {
-        TweenMax.set(image, {alpha: 0});
-      }
-      slidesContainer.addChild(image);
-    } 
-  };
 
   /// ---------------------------
   //  DEFAULT RENDER/ANIMATION
@@ -180,44 +78,16 @@ export function Slideshow(options) {
       renderer.render(stage);
     });
   } else {
-      var render = new PIXI.ticker.Ticker();
-      render.autoStart = true;
-      render.add(function(delta) {
-        renderer.render(stage);
-      });
+    var render = new PIXI.ticker.Ticker();
+    render.autoStart = true;
+    render.add(function(delta) {
+      renderer.render(stage);
+    });
   }
-
-  /// ---------------------------
-  //  AUTO SCROLL
-  /// ---------------------------         
-  // setInterval(function(){
-  //   that.moveSlider((that.currentIndex+1)%slideImages.length);
-  // }, options.tickRate);
-
-  /// ---------------------------
-  //  INIT FUNCTIONS
-  /// ---------------------------    
-  this.init = function() {
-    that.initPixi();
-    that.loadPixiSprites( options.pixiSprites );
-    /*
-    if ( options.fullScreen === true ) {
-      window.addEventListener("resize", function( event ){ 
-        scaleToWindow( renderer.view );
-      });
-      scaleToWindow( renderer.view );  
-    }
-    */
-  };
 
   /// ---------------------------
   //  INTERACTIONS
-  /// ---------------------------
-  function rotateSpite() {
-    displacementSprite.rotation += 0.001;
-    rafID = requestAnimationFrame( rotateSpite );
-  }
-        
+  /// --------------------------- 
   if (options.interactive === true) {
     var rafID, mouseX, mouseY;
 
@@ -281,88 +151,207 @@ export function Slideshow(options) {
   /// ---------------------------
   //  START 
   /// ---------------------------           
-  this.init();
-
-  /// ---------------------------
-  //  HELPER FUNCTIONS
-  /// ---------------------------
-  function scaleToWindow(canvas, backgroundColor) {
-    var scaleX, scaleY, scale, center;
-
-    //1. Scale the canvas to the correct size
-    //Figure out the scale amount on each axis
-    scaleX = window.innerWidth / canvas.offsetWidth;
-    scaleY = window.innerHeight / canvas.offsetHeight;
-
-    //Scale the canvas based on whichever value is less: `scaleX` or `scaleY`
-    scale = Math.min(scaleX, scaleY);
-    canvas.style.transformOrigin = "0 0";
-    canvas.style.transform = "scale(" + scale + ")";
-
-    //2. Center the canvas.
-    //Decide whether to center the canvas vertically or horizontally.
-    //Wide canvases should be centered vertically, and 
-    //square or tall canvases should be centered horizontally
-    if (canvas.offsetWidth > canvas.offsetHeight) {
-      if (canvas.offsetWidth * scale < window.innerWidth) {
-        center = "horizontally";
-      } else {
-        center = "vertically";
-      }
-    } else {
-      if (canvas.offsetHeight * scale < window.innerHeight) {
-        center = "vertically";
-      } else {
-        center = "horizontally";
-      }
-    }
-
-    //Center horizontally (for square or tall canvases)
-    var margin;
-    if (center === "horizontally") {
-      margin = (window.innerWidth - canvas.offsetWidth * scale) / 2;
-      canvas.style.marginTop = 0 + "px";
-      canvas.style.marginBottom = 0 + "px";
-      canvas.style.marginLeft = margin + "px";
-      canvas.style.marginRight = margin + "px";
-    }
-
-    //Center vertically (for wide canvases) 
-    if (center === "vertically") {
-      margin = (window.innerHeight - canvas.offsetHeight * scale) / 2;
-      canvas.style.marginTop = margin + "px";
-      canvas.style.marginBottom = margin + "px";
-      canvas.style.marginLeft = 0 + "px";
-      canvas.style.marginRight = 0 + "px";
-    }
-
-    //3. Remove any padding from the canvas  and body and set the canvas
-    //display style to "block"
-    canvas.style.paddingLeft = 0 + "px";
-    canvas.style.paddingRight = 0 + "px";
-    canvas.style.paddingTop = 0 + "px";
-    canvas.style.paddingBottom = 0 + "px";
-    canvas.style.display = "block";
-
-    //4. Set the color of the HTML body background
-    document.body.style.backgroundColor = backgroundColor;
-
-    //Fix some quirkiness in scaling for Safari
-    var ua = navigator.userAgent.toLowerCase();
-    if (ua.indexOf("safari") != -1) {
-      if (ua.indexOf("chrome") > -1) {
-        // Chrome
-      } else {
-        // Safari
-        //canvas.style.maxHeight = "100%";
-        //canvas.style.minHeight = "100%";
-      }
-    }
-
-    //5. Return the `scale` value. This is important, because you'll nee this value 
-    //for correct hit testing between the pointer and sprites
-    return scale;
-  }
+  init();
 
   return slidesContainer.children
 }
+
+
+/// ---------------------------
+//  INITIALISE PIXI
+/// ---------------------------      
+initPixi = function() {
+  // Add canvas to the HTML
+  options.appendElement.appendChild(renderer.view);
+
+  // Add child container to the main container 
+  stage.addChild(slidesContainer);
+
+  // Enable Interactions
+  stage.interactive = true;
+
+  // Fit renderer to the screen
+  if (options.fullScreen === true) {
+    renderer.view.style.objectFit = 'cover';
+    renderer.view.style.width     = '100%';
+    renderer.view.style.height    = '100%';
+    renderer.view.style.top       = '50%';
+    renderer.view.style.left      = '50%';
+    renderer.view.style.webkitTransform = 'translate(-50%, -50%) scale(1.2)';
+    renderer.view.style.transform = 'translate(-50%, -50%) scale(1.2)';           
+  } else {
+    renderer.view.style.width     = '100%';
+    renderer.view.style.top       = '50%';
+    renderer.view.style.left      = '50%';
+    renderer.view.style.webkitTransform = 'translate(-50%, -50%)';
+    renderer.view.style.transform = 'translate(-50%, -50%)';          
+  }
+  displacementSprite.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT;
+
+  // Set the filter to stage and set some default values for the animation
+  stage.filters = [displacementFilter];        
+
+  if (options.autoPlay === false) {
+    displacementFilter.scale.x = 0;
+    displacementFilter.scale.y = 0;
+  }
+  if (options.wacky === true) {
+    displacementSprite.anchor.set(0.5);
+    displacementSprite.x = renderer.width / 2;
+    displacementSprite.y = renderer.height / 2; 
+  }
+  displacementSprite.scale.x = 2;
+  displacementSprite.scale.y = 2;
+
+  // PIXI tries to fit the filter bounding box to the renderer so we optionally bypass
+  displacementFilter.autoFit = options.displaceAutoFit;
+  
+  stage.addChild(displacementSprite);
+};
+
+/// ---------------------------
+//  LOAD SLIDES TO CANVAS
+/// ---------------------------          
+loadPixiSprites = function(sprites) {
+  var rSprites = options.sprites;
+  var rTexts   = options.texts;
+  for (var i = 0; i < rSprites.length; i++) {
+    var texture = new PIXI.Texture.fromImage(sprites[i]);
+    var image   = new PIXI.Sprite(texture);
+
+    if (rTexts) {
+      var richText = new PIXI.Text(rTexts[i], style);
+      image.addChild(richText);
+      richText.anchor.set(0.5);
+      richText.x = image.width / 2;
+      richText.y = image.height / 2;                     
+    }
+    if (options.centerSprites === true) {
+      image.anchor.set(0.5);
+      image.x = renderer.width / 2;
+      image.y = renderer.height / 2;            
+    }
+    // image.transform.scale.x = 1.3;
+    // image.transform.scale.y = 1.3;
+    if (i !== 0 ) {
+      TweenMax.set(image, {alpha: 0});
+    }
+    slidesContainer.addChild(image);
+  } 
+};
+
+/// ---------------------------
+//  INIT FUNCTIONS
+/// ---------------------------    
+init = function() {
+  initPixi();
+  loadPixiSprites( options.pixiSprites );
+  /*
+  if ( options.fullScreen === true ) {
+    window.addEventListener("resize", function( event ){ 
+      scaleToWindow( renderer.view );
+    });
+    scaleToWindow( renderer.view );  
+  }
+  */
+};
+
+/// ---------------------------
+//  INTERACTIONS
+/// ---------------------------
+function rotateSpite() {
+  displacementSprite.rotation += 0.001;
+  rafID = requestAnimationFrame( rotateSpite );
+}
+
+/// ---------------------------
+//  HELPER FUNCTIONS
+/// ---------------------------
+
+function scaleToWindow(canvas, backgroundColor) {
+  var scaleX, scaleY, scale, center;
+
+  //1. Scale the canvas to the correct size
+  //Figure out the scale amount on each axis
+  scaleX = window.innerWidth / canvas.offsetWidth;
+  scaleY = window.innerHeight / canvas.offsetHeight;
+
+  //Scale the canvas based on whichever value is less: `scaleX` or `scaleY`
+  scale = Math.min(scaleX, scaleY);
+  canvas.style.transformOrigin = "0 0";
+  canvas.style.transform = "scale(" + scale + ")";
+
+  //2. Center the canvas.
+  //Decide whether to center the canvas vertically or horizontally.
+  //Wide canvases should be centered vertically, and 
+  //square or tall canvases should be centered horizontally
+  if (canvas.offsetWidth > canvas.offsetHeight) {
+    if (canvas.offsetWidth * scale < window.innerWidth) {
+      center = "horizontally";
+    } else {
+      center = "vertically";
+    }
+  } else {
+    if (canvas.offsetHeight * scale < window.innerHeight) {
+      center = "vertically";
+    } else {
+      center = "horizontally";
+    }
+  }
+
+  //Center horizontally (for square or tall canvases)
+  var margin;
+  if (center === "horizontally") {
+    margin = (window.innerWidth - canvas.offsetWidth * scale) / 2;
+    canvas.style.marginTop = 0 + "px";
+    canvas.style.marginBottom = 0 + "px";
+    canvas.style.marginLeft = margin + "px";
+    canvas.style.marginRight = margin + "px";
+  }
+
+  //Center vertically (for wide canvases) 
+  if (center === "vertically") {
+    margin = (window.innerHeight - canvas.offsetHeight * scale) / 2;
+    canvas.style.marginTop = margin + "px";
+    canvas.style.marginBottom = margin + "px";
+    canvas.style.marginLeft = 0 + "px";
+    canvas.style.marginRight = 0 + "px";
+  }
+
+  //3. Remove any padding from the canvas  and body and set the canvas
+  //display style to "block"
+  canvas.style.paddingLeft = 0 + "px";
+  canvas.style.paddingRight = 0 + "px";
+  canvas.style.paddingTop = 0 + "px";
+  canvas.style.paddingBottom = 0 + "px";
+  canvas.style.display = "block";
+
+  //4. Set the color of the HTML body background
+  document.body.style.backgroundColor = backgroundColor;
+
+  //Fix some quirkiness in scaling for Safari
+  var ua = navigator.userAgent.toLowerCase();
+  if (ua.indexOf("safari") != -1) {
+    if (ua.indexOf("chrome") > -1) {
+      // Chrome
+    } else {
+      // Safari
+      //canvas.style.maxHeight = "100%";
+      //canvas.style.minHeight = "100%";
+    }
+  }
+
+  //5. Return the `scale` value. This is important, because you'll nee this value 
+  //for correct hit testing between the pointer and sprites
+  return scale;
+}
+
+
+  /// ---------------------------
+  //  AUTO SCROLL
+  /// ---------------------------    
+  //var isPlaying   = false;  
+  //var slideImages = slidesContainer.children;      
+  // setInterval(function(){
+  //   that.moveSlider((that.currentIndex+1)%slideImages.length);
+  // }, options.tickRate);
