@@ -1,58 +1,18 @@
 import React from 'react'
-import Img from 'gatsby-image'
 import Styled from 'styled-components'
-import imagesLoaded from 'imagesloaded'
 
-import crystalize from '../images/crystalize-s.jpg'
+import Slideshow from '../components/Slideshow'
 import GenericButton from '../components/GenericButton'
 import TextPreview from '../components/TextPreview'
 import ImagePreviewSection from '../components/ImagePreviewSection'
 import { DarkTheme } from '../utils/Theme'
 import { PaddedContainer } from '../utils/Container'
 
-import * as PIXI from 'pixi.js'
-import {TweenMax, Power1, Power2} from "gsap/umd/TweenMax";
-
-const tickRate = 8000
-const slideCount = 3
-
 
 class IndexPage extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      index: 0,
-      bgIndex: 1
-    }
-    this.tick = this.tick.bind(this)
-    this.tock = this.tock.bind(this)
-  }
-
-  componentDidMount() {
-    this.intervalHandler = setInterval(this.tick, tickRate)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.intervalHandler)
-  }
-
-  tock() {
-    this.setState(prevState => ({
-      bgIndex: (prevState.bgIndex+1)%slideCount
-    }))
-  }
-
-  tick() {
-    this.setState(prevState => ({
-      index: (prevState.index+1)%slideCount
-    }))
-    setTimeout(this.tock, tickRate/2)
-  }
-
   render() {
     const { data } = this.props
     const { hiking_1, hiking_2, hiking_3 } = data
-    const images = [hiking_1, hiking_2, hiking_3]
     const featuredProjectPostEdges = data.featuredProjectPosts.edges
     const recentArticlePosts = data.recentArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
     const featuredArticlePosts = data.featuredArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
@@ -65,21 +25,6 @@ class IndexPage extends React.Component {
     const IntroSection = Styled.div`
       position: relative;
       color: ${DarkTheme.text};
-    `
-    const Background = Styled.div`
-      height: 100%;
-      position: relative;
-      > div:first-child {
-        position: absolute;
-        z-index: 0;
-      }
-      > div:nth-child(2) {
-        
-      }
-      canvas {
-        display: block;
-        position: absolute;
-      }
     `
     const BackgroundFilter = Styled.div`
       position: absolute;
@@ -167,22 +112,7 @@ class IndexPage extends React.Component {
     return (
       <IndexWrapper>
         <IntroSection>
-          <Background className="image-container">  
-            <div>
-              {hiking_1 &&
-                <Img sizes={hiking_1.sizes} critical={true} alt="hiking-1" className="slide-image"/>
-              }
-              {hiking_2 &&
-                <Img sizes={hiking_2.sizes} critical={true} alt="hiking-2" className="slide-image"/>
-              }
-              {hiking_3 &&
-                <Img sizes={hiking_3.sizes} critical={true} alt="hiking-3" className="slide-image"/>
-              }
-            </div>
-            {images[(this.state.bgIndex)%slideCount] &&
-              <Img sizes={images[(this.state.bgIndex)%slideCount].sizes} alt="placeholder"/>
-            }
-          </Background>
+          <Slideshow images={[hiking_1, hiking_2, hiking_3]} rate={8000} subject='hiking'/>
           <BackgroundFilter/>
           <IntroBlurb>
             <h1>Hey, my name's <span>Kyle</span></h1>
@@ -223,7 +153,7 @@ class IndexPage extends React.Component {
         <ShadowWrapper>
           <ContactSection>
             <h1>Want to get in touch?</h1>
-            <p>Shoot an email to kyle@&lt;this website&gt; or check out any of the other links below to find me elsewhere on the web</p>
+            <p>Shoot me an email at kyle@carsonkk.com, or check out any of the other links to find me elsewhere online</p>
           </ContactSection>
         </ShadowWrapper>
       </IndexWrapper>

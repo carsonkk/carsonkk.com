@@ -62,7 +62,6 @@ class SmartButton extends React.Component {
   }
 }
 
-
 SmartButton.defaultProps = {
   to: '',
   text: '',

@@ -9,11 +9,21 @@ import { DarkTheme, RandomRange, RandomColor, RandomAngle, AngleToPercents } fro
 
 
 class ImagePreview extends React.Component {
+  constructor(props) {
+    super(props)
+    const ang = RandomAngle()
+    this.state = {
+      angle: ang,
+      percents: AngleToPercents((ang+45)%360),
+      lightColor: RandomColor(),
+      darkColor: RandomColor(),
+      duration: RandomRange(4, 10)
+    }
+  }
+
   render() {
     const { post, image } = this.props
     const { frontmatter } = post
-    const angle = RandomAngle()
-    const percents = AngleToPercents((angle+45)%360)
 
     const ImagePreviewWrapper = Styled.div`
       transition: all 0.3s;
@@ -98,21 +108,22 @@ class ImagePreview extends React.Component {
     `
     const breathing = keyframes`
       0% { 
-        background-position:${percents[0]}% ${percents[1]}%;
+        background-position:${this.state.percents[0]}% ${this.state.percents[1]}%;
       }
       50% { 
-        background-position:${percents[2]}% ${percents[3]}%;
+        background-position:${this.state.percents[2]}% ${this.state.percents[3]}%;
       }
       100% { 
-        background-position:${percents[0]}% ${percents[1]}%;
+        background-position:${this.state.percents[0]}% ${this.state.percents[1]}%;
       }
     `
     const BackgroundImage = frontmatter.bSingle ? Styled.div`
       transition: transform 0.4s;
-    ` : Styled.div`
-      background: linear-gradient(${angle}deg, ${RandomColor()}, ${RandomColor()});
+    `
+    : Styled.div`
+      background: linear-gradient(${this.state.angle}deg, ${this.state.lightColor}, ${this.state.darkColor});
       background-size: 400% 400%;
-      animation: ${breathing} ${RandomRange(4, 10)}s ease infinite;
+      animation: ${breathing} ${this.state.duration}s ease infinite;
       img {
         display: none;
       }
