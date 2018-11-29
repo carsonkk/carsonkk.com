@@ -2,9 +2,11 @@ import React from 'react'
 import Styled from 'styled-components'
 
 import Slideshow from '../components/Slideshow'
+import BackgroundSlideshow from '../components/BackgroundSlideshow'
 import GenericButton from '../components/GenericButton'
 import TextPreview from '../components/TextPreview'
 import ImagePreviewSection from '../components/ImagePreviewSection'
+import SmartLink from '../components/SmartLink'
 import { DarkTheme } from '../utils/Theme'
 import { PaddedContainer } from '../utils/Container'
 
@@ -16,6 +18,8 @@ class IndexPage extends React.Component {
     const featuredProjectPostEdges = data.featuredProjectPosts.edges
     const recentArticlePosts = data.recentArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
     const featuredArticlePosts = data.featuredArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
+    const images = [hiking_1, hiking_2, hiking_3]
+    const rate = 8000
 
     const IndexWrapper = Styled.div`
       display: flex;
@@ -32,6 +36,7 @@ class IndexPage extends React.Component {
       left: 0;
       width: 100%;
       height: 100%;
+      z-index: 3;
       opacity: 0.7;
       background-color: black;
     `
@@ -44,6 +49,7 @@ class IndexPage extends React.Component {
       bottom: 20%;
       left: 0;
       right: 0;
+      z-index: 3;
       overflow: hidden;
       text-align: center;
       h1 {
@@ -104,7 +110,7 @@ class IndexPage extends React.Component {
     `
     const ShadowWrapper = Styled.div`
       position: relative;
-      z-index: 1;
+      z-index: 50;
       box-shadow: 0 0 1rem 0 black;
       background-color: ${props => props.theme.primary};
     `
@@ -112,7 +118,8 @@ class IndexPage extends React.Component {
     return (
       <IndexWrapper>
         <IntroSection>
-          <Slideshow images={[hiking_1, hiking_2, hiking_3]} rate={8000} subject='hiking'/>
+          <Slideshow images={images} rate={rate} subject='hiking'/>
+          <BackgroundSlideshow images={images} rate={rate}/>
           <BackgroundFilter/>
           <IntroBlurb>
             <h1>Hey, my name's <span>Kyle</span></h1>
@@ -153,7 +160,7 @@ class IndexPage extends React.Component {
         <ShadowWrapper>
           <ContactSection>
             <h1>Want to get in touch?</h1>
-            <p>Shoot me an email at kyle@carsonkk.com, or check out any of the other links to find me elsewhere online</p>
+            <p>Shoot me an email at <SmartLink type='external' to='mailto:kyle@carsonkk.com' text='kyle@carsonkk.com'/>, or check out any of the other links below to find me elsewhere online</p>
           </ContactSection>
         </ShadowWrapper>
       </IndexWrapper>
