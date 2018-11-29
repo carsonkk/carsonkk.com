@@ -16,8 +16,8 @@ class MetaText extends React.Component {
       margin: 0.125rem ${isInline ? '1rem' : '0'} 0.125rem 0;
       font-size: 1rem;
       color: ${props => props.theme.caption};
-      svg, img, div {
-        margin-right: 0.25rem;
+      svg, img {
+        padding-right: 0.25rem;
       }
     `
     const MetaLink = Styled(SmartLink)`

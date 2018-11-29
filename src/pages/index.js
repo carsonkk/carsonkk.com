@@ -160,7 +160,7 @@ class IndexPage extends React.Component {
         <ShadowWrapper>
           <ContactSection>
             <h1>Want to get in touch?</h1>
-            <p>Shoot me an email at <SmartLink type='external' to='mailto:kyle@carsonkk.com' text='kyle@carsonkk.com'/>, or check out any of the other links below to find me elsewhere online</p>
+            <p>Shoot me an <SmartLink type='external' to='mailto:kyle@carsonkk.com' text='email' title='kyle@carsonkk.com'/>, or check out any of the other links below to find me elsewhere online</p>
           </ContactSection>
         </ShadowWrapper>
       </IndexWrapper>
