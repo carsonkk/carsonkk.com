@@ -1,6 +1,8 @@
-(function() {
-  
-    window.CanvasSlideshow = function( options ) {
+import * as PIXI from 'pixi.js'
+import {TweenMax, Power1, Power2} from "gsap/umd/TweenMax";
+
+
+    export function Slideshow(options) {
 
       
 
@@ -32,7 +34,8 @@
       options.textColor           = options.hasOwnProperty('textColor') ? options.textColor : '#fff';
       options.displacementCenter  = options.hasOwnProperty('displacementCenter') ? options.displacementCenter : false;
       options.dispatchPointerOver = options.hasOwnProperty('dispatchPointerOver') ? options.dispatchPointerOver : false;
-      
+      options.appendElement       = options.hasOwnProperty('appendElement') ? options.appendElement : document.body;
+      options.tickRate            = options.hasOwnProperty('tickRate') ? options.tickRate : 10000;
 
 
       //  PIXI VARIABLES
@@ -68,7 +71,7 @@
       this.initPixi = function() {
 
         // Add canvas to the HTML
-        document.body.appendChild( renderer.view );
+        options.appendElement.appendChild(renderer.view);
   
 
         // Add child container to the main container 
@@ -248,43 +251,48 @@
       /// ---------------------------
       //  CLICK HANDLERS
       /// ---------------------------         
-      var nav = options.navElement;
+      // var nav = options.navElement;
       
-      for ( var i = 0; i < nav.length; i++ ) {
+      // for ( var i = 0; i < nav.length; i++ ) {
         
-        var navItem = nav[i];
+      //   var navItem = nav[i];
 
-        navItem.onclick = function( event ) {
+      //   navItem.onclick = function( event ) {
 
-          // Make sure the previous transition has ended
-          if ( isPlaying ) {
-            return false;
-          }     
+      //     // Make sure the previous transition has ended
+      //     if ( isPlaying ) {
+      //       return false;
+      //     }     
           
-          if ( this.getAttribute('data-nav') === 'next' ) {
+      //     if ( this.getAttribute('data-nav') === 'next' ) {
 
-            if ( that.currentIndex >= 0 && that.currentIndex < slideImages.length - 1 ) {
-              that.moveSlider( that.currentIndex + 1 );
-            } else {
-              that.moveSlider( 0 );
-            }
+      //       if ( that.currentIndex >= 0 && that.currentIndex < slideImages.length - 1 ) {
+      //         that.moveSlider( that.currentIndex + 1 );
+      //       } else {
+      //         that.moveSlider( 0 );
+      //       }
 
-          } else {
+      //     } else {
 
-            if ( that.currentIndex > 0 && that.currentIndex < slideImages.length ) {
-              that.moveSlider( that.currentIndex - 1 );
-            } else {
-              that.moveSlider( spriteImages.length - 1 );
-            }            
+      //       if ( that.currentIndex > 0 && that.currentIndex < slideImages.length ) {
+      //         that.moveSlider( that.currentIndex - 1 );
+      //       } else {
+      //         that.moveSlider( spriteImages.length - 1 );
+      //       }            
 
-          }
+      //     }
 
-          return false;
+      //     return false;
 
-        }
+      //   }
         
-      }
-      
+      // }
+       /// ---------------------------
+        //  AUTO SCROLL
+        /// ---------------------------         
+        setInterval(function(){
+          that.moveSlider((that.currentIndex+1)%slideImages.length);
+        }, 8000);
 
 
       /// ---------------------------

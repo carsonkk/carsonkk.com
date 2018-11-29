@@ -1,84 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Img from 'gatsby-image'
-import Styled from 'styled-components'
-import imagesLoaded from 'imagesloaded'
 import * as PIXI from 'pixi.js'
-import {TweenMax, Power1, Power2} from 'gsap/umd/TweenMax'
+import {TweenMax, Power1, Power2} from "gsap/umd/TweenMax";
 
-import crystalize from '../images/crystalize-s.jpg'
-import {Slideshowz} from './test'
 
-let nextSlide
-
-class Slideshow extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      currIndex: 0,
-      nextIndex: 0
-    }
-    this.tick = this.tick.bind(this)
-    this.tock = this.tock.bind(this)
-    //this.LaunchShow = this.LaunchShow.bind(this)
-    //this.CanvasSlideshow = this.CanvasSlideshow.bind(this)
-  }
-
-  componentDidMount() {
-    this.LaunchShow()
-    this.intervalHandler = setInterval(this.tick, this.props.rate)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.intervalHandler)
-  }
-
-  tick() {
-    this.setState(prevState => ({
-      currIndex: (prevState.currIndex+1)%this.props.images.length
-    }))
-    //this.CanvasSlideshow.moveSlider(this.state.currIndex)
-    nextSlide(this.state.currIndex)
-    setTimeout(this.tock, this.props.rate/2)
-  }
-
-  tock() {
-    this.setState(prevState => ({
-      nextIndex: (prevState.nextIndex+1)%this.props.images.length
-    }))
-  }
-
-  LaunchShow() {
-    imagesLoaded('.slideshow-container', function() {
-      var spriteImages = document.querySelectorAll('.slide-image');
-      var spriteImagesSrc = [];
-      for(var i = 0; i < spriteImages.length; i++) {
-        var img = spriteImages[i].getElementsByTagName('img')[1]
-        if(img != undefined && img != null) {
-          spriteImagesSrc.push(img.getAttribute('src'));
-        }
-      }
-      nextSlide = CanvasSlideshow({
-        sprites: spriteImagesSrc,
-        displacementImage: crystalize,
-        autoPlay: false,
-        displaceScale: [300, 300],
-        fullScreen: false,
-        centerSprites: true,
-        wacky: true,
-        appendElement : document.querySelector('.slideshow-container')
-      })
-    });
-
-    function CanvasSlideshow(options) {
+    export function Slideshowz(options) {
 
       
 
       //  SCOPE
       /// ---------------------------      
       var that  =   this;
-  
-  
+
+
       
       //  OPTIONS
       /// ---------------------------      
@@ -104,8 +36,8 @@ class Slideshow extends React.Component {
       options.dispatchPointerOver = options.hasOwnProperty('dispatchPointerOver') ? options.dispatchPointerOver : false;
       options.appendElement       = options.hasOwnProperty('appendElement') ? options.appendElement : document.body;
       options.tickRate            = options.hasOwnProperty('tickRate') ? options.tickRate : 10000;
-  
-  
+
+
       //  PIXI VARIABLES
       /// ---------------------------    
       var renderer            = new PIXI.autoDetectRenderer( options.stageWidth, options.stageHeight, { transparent: true });
@@ -113,9 +45,9 @@ class Slideshow extends React.Component {
       var slidesContainer     = new PIXI.Container();
       var displacementSprite  = new PIXI.Sprite.fromImage( options.displacementImage );
       var displacementFilter  = new PIXI.filters.DisplacementFilter( displacementSprite );
-  
-  
-  
+
+
+
       //  TEXTS
       /// ---------------------------    
       var style = new PIXI.TextStyle({
@@ -124,30 +56,28 @@ class Slideshow extends React.Component {
         wordWrapWidth: 400,
         fontSize: 36
       });
-  
+
       
-  
+
       //  SLIDES ARRAY INDEX
       /// ---------------------------    
-      var currentIndex = 0;
-      //this.currentIndex = 0;
-  
-  
-  
+      this.currentIndex = 0;
+
+
+
       /// ---------------------------
       //  INITIALISE PIXI
       /// ---------------------------      
-      // this.initPixi = function() {
-      function initPixi() {
-  
+      this.initPixi = function() {
+
         // Add canvas to the HTML
         options.appendElement.appendChild(renderer.view);
   
-  
+
         // Add child container to the main container 
         stage.addChild( slidesContainer );
   
-  
+
         // Enable Interactions
         stage.interactive = true;
         
@@ -171,23 +101,23 @@ class Slideshow extends React.Component {
         
   
         displacementSprite.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT;
-  
-  
+
+
         // Set the filter to stage and set some default values for the animation
         stage.filters = [displacementFilter];        
-  
+
         if ( options.autoPlay === false ) {
           displacementFilter.scale.x = 0;
           displacementFilter.scale.y = 0;
         }
-  
+
         if ( options.wacky === true ) {
-  
+
           displacementSprite.anchor.set(0.5);
           displacementSprite.x = renderer.width / 2;
           displacementSprite.y = renderer.height / 2; 
         }
-  
+
         displacementSprite.scale.x = 2;
         displacementSprite.scale.y = 2;
   
@@ -195,30 +125,29 @@ class Slideshow extends React.Component {
         displacementFilter.autoFit = options.displaceAutoFit;
         
         stage.addChild( displacementSprite );
-  
+
       };
-  
-  
-  
+
+
+
       /// ---------------------------
       //  LOAD SLIDES TO CANVAS
       /// ---------------------------          
-      //this.loadPixiSprites = function( sprites ) {
-      function loadPixiSprites( sprites ) {
+      this.loadPixiSprites = function( sprites ) {
         
-  
+
         var rSprites = options.sprites;
         var rTexts   = options.texts;
-  
+
         for ( var i = 0; i < rSprites.length; i++ ) {
           
           var texture   = new PIXI.Texture.fromImage( sprites[i] );
           var image     = new PIXI.Sprite( texture );
-  
+
           if ( rTexts ) {
             var richText = new PIXI.Text( rTexts[i], style);
             image.addChild(richText);
-  
+
             richText.anchor.set(0.5);
             richText.x = image.width / 2;
             richText.y = image.height / 2;                     
@@ -232,69 +161,68 @@ class Slideshow extends React.Component {
           // image.transform.scale.x = 1.3;
           // image.transform.scale.y = 1.3;
          
-  
+
           
           if ( i !== 0  ) {
             TweenMax.set( image, { alpha: 0 } );
           }
-  
+
           slidesContainer.addChild( image );
-  
+
         } 
         
       };
       
-  
-  
+
+
       /// ---------------------------
       //  DEFAULT RENDER/ANIMATION
       /// ---------------------------        
       if ( options.autoPlay === true ) {
-  
+
         var ticker = new PIXI.ticker.Ticker();
-  
+
         ticker.autoStart = options.autoPlay;
-  
+
         ticker.add(function( delta ) {
           
           displacementSprite.x += options.autoPlaySpeed[0] * delta;
           displacementSprite.y += options.autoPlaySpeed[1];
           
           renderer.render( stage );
-  
+
         });
-  
+
       }  else {
-  
+
           var render = new PIXI.ticker.Ticker();
-  
+
           render.autoStart = true;
-  
+
           render.add(function( delta ) {
             renderer.render( stage );
           });        
         
       }    
       
-  
+
       /// ---------------------------
       //  TRANSITION BETWEEN SLIDES
       /// ---------------------------    
       var isPlaying   = false;  
       var slideImages = slidesContainer.children;    
-      //this.moveSlider = function( newIndex ) {
-      function moveSlider( newIndex ) {
-  
+      this.moveSlider = function( newIndex ) {
+
         isPlaying = true;
-  
-  
+
+
         var baseTimeline = new TimelineMax( { onComplete: function () {
-          currentIndex = newIndex;
+          that.currentIndex = newIndex;
           isPlaying = false;
           if ( options.wacky === true ) {
             displacementSprite.scale.set( 1 );
           }          
-          },onUpdate: function() {
+         },onUpdate: function() {
           
             if ( options.wacky === true ) {
               displacementSprite.rotation += baseTimeline.progress() * 0.02;      
@@ -310,41 +238,34 @@ class Slideshow extends React.Component {
         }        
         
         // DEMO 4
-        console.log(currentIndex)
-        console.log(newIndex)
-        console.log(slideImages)
         baseTimeline
         .to(displacementFilter.scale, 1, { x: options.displaceScale[0], y: options.displaceScale[1], ease: Power1.easeOut  })
-        .to(slideImages[currentIndex], 0.5, { alpha: 0, ease: Power2.easeOut }, 0.2)
+        .to(slideImages[that.currentIndex], 0.5, { alpha: 0, ease: Power2.easeOut }, 0.2)
         .to(slideImages[newIndex], 0.5, { alpha: 1, ease: Power2.easeOut }, 0.3)
         .to(displacementFilter.scale, 1, { x: options.displaceScaleTo[0], y: options.displaceScaleTo[1], ease: Power2.easeOut }, 0.3 );
-  
+
       };
-      
-  
+
         
       // }
        /// ---------------------------
         //  AUTO SCROLL
         /// ---------------------------         
-        // setInterval(function(){
-        //   that.moveSlider((that.currentIndex+1)%slideImages.length);
-        // }, 8000);
-  
-  
+        setInterval(function(){
+          that.moveSlider((that.currentIndex+1)%slideImages.length);
+        }, 8000);
+
+
       /// ---------------------------
       //  INIT FUNCTIONS
       /// ---------------------------    
-  
-      //this.init = function() {
-      function init() {
-  
+
+      this.init = function() {
+
         
-        //that.initPixi();
-        //that.loadPixiSprites( options.pixiSprites );
-        initPixi();
-        loadPixiSprites( options.pixiSprites );
-  
+        that.initPixi();
+        that.loadPixiSprites( options.pixiSprites );
+
         /*
         if ( options.fullScreen === true ) {
           window.addEventListener("resize", function( event ){ 
@@ -354,11 +275,11 @@ class Slideshow extends React.Component {
         }
         */
         
-  
+
       };
-  
-  
-  
+
+
+
       
       /// ---------------------------
       //  INTERACTIONS
@@ -371,11 +292,11 @@ class Slideshow extends React.Component {
       if ( options.interactive === true ) {
         
         var rafID, mouseX, mouseY;
-  
+
         // Enable interactions on our slider
         slidesContainer.interactive = true;
         slidesContainer.buttonMode  = true;       
-  
+
         // HOVER
         if ( options.interactionEvent === 'hover' || options.interactionEvent === 'both'  )  {
             
@@ -385,7 +306,7 @@ class Slideshow extends React.Component {
             TweenMax.to( displacementFilter.scale, 1, { x: "+=" + Math.sin( mouseX ) * 100 + "", y: "+=" + Math.cos( mouseY ) * 100 + ""  });   
             rotateSpite();
           };      
-  
+
           slidesContainer.pointerout = function( mouseData ){
             TweenMax.to( displacementFilter.scale, 1, { x: 0, y: 0 });
             cancelAnimationFrame( rafID );
@@ -405,9 +326,9 @@ class Slideshow extends React.Component {
               TweenMax.to( displacementFilter.scale, 1, { x: 0, y: 0 });                      
               cancelAnimationFrame( rafID );
             }
-  
+
           };     
-  
+
           slidesContainer.pointerdown = function( mouseData ){
             mouseX = mouseData.data.global.x;
             mouseY = mouseData.data.global.y;         
@@ -423,9 +344,9 @@ class Slideshow extends React.Component {
               TweenMax.to( displacementFilter.scale, 1, { x: 0, y: 0 });                      
               cancelAnimationFrame( rafID );
             }
-  
+
           };              
-  
+
         }
       
       }
@@ -445,9 +366,8 @@ class Slideshow extends React.Component {
       /// ---------------------------
       //  START 
       /// ---------------------------           
-      //this.init();
-      init()
-  
+      this.init();
+
       
       /// ---------------------------
       //  HELPER FUNCTIONS
@@ -529,59 +449,6 @@ class Slideshow extends React.Component {
         //for correct hit testing between the pointer and sprites
         return scale;
       } // http://bit.ly/2y1Yk2k      
-  
-      return moveSlider
+
+      
     }
-  }
-
-  
-
-  render() {
-    const { images, subject } = this.props
-    const { nextIndex } = this.state
-
-    const SlideshowWrapper = Styled.div`
-      height: 100%;
-      position: relative;
-      > div:first-child {
-        position: absolute;
-        z-index: 0;
-        left: 0;
-        top: 0;
-      }
-      canvas {
-        display: block;
-        position: absolute;
-      }
-    `
-
-    return (
-      <SlideshowWrapper className="slideshow-container">  
-        <div>
-          {images.map((img, i) => {
-            return (<Img key={i} sizes={img.sizes} critical={true} fadeIn={false} className="slide-image" alt={`${subject}-${i}`}/>)
-          })}
-        </div>
-        {images[nextIndex] &&
-          <Img sizes={images[nextIndex].sizes} alt="placeholder"/>
-        }
-        {/* {images[2] &&
-          <Img sizes={images[2].sizes} alt="placeholder"/>
-        } */}
-        {/* canvas will be appended here at render time */}
-      </SlideshowWrapper>
-    )
-  }
-}
-
-Slideshow.propTypes = {
-  images: PropTypes.array.isRequired,
-  rate: PropTypes.number.isRequired,
-  subject: PropTypes.string
-}
-
-Slideshow.defaultProps = {
-  subject: 'slide'
-}
-
-export default Slideshow
