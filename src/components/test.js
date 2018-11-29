@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js'
 import {TweenMax, Power1, Power2} from "gsap/umd/TweenMax";
 
 
-    export function Slideshowz(options) {
+    export function CanvasSlideshow(options) {
 
       
 
