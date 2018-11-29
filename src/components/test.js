@@ -8,7 +8,7 @@ import {TweenMax, Power1, Power2} from "gsap/umd/TweenMax";
 
       //  SCOPE
       /// ---------------------------      
-      var that  =   this;
+      //var that  =   this;
 
 
       
@@ -50,25 +50,25 @@ import {TweenMax, Power1, Power2} from "gsap/umd/TweenMax";
 
       //  TEXTS
       /// ---------------------------    
-      var style = new PIXI.TextStyle({
-        fill: options.textColor,
-        wordWrap: true,
-        wordWrapWidth: 400,
-        fontSize: 36
-      });
+      // var style = new PIXI.TextStyle({
+      //   fill: options.textColor,
+      //   wordWrap: true,
+      //   wordWrapWidth: 400,
+      //   fontSize: 36
+      // });
 
       
 
       //  SLIDES ARRAY INDEX
       /// ---------------------------    
-      this.currentIndex = 0;
+      var currentIndex = 0;
 
 
 
       /// ---------------------------
       //  INITIALISE PIXI
       /// ---------------------------      
-      this.initPixi = function() {
+      function initPixi() {
 
         // Add canvas to the HTML
         options.appendElement.appendChild(renderer.view);
@@ -133,7 +133,7 @@ import {TweenMax, Power1, Power2} from "gsap/umd/TweenMax";
       /// ---------------------------
       //  LOAD SLIDES TO CANVAS
       /// ---------------------------          
-      this.loadPixiSprites = function( sprites ) {
+      function loadPixiSprites( sprites ) {
         
 
         var rSprites = options.sprites;
@@ -144,14 +144,14 @@ import {TweenMax, Power1, Power2} from "gsap/umd/TweenMax";
           var texture   = new PIXI.Texture.fromImage( sprites[i] );
           var image     = new PIXI.Sprite( texture );
 
-          if ( rTexts ) {
-            var richText = new PIXI.Text( rTexts[i], style);
-            image.addChild(richText);
+          // if ( rTexts ) {
+          //   var richText = new PIXI.Text( rTexts[i], style);
+          //   image.addChild(richText);
 
-            richText.anchor.set(0.5);
-            richText.x = image.width / 2;
-            richText.y = image.height / 2;                     
-          }
+          //   richText.anchor.set(0.5);
+          //   richText.x = image.width / 2;
+          //   richText.y = image.height / 2;                     
+          // }
           
           if ( options.centerSprites === true ) {
             image.anchor.set(0.5);
@@ -211,13 +211,13 @@ import {TweenMax, Power1, Power2} from "gsap/umd/TweenMax";
       /// ---------------------------    
       var isPlaying   = false;  
       var slideImages = slidesContainer.children;    
-      this.moveSlider = function( newIndex ) {
+      function moveSlider( newIndex ) {
 
         isPlaying = true;
 
 
         var baseTimeline = new TimelineMax( { onComplete: function () {
-          that.currentIndex = newIndex;
+          currentIndex = newIndex;
           isPlaying = false;
           if ( options.wacky === true ) {
             displacementSprite.scale.set( 1 );
@@ -240,7 +240,7 @@ import {TweenMax, Power1, Power2} from "gsap/umd/TweenMax";
         // DEMO 4
         baseTimeline
         .to(displacementFilter.scale, 1, { x: options.displaceScale[0], y: options.displaceScale[1], ease: Power1.easeOut  })
-        .to(slideImages[that.currentIndex], 0.5, { alpha: 0, ease: Power2.easeOut }, 0.2)
+        .to(slideImages[currentIndex], 0.5, { alpha: 0, ease: Power2.easeOut }, 0.2)
         .to(slideImages[newIndex], 0.5, { alpha: 1, ease: Power2.easeOut }, 0.3)
         .to(displacementFilter.scale, 1, { x: options.displaceScaleTo[0], y: options.displaceScaleTo[1], ease: Power2.easeOut }, 0.3 );
 
@@ -252,7 +252,7 @@ import {TweenMax, Power1, Power2} from "gsap/umd/TweenMax";
         //  AUTO SCROLL
         /// ---------------------------         
         setInterval(function(){
-          that.moveSlider((that.currentIndex+1)%slideImages.length);
+          moveSlider((currentIndex+1)%slideImages.length);
         }, 8000);
 
 
@@ -260,11 +260,11 @@ import {TweenMax, Power1, Power2} from "gsap/umd/TweenMax";
       //  INIT FUNCTIONS
       /// ---------------------------    
 
-      this.init = function() {
+      function init() {
 
         
-        that.initPixi();
-        that.loadPixiSprites( options.pixiSprites );
+        initPixi();
+        loadPixiSprites( options.pixiSprites );
 
         /*
         if ( options.fullScreen === true ) {
@@ -284,171 +284,173 @@ import {TweenMax, Power1, Power2} from "gsap/umd/TweenMax";
       /// ---------------------------
       //  INTERACTIONS
       /// ---------------------------
-      function rotateSpite() {
-        displacementSprite.rotation += 0.001;
-        rafID = requestAnimationFrame( rotateSpite );
-      }
+      // function rotateSpite() {
+      //   displacementSprite.rotation += 0.001;
+      //   rafID = requestAnimationFrame( rotateSpite );
+      // }
             
-      if ( options.interactive === true ) {
+      // if ( options.interactive === true ) {
         
-        var rafID, mouseX, mouseY;
+      //   var rafID, mouseX, mouseY;
 
-        // Enable interactions on our slider
-        slidesContainer.interactive = true;
-        slidesContainer.buttonMode  = true;       
+      //   // Enable interactions on our slider
+      //   slidesContainer.interactive = true;
+      //   slidesContainer.buttonMode  = true;       
 
-        // HOVER
-        if ( options.interactionEvent === 'hover' || options.interactionEvent === 'both'  )  {
+      //   // HOVER
+      //   if ( options.interactionEvent === 'hover' || options.interactionEvent === 'both'  )  {
             
-          slidesContainer.pointerover = function( mouseData ){
-            mouseX = mouseData.data.global.x;
-            mouseY = mouseData.data.global.y;   
-            TweenMax.to( displacementFilter.scale, 1, { x: "+=" + Math.sin( mouseX ) * 100 + "", y: "+=" + Math.cos( mouseY ) * 100 + ""  });   
-            rotateSpite();
-          };      
+      //     slidesContainer.pointerover = function( mouseData ){
+      //       mouseX = mouseData.data.global.x;
+      //       mouseY = mouseData.data.global.y;   
+      //       TweenMax.to( displacementFilter.scale, 1, { x: "+=" + Math.sin( mouseX ) * 100 + "", y: "+=" + Math.cos( mouseY ) * 100 + ""  });   
+      //       rotateSpite();
+      //     };      
 
-          slidesContainer.pointerout = function( mouseData ){
-            TweenMax.to( displacementFilter.scale, 1, { x: 0, y: 0 });
-            cancelAnimationFrame( rafID );
-          };     
+      //     slidesContainer.pointerout = function( mouseData ){
+      //       TweenMax.to( displacementFilter.scale, 1, { x: 0, y: 0 });
+      //       cancelAnimationFrame( rafID );
+      //     };     
           
-        }
+      //   }
       
-        // CLICK
-        if ( options.interactionEvent === 'click' || options.interactionEvent === 'both'  ) {
+      //   // CLICK
+      //   if ( options.interactionEvent === 'click' || options.interactionEvent === 'both'  ) {
             
-          slidesContainer.pointerup = function( mouseData ){
-            if ( options.dispatchPointerOver === true ) {
-              TweenMax.to( displacementFilter.scale, 1, { x: 0, y: 0, onComplete: function() {
-                TweenMax.to( displacementFilter.scale, 1, { x: 20, y: 20  });        
-              } });            
-            } else {
-              TweenMax.to( displacementFilter.scale, 1, { x: 0, y: 0 });                      
-              cancelAnimationFrame( rafID );
-            }
+      //     slidesContainer.pointerup = function( mouseData ){
+      //       if ( options.dispatchPointerOver === true ) {
+      //         TweenMax.to( displacementFilter.scale, 1, { x: 0, y: 0, onComplete: function() {
+      //           TweenMax.to( displacementFilter.scale, 1, { x: 20, y: 20  });        
+      //         } });            
+      //       } else {
+      //         TweenMax.to( displacementFilter.scale, 1, { x: 0, y: 0 });                      
+      //         cancelAnimationFrame( rafID );
+      //       }
 
-          };     
+      //     };     
 
-          slidesContainer.pointerdown = function( mouseData ){
-            mouseX = mouseData.data.global.x;
-            mouseY = mouseData.data.global.y;         
-            TweenMax.to( displacementFilter.scale, 1, { x: "+=" + Math.sin( mouseX ) * 1200 + "", y: "+=" + Math.cos( mouseY ) * 200 + ""  });   
-          };    
+      //     slidesContainer.pointerdown = function( mouseData ){
+      //       mouseX = mouseData.data.global.x;
+      //       mouseY = mouseData.data.global.y;         
+      //       TweenMax.to( displacementFilter.scale, 1, { x: "+=" + Math.sin( mouseX ) * 1200 + "", y: "+=" + Math.cos( mouseY ) * 200 + ""  });   
+      //     };    
            
-          slidesContainer.pointerout = function( mouseData ){
-            if ( options.dispatchPointerOver === true ) {
-              TweenMax.to( displacementFilter.scale, 1, { x: 0, y: 0, onComplete: function() {
-                TweenMax.to( displacementFilter.scale, 1, { x: 20, y: 20  });        
-              } });            
-            } else {
-              TweenMax.to( displacementFilter.scale, 1, { x: 0, y: 0 });                      
-              cancelAnimationFrame( rafID );
-            }
+      //     slidesContainer.pointerout = function( mouseData ){
+      //       if ( options.dispatchPointerOver === true ) {
+      //         TweenMax.to( displacementFilter.scale, 1, { x: 0, y: 0, onComplete: function() {
+      //           TweenMax.to( displacementFilter.scale, 1, { x: 20, y: 20  });        
+      //         } });            
+      //       } else {
+      //         TweenMax.to( displacementFilter.scale, 1, { x: 0, y: 0 });                      
+      //         cancelAnimationFrame( rafID );
+      //       }
 
-          };              
+      //     };              
 
-        }
+      //   }
       
-      }
+      // }
       
       
       
       /// ---------------------------
       //  CENTER DISPLACEMENT
       /// ---------------------------
-      if ( options.displacementCenter === true ) {
-        displacementSprite.anchor.set(0.5);
-        displacementSprite.x = renderer.view.width / 2;
-        displacementSprite.y = renderer.view.height / 2;        
-      }
+      // if ( options.displacementCenter === true ) {
+      //   displacementSprite.anchor.set(0.5);
+      //   displacementSprite.x = renderer.view.width / 2;
+      //   displacementSprite.y = renderer.view.height / 2;        
+      // }
       
       
       /// ---------------------------
       //  START 
       /// ---------------------------           
-      this.init();
+      init();
 
       
       /// ---------------------------
       //  HELPER FUNCTIONS
       /// ---------------------------
-      function scaleToWindow( canvas, backgroundColor ) {
-        var scaleX, scaleY, scale, center;
+      // function scaleToWindow( canvas, backgroundColor ) {
+      //   var scaleX, scaleY, scale, center;
       
-        //1. Scale the canvas to the correct size
-        //Figure out the scale amount on each axis
-        scaleX = window.innerWidth / canvas.offsetWidth;
-        scaleY = window.innerHeight / canvas.offsetHeight;
+      //   //1. Scale the canvas to the correct size
+      //   //Figure out the scale amount on each axis
+      //   scaleX = window.innerWidth / canvas.offsetWidth;
+      //   scaleY = window.innerHeight / canvas.offsetHeight;
       
-        //Scale the canvas based on whichever value is less: `scaleX` or `scaleY`
-        scale = Math.min(scaleX, scaleY);
-        canvas.style.transformOrigin = "0 0";
-        canvas.style.transform = "scale(" + scale + ")";
+      //   //Scale the canvas based on whichever value is less: `scaleX` or `scaleY`
+      //   scale = Math.min(scaleX, scaleY);
+      //   canvas.style.transformOrigin = "0 0";
+      //   canvas.style.transform = "scale(" + scale + ")";
       
-        //2. Center the canvas.
-        //Decide whether to center the canvas vertically or horizontally.
-        //Wide canvases should be centered vertically, and 
-        //square or tall canvases should be centered horizontally
-        if (canvas.offsetWidth > canvas.offsetHeight) {
-          if (canvas.offsetWidth * scale < window.innerWidth) {
-            center = "horizontally";
-          } else {
-            center = "vertically";
-          }
-        } else {
-          if (canvas.offsetHeight * scale < window.innerHeight) {
-            center = "vertically";
-          } else {
-            center = "horizontally";
-          }
-        }
+      //   //2. Center the canvas.
+      //   //Decide whether to center the canvas vertically or horizontally.
+      //   //Wide canvases should be centered vertically, and 
+      //   //square or tall canvases should be centered horizontally
+      //   if (canvas.offsetWidth > canvas.offsetHeight) {
+      //     if (canvas.offsetWidth * scale < window.innerWidth) {
+      //       center = "horizontally";
+      //     } else {
+      //       center = "vertically";
+      //     }
+      //   } else {
+      //     if (canvas.offsetHeight * scale < window.innerHeight) {
+      //       center = "vertically";
+      //     } else {
+      //       center = "horizontally";
+      //     }
+      //   }
       
-        //Center horizontally (for square or tall canvases)
-        var margin;
-        if (center === "horizontally") {
-          margin = (window.innerWidth - canvas.offsetWidth * scale) / 2;
-          canvas.style.marginTop = 0 + "px";
-          canvas.style.marginBottom = 0 + "px";
-          canvas.style.marginLeft = margin + "px";
-          canvas.style.marginRight = margin + "px";
-        }
+      //   //Center horizontally (for square or tall canvases)
+      //   var margin;
+      //   if (center === "horizontally") {
+      //     margin = (window.innerWidth - canvas.offsetWidth * scale) / 2;
+      //     canvas.style.marginTop = 0 + "px";
+      //     canvas.style.marginBottom = 0 + "px";
+      //     canvas.style.marginLeft = margin + "px";
+      //     canvas.style.marginRight = margin + "px";
+      //   }
       
-        //Center vertically (for wide canvases) 
-        if (center === "vertically") {
-          margin = (window.innerHeight - canvas.offsetHeight * scale) / 2;
-          canvas.style.marginTop = margin + "px";
-          canvas.style.marginBottom = margin + "px";
-          canvas.style.marginLeft = 0 + "px";
-          canvas.style.marginRight = 0 + "px";
-        }
+      //   //Center vertically (for wide canvases) 
+      //   if (center === "vertically") {
+      //     margin = (window.innerHeight - canvas.offsetHeight * scale) / 2;
+      //     canvas.style.marginTop = margin + "px";
+      //     canvas.style.marginBottom = margin + "px";
+      //     canvas.style.marginLeft = 0 + "px";
+      //     canvas.style.marginRight = 0 + "px";
+      //   }
       
-        //3. Remove any padding from the canvas  and body and set the canvas
-        //display style to "block"
-        canvas.style.paddingLeft = 0 + "px";
-        canvas.style.paddingRight = 0 + "px";
-        canvas.style.paddingTop = 0 + "px";
-        canvas.style.paddingBottom = 0 + "px";
-        canvas.style.display = "block";
+      //   //3. Remove any padding from the canvas  and body and set the canvas
+      //   //display style to "block"
+      //   canvas.style.paddingLeft = 0 + "px";
+      //   canvas.style.paddingRight = 0 + "px";
+      //   canvas.style.paddingTop = 0 + "px";
+      //   canvas.style.paddingBottom = 0 + "px";
+      //   canvas.style.display = "block";
       
-        //4. Set the color of the HTML body background
-        document.body.style.backgroundColor = backgroundColor;
+      //   //4. Set the color of the HTML body background
+      //   document.body.style.backgroundColor = backgroundColor;
       
-        //Fix some quirkiness in scaling for Safari
-        var ua = navigator.userAgent.toLowerCase();
-        if (ua.indexOf("safari") != -1) {
-          if (ua.indexOf("chrome") > -1) {
-            // Chrome
-          } else {
-            // Safari
-            //canvas.style.maxHeight = "100%";
-            //canvas.style.minHeight = "100%";
-          }
-        }
+      //   //Fix some quirkiness in scaling for Safari
+      //   var ua = navigator.userAgent.toLowerCase();
+      //   if (ua.indexOf("safari") != -1) {
+      //     if (ua.indexOf("chrome") > -1) {
+      //       // Chrome
+      //     } else {
+      //       // Safari
+      //       //canvas.style.maxHeight = "100%";
+      //       //canvas.style.minHeight = "100%";
+      //     }
+      //   }
       
-        //5. Return the `scale` value. This is important, because you'll nee this value 
-        //for correct hit testing between the pointer and sprites
-        return scale;
-      } // http://bit.ly/2y1Yk2k      
+      //   //5. Return the `scale` value. This is important, because you'll nee this value 
+      //   //for correct hit testing between the pointer and sprites
+      //   return scale;
+      // } // http://bit.ly/2y1Yk2k      
 
-      
+      return {
+        moveSlider: moveSlider
+      }
     }
