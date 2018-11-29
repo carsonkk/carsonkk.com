@@ -40,10 +40,11 @@ class BackgroundSlideshow extends React.Component {
 
     const BackgroundSlideshow = Styled.div`
       position: absolute;
-      left: 0;
-      top: 0;
+      left: 50%;
+      top: 50%;
       width: 100%;
       z-index: 1;
+      transform: translate(-51%, -51%) scale(1.02);
     `
 
     return (

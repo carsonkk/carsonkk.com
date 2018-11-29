@@ -87,14 +87,14 @@ function initPixi() {
     renderer.view.style.height          = '100%'
     renderer.view.style.top             = '50%'
     renderer.view.style.left            = '50%'
-    renderer.view.style.webkitTransform = 'translate( -50%, -50% ) scale(1.2)'
-    renderer.view.style.transform       = 'translate( -50%, -50% ) scale(1.2)'
+    renderer.view.style.webkitTransform = 'translate(-51%, -51%) scale(1.02)'
+    renderer.view.style.transform       = 'translate(-51%, -51%) scale(1.02)'
   } else {
     renderer.view.style.maxWidth        = '100%'
     renderer.view.style.top             = '50%'
     renderer.view.style.left            = '50%'
-    renderer.view.style.webkitTransform = 'translate( -50%, -50% )'
-    renderer.view.style.transform       = 'translate( -50%, -50% )'
+    renderer.view.style.webkitTransform = 'translate(-50%, -50%)'
+    renderer.view.style.transform       = 'translate(-50%, -50%)'
   }
   displacementSprite.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT
 
@@ -205,7 +205,7 @@ class Slideshow extends React.Component {
         displacementImage: crystalize,
         autoPlay: false,
         displaceScale: [300, 300],
-        fullScreen: false,
+        fullScreen: true,
         centerSprites: true,
         wacky: true,
         appendElement : document.querySelector('.slideshow-container')

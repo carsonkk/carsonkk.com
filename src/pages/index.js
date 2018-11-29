@@ -1,5 +1,5 @@
 import React from 'react'
-import Styled from 'styled-components'
+import Styled, { keyframes } from 'styled-components'
 
 import Slideshow from '../components/Slideshow'
 import BackgroundSlideshow from '../components/BackgroundSlideshow'
@@ -7,7 +7,7 @@ import GenericButton from '../components/GenericButton'
 import TextPreview from '../components/TextPreview'
 import ImagePreviewSection from '../components/ImagePreviewSection'
 import SmartLink from '../components/SmartLink'
-import { DarkTheme } from '../utils/Theme'
+import { DarkTheme, RandomRange } from '../utils/Theme'
 import { PaddedContainer } from '../utils/Container'
 
 
@@ -54,9 +54,6 @@ class IndexPage extends React.Component {
       text-align: center;
       h1 {
         font-size: 4rem;
-        span {
-          color: ${props => props.theme.color};
-        }
       }
     `
     const ButtonRow = Styled.div`
@@ -114,7 +111,163 @@ class IndexPage extends React.Component {
       box-shadow: 0 0 1rem 0 black;
       background-color: ${props => props.theme.primary};
     `
-    
+    const tearing = keyframes`
+      0% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      5% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      10% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      15% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      20% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      25% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      30% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      35% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      40% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      45% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      50% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      55% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      60% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      65% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      70% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      80% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      85% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      90% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      95% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+      100% {
+        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+      }
+    `
+    const GlitchedTextTear = Styled.span`
+      display: block;
+      position: absolute;
+      z-index: 5;
+      margin: 0 auto;
+      font-size: 100px;
+      &::before, &::after{
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        overflow: hidden;
+        clip: rect(0, 1000px, 0, 0);
+      }
+      &::before{
+        left: -2px;
+        text-shadow: 2px 0 #f0f;
+        animation: ${tearing} 3s infinite linear alternate-reverse;
+      }
+      &::after{
+        left: 2px;
+        text-shadow: -2px 0 #0f0;
+        animation: ${tearing} 2s infinite linear alternate-reverse;
+      }
+    `
+    const seperating = keyframes`
+      0% {
+        transform: translate(0);
+      }
+      3% {
+        transform: translate(-${RandomRange(3, 7)}px, ${RandomRange(3, 7)}px);
+      }
+      6% {
+        transform: translate(-${RandomRange(3, 7)}px, -${RandomRange(3, 7)}px);
+      }
+      9% {
+        transform: translate(${RandomRange(3, 7)}px, ${RandomRange(3, 7)}px);
+      }
+      12% {
+        transform: translate(${RandomRange(3, 7)}px, -${RandomRange(3, 7)}px);
+      }
+      15% {
+        transform: translate(0);
+      }
+      100% {
+        transform: translate(0);
+      }
+    `
+    const GlitchedTextSeparate = Styled.span`
+      display: block;
+      position: absolute;
+      z-index: 4;
+      margin: 0 auto;
+      font-size: 100px;
+      &::before, &::after{
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -2;
+      }
+      &::before{
+        color: #0ff;
+      }
+      &::after{
+        color: #ff0;
+      }
+      &:hover {
+        &::before{
+          animation: ${seperating} 2.75s cubic-bezier(.25, .45, .45, .95) both infinite
+        }
+        &::after{
+          animation: ${seperating} 2.75s cubic-bezier(.25, .45, .45, .95) reverse both infinite
+        }
+      }
+    `
+    // content: attr(data-text);
+    //   position: absolute;
+    //   left: 2px;
+    //   text-shadow: -1px 0 red;
+    //   top: 0;
+    //   color: white;
+    //   background: black;
+    //   overflow: hidden;
+    //   clip: rect(0,900px,0,0); 
+    //   animation: ${noise_anim} 2s infinite linear alternate-reverse;
+    // content: attr(data-text);
+    //   position: absolute;
+    //   left: -2px;
+    //   text-shadow: 1px 0 blue; 
+    //   top: 0;
+    //   color: white;
+    //   background: black;
+    //   overflow: hidden;
+    //   clip: rect(0,900px,0,0); 
+    //   animation: ${noise_anim_t} 3s infinite linear alternate-reverse;
     return (
       <IndexWrapper>
         <IntroSection>
@@ -122,8 +275,10 @@ class IndexPage extends React.Component {
           <BackgroundSlideshow images={images} rate={rate}/>
           <BackgroundFilter/>
           <IntroBlurb>
-            <h1>Hey, my name's <span>Kyle</span></h1>
-            <p>I'm a Software &amp; Computer Engineer from California with a passion for systems.
+            <GlitchedTextTear data-text="Kyle">Kyle</GlitchedTextTear>
+            <GlitchedTextSeparate data-text="Kyle">Kyle</GlitchedTextSeparate>
+            <p>
+              I'm a Software &amp; Computer Engineer from California with a passion for systems.
               This site is meant to consolidate the articles, tutorials, project writeups
               and everything else I've thrown together over the years.
             </p>
@@ -160,7 +315,10 @@ class IndexPage extends React.Component {
         <ShadowWrapper>
           <ContactSection>
             <h1>Want to get in touch?</h1>
-            <p>Shoot me an <SmartLink type='external' to='mailto:kyle@carsonkk.com' text='email' title='kyle@carsonkk.com'/>, or check out any of the other links below to find me elsewhere online</p>
+            <p>
+              Shoot me an <SmartLink type='external' to='mailto:kyle@carsonkk.com' text='email' title='kyle@carsonkk.com'/>
+              , or check out any of the other links below to find me elsewhere online
+            </p>
           </ContactSection>
         </ShadowWrapper>
       </IndexWrapper>
