@@ -119,7 +119,7 @@ class IndexPage extends React.Component {
           <BackgroundSlideshow images={images} rate={rate}/>
           <BackgroundFilter/>
           <IntroBlurb>
-            <h1><GlitchedText prologue="Hey, my name's " lineHeight={1.3}>Kyle</GlitchedText></h1>
+            <h1><GlitchedText prologue="Hey, my name's " fontSize={64} lineHeight={1.3} color={DarkTheme.text}>Kyle</GlitchedText></h1>
             <p>
               I'm a Software &amp; Computer Engineer from California with a passion for systems.
               This site is meant to consolidate the articles, tutorials, project writeups

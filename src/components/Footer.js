@@ -8,7 +8,7 @@ import GenericButton from './GenericButton'
 
 class Footer extends React.Component {
   render() {
-    const { links, isDarkTheme, handleClickTheme } = this.props
+    const { links, theme, handleClickTheme } = this.props
 
     const FooterWrapper = Styled.footer`
       flex: 0 1 auto;
@@ -127,8 +127,8 @@ class Footer extends React.Component {
           </div>
           <ThemeButton
             type='action'
-            title={isDarkTheme ? 'Brighter than a thousand suns...' : 'My eyes, they burn! Go back!'}
-            icon={isDarkTheme ? ['fas', 'moon'] : ['fas', 'sun']}
+            title={theme == 'dark' ? 'Brighter than a thousand suns...' : 'My eyes, they burn! Go back!'}
+            icon={theme == 'dark' ? ['fas', 'moon'] : ['fas', 'sun']}
             func={handleClickTheme}
             isFixedWidth={true}
           />
@@ -140,8 +140,18 @@ class Footer extends React.Component {
 
 Footer.propTypes = {
   links: PropTypes.array.isRequired,
-  handleClickTheme: PropTypes.func.isRequired,
-  isDarkTheme: PropTypes.bool.isRequired
+  theme: PropTypes.string.isRequired,
+  handleClickTheme: PropTypes.func.isRequired
 }
 
 export default Footer
+
+export const componentQuery = graphql`
+  fragment FooterFragment on SocialJson {
+    name
+    url
+    text
+    color
+    icon
+  }
+`

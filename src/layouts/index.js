@@ -1,6 +1,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import Styled, { ThemeProvider } from 'styled-components'
+import Cookies from 'universal-cookie'
 
 import '../css/prism-material.css'
 import Header from '../components/Header'
@@ -8,21 +9,32 @@ import Footer from '../components/Footer'
 import { DarkTheme, LightTheme } from '../utils/Theme'
 import { FontSans, LinkStyle } from '../utils/Text'
 
+const cookies = new Cookies()
 
 class IndexLayout extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {isDarkTheme: true}
+    this.state = {theme: cookies.get('theme')}
     this.handleClickTheme = this.handleClickTheme.bind(this)
   }
 
   handleClickTheme() {
-    this.setState(prevState => ({
-      isDarkTheme: !prevState.isDarkTheme
-    }))
+    const { theme } = this.state
+    let newTheme
+    if(theme == 'dark') {
+      newTheme = 'light'
+      cookies.set('theme', newTheme, { path: '/' })
+    } else {
+      newTheme = 'dark'
+      cookies.set('theme', newTheme, { path: '/' })
+    }
+    this.setState({
+      theme: newTheme
+    })
   }
 
   render() {
+    const { theme } = this.state
     const metadata = this.props.data.site.siteMetadata
     const Base = Styled.div`
       display: flex;
@@ -72,7 +84,7 @@ class IndexLayout extends React.Component {
     `
 
     return(
-      <ThemeProvider theme={this.state.isDarkTheme ? DarkTheme : LightTheme}>
+      <ThemeProvider theme={theme == 'dark' ? DarkTheme : LightTheme}>
         <Base>
           <Helmet defaultTitle={metadata.title} titleTemplate={`%s | ${metadata.title}`}>
             <meta name="description" content={metadata.description}/>
@@ -85,7 +97,7 @@ class IndexLayout extends React.Component {
           </MainWrapper>
           <Footer 
             links={this.props.data.allSocialJson.edges}
-            isDarkTheme={this.state.isDarkTheme} 
+            theme={theme} 
             handleClickTheme={this.handleClickTheme}
           />
         </Base>
@@ -109,11 +121,7 @@ export const pageQuery = graphql`
     allSocialJson {
       edges {
         node {
-          name
-          url
-          text
-          color
-          icon
+          ...FooterFragment
         }
       }
     }

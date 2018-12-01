@@ -7,68 +7,68 @@ import { RandomRange } from '../utils/Theme'
 
 class GlitchedText extends React.Component {
   render() {
-    const { children, prologue, epilogue, lineHeight } = this.props
+    const { children, prologue, epilogue, fontSize, lineHeight, color, background } = this.props
 
     const tearing = keyframes`
       0% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       5% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       10% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       15% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       20% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       25% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       30% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       35% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       40% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       45% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       50% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       55% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       60% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       65% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       70% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       80% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       85% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       90% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       95% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
       100% {
-        clip: rect(${RandomRange(1, 100)}px, 1000px, ${RandomRange(1, 100)}px, 0);
+        clip: rect(${RandomRange(1, fontSize)}px, 1000px, ${RandomRange(1, fontSize)}px, 0);
       }
     `
     const seperating = keyframes`
@@ -96,8 +96,11 @@ class GlitchedText extends React.Component {
     `
     const GlitchedTextWrapper = Styled.span`
       position: relative;
+      font-size: ${fontSize}px;
       line-height: ${lineHeight};
       span:nth-child(2) {
+        color: ${color};
+        background: ${background};
         position: relative;
         span:nth-child(1) {
           position: relative;
@@ -166,13 +169,18 @@ class GlitchedText extends React.Component {
 GlitchedText.propTypes = {
   prologue: PropTypes.string,
   epilogue: PropTypes.string,
-  lineHeight: PropTypes.number
+  fontSize: PropTypes.number.isRequired,
+  lineHeight: PropTypes.number,
+  color: PropTypes.string,
+  backgroundColor: PropTypes.string
 }
 
 GlitchedText.defaultProps = {
   prologue: '',
   epilogue: '',
-  lineHeight: 1
+  lineHeight: 1,
+  color: 'white',
+  background: 'transparent'
 }
 
 export default GlitchedText

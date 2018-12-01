@@ -39,7 +39,7 @@ class Header extends React.Component {
             animation: 0.3s ${keyframes`${fadeOutDown}`};
             transition: visibility 0.3s;
             visibility: hidden;
-            color: ${props => props.theme.primary};
+            color: transparent;
           }
         }
         a.active {

@@ -87,6 +87,7 @@ class ProjectPost extends React.Component {
   render() {
     const { markdownRemark, allMarkdownRemark } = this.props.data
     const { htmlAst, frontmatter } = markdownRemark
+    const crop = frontmatter.allowCropping == undefined ? true : frontmatter.allowCropping
     let tabs = []
     let contents = {}
 
@@ -100,7 +101,7 @@ class ProjectPost extends React.Component {
         img {
           right: 0 !important;
           margin: auto !important;
-          width: ${frontmatter.allowCropping ? '100%' : 'auto'} !important;
+          width: ${crop ? '100%' : 'auto'} !important;
         }
       }
     `

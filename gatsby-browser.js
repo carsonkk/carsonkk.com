@@ -1,7 +1,9 @@
-/**
- * Implement Gatsby's Browser APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/browser-apis/
- */
+const Cookies = require('universal-cookie')
 
- // You can delete this file if you're not using it
+
+exports.onClientEntry = () => {
+  const cookies = new Cookies();
+  if(cookies.get('theme') == undefined) {
+    cookies.set('theme', 'dark', { path: '/' })
+  }  
+}
