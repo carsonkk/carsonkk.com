@@ -33,7 +33,7 @@ class ArticlePost extends React.Component {
       display: flex;
       flex-direction: column;
       width: 100%;
-      h1, h2, h3, h4, h5, h6 {
+      h1 {
         font-family: ${FontSerif};
       }
     `

@@ -50,6 +50,7 @@ export const DarkTheme = {
   caption:   '#bbbbbb',
   social:    '#f4f4f4',
   toggle:    '#95a5a6',
+  github:    '#404040'
 }
 export const LightTheme = {
   primary:   '#f9f9f9',
@@ -60,6 +61,7 @@ export const LightTheme = {
   caption:   '#4f4f4f',
   social:    'transparent',
   toggle:    '#dbb726',
+  github:    '#bfbfbf'
 }
 export const Colors = {
   oneRed: '#d15d66',

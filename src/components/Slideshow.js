@@ -142,26 +142,28 @@ function loadPixiSprites(sprites) {
 
 // Transition from the slide at currIndex to the slide at nextIndex
 function moveSlider(currIndex, nextIndex) {
-  let baseTimeline = new TimelineMax({onComplete: function() {
-    if(options.wacky === true) {
-      displacementSprite.scale.set(1)
-    }
-  }, onUpdate: function() {
-      if ( options.wacky === true ) {
-        displacementSprite.rotation += baseTimeline.progress()*0.02
-        displacementSprite.scale.set( baseTimeline.progress()*3)
+  if(slidesContainer.children.length != 0) {
+    let baseTimeline = new TimelineMax({onComplete: function() {
+      if(options.wacky === true) {
+        displacementSprite.scale.set(1)
       }
-    } 
-  })
-  baseTimeline.clear()
-  if(baseTimeline.isActive()) {
-    return
+    }, onUpdate: function() {
+        if ( options.wacky === true ) {
+          displacementSprite.rotation += baseTimeline.progress()*0.02
+          displacementSprite.scale.set( baseTimeline.progress()*3)
+        }
+      } 
+    })
+    baseTimeline.clear()
+    if(baseTimeline.isActive()) {
+      return
+    }
+    baseTimeline
+    .to(displacementFilter.scale, 1, {x: options.displaceScale[0], y: options.displaceScale[1], ease: Power1.easeOut})
+    .to(slidesContainer.children[currIndex], 0.5, {alpha: 0, ease: Power2.easeOut}, 0.2)
+    .to(slidesContainer.children[nextIndex], 0.5, {alpha: 1, ease: Power2.easeOut}, 0.3)
+    .to(displacementFilter.scale, 1, {x: options.displaceScaleTo[0], y: options.displaceScaleTo[1], ease: Power2.easeOut}, 0.3)
   }
-  baseTimeline
-  .to(displacementFilter.scale, 1, {x: options.displaceScale[0], y: options.displaceScale[1], ease: Power1.easeOut})
-  .to(slidesContainer.children[currIndex], 0.5, {alpha: 0, ease: Power2.easeOut}, 0.2)
-  .to(slidesContainer.children[nextIndex], 0.5, {alpha: 1, ease: Power2.easeOut}, 0.3)
-  .to(displacementFilter.scale, 1, {x: options.displaceScaleTo[0], y: options.displaceScaleTo[1], ease: Power2.easeOut}, 0.3)
 }
 
 class Slideshow extends React.Component {

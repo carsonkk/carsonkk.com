@@ -4,42 +4,61 @@ import Styled from 'styled-components'
 
 import Logo from './Logo'
 import GenericButton from './GenericButton'
-
+import { DarkTheme, LightTheme } from '../utils/Theme'
 
 class Footer extends React.Component {
   render() {
     const { links, theme, handleClickTheme } = this.props
 
     const FooterWrapper = Styled.footer`
-      flex: 0 1 auto;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       position: relative;
       z-index: 100;
       padding-top: 4rem;
       background-color: ${props => props.theme.primary};
-      > div {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        padding-bottom: 1rem;
-        :hover {
+    `
+    const NavWrapper = Styled.div`
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      padding-bottom: 1.5rem;
+      :hover {
+        > div:first-child, > div:last-child {
           > span {
             opacity: 1;
           }
         }
+      }
+      > div:first-child, > div:last-child {
         > span {
           transition: all 0.3s;
           opacity: 0;
         }
       }
     `
+    const LeftNavWrapper = Styled.div`
+      flex: 1;
+      display: flex;
+      align-items: flex-end;
+      align-content: flex-end;
+      padding-left: 1rem;
+    `
+    const RightNavWrapper = Styled.div`
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      align-content: flex-end;
+      padding-right: 1rem;
+    `
+    const CenterNavWrapper = Styled.div`
+      display: flex;
+      flex-direction: column;
+    `
     const NavHome = Styled.div`
       display: flex;
       justify-content: center;
       margin-bottom: 1rem;
-
       > div:first-child, > div:last-child {
         flex: 1;
         align-self: center;
@@ -50,17 +69,30 @@ class Footer extends React.Component {
     `
     const NavItems = Styled.nav`
       display: flex;
-      flex-direction: row;
       justify-content: center;
       margin: 0;
       padding: 0;
     `
+    const GithubButton = Styled(GenericButton)`
+      && {
+        a {
+          margin: 0 0.5rem;
+          padding: 0.25rem 0.125rem;
+          :hover {
+            background-color: transparent;
+            svg {
+              color: ${theme == 'dark' ? LightTheme.github : DarkTheme.github};
+            }
+          }
+          svg {
+            vertical-align: middle;
+            font-size: 2rem;
+          }
+        }
+      }
+    `
     const ThemeButton = Styled(GenericButton)`
       && {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        padding-bottom: 1rem;
         button {
           margin: 0 0.5rem;
           padding: 0.25rem 0.125rem;
@@ -77,18 +109,18 @@ class Footer extends React.Component {
         }
       }
     `
-    
     const items = links.map((link, i) => {
       const { node } = link
       const SocialButton = Styled(GenericButton)`
         && {
+          line-height: 1.75;
           a {
             margin: 0 0.5rem;
             padding: 0.25rem 0.125rem 0.5rem 0.125rem;
             :hover {
               background-color: ${props => props.theme.social};
               svg {
-                color: ${node.color};
+                color: ${node.name == 'github' ? props => props.theme.github : node.color};
               }
             }
             svg {
@@ -112,27 +144,36 @@ class Footer extends React.Component {
 
     return (
       <FooterWrapper>
-        <div>
-          <div>
-            <div>
-              <NavHome>
-                <div></div>
-                <Logo size={2}/>
-                <div></div>
-              </NavHome>
-              <NavItems>
-                {items}
-              </NavItems>
-            </div>
-          </div>
-          <ThemeButton
-            type='action'
-            title={theme == 'dark' ? 'Brighter than a thousand suns...' : 'My eyes, they burn! Go back!'}
-            icon={theme == 'dark' ? ['fas', 'moon'] : ['fas', 'sun']}
-            func={handleClickTheme}
-            isFixedWidth={true}
-          />
-        </div>
+        <NavWrapper>
+          <LeftNavWrapper>
+            <GithubButton
+              type='external'
+              to='https://github.com/carsonkk/carsonkk.com'
+              title={'Check out this site on GitHub!'}
+              icon={['fab', 'github-alt']}
+              isFixedWidth={true}
+            />
+          </LeftNavWrapper>
+          <CenterNavWrapper>
+            <NavHome>
+              <div/>
+              <Logo size={2}/>
+              <div/>
+            </NavHome>
+            <NavItems>
+              {items}
+            </NavItems>
+          </CenterNavWrapper>
+          <RightNavWrapper>
+            <ThemeButton
+              type='action'
+              title={theme == 'dark' ? 'Brighter than a thousand suns...' : 'My eyes, they burn! Go back!'}
+              icon={theme == 'dark' ? ['fas', 'moon'] : ['fas', 'sun']}
+              func={handleClickTheme}
+              isFixedWidth={true}
+            />
+          </RightNavWrapper>
+        </NavWrapper>
       </FooterWrapper>
     )
   }

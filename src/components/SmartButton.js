@@ -24,7 +24,6 @@ class SmartButton extends React.Component {
       display: block;
       a, button {
         cursor: pointer;
-        line-height: 1;
         svg {
           padding: 0 ${(iconText && isIconLeft) ? `0.25rem` : `0`} 0 ${(iconText && !isIconLeft) ? `0.25rem` : `0`};
         }

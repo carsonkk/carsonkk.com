@@ -16,6 +16,7 @@ class Header extends React.Component {
       justify-content: space-between;
       position: relative;
       z-index: 100;
+      overflow: hidden;
       background-color: ${props => props.theme.secondary};
       box-shadow: 0 0 1rem 0 black;
     `

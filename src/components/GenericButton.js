@@ -40,7 +40,6 @@ class GenericButton extends React.Component {
         span > span {
           display: inline-block;
           padding: 0;
-          line-height: 1;
           ::before {
             display: block;
             content: attr(data-text);
