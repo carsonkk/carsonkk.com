@@ -1,5 +1,4 @@
 import React from 'react'
-import Styled from 'styled-components'
 
 class NotFoundPage extends React.Component {
   render() {

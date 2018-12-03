@@ -1,10 +1,11 @@
 import React from 'react'
+import { graphql } from 'gatsby'
 import Styled from 'styled-components'
 
+import BaseLayout from '../components/BaseLayout'
 import GenericButton from '../components/GenericButton'
 import TextPreview from '../components/TextPreview'
 import { PaddedContainer } from '../utils/Container'
-
 
 class ArticlesPage extends React.Component {
   constructor(props) {
@@ -73,33 +74,35 @@ class ArticlesPage extends React.Component {
             type='action'
             text={yearStr}
             func={this.handleClick(yearStr)}
-            active={this.state.year == yearStr ? 'active' : ''}
+            active={this.state.year === yearStr ? 'active' : ''}
           />
         )
       }
     })
 
     return (
-      <PaddedContainer>
-        <ArticlesPageWrapper>
-          <Searchbar>
-          </Searchbar>
-          <ArticlesBodyWrapper>
-            <FilterWrapper>
-              <div>
-                <YearSelect>
-                  {years}
-                </YearSelect>
-              </div>
-            </FilterWrapper>
-            <PreviewWrapper>
-              {posts[this.state.year]}
-            </PreviewWrapper>
-          </ArticlesBodyWrapper>
-          <Pagination>
-          </Pagination>
-        </ArticlesPageWrapper>
-      </PaddedContainer>
+      <BaseLayout location={this.props.location}>
+        <PaddedContainer>
+          <ArticlesPageWrapper>
+            <Searchbar>
+            </Searchbar>
+            <ArticlesBodyWrapper>
+              <FilterWrapper>
+                <div>
+                  <YearSelect>
+                    {years}
+                  </YearSelect>
+                </div>
+              </FilterWrapper>
+              <PreviewWrapper>
+                {posts[this.state.year]}
+              </PreviewWrapper>
+            </ArticlesBodyWrapper>
+            <Pagination>
+            </Pagination>
+          </ArticlesPageWrapper>
+        </PaddedContainer>
+      </BaseLayout>
     )
   }
 }
@@ -107,7 +110,7 @@ class ArticlesPage extends React.Component {
 export default ArticlesPage
 
 export const pageQuery = graphql`
-  query ArticlesQuery {
+  {
     allMarkdownRemark(
       filter: {fields: {kind: {eq: "articles"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
       sort: {order: DESC, fields: [fields___date]}

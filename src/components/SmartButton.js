@@ -1,21 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'gatsby-link'
+import { Link } from 'gatsby'
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
 import Styled from 'styled-components'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 class SmartButton extends React.Component {
   render() {
     const { className, type, to, text, title, icon, func, isIconLeft, isFixedWidth, active } = this.props
-    const iconText = (icon.length != 0 && text.length != 0)
+    const iconText = (icon.length !== 0 && text.length !== 0)
     const content = <span>
-      {(icon.length != 0 && isIconLeft) &&
+      {(icon.length !== 0 && isIconLeft) &&
         <FontAwesomeIcon icon={icon} className={isFixedWidth ? 'fa-fw' : ''}/>
       }
       <span data-text={text}>{text}</span>
-      {(icon.length != 0 && !isIconLeft) &&
+      {(icon.length !== 0 && !isIconLeft) &&
         <FontAwesomeIcon icon={icon} className={isFixedWidth ? 'fa-fw' : ''}/>
       }
     </span>
@@ -41,17 +41,17 @@ class SmartButton extends React.Component {
 
     return (
       <SmartButtonWrapper className={className}>
-        {type == 'internal' &&
+        {type === 'internal' &&
           <Link to={to} title={title} activeClassName={'active'}>
             {content}
           </Link>
         }
-        {type == 'external' &&
+        {type === 'external' &&
           <OutboundLink href={to} title={title} target="_blank">
             {content}
           </OutboundLink>
         }
-        {type == 'action' &&
+        {type === 'action' &&
           <button onClick={func} title={title} className={active} type="button">
             {content}
           </button>

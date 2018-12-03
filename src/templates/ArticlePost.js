@@ -1,8 +1,10 @@
 import React from 'react'
+import { graphql } from 'gatsby'
 import Img from 'gatsby-image'
 import Styled from 'styled-components'
 import RehypeReact from 'rehype-react'
 
+import BaseLayout from '../components/BaseLayout'
 import MetaText from '../components/MetaText'
 import CopyButton from '../components/CopyButton'
 import AdjacentPosts from '../components/AdjacentPosts'
@@ -14,7 +16,6 @@ const RenderAst = new RehypeReact({
   createElement: React.createElement,
   components: { 'copy-button': CopyButton },
 }).Compiler
-
 
 class ArticlePost extends React.Component {
   render() {
@@ -151,74 +152,76 @@ class ArticlePost extends React.Component {
     })
 
     return (
-      <Article>
-        <Banner>
-          <div>
-            <Img sizes={frontmatter.banner.childImageSharp.sizes} alt="Banner"/>
-          </div>
-        </Banner>
-        <ShadowWrapper>
-          <PostContainer>
-            <PostHeader>
-              <h1>{frontmatter.title}</h1>
-              <MetaText
-                type='text'
-                icon={['far', 'calendar-alt']}
-                texts={[FancyDateMDY(currDate)]}
-                isInline={true}
-              />
-              <MetaText
-                type='text'
-                icon={['far', 'clock']}
-                texts={[`${markdownRemark.timeToRead} min read`]}
-                isInline={true}
-              />
-              <MetaText
-                type='internal'
-                icon={['fas', 'tags']}
-                texts={markdownRemark.frontmatter.tags}
-                links={markdownRemark.fields.tagSlugs}
-              />
-              {frontmatter.project &&
+      <BaseLayout location={this.props.location}>
+        <Article>
+          <Banner>
+            <div>
+              <Img fluid={frontmatter.banner.childImageSharp.fluid} alt="Banner"/>
+            </div>
+          </Banner>
+          <ShadowWrapper>
+            <PostContainer>
+              <PostHeader>
+                <h1>{frontmatter.title}</h1>
+                <MetaText
+                  type='text'
+                  icon={['far', 'calendar-alt']}
+                  texts={[FancyDateMDY(currDate)]}
+                  isInline={true}
+                />
+                <MetaText
+                  type='text'
+                  icon={['far', 'clock']}
+                  texts={[`${markdownRemark.timeToRead} min read`]}
+                  isInline={true}
+                />
                 <MetaText
                   type='internal'
-                  icon={['fas', 'asterisk']}
-                  texts={[`Related: ${frontmatter.project}`]}
-                  links={[`/projects/${fields.targetTag}`]}
+                  icon={['fas', 'tags']}
+                  texts={markdownRemark.frontmatter.tags}
+                  links={markdownRemark.fields.tagSlugs}
                 />
-              }
-              {frontmatter.misc &&
-                <MetaText
-                  type='internal'
-                  icon={['fas', 'asterisk']}
-                  texts={[`Related: ${frontmatter.misc}`]}
-                  links={[`/misc/${fields.targetTag}`]}
-                />
-              }
-            </PostHeader>
-            <PostBody>{RenderAst(htmlAst)}</PostBody>
-            <PostFooter>
-              {frontmatter.reddit &&
-                <MetaText
-                  type='external'
-                  icon={['fab', 'reddit-alien']}
-                  texts={['Read and discuss this post on Reddit']}
-                  links={[`${frontmatter.reddit}`]}
-                />
-              }
-              {frontmatter.medium &&
-                <MetaText
-                  type='external'
-                  icon={['fab', 'medium-m']}
-                  texts={['Read and discuss this post on Medium']}
-                  links={[`${frontmatter.medium}`]}
-                />
-              }
-              <AdjacentPosts prev={prevSlug} next={nextSlug}/>
-            </PostFooter>
-          </PostContainer>
-        </ShadowWrapper>
-      </Article>
+                {frontmatter.project &&
+                  <MetaText
+                    type='internal'
+                    icon={['fas', 'asterisk']}
+                    texts={[`Related: ${frontmatter.project}`]}
+                    links={[`/projects/${fields.targetTag}`]}
+                  />
+                }
+                {frontmatter.misc &&
+                  <MetaText
+                    type='internal'
+                    icon={['fas', 'asterisk']}
+                    texts={[`Related: ${frontmatter.misc}`]}
+                    links={[`/misc/${fields.targetTag}`]}
+                  />
+                }
+              </PostHeader>
+              <PostBody>{RenderAst(htmlAst)}</PostBody>
+              <PostFooter>
+                {frontmatter.reddit &&
+                  <MetaText
+                    type='external'
+                    icon={['fab', 'reddit-alien']}
+                    texts={['Read and discuss this post on Reddit']}
+                    links={[`${frontmatter.reddit}`]}
+                  />
+                }
+                {frontmatter.medium &&
+                  <MetaText
+                    type='external'
+                    icon={['fab', 'medium-m']}
+                    texts={['Read and discuss this post on Medium']}
+                    links={[`${frontmatter.medium}`]}
+                  />
+                }
+                <AdjacentPosts prev={prevSlug} next={nextSlug}/>
+              </PostFooter>
+            </PostContainer>
+          </ShadowWrapper>
+        </Article>
+      </BaseLayout>
     )
   }
 }
@@ -226,7 +229,7 @@ class ArticlePost extends React.Component {
 export default ArticlePost
 
 export const pageQuery = graphql`
-  query ArticlePostBySlug($slug: String!) {
+  query($slug: String!) {
     allMarkdownRemark(
       filter: {fields: {kind: {eq: "articles"}} frontmatter: {draft: {ne: true}}}
     ) {
@@ -251,8 +254,8 @@ export const pageQuery = graphql`
       frontmatter {
         banner {
           childImageSharp {
-            sizes(maxWidth: 2400, maxHeight: 1200, cropFocus: CENTER) {
-              ...GatsbyImageSharpSizes
+            fluid(maxWidth: 2400, maxHeight: 1200, cropFocus: CENTER) {
+              ...GatsbyImageSharpFluid
             }
           }
         }

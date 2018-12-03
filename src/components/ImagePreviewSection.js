@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { graphql } from 'gatsby'
 import Styled from 'styled-components'
 
 import ImagePreview from './ImagePreview'
@@ -11,12 +12,12 @@ class ImagePreviewSection extends React.Component {
     const { pSingle, pDouble, pTriple } = data
     const previews = posts.map((post, i) => {
       const { bSingle, bDouble, bTriple } = post.node.frontmatter
-      let background = bSingle ? bSingle.childImageSharp.sizes : pSingle.sizes
-      if(posts.length%3 == 2 && i >= posts.length-2) {
-        background = bDouble ? bDouble.childImageSharp.sizes : pDouble.sizes
+      let background = bSingle ? bSingle.childImageSharp.fluid : pSingle.fluid
+      if(posts.length%3 === 2 && i >= posts.length-2) {
+        background = bDouble ? bDouble.childImageSharp.fluid : pDouble.fluid
       }
-      else if(posts.length%3 == 1 && i == posts.length-1) {
-        background = bTriple ? bTriple.childImageSharp.sizes : pTriple.sizes
+      else if(posts.length%3 === 1 && i === posts.length-1) {
+        background = bTriple ? bTriple.childImageSharp.fluid : pTriple.fluid
       }
       return(<ImagePreview key={post.node.id} post={post.node} image={background}/>)
     })
@@ -43,20 +44,20 @@ ImagePreviewSection.propTypes = {
 export default ImagePreviewSection
 
 export const componentQuery = graphql`
-  fragment PlaceholderImageFragment on RootQueryType {
-    pSingle: imageSharp(id: { regex: "/neature.jpg/" }) {
-      sizes(maxWidth: 600, maxHeight: 300, cropFocus: CENTER) {
-        ...GatsbyImageSharpSizes
+  fragment PlaceholderImageFragment on Query {
+    pSingle: imageSharp(fluid: {originalName: {regex: "/neature.jpg/"}}) {
+      fluid(maxWidth: 600, maxHeight: 300, cropFocus: CENTER) {
+        ...GatsbyImageSharpFluid
       }
     }
-    pDouble: imageSharp(id: { regex: "/neature.jpg/" }) {
-      sizes(maxWidth: 900, maxHeight: 300, cropFocus: CENTER) {
-        ...GatsbyImageSharpSizes
+    pDouble: imageSharp(fluid: {originalName: {regex: "/neature.jpg/"}}) {
+      fluid(maxWidth: 900, maxHeight: 300, cropFocus: CENTER) {
+        ...GatsbyImageSharpFluid
       }
     }
-    pTriple: imageSharp(id: { regex: "/neature.jpg/" }) {
-      sizes(maxWidth: 1800, maxHeight: 300, cropFocus: CENTER) {
-        ...GatsbyImageSharpSizes
+    pTriple: imageSharp(fluid: {originalName: {regex: "/neature.jpg/"}}) {
+      fluid(maxWidth: 1800, maxHeight: 300, cropFocus: CENTER) {
+        ...GatsbyImageSharpFluid
       }
     }
   }

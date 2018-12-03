@@ -29,11 +29,11 @@ export const Container = Styled.div`
   ${Media.l`max-width: ${MaxWidth.l/16}rem`}
 `
 
-export const PaddedContainer = Container.extend`
+export const PaddedContainer = Styled(Container)`
   padding: 0rem 4rem;
 `
 
-export const PostContainer = Container.extend`
+export const PostContainer = Styled(Container)`
   padding: 4rem;
 `
 
@@ -74,7 +74,7 @@ export const PaperContainer = Styled.div`
   ${PaperMedia.xl`width: ${PaperWidth.xl}px`}
 `
 
-export const PaperSizedContainer = PaperContainer.extend`
+export const PaperSizedContainer = Styled(PaperContainer)`
   ${PaperMedia.s`height: ${PaperHeight.s}px`}
   ${PaperMedia.m`height: ${PaperHeight.m}px`}
   ${PaperMedia.l`height: ${PaperHeight.l}px`}

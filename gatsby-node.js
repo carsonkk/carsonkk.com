@@ -4,8 +4,8 @@ const path = require(`path`)
 let targetTags = []
 
 
-exports.createPages = ({ graphql, boundActionCreators }) => {
-  const { createPage } = boundActionCreators
+exports.createPages = ({ graphql, actions }) => {
+  const { createPage } = actions
 
   return new Promise((resolve, ) => {
     graphql(`
@@ -35,7 +35,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
       }
       result.data.allMarkdownRemark.edges.forEach(edge => {
         const { fields, frontmatter } = edge.node
-        if(fields.type != 'subpage' && !frontmatter.draft) {
+        if(fields.type !== 'subpage' && !frontmatter.draft) {
           switch (fields.kind) {
             case 'articles':
               createPage({
@@ -57,7 +57,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               })
               break
             case 'misc':
-              if(fields.type == 'external' ) {
+              if(fields.type === 'external' ) {
                 createPage({
                   path: fields.slug,
                   component: path.resolve(`src/templates/ExternalPost.js`),
@@ -93,8 +93,8 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
   })
 }
 
-exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
-  const { createNodeField } = boundActionCreators
+exports.onCreateNode = ({ node, actions, getNode }) => {
+  const { createNodeField } = actions
   const contentRgx = /\/content\/(.+?)\//g
   const subpageRgx = /__(?:.+?)__/g
   const externalRgx = /external\.md/g
@@ -102,7 +102,7 @@ exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
     const filePath = node.absolutePath
     let slugTarget = path.parse(filePath).dir.split('/').pop()
     const fileKind = contentRgx.exec(filePath)
-    if (fileKind != null) {
+    if (fileKind !== null) {
       switch (fileKind[1]) {
         case 'articles':
           slugTarget = slugTarget.split(`--`)
@@ -142,18 +142,18 @@ exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
     const fileNode = getNode(node.parent)
     createNodeField({ node, name: `kind`, value: fileNode.fields.kind })
     createNodeField({ node, name: `type`, value: fileNode.fields.type })
-    if(fileNode.fields.type != 'subpage') {
-      if(fileNode.fields.kind == 'articles') {
+    if(fileNode.fields.type !== 'subpage') {
+      if(fileNode.fields.kind === 'articles') {
         createNodeField({ node, name: `date`, value: fileNode.fields.date })
         let articlesTargetTag = ''
         node.frontmatter.tags.forEach(tag => {
           tag = _.kebabCase(tag)
-          if(targetTags.indexOf(`/${tag}/`) != -1 && articlesTargetTag == '') {
+          if(targetTags.indexOf(`/${tag}/`) !== -1 && articlesTargetTag === '') {
             articlesTargetTag = tag
           }
         })
         createNodeField({ node, name: `targetTag`, value: articlesTargetTag })
-      } else if(fileNode.fields.type != 'external') {
+      } else if(fileNode.fields.type !== 'external') {
         createNodeField({ node, name: `targetTag`, value: fileNode.fields.targetTag })
       }
       createNodeField({ node, name: `slug`, value: fileNode.fields.slug })

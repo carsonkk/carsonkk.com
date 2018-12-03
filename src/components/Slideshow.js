@@ -142,7 +142,7 @@ function loadPixiSprites(sprites) {
 
 // Transition from the slide at currIndex to the slide at nextIndex
 function moveSlider(currIndex, nextIndex) {
-  if(slidesContainer.children.length != 0) {
+  if(slidesContainer.children.length !== 0) {
     let baseTimeline = new TimelineMax({onComplete: function() {
       if(options.wacky === true) {
         displacementSprite.scale.set(1)
@@ -188,7 +188,9 @@ class Slideshow extends React.Component {
 
   tick() {
     moveSlider(this.state.currIndex, this.state.nextIndex)
+    // eslint-disable-next-line
     this.state.currIndex = this.state.nextIndex
+    // eslint-disable-next-line
     this.state.nextIndex = (this.state.nextIndex+1)%this.props.images.length
   }
 
@@ -198,7 +200,7 @@ class Slideshow extends React.Component {
       let spriteImagesSrc = []
       for(let i = 0; i < spriteImages.length; i++) {
         let img = spriteImages[i].getElementsByTagName('img')[1]
-        if(img != undefined && img != null) {
+        if(img !== undefined && img !== null) {
           spriteImagesSrc.push(img.getAttribute('src'))
         }
       }
@@ -246,11 +248,11 @@ class Slideshow extends React.Component {
       <SlideshowWrapper className="slideshow-container">  
         <div>
           {images.map((img, i) => {
-            return (<Img key={i} sizes={img.sizes} critical={true} fadeIn={false} className="slide-image" alt={`${subject}-${i}`}/>)
+            return (<Img key={i} fluid={img.fluid} critical={true} fadeIn={false} className="slide-image" alt={`${subject}-${i}`}/>)
           })}
         </div>
         {images[0] &&
-          <Img sizes={images[0].sizes} alt="placeholder"/>
+          <Img fluid={images[0].fluid} alt="placeholder"/>
         }
         {/* canvas will be appended here at render time */}
       </SlideshowWrapper>

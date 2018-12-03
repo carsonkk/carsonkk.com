@@ -1,4 +1,5 @@
 import React from 'react'
+import { graphql } from 'gatsby'
 import Styled from 'styled-components'
 import RehypeReact from 'rehype-react'
 
@@ -26,7 +27,7 @@ class WoodworkingPage extends React.Component {
 export default WoodworkingPage
 
 export const pageQuery = graphql`
-query WoodworkingQuery {
+{
   markdownRemark(fields: {slug: {eq: "/misc/woodworking"}}) {
     htmlAst
     fields {
@@ -36,8 +37,8 @@ query WoodworkingQuery {
     frontmatter {
       banner {
         childImageSharp {
-          sizes(maxWidth: 2400, maxHeight: 1200, cropFocus: CENTER) {
-            ...GatsbyImageSharpSizes
+          fluid(maxWidth: 2400, maxHeight: 1200, cropFocus: CENTER) {
+            ...GatsbyImageSharpFluid
           }
         }
       }

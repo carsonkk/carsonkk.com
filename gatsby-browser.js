@@ -1,9 +1,8 @@
-const Cookies = require('universal-cookie')
+import Cookies from 'universal-cookie'
 
-
-exports.onClientEntry = () => {
-  const cookies = new Cookies();
-  if(cookies.get('theme') == undefined) {
+export function onClientEntry() {
+  const cookies = new Cookies()
+  if(cookies.get('theme') === undefined) {
     cookies.set('theme', 'dark', { path: '/' })
   }  
 }

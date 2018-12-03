@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { graphql } from 'gatsby'
 import Styled from 'styled-components'
 
 import Logo from './Logo'
 import GenericButton from './GenericButton'
-import { DarkTheme, LightTheme } from '../utils/Theme'
+import { LightTheme } from '../utils/Theme'
 
 class Footer extends React.Component {
   render() {
@@ -81,7 +82,7 @@ class Footer extends React.Component {
           :hover {
             background-color: transparent;
             svg {
-              color: ${theme == 'dark' ? LightTheme.github : DarkTheme.github};
+              color: ${LightTheme.github};
             }
           }
           svg {
@@ -120,7 +121,7 @@ class Footer extends React.Component {
             :hover {
               background-color: ${props => props.theme.social};
               svg {
-                color: ${node.name == 'github' ? props => props.theme.github : node.color};
+                color: ${node.name === 'github' ? props => props.theme.github : node.color};
               }
             }
             svg {
@@ -167,8 +168,8 @@ class Footer extends React.Component {
           <RightNavWrapper>
             <ThemeButton
               type='action'
-              title={theme == 'dark' ? 'Brighter than a thousand suns...' : 'My eyes, they burn! Go back!'}
-              icon={theme == 'dark' ? ['fas', 'moon'] : ['fas', 'sun']}
+              title={theme === 'dark' ? 'Brighter than a thousand suns...' : 'My eyes, they burn! Go back!'}
+              icon={theme === 'dark' ? ['fas', 'moon'] : ['fas', 'sun']}
               func={handleClickTheme}
               isFixedWidth={true}
             />

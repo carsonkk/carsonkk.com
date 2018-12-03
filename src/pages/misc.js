@@ -1,8 +1,9 @@
 import React from 'react'
+import { graphql } from 'gatsby'
 import Styled from 'styled-components'
 
+import BaseLayout from '../components/BaseLayout'
 import ImagePreviewSection from '../components/ImagePreviewSection'
-
 
 class MiscPage extends React.Component {
   render() {
@@ -22,10 +23,12 @@ class MiscPage extends React.Component {
     `
 
     return (
-      <MiscPageWrapper>
-        <ImagePreviewSection posts={data.allMarkdownRemark.edges} data={data}/>
-        <ShadowWrapper/>
-      </MiscPageWrapper>
+      <BaseLayout location={this.props.location}>
+        <MiscPageWrapper>
+          <ImagePreviewSection posts={data.allMarkdownRemark.edges} data={data}/>
+          <ShadowWrapper/>
+        </MiscPageWrapper>
+      </BaseLayout>
     )
   }
 }
@@ -33,7 +36,7 @@ class MiscPage extends React.Component {
 export default MiscPage
 
 export const pageQuery = graphql`
-  query MiscPageQuery {
+  {
     allMarkdownRemark(
       filter: {fields: {kind: {eq: "misc"}} frontmatter: {draft: {ne: true}}}
       sort: {order: ASC, fields: [fields___slug]}
@@ -47,22 +50,22 @@ export const pageQuery = graphql`
           frontmatter {
             bSingle: banner {
               childImageSharp {
-                sizes(maxWidth: 600, maxHeight: 300, cropFocus: CENTER) {
-                  ...GatsbyImageSharpSizes
+                fluid(maxWidth: 600, maxHeight: 300, cropFocus: CENTER) {
+                  ...GatsbyImageSharpFluid
                 }
               }
             }
             bDouble: banner {
               childImageSharp {
-                sizes(maxWidth: 900, maxHeight: 300, cropFocus: CENTER) {
-                  ...GatsbyImageSharpSizes
+                fluid(maxWidth: 900, maxHeight: 300, cropFocus: CENTER) {
+                  ...GatsbyImageSharpFluid
                 }
               }
             }
             bTriple: banner {
               childImageSharp {
-                sizes(maxWidth: 1800, maxHeight: 300, cropFocus: CENTER) {
-                  ...GatsbyImageSharpSizes
+                fluid(maxWidth: 1800, maxHeight: 300, cropFocus: CENTER) {
+                  ...GatsbyImageSharpFluid
                 }
               }
             }

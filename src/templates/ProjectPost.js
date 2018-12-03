@@ -1,14 +1,16 @@
 import React from 'react'
+import { graphql } from 'gatsby'
 import Img from 'gatsby-image'
 import ReactMarkdown from 'react-markdown'
 import Styled from 'styled-components'
 import RehypeReact from 'rehype-react'
 
+import BaseLayout from '../components/BaseLayout'
 import GenericButton from '../components/GenericButton'
 import MetaText from '../components/MetaText'
 import TextPreview from '../components/TextPreview'
 import { PostContainer } from '../utils/Container'
-import { FontSans } from '../utils/Theme'
+import { FontSans } from '../utils/Text'
 import AjaxGet from '../utils/Ajax'
 
 const RenderAst = new RehypeReact({
@@ -17,7 +19,6 @@ const RenderAst = new RehypeReact({
 }).Compiler
 
 const tabStrs = ['About', 'Posts', 'Misc', 'README']
-
 
 class ProjectPost extends React.Component {
   constructor(props) {
@@ -48,11 +49,11 @@ class ProjectPost extends React.Component {
           starCount: res['stargazers_count'],
           forkCount: res['forks_count']
         })
-        if(res['license'] != null) {
+        if(res['license'] !== null) {
           this.setState({license: res['license']['spdx_id']})
         }
-        if(res['homepage'] != null) {
-          if(res['homepage'] != '' && !res['homepage'].includes('carsonkk')) {
+        if(res['homepage'] !== null) {
+          if(res['homepage'] !== '' && !res['homepage'].includes('carsonkk')) {
             homepage = res['homepage']
           }
         }
@@ -87,11 +88,11 @@ class ProjectPost extends React.Component {
   render() {
     const { markdownRemark, allMarkdownRemark } = this.props.data
     const { htmlAst, frontmatter } = markdownRemark
-    const crop = frontmatter.allowCropping == undefined ? true : frontmatter.allowCropping
+    const crop = frontmatter.allowCropping === undefined ? true : frontmatter.allowCropping
     let tabs = []
     let contents = {}
 
-    const ProjectPostWrapper = PostContainer.extend`
+    const ProjectPostWrapper = Styled(PostContainer)`
       width: 100%;
     `
     const Banner = Styled.div`
@@ -126,7 +127,7 @@ class ProjectPost extends React.Component {
       display: flex;
       flex-direction: row;
       align-items: center;
-      .gatsby-image-outer-wrapper {
+      .gatsby-image-wrapper {
         margin-right: 1rem;
         img {
           border-radius: 50%;
@@ -266,7 +267,7 @@ class ProjectPost extends React.Component {
         text={tabStrs[0]}
         icon={['fas', 'info-circle']}
         func={this.handleClick(tabStrs[0])}
-        active={this.state.activeTab == tabStrs[0] ? 'active' : ''}
+        active={this.state.activeTab === tabStrs[0] ? 'active' : ''}
       />
     )
 
@@ -280,7 +281,7 @@ class ProjectPost extends React.Component {
           text={tabStrs[1]}
           icon={['far', 'comment']}
           func={this.handleClick(tabStrs[1])}
-          active={this.state.activeTab == tabStrs[1] ? 'active' : ''}
+          active={this.state.activeTab === tabStrs[1] ? 'active' : ''}
         />
       )
       contents[tabStrs[1]] = [allMarkdownRemark.edges.map(
@@ -295,12 +296,12 @@ class ProjectPost extends React.Component {
           text={tabStrs[2]}
           icon={['fas', 'cogs']}
           func={this.handleClick(tabStrs[2])}
-          active={this.state.activeTab == tabStrs[2] ? 'active' : ''}
+          active={this.state.activeTab === tabStrs[2] ? 'active' : ''}
         />
       )
       contents[tabStrs[2]] = [RenderAst(frontmatter.misc.childMarkdownRemark.htmlAst)]
     }
-    if(this.state.readme != '') {
+    if(this.state.readme !== '') {
       tabs.push(
         <NavButton
           key={tabStrs[3]}
@@ -308,100 +309,102 @@ class ProjectPost extends React.Component {
           text={tabStrs[3]}
           icon={['fab', 'readme']}
           func={this.handleClick(tabStrs[3])}
-          active={this.state.activeTab == tabStrs[3] ? 'active' : ''}
+          active={this.state.activeTab === tabStrs[3] ? 'active' : ''}
         />
       )
       contents[tabStrs[3]] = [<ReactMarkdown key={'readme'} source={this.state.readme} className='readme'/>]
     }
 
     return (
-      <ProjectPostWrapper>
-        <PostHeader>
-          {frontmatter.banner &&
-            <Banner>
-              <Img sizes={frontmatter.banner.childImageSharp.sizes} alt="banner"/>
-            </Banner>
-          }
-          <HeaderContent>
-            <Left>
-              <NameWrapper>
-                {frontmatter.logo &&
-                  <Img resolutions={frontmatter.logo.childImageSharp.resolutions} alt="logo"/>
-                }
-                <h1>{frontmatter.name}</h1>
-              </NameWrapper>
-              <div>
+      <BaseLayout location={this.props.location}>
+        <ProjectPostWrapper>
+          <PostHeader>
+            {frontmatter.banner &&
+              <Banner>
+                <Img fluid={frontmatter.banner.childImageSharp.fluid} alt="banner"/>
+              </Banner>
+            }
+            <HeaderContent>
+              <Left>
+                <NameWrapper>
+                  {frontmatter.logo &&
+                    <Img fixed={frontmatter.logo.childImageSharp.fixed} alt="logo"/>
+                  }
+                  <h1>{frontmatter.name}</h1>
+                </NameWrapper>
                 <div>
-                  <Description>{frontmatter.description}</Description>
+                  <div>
+                    <Description>{frontmatter.description}</Description>
+                  </div>
+                  <MetaText
+                    type='internal'
+                    icon={['fas', 'tags']}
+                    texts={markdownRemark.frontmatter.tags}
+                    links={markdownRemark.fields.tagSlugs}
+                  />
                 </div>
-                <MetaText
-                  type='internal'
-                  icon={['fas', 'tags']}
-                  texts={markdownRemark.frontmatter.tags}
-                  links={markdownRemark.fields.tagSlugs}
-                />
-              </div>
-            </Left>
-            <Right>
-              <div>
-                {frontmatter.github &&
-                  <ButtonRow>
-                    <GitHubButton
-                      type='external'
-                      to={`//github.com/${frontmatter.github}/watchers`}
-                      text={`Watch ${this.state.watchCount}`}
-                      icon={['fas', 'eye']}
+              </Left>
+              <Right>
+                <div>
+                  {frontmatter.github &&
+                    <ButtonRow>
+                      <GitHubButton
+                        type='external'
+                        to={`//github.com/${frontmatter.github}/watchers`}
+                        text={`Watch ${this.state.watchCount}`}
+                        icon={['fas', 'eye']}
+                      />
+                      <GitHubButton
+                        type='external'
+                        to={`//github.com/${frontmatter.github}/stargazers`}
+                        text={`Star ${this.state.starCount}`}
+                        icon={['fas', 'star']}
+                      />
+                      <GitHubButton
+                        type='external'
+                        to={`//github.com/${frontmatter.github}/network`}
+                        text={`Fork ${this.state.forkCount}`}
+                        icon={['fas', 'code-branch']}
+                      />
+                    </ButtonRow>
+                  }
+                </div>
+                <div>
+                  {this.state.license && 
+                    <MetaText
+                      type='text'
+                      icon={['fas', 'balance-scale']}
+                      texts={[`${this.state.license} License`]}
                     />
-                    <GitHubButton
+                  }
+                  {frontmatter.github &&
+                    <MetaText
                       type='external'
-                      to={`//github.com/${frontmatter.github}/stargazers`}
-                      text={`Star ${this.state.starCount}`}
-                      icon={['fas', 'star']}
+                      icon={['fab', 'github']}
+                      texts={[`github.com/${frontmatter.github}`]}
+                      links={[`//github.com/${frontmatter.github}`]}
                     />
-                    <GitHubButton
+                  }
+                  {this.state.website &&
+                    <MetaText
                       type='external'
-                      to={`//github.com/${frontmatter.github}/network`}
-                      text={`Fork ${this.state.forkCount}`}
-                      icon={['fas', 'code-branch']}
+                      icon={['fas', 'link']}
+                      texts={[this.state.website]}
+                      links={[`//${this.state.website}`]}
                     />
-                  </ButtonRow>
-                }
-              </div>
-              <div>
-                {this.state.license && 
-                  <MetaText
-                    type='text'
-                    icon={['fas', 'balance-scale']}
-                    texts={[`${this.state.license} License`]}
-                  />
-                }
-                {frontmatter.github &&
-                  <MetaText
-                    type='external'
-                    icon={['fab', 'github']}
-                    texts={[`github.com/${frontmatter.github}`]}
-                    links={[`//github.com/${frontmatter.github}`]}
-                  />
-                }
-                {this.state.website &&
-                  <MetaText
-                    type='external'
-                    icon={['fas', 'link']}
-                    texts={[this.state.website]}
-                    links={[`//${this.state.website}`]}
-                  />
-                }
-              </div>
-            </Right>
-          </HeaderContent>
-          <NavTabs>
-            {tabs}
-          </NavTabs>
-        </PostHeader>
-        <PostBody>
-          {contents[this.state.activeTab]}
-        </PostBody>
-      </ProjectPostWrapper>
+                  }
+                </div>
+              </Right>
+            </HeaderContent>
+            <NavTabs>
+              {tabs}
+            </NavTabs>
+          </PostHeader>
+          <PostBody>
+            {contents[this.state.activeTab]}
+          </PostBody>
+        </ProjectPostWrapper>
+      </BaseLayout>
     )
   }
 }
@@ -409,7 +412,7 @@ class ProjectPost extends React.Component {
 export default ProjectPost
 
 export const pageQuery = graphql`
-  query ProjectPostBySlug($slug: String!, $targetTag: String!) {
+  query($slug: String!, $targetTag: String!) {
     allMarkdownRemark(
       filter: {fields: {kind: {eq: "articles"} targetTag: {regex: $targetTag}} frontmatter: {draft: {ne: true}}}, 
       sort: {order: DESC, fields: [fields___date]}
@@ -429,15 +432,15 @@ export const pageQuery = graphql`
       frontmatter {
         banner {
           childImageSharp {
-            sizes(maxWidth: 1600, cropFocus: CENTER) {
-              ...GatsbyImageSharpSizes
+            fluid(maxWidth: 1600, cropFocus: CENTER) {
+              ...GatsbyImageSharpFluid
             }
           }
         }
         logo {
           childImageSharp {
-            resolutions(width: 100, height: 100, cropFocus: CENTER) {
-              ...GatsbyImageSharpResolutions
+            fixed(width: 100, height: 100, cropFocus: CENTER) {
+              ...GatsbyImageSharpFixed
             }
           }
         }

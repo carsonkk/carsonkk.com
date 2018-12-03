@@ -1,5 +1,8 @@
 import React from 'react'
+import { graphql } from 'gatsby'
 import Styled from 'styled-components'
+
+import BaseLayout from '../components/BaseLayout'
 
 class External extends React.Component {
   render() {
@@ -16,7 +19,9 @@ class External extends React.Component {
       window.location.replace(this.props.data.markdownRemark.frontmatter.website)
     }
     return(
-      <RedirectBackground/>
+      <BaseLayout location={this.props.location}>
+        <RedirectBackground/>
+      </BaseLayout>
     )
   }
 }
@@ -24,7 +29,7 @@ class External extends React.Component {
 export default External
 
 export const pageQuery = graphql`
-  query ExternalPostQuery($slug: String!) {
+  query($slug: String!) {
     markdownRemark(fields: {slug: {eq: $slug}}) {
       frontmatter {
         website

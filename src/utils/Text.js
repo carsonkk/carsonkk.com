@@ -1,5 +1,7 @@
 import Styled from 'styled-components'
+// eslint-disable-next-line
 import PtSans from 'typeface-pt-sans'
+// eslint-disable-next-line
 import PtSerif from 'typeface-pt-serif'
 
 
@@ -9,29 +11,29 @@ export const Text = Styled.span`
   text-decoration: none;
 `
 
-export const TextI = Text.extend`
+export const TextI = Styled(Text)`
   font-style: italic;
 `
 
-export const TextB = Text.extend`
+export const TextB = Styled(Text)`
   font-weight: bold;
 `
 
-export const TextU = Text.extend`
+export const TextU = Styled(Text)`
   text-decoration: underline;
 `
 
-export const TextIB = Text.extend`
+export const TextIB = Styled(Text)`
   font-style: italic;
   font-weight: bold;
 `
 
-export const TextIU = Text.extend`
+export const TextIU = Styled(Text)`
   font-style: italic;
   text-decoration: underline;
 `
 
-export const TextBU = Text.extend`
+export const TextBU = Styled(Text)`
   font-weight: bold;
   text-decoration: underline;
 `

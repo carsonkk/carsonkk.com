@@ -96,7 +96,7 @@ cd /var
 <copy-button></copy-button>
 ```javascript{1,4}
 import React from 'react'
-import Link from 'gatsby-link'
+import  { Link } from 'gatsby'
 
 class BlogPage extends React.Component {
   render() {

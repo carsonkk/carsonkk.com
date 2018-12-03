@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'gatsby-link'
+import { Link } from 'gatsby'
 import Styled from 'styled-components'
 
 import { FontBase } from '../utils/Text'
@@ -52,7 +52,7 @@ class Logo extends React.Component {
     `
     switch (today.getDay()) {
       case 0:
-        Logo = LogoBase.extend`
+        Logo = Styled(LogoBase)`
           .top-border {
             transform-origin: left;
           }
@@ -68,7 +68,7 @@ class Logo extends React.Component {
         `
         break
       case 1:
-        Logo = LogoBase.extend`
+        Logo = Styled(LogoBase)`
           :hover {
             .top-border {
               transition-delay: 0s;
@@ -105,7 +105,7 @@ class Logo extends React.Component {
         `
         break
       case 2:
-        Logo = LogoBase.extend`
+        Logo = Styled(LogoBase)`
           .top-border {
             transform-origin: right;
           }
@@ -120,12 +120,8 @@ class Logo extends React.Component {
           }
         `
         break
-      case 3:
-        Logo = LogoBase.extend`
-        `
-        break
       case 4:
-        Logo = LogoBase.extend`
+        Logo = Styled(LogoBase)`
           .top-border {
             transform-origin: left;
           }
@@ -141,7 +137,7 @@ class Logo extends React.Component {
         `
         break
       case 5:
-        Logo = LogoBase.extend`
+        Logo = Styled(LogoBase)`
           :hover {
             .top-border {
               transition-delay: 0s;
@@ -178,7 +174,7 @@ class Logo extends React.Component {
         `
         break
       case 6:
-        Logo = LogoBase.extend`
+        Logo = Styled(LogoBase)`
           .top-border {
             transform-origin: right;
           }
@@ -191,6 +187,10 @@ class Logo extends React.Component {
           .right-border {
             transform-origin: top;
           }
+        `
+        break
+      default:
+        Logo = Styled(LogoBase)`
         `
         break
     }

@@ -50,7 +50,7 @@ class BackgroundSlideshow extends React.Component {
     return (
       <BackgroundSlideshow ref="bg">  
         {images[bgIndex] &&
-          <Img sizes={images[bgIndex].sizes} alt="background-slide"/>
+          <Img fluid={images[bgIndex].fluid} alt="background-slide"/>
         }
       </BackgroundSlideshow>
     )

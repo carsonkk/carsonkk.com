@@ -19,15 +19,15 @@ class CopyButton extends React.Component {
 
     // Loop through nodes until the <code> node with the target text is found
     // 8:COMMENT_NODE, 3:TEXT_NODE, need to ignore these
-    while(codeBlock.nodeType == 8 || codeBlock.nodeType == 3) {
+    while(codeBlock.nodeType === 8 || codeBlock.nodeType === 3) {
       codeBlock = codeBlock.nextSibling
     }
     codeBlock = codeBlock.firstChild
-    while(codeBlock.nodeType == 8 || codeBlock.nodeType == 3) {
+    while(codeBlock.nodeType === 8 || codeBlock.nodeType === 3) {
       codeBlock = codeBlock.nextSibling
     }
     codeBlock = codeBlock.firstChild
-    while(codeBlock.nodeType == 8 || codeBlock.nodeType == 3) {
+    while(codeBlock.nodeType === 8 || codeBlock.nodeType === 3) {
       codeBlock = codeBlock.nextSibling
     }
 

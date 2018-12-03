@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Img from 'gatsby-image'
-import Link from 'gatsby-link'
+import { Link } from 'gatsby'
 import Styled, { keyframes } from 'styled-components'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { DarkTheme, RandomRange, RandomColor, RandomAngle, AngleToPercents } from '../utils/Theme'
 
@@ -132,7 +132,7 @@ class ImagePreview extends React.Component {
     return (
       <ImagePreviewWrapper>
         <BackgroundImage>
-          <Img sizes={image} alt="Image Preview"/>
+          <Img fluid={image} alt="Image Preview"/>
         </BackgroundImage>
         <BackgroundFilter/>
         <Link to={`${post.fields.slug}`}>

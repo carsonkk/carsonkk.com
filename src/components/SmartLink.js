@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'gatsby-link'
+import { Link } from 'gatsby'
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
 import Styled from 'styled-components'
 
@@ -27,12 +27,12 @@ class SmartLink extends React.Component {
     
     return (
       <SmartLinkWrapper className={className}>
-        {type == 'internal' &&
+        {type === 'internal' &&
           <Link to={to} title={title} activeClassName={`active`}>
             {text}
           </Link>
         }
-        {type == 'external' &&
+        {type === 'external' &&
           <OutboundLink href={to} title={title} target="_blank">
             {text}
           </OutboundLink>

@@ -2,14 +2,14 @@ import React from 'react'
 import Img from 'gatsby-image'
 import PropTypes from 'prop-types'
 import Styled from 'styled-components'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import SmartLink from './SmartLink'
 
 
 class MetaText extends React.Component {
   render() {
-    const { className, type, icon, texts, links, iconType, isInline, svgToImg } = this.props
+    const { className, type, icon, texts, links, iconType, isInline } = this.props
 
     const MetaText = Styled.div`
       display: ${isInline ? 'inline-flex' : 'flex'};
@@ -40,7 +40,7 @@ class MetaText extends React.Component {
       if(i < texts.length-1) {
         divider = <span>, </span>
       }
-      if(type == 'text') {
+      if(type === 'text') {
         return (
           <span key={i}>
             {text}{divider}
@@ -59,19 +59,19 @@ class MetaText extends React.Component {
     return (
       <MetaText className={className}>
         <div>
-          {iconType == 'fa' &&
+          {iconType === 'fa' &&
             <FontAwesomeIcon icon={icon} fixedWidth/>
           }
-          {iconType == 'svg' &&
+          {iconType === 'svg' &&
             <object data={icon[0]} type="image/svg+xml">
-              <img src="../images/favicon.png"/>
+              <img src="../images/favicon.png" alt="favicon"/>
             </object>
           }
-          {iconType == 'img' &&
-            <img src={icon[0]}/>
+          {iconType === 'img' &&
+            <img src={icon[0]} alt=""/>
           }
-          {iconType == 'gimg' &&
-            <Img sizes={icon[0]}/>
+          {iconType === 'gimg' &&
+            <Img fluid={icon[0]} alt=""/>
           }
         </div>
         <div>

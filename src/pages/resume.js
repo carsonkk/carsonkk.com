@@ -1,15 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ReactDOMServer from 'react-dom/server'
+import { graphql } from 'gatsby'
 import Img from 'gatsby-image'
 import Styled, { ThemeProvider } from 'styled-components'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Select from 'react-select'
 import { savePDF } from '@progress/kendo-react-pdf'
 import canvg from 'canvg'
 import _ from 'lodash'
 
 import '../css/resume.css'
+import BaseLayout from '../components/BaseLayout'
 import GenericButton from '../components/GenericButton'
 import SmartLink from '../components/SmartLink'
 import MetaText from '../components/MetaText'
@@ -23,7 +25,6 @@ const resumeTypeOptions = [
   { value: 'hardware', label: 'Hardware' },
   { value: 'all', label: 'All (CV)' },
 ]
-
 
 class ResumePage extends React.Component {
   resume
@@ -81,21 +82,23 @@ class ResumePage extends React.Component {
     const { siteMetadata } = this.props.data.site
     const today = new Date()
     let resumeType
+    let pdfScale
 
     if(this.state.windowWidth >= PaperMinWidth.xl) {
-      this.state.pdfScale = 0.5
+      pdfScale = 0.5
     }
     else if(this.state.windowWidth >= PaperMinWidth.l) {
-      this.state.pdfScale = 0.75
+      pdfScale = 0.75
     }
     else if(this.state.windowWidth >= PaperMinWidth.m) {
-      this.state.pdfScale = 1.0
+      pdfScale = 1.0
     }
     else {
-      this.state.pdfScale = 4/3
+      pdfScale = 4/3
     }
+    this.setState({pdfScale: pdfScale})
 
-    if(this.state.resumeTypeSelected.value == 'all') {
+    if(this.state.resumeTypeSelected.value === 'all') {
       resumeType = 'CV'
     }
     else {
@@ -146,7 +149,7 @@ class ResumePage extends React.Component {
       margin-bottom: 2rem;
       padding: 2rem;
     `
-    const FilterContainer = PaperContainer.extend`
+    const FilterContainer = Styled(PaperContainer)`
       padding-bottom: 20rem;
     `
     const FilterWrapper = Styled.div`
@@ -195,7 +198,7 @@ class ResumePage extends React.Component {
         }
       }
     `
-    const ResumeContainer = PaperSizedContainer.extend`
+    const ResumeContainer = Styled(PaperSizedContainer)`
       margin-top: -20rem;
       box-shadow: 0.5rem 0.5rem 1.5rem rgba(0,0,0,0.3);
     `
@@ -233,7 +236,7 @@ class ResumePage extends React.Component {
       display: flex;
       flex-direction: row;
       align-items: center;
-      .gatsby-image-outer-wrapper {
+      .gatsby-image-wrapper {
         margin-right: 1rem;
         img {
           border-radius: 100%;
@@ -363,27 +366,25 @@ class ResumePage extends React.Component {
       let linkText = node.url
       let iconImg = []
 
-      if(node.name == 'email') {
+      if(node.name === 'email') {
         email = i
         linkText = linkText.substring(7)
       }
-      else if(node.name == 'linkedin') {
+      else if(node.name === 'linkedin') {
         linkedin = i
         linkText = linkText.substring(12)
       }
-      else if(node.name == 'github') {
+      else if(node.name === 'github') {
         github = i
         linkText = linkText.substring(8)
       }
-      
-      {canvasLoaded &&
+      if(canvasLoaded) {
         icons.forEach((icon) => {
-          if(icon.arr[1] == node.icon[1]) {
+          if(icon.arr[1] === node.icon[1]) {
             iconImg.push(icon.img)
           }
         })
       }
-
       return (
         <span>
           {canvasLoaded &&
@@ -402,7 +403,7 @@ class ResumePage extends React.Component {
       {canvasLoaded &&
         <LinkText
           type='internal'
-          icon={[favicon.sizes]}
+          icon={[favicon.fluid]}
           texts={['carsonkk.com']}
           links={['/']}
           iconType='gimg'
@@ -421,7 +422,7 @@ class ResumePage extends React.Component {
       <h2>EXPERIENCE</h2>
       {allExperienceJson.edges.filter((edge) => {
         const { node } = edge
-        if(node.tags.includes(resumeTypeSelected.value) || resumeTypeSelected.value == 'all') {
+        if(node.tags.includes(resumeTypeSelected.value) || resumeTypeSelected.value === 'all') {
           return true
         }
         return false
@@ -444,7 +445,7 @@ class ResumePage extends React.Component {
               {node.details.map((item, i) => {
                 return(
                   <li key={i}>
-                    <span className='fa-li'><img src={icons[3].img}/></span>
+                    <span className='fa-li'><img src={icons[3].img} alt=""/></span>
                     <span>{item}</span>
                   </li>
                 )
@@ -460,7 +461,7 @@ class ResumePage extends React.Component {
       <h2>PROJECTS</h2>
       {allProjectsJson.edges.filter((edge) => {
         const { node } = edge
-        if(node.tags.includes(resumeTypeSelected.value) || resumeTypeSelected.value == 'all') {
+        if(node.tags.includes(resumeTypeSelected.value) || resumeTypeSelected.value === 'all') {
           return true
         }
         return false
@@ -469,7 +470,7 @@ class ResumePage extends React.Component {
         let remark
         
         for(let pjct of allProjectsRemark.edges) {
-          if(pjct.node.frontmatter.name == node.name) {
+          if(pjct.node.frontmatter.name === node.name) {
             remark = pjct.node
             break
           }
@@ -491,6 +492,7 @@ class ResumePage extends React.Component {
               </span>
               {(node.github || github) &&
                 <span>
+                  {/* eslint-disable-next-line */}
                   <span> // </span>
                   <SmartLink
                     theme={LightTheme}
@@ -502,6 +504,7 @@ class ResumePage extends React.Component {
               }
               {(node.website || website) &&
                 <span>
+                  {/* eslint-disable-next-line */}
                   <span> // </span>
                   <SmartLink
                     theme={LightTheme}
@@ -514,13 +517,13 @@ class ResumePage extends React.Component {
             </span>
             <ul>
               <li>
-                <span className='fa-li'><img src={icons[3].img}/></span>
+                <span className='fa-li'><img src={icons[3].img} alt=""/></span>
                 <span>{node.description ? node.description : description}</span>
               </li>
               {node.details.map((item, i) => {
                 return(
                   <li key={i}>
-                    <span className='fa-li'><img src={icons[3].img}/></span>
+                    <span className='fa-li'><img src={icons[3].img} alt=""/></span>
                     <span>{item}</span>
                   </li>
                 )
@@ -552,7 +555,7 @@ class ResumePage extends React.Component {
               {node.details.map((detail, i) => {
                 return (
                   <li key={i}>
-                    <span className='fa-li'><img src={icons[3].img}/></span>
+                    <span className='fa-li'><img src={icons[3].img} alt=""/></span>
                     <span>{detail}</span>
                   </li>
                 )
@@ -598,13 +601,13 @@ class ResumePage extends React.Component {
 
     // Tech side section
     let techType
-    if(resumeTypeSelected.value == 'software') {
+    if(resumeTypeSelected.value === 'software') {
       techType = techJson.software
     }
-    else if(resumeTypeSelected.value == 'web') {
+    else if(resumeTypeSelected.value === 'web') {
       techType = techJson.web
     }
-    else if(resumeTypeSelected.value == 'hardware') {
+    else if(resumeTypeSelected.value === 'hardware') {
       techType = techJson.hardware
     }
     else {
@@ -682,70 +685,72 @@ class ResumePage extends React.Component {
     </SideSection>
 
     return (
-      <ResumePageWrapper>
-        {!canvasLoaded && <canvas ref='canvas' style={{ display: 'none' }}/>}
-        <FilterContainer>
-          <FilterWrapper>
-            <Select
-              name='resume-type'
-              options={resumeTypeOptions}
-              value={resumeTypeSelected}
-              onChange={this.handleResumeSelect}
-              isSearchable={false}
-              className='resume-select'
-            />
-            <GenericButton
-              type='action'
-              text='Download'
-              icon={['fas', 'download']}
-              func={this.handleDownloadPdf}
-            />
-          </FilterWrapper>
-        </FilterContainer>
-        <ThemeProvider theme={LightTheme}>
-          <ResumeContainer>
-            <ResumeWrapper className='resume-root' ref={(resume) => this.resume = resume}>
-              <Header>
-                <HeaderTop>
-                  <HeaderLeft>
-                    <NameWrapper>
-                      {headshot &&
-                        <Img resolutions={headshot.resolutions} alt='Me'/>
-                      }
-                      <div>
-                        <h1>{siteMetadata.author}</h1>
-                        <span>{siteMetadata.about}</span>
-                      </div>
-                    </NameWrapper>
-                  </HeaderLeft>
-                  <HeaderRight>
-                    {socialLinks[email]}
-                    {socialLinks[linkedin]}
-                    {socialLinks[github]}
-                    {home}
-                  </HeaderRight>
-                </HeaderTop>
-                <HeaderBottom>
-                  {statusSection}
-                </HeaderBottom>
-              </Header>
-              <Body>
-                <BodyLeft>
-                  {experienceSection}
-                  {projectsSection}
-                </BodyLeft>
-                <BodyColumn/>
-                <BodyRight>
-                  {educationSection}
-                  {skillsSection}
-                  {techSection}
-                  {interestsSection}
-                </BodyRight>
-              </Body>
-            </ResumeWrapper>
-          </ResumeContainer>
-        </ThemeProvider>
-      </ResumePageWrapper>
+      <BaseLayout location={this.props.location}>
+        <ResumePageWrapper>
+          {!canvasLoaded && <canvas ref='canvas' style={{ display: 'none' }}/>}
+          <FilterContainer>
+            <FilterWrapper>
+              <Select
+                name='resume-type'
+                options={resumeTypeOptions}
+                value={resumeTypeSelected}
+                onChange={this.handleResumeSelect}
+                isSearchable={false}
+                className='resume-select'
+              />
+              <GenericButton
+                type='action'
+                text='Download'
+                icon={['fas', 'download']}
+                func={this.handleDownloadPdf}
+              />
+            </FilterWrapper>
+          </FilterContainer>
+          <ThemeProvider theme={LightTheme}>
+            <ResumeContainer>
+              <ResumeWrapper className='resume-root' ref={(resume) => this.resume = resume}>
+                <Header>
+                  <HeaderTop>
+                    <HeaderLeft>
+                      <NameWrapper>
+                        {headshot &&
+                          <Img fixed={headshot.fixed} alt='Me'/>
+                        }
+                        <div>
+                          <h1>{siteMetadata.author}</h1>
+                          <span>{siteMetadata.about}</span>
+                        </div>
+                      </NameWrapper>
+                    </HeaderLeft>
+                    <HeaderRight>
+                      {socialLinks[email]}
+                      {socialLinks[linkedin]}
+                      {socialLinks[github]}
+                      {home}
+                    </HeaderRight>
+                  </HeaderTop>
+                  <HeaderBottom>
+                    {statusSection}
+                  </HeaderBottom>
+                </Header>
+                <Body>
+                  <BodyLeft>
+                    {experienceSection}
+                    {projectsSection}
+                  </BodyLeft>
+                  <BodyColumn/>
+                  <BodyRight>
+                    {educationSection}
+                    {skillsSection}
+                    {techSection}
+                    {interestsSection}
+                  </BodyRight>
+                </Body>
+              </ResumeWrapper>
+            </ResumeContainer>
+          </ThemeProvider>
+        </ResumePageWrapper>
+      </BaseLayout>
     )
   }
 }
@@ -753,7 +758,7 @@ class ResumePage extends React.Component {
 export default ResumePage
 
 export const pageQuery = graphql`
-  query ResumeQuery {
+  {
     site {
       siteMetadata {
         author
@@ -865,14 +870,14 @@ export const pageQuery = graphql`
         softwares
       }
     }
-    headshot: imageSharp(id: { regex: "/headshot.png/" }) {
-      resolutions(width: 100, height: 100) {
-        ...GatsbyImageSharpResolutions
+    headshot: imageSharp(fixed: {originalName: {regex: "/headshot.png/"}}) {
+      fixed(width: 100, height: 100) {
+        ...GatsbyImageSharpFixed
       }
     }
-    favicon: imageSharp(id: { regex: "/favicon.png/" }) {
-      sizes(maxWidth: 128, maxHeight: 128) {
-        ...GatsbyImageSharpSizes
+    favicon: imageSharp(fluid: {originalName: {regex: "/favicon.png/"}}) {
+      fluid(maxWidth: 128, maxHeight: 128) {
+        ...GatsbyImageSharpFluid
       }
     }
   }
