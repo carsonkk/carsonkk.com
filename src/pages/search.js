@@ -1,51 +1,30 @@
 import React from 'react'
-import { graphql } from 'gatsby'
 import Styled from 'styled-components'
 
 import BaseLayout from '../components/BaseLayout'
+import { PostContainer } from '../utils/Container'
 import SearchBar from '../components/SearchBar'
 
 class SearchPage extends React.Component {
   render() {
-    const { data } = this.props
-    const { siteSearchIndex } = data
-
     const SearchWrapper = Styled.div`
       display: flex;
       flex-direction: column;
       width: 100%;
+      margin: auto;
     `
 
     return (
       <BaseLayout location={this.props.location}>
-        <SearchWrapper>
-          <SearchBar siteSearchIndex={siteSearchIndex.index}></SearchBar>
-        </SearchWrapper>
+        <PostContainer>
+          <SearchWrapper>
+            <SearchBar/>
+            
+          </SearchWrapper>
+        </PostContainer>
       </BaseLayout>
     )
   }
 }
 
 export default SearchPage
-
-export const pageQuery = graphql`
-  {
-    siteSearchIndex {
-      index
-    }
-    allMarkdownRemark {
-      edges {
-        node {
-          id
-          fields {
-            slug
-          }
-          frontmatter {
-            title
-            tags
-          }
-        }
-      }
-    }
-  }
-`

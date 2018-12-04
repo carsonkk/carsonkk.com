@@ -2,7 +2,7 @@
 banner: "neature.jpg"
 title: "Old sink"
 feature: true
-draft: true
+draft: false
 icon: code
 tags:
   - "AI"

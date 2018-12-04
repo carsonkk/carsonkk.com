@@ -1,11 +1,17 @@
 'use strict';
+const _ = require(`lodash`)
+const remark = require('remark')
+const sanitizeHTML = require(`sanitize-html`)
+const toHAST = require(`mdast-util-to-hast`)
+const hastToHTML = require(`hast-util-to-html`)
+const visit = require('unist-util-visit')
 
 module.exports = {
   siteMetadata: {
     author: 'Kyle Carson',
     about: 'Software & Computer Engineer',
     title: 'kk.',
-    description: 'Personal site for articles, project write-ups, and whatever else',
+    description: 'My personal site for articles, project write-ups, and whatever else',
     url: 'http://carsonkk.com',
     text: 'carsonkk.com',
     home: '/'
@@ -92,17 +98,50 @@ module.exports = {
     {
       resolve: `@gatsby-contrib/gatsby-plugin-elasticlunr-search`,
       options: {
-        // Fields to index
         fields: [
+          'kind',
+          'slug',
+          'tagSlugs',
+          'date',
           'title',
-          'tags'
+          'name',
+          'tags',
+          'description',
+          'excerpt',
+          'timeToRead'
         ],
-        // How to resolve each field's value for a supported node type
         resolvers: {
-          // For any node of type MarkdownRemark, list how to resolve the fields' values
           MarkdownRemark: {
+            kind: node => node.fields.kind,
+            slug: node => node.fields.slug,
+            tagSlugs: node => node.fields.tagSlugs,
+            date: node => node.fields.date,
             title: node => node.frontmatter.title,
-            tags: node => node.frontmatter.tags
+            name: node => node.frontmatter.name,
+            tags: node => node.frontmatter.tags,
+            description: node => node.frontmatter.description,
+            excerpt: node => {
+              const length = 137
+              const tree = remark().parse(node.rawMarkdownBody)
+              let excerpt = ''
+              visit(tree, 'text', (node) => {
+                excerpt += node.value
+              })
+              return excerpt.slice(0, length) + '...'
+            },
+            timeToRead: node => {
+              const avgWPM = 265
+              const tree = remark().parse(node.internal.content)
+              const htmlAst = toHAST(tree, { allowDangerousHTML: true })
+              const html = hastToHTML(htmlAst, { allowDangerousHTML: true })
+              const pureText = sanitizeHTML(html, { allowTags: [] })
+              const wordCount = _.words(pureText).length
+              let timeToRead = Math.ceil(wordCount / avgWPM)
+              if (timeToRead === 0) {
+                timeToRead = 1
+              }
+              return timeToRead
+            },
           }
         }
       }

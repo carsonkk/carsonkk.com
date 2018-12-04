@@ -76,7 +76,6 @@ export default TextPreview
 
 export const componentQuery = graphql`
   fragment TextPreviewFragment on MarkdownRemark {
-    id
     timeToRead
     excerpt(pruneLength: 140)
     fields {
@@ -87,7 +86,6 @@ export const componentQuery = graphql`
       title
       icon
       tags
-      draft
     }
   }
 `
