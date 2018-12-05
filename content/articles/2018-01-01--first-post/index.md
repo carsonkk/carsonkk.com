@@ -3,6 +3,7 @@ banner: "neature.jpg"
 title: "Old sink"
 feature: true
 draft: false
+category: Software
 icon: code
 tags:
   - "AI"

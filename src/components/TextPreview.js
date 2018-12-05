@@ -3,12 +3,12 @@ import { Link, graphql } from 'gatsby'
 import Styled from 'styled-components'
 
 import MetaText from '../components/MetaText'
-import { FancyDateMD } from '../utils/Date'
+import { FancyDateMDY } from '../utils/Date'
 
 class TextPreview extends React.Component {
   render() {
     const { fields, frontmatter, timeToRead, excerpt } = this.props.post
-    const currDate = FancyDateMD(Date.parse(fields.date))
+    const currDate = FancyDateMDY(Date.parse(fields.date))
 
     const TextPreviewWrapper = Styled.div`
       margin-bottom: 3rem;
@@ -49,7 +49,7 @@ class TextPreview extends React.Component {
         <MetaText
           type='text'
           icon={['fas', frontmatter.icon]}
-          texts={[frontmatter.tags[0]]}
+          texts={[frontmatter.category]}
           isInline={true}
         />
         <MetaText
@@ -76,6 +76,7 @@ export default TextPreview
 
 export const componentQuery = graphql`
   fragment TextPreviewFragment on MarkdownRemark {
+    id
     timeToRead
     excerpt(pruneLength: 140)
     fields {
@@ -84,8 +85,10 @@ export const componentQuery = graphql`
     }
     frontmatter {
       title
+      category
       icon
       tags
+      draft
     }
   }
 `

@@ -2,7 +2,8 @@
 banner: "banner.png"
 title: "Porting The Liquid Distortion Effect Repo"
 feature: true
-icon: code
+category: Web
+icon: desktop
 tags:
   - "Frontend"
   - "React"

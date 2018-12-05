@@ -17,6 +17,7 @@ module.exports = {
     home: '/'
   },
   plugins: [
+    'gatsby-plugin-react-helmet',
     'gatsby-plugin-styled-components',
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
@@ -99,16 +100,10 @@ module.exports = {
       resolve: `@gatsby-contrib/gatsby-plugin-elasticlunr-search`,
       options: {
         fields: [
-          'kind',
-          'slug',
-          'tagSlugs',
-          'date',
           'title',
           'name',
+          'category',
           'tags',
-          'description',
-          'excerpt',
-          'timeToRead'
         ],
         resolvers: {
           MarkdownRemark: {
@@ -118,6 +113,8 @@ module.exports = {
             date: node => node.fields.date,
             title: node => node.frontmatter.title,
             name: node => node.frontmatter.name,
+            category: node => node.frontmatter.category,
+            icon: node => node.frontmatter.icon,
             tags: node => node.frontmatter.tags,
             description: node => node.frontmatter.description,
             excerpt: node => {
@@ -146,6 +143,5 @@ module.exports = {
         }
       }
     },
-    'gatsby-plugin-react-helmet',
   ],
 }

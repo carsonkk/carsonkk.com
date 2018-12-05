@@ -101,6 +101,9 @@ export default class BaseLayout extends React.Component {
               url
             }
           }
+          siteSearchIndex {
+            index
+          }
           allSocialJson {
             edges {
               node {

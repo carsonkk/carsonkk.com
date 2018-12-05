@@ -1,7 +1,8 @@
 ---
 banner: "neature.jpg"
 title: "Next Post"
-icon: code
+category: Other
+icon: atom
 tags:
   - "AI"
   - "meh"

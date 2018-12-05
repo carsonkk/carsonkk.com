@@ -1,7 +1,8 @@
 ---
 banner: "neature.jpg"
 title: "Prev Post"
-icon: code
+category: Hardware
+icon: microchip
 tags:
   - "AI"
 ---

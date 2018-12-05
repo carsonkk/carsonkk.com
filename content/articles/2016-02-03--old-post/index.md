@@ -1,7 +1,8 @@
 ---
 banner: "neature.jpg"
 title: "Next Post"
-icon: code
+category: Web
+icon: desktop
 tags:
   - "AI"
 ---

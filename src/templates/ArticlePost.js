@@ -165,6 +165,12 @@ class ArticlePost extends React.Component {
                 <h1>{frontmatter.title}</h1>
                 <MetaText
                   type='text'
+                  icon={['fas', frontmatter.icon]}
+                  texts={[frontmatter.category]}
+                  isInline={true}
+                />
+                <MetaText
+                  type='text'
                   icon={['far', 'calendar-alt']}
                   texts={[FancyDateMDY(currDate)]}
                   isInline={true}
@@ -185,7 +191,7 @@ class ArticlePost extends React.Component {
                   <MetaText
                     type='internal'
                     icon={['fas', 'asterisk']}
-                    texts={[`Related: ${frontmatter.project}`]}
+                    texts={[`Related Project: ${frontmatter.project}`]}
                     links={[`/projects/${fields.targetTag}`]}
                   />
                 }
@@ -193,7 +199,7 @@ class ArticlePost extends React.Component {
                   <MetaText
                     type='internal'
                     icon={['fas', 'asterisk']}
-                    texts={[`Related: ${frontmatter.misc}`]}
+                    texts={[`Related Misc: ${frontmatter.misc}`]}
                     links={[`/misc/${fields.targetTag}`]}
                   />
                 }
@@ -260,6 +266,8 @@ export const pageQuery = graphql`
           }
         }
         title
+        category
+        icon
         tags
         project
         reddit

@@ -1,24 +1,19 @@
 import React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
+import SearchBar from 'material-ui-search-bar'
 
-import Search from './Search'
+export default class Search extends React.Component {
 
-export default class SearchBar extends React.Component {
+  shouldComponentUpdate(nextProps) {
+      return false
+  }
+
+
   render() {
     return(
-      <StaticQuery
-        query={graphql`
-          query SearchIndexQuery {
-            siteSearchIndex {
-              index
-            }
-          }
-        `}
-        render={data => (
-          <div>
-            <Search searchIndex={data.siteSearchIndex.index}></Search>
-          </div>
-        )}
+      <SearchBar
+        value={this.props.query}
+        onChange={(newQuery) => this.props.queryIndex(this.props.index, newQuery)}
       />
     )
   }

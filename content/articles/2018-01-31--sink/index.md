@@ -2,7 +2,8 @@
 banner: "banner.jpg"
 title: "Hello World: The remark Kitchen Sink"
 feature: true
-icon: code
+category: Web
+icon: desktop
 tags:
   - "AI"
   - "Machine Learning"
