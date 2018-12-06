@@ -414,7 +414,7 @@ export default ProjectPost
 export const pageQuery = graphql`
   query($slug: String!, $targetTag: String!) {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "articles"} targetTag: {regex: $targetTag}} frontmatter: {draft: {ne: true}}}, 
+      filter: {fields: {kind: {eq: "article"} targetTag: {regex: $targetTag}} frontmatter: {draft: {ne: true}}}, 
       sort: {order: DESC, fields: [fields___date]}
     ) {
       edges {

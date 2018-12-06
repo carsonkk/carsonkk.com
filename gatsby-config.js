@@ -117,6 +117,7 @@ module.exports = {
             icon: node => node.frontmatter.icon,
             tags: node => node.frontmatter.tags,
             description: node => node.frontmatter.description,
+            draft: node => node.frontmatter.draft,
             excerpt: node => {
               const length = 137
               const tree = remark().parse(node.rawMarkdownBody)

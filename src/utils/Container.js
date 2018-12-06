@@ -24,9 +24,9 @@ const Media = Object.keys(MinWidth).reduce((acc, label) => {
 export const Container = Styled.div`
   margin-left: auto;
   margin-right: auto;
-  ${Media.s`width: ${MaxWidth.s/16}rem`}
-  ${Media.m`width: ${MaxWidth.m/16}rem`}
-  ${Media.l`width: ${MaxWidth.l/16}rem`}
+  ${Media.s`max-width: ${MaxWidth.s/16}rem`}
+  ${Media.m`max-width: ${MaxWidth.m/16}rem`}
+  ${Media.l`max-width: ${MaxWidth.l/16}rem`}
 `
 
 export const PaddedContainer = Styled(Container)`

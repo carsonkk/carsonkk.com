@@ -64,10 +64,10 @@ class ArticlesPage extends React.Component {
     edges.forEach(edge => {
       const yearStr = edge.node.fields.date.substring(0,4)
       if(yearStr in posts) {
-        posts[yearStr].push(<TextPreview key={edge.node.id} post={edge.node}/>)
+        posts[yearStr].push(<TextPreview key={edge.node.id} data={edge.node}/>)
       }
       else {
-        posts[yearStr] = [<TextPreview key={edge.node.id} post={edge.node}/>]
+        posts[yearStr] = [<TextPreview key={edge.node.id} data={edge.node}/>]
         years.push(
           <YearButton 
             key={yearStr}
@@ -112,7 +112,7 @@ export default ArticlesPage
 export const pageQuery = graphql`
   {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "articles"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
+      filter: {fields: {kind: {eq: "article"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
       sort: {order: DESC, fields: [fields___date]}
     ) {
       edges {

@@ -179,7 +179,7 @@ export const pageQuery = graphql`
   {
     recentArticlePosts: allMarkdownRemark(
       limit: 3
-      filter: {fields: {kind: {eq: "articles"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
+      filter: {fields: {kind: {eq: "article"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
       sort: {order: DESC, fields: [fields___date]}
     ) {
       edges {
@@ -190,7 +190,7 @@ export const pageQuery = graphql`
     }
     featuredArticlePosts: allMarkdownRemark(
       limit: 3
-      filter: {fields: {kind: {eq: "articles"} type: {eq: "page"}} frontmatter: {draft: {ne: true} feature: {eq: true}}}
+      filter: {fields: {kind: {eq: "article"} type: {eq: "page"}} frontmatter: {draft: {ne: true} feature: {eq: true}}}
       sort: {order: DESC, fields: [fields___date]}
     ) {
       edges {

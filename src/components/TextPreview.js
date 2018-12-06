@@ -5,13 +5,14 @@ import Styled from 'styled-components'
 import MetaText from '../components/MetaText'
 import { FancyDateMDY } from '../utils/Date'
 
-class TextPreview extends React.Component {
+export default class TextPreview extends React.Component {
   render() {
-    const { fields, frontmatter, timeToRead, excerpt } = this.props.post
-    const currDate = FancyDateMDY(Date.parse(fields.date))
-
+    // eslint-disable-next-line
+    const { frontmatter, fields, id, timeToRead, excerpt } = this.props.data
+    const { kind, date, slug, tagSlugs } = fields
+    const { title, name, category, icon, tags, description } = frontmatter
     const TextPreviewWrapper = Styled.div`
-      margin-bottom: 3rem;
+      margin-bottom: 1rem;
     `
     const Title = Styled.div`
       line-height: 1;
@@ -34,6 +35,7 @@ class TextPreview extends React.Component {
         }
         h3 {
           margin: 0;
+          font-size: 1.25em;
         }
       }
     `
@@ -41,38 +43,54 @@ class TextPreview extends React.Component {
     return (
       <TextPreviewWrapper>
         <Title>
-          <Link to={`${fields.slug}`}>
-              <div></div>
-              <h3>{frontmatter.title}</h3>
+          <Link to={`${slug}`}>
+            <div></div>
+            {title && 
+              <h3>{title}</h3>
+            }
+            {name && 
+              <h3>{name}</h3>
+            }
           </Link>
         </Title>
         <MetaText
           type='text'
-          icon={['fas', frontmatter.icon]}
-          texts={[frontmatter.category]}
+          icon={['fas', icon]}
+          texts={[category]}
           isInline={true}
         />
-        <MetaText
-          type='text'
-          icon={['far', 'calendar-alt']}
-          texts={[currDate]}
-          isInline={true}
-        />
+        {date &&
+          <MetaText
+            type='text'
+            icon={['far', 'calendar-alt']}
+            texts={[FancyDateMDY(Date.parse(date))]}
+            isInline={true}
+          />
+        }
         <MetaText
           type='text'
           icon={['far', 'clock']}
           texts={[`${timeToRead} min read`]}
           isInline={true}
         />
+        <MetaText
+          type='internal'
+          icon={['fas', 'tags']}
+          texts={tags}
+          links={tagSlugs}
+          />
         <div>
-          <span>{excerpt}</span>
+          {excerpt && kind === 'article' &&
+            <span>{excerpt}</span>
+          }
+          {description && kind !== 'article' &&
+            <span>{description}</span>
+          }
         </div>
       </TextPreviewWrapper>
     )
   }
 }
-
-export default TextPreview
 
 export const componentQuery = graphql`
   fragment TextPreviewFragment on MarkdownRemark {
@@ -80,15 +98,18 @@ export const componentQuery = graphql`
     timeToRead
     excerpt(pruneLength: 140)
     fields {
+      kind
       date
       slug
+      tagSlugs
     }
     frontmatter {
       title
+      name
       category
       icon
       tags
-      draft
+      description
     }
   }
 `

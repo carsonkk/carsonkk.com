@@ -37,7 +37,7 @@ exports.createPages = ({ graphql, actions }) => {
         const { fields, frontmatter } = edge.node
         if(fields.type !== 'subpage' && !frontmatter.draft) {
           switch (fields.kind) {
-            case 'articles':
+            case 'article':
               createPage({
                 path: fields.slug,
                 component: path.resolve(`src/templates/ArticlePost.js`),
@@ -107,7 +107,7 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
         case 'articles':
           slugTarget = slugTarget.split(`--`)
           slugTarget[1] = _.kebabCase(slugTarget[1])
-          createNodeField({ node, name: `kind`, value: `articles` })
+          createNodeField({ node, name: `kind`, value: `article` })
           createNodeField({ node, name: `slug`, value: `/articles/${slugTarget[1]}` })
           createNodeField({ node, name: `type`, value: `page` })
           createNodeField({ node, name: `date`, value: `${slugTarget[0]}` })
@@ -143,7 +143,7 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
     createNodeField({ node, name: `kind`, value: fileNode.fields.kind })
     createNodeField({ node, name: `type`, value: fileNode.fields.type })
     if(fileNode.fields.type !== 'subpage') {
-      if(fileNode.fields.kind === 'articles') {
+      if(fileNode.fields.kind === 'article') {
         createNodeField({ node, name: `date`, value: fileNode.fields.date })
         let articlesTargetTag = ''
         node.frontmatter.tags.forEach(tag => {

@@ -237,7 +237,7 @@ export default ArticlePost
 export const pageQuery = graphql`
   query($slug: String!) {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "articles"}} frontmatter: {draft: {ne: true}}}
+      filter: {fields: {kind: {eq: "article"}} frontmatter: {draft: {ne: true}}}
     ) {
       edges {
         node {
