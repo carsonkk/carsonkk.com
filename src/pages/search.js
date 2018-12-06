@@ -8,6 +8,7 @@ import SearchSection from '../components/SearchSection'
 export default class SearchPage extends React.Component {
   render() {
     const { index } = this.props.data.siteSearchIndex
+    const { edges } = this.props.data.allMarkdownRemark
     const SearchWrapper = Styled.div`
       flex: 1;
       display: flex;
@@ -22,6 +23,7 @@ export default class SearchPage extends React.Component {
             type='text'
             index={index}
             kinds={['article', 'project', 'misc']}
+            edges={edges}
           />
         </SearchWrapper>
       </BaseLayout>
@@ -30,9 +32,24 @@ export default class SearchPage extends React.Component {
 }
 
 export const pageQuery = graphql`
-  query SearchIndexQuery {
+  {
     siteSearchIndex {
       index
+    }
+    allMarkdownRemark(
+      filter: {frontmatter: {draft: {ne: true}}}
+      sort: {order: DESC, fields: [fields___date]}
+    ) {
+      edges {
+        node {
+          fields {
+            date
+          }
+          frontmatter {
+            tags
+          }
+        }
+      }
     }
   }
 `

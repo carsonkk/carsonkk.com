@@ -56,7 +56,7 @@ export default class TextPreview extends React.Component {
         <MetaText
           type='text'
           icon={['fas', icon]}
-          texts={[category]}
+          texts={[`${category} ${kind.charAt(0).toUpperCase()}${kind.slice(1)}`]}
           isInline={true}
         />
         {date &&

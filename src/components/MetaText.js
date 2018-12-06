@@ -83,6 +83,7 @@ class MetaText extends React.Component {
 }
 
 MetaText.defaultProps = {
+  icon: [],
   links: [],
   iconType: 'fa',
   isInline: false
@@ -94,10 +95,11 @@ MetaText.propTypes = {
     'internal',
     'external'
   ]).isRequired,
-  icon: PropTypes.array.isRequired,
   texts: PropTypes.array.isRequired,
+  icon: PropTypes.array,
   links: PropTypes.array,
   iconType: PropTypes.oneOf([
+    'none',
     'fa',
     'svg',
     'img',
