@@ -147,7 +147,10 @@ class SearchSection extends React.Component {
   }
 
   handleTagSelect = (tagsSelected) => {
-    const tags = this.state.tags.concat([tagsSelected[0].value])
+    let tags = []
+    if(tagsSelected[0]) {
+      tags = this.state.tags.concat([tagsSelected[0].value])
+    }
     this.setState({
       tagsSelected,
       tags,
@@ -155,7 +158,10 @@ class SearchSection extends React.Component {
   }
 
   handleCategorySelect = (categoriesSelected) => {
-    const categories = this.state.categories.concat([categoriesSelected[0].value])
+    let categories = []
+    if(categoriesSelected[0]) {
+      categories = this.state.categories.concat([categoriesSelected[0].value])
+    }
     this.setState({
       categoriesSelected,
       categories,
@@ -163,7 +169,10 @@ class SearchSection extends React.Component {
   }
 
   handleYearSelect = (yearsSelected) => {
-    const years = this.state.years.concat([yearsSelected[0].value])
+    let years = []
+    if(yearsSelected[0]) {
+      years = this.state.years.concat([yearsSelected[0].value])
+    }
     this.setState({
       yearsSelected,
       years,
@@ -171,7 +180,10 @@ class SearchSection extends React.Component {
   }
 
   handleLengthSelect = (lengthsSelected) => {
-    const lengths = this.state.lengths.concat([lengthsSelected[0].value])
+    let lengths = []
+    if(lengthsSelected[0]) {
+      lengths = this.state.lengths.concat([lengthsSelected[0].value])
+    }
     this.setState({
       lengthsSelected,
       lengths,
@@ -307,6 +319,50 @@ class SearchSection extends React.Component {
         margin: 1rem 0 1rem 1rem;
       }
     `
+    const selectStyles = {
+      control: (provided) => ({
+        ...provided,
+        borderStyle: 'none',
+        boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)'
+      }),
+      valueContainer: (provided) => ({
+        ...provided,
+        cursor: 'text'
+      }),
+      clearIndicator: (provided) => ({
+        ...provided,
+        cursor: 'pointer'
+      }),
+      dropdownIndicator: (provided) => ({
+        ...provided,
+        cursor: 'pointer'
+      }),
+      placeholder: (provided) => ({
+        ...provided,
+        color: '#9e9e9e'
+      }),
+      multiValue: (provided) => ({
+        ...provided,
+        margin: '0',
+        borderRadius: '0.5rem',
+        border: '0.125rem solid #6ecfff',
+        color: '#2a2a2a',
+        backgroundColor: 'white'
+      }),
+      multiValueRemove: (provided) => ({
+        ...provided,
+        cursor: 'pointer'
+      }),
+      option: (provided) => ({
+        ...provided,
+        cursor: 'pointer',
+        color: '#2a2a2a',
+        backgroundColor: 'white',
+        '&:hover': {
+          backgroundColor: '#6ecfff'
+        }
+      }),
+    }
     const Results = Styled.div`
       > div:nth-child(1) {
         display: ${this.state.filteredResults[this.state.offset].fields.kind === 'dummy' ? 'none' : 'block'};
@@ -342,8 +398,8 @@ class SearchSection extends React.Component {
         display: flex;
         justify-content: center;
         list-style-type: none;
-        margin: 1rem 0;
-        padding: 1rem 0;
+        margin: 0.5rem 0;
+        padding: 0.75rem 0 1rem 0;
         overflow: hidden;
         li {
           display: flex;
@@ -410,6 +466,10 @@ class SearchSection extends React.Component {
                 placeholder='Tags...'
                 options={this.state.tagOptions}
                 onChange={this.handleTagSelect}
+                value={this.state.tagsSelected}
+                styles={selectStyles}
+                classNamePrefix="react-select"
+                className="react-select"
                 isMulti
                 isClearable
               />
@@ -418,6 +478,8 @@ class SearchSection extends React.Component {
                 placeholder='Categories...'
                 options={categoryOptions}
                 onChange={this.handleCategorySelect}
+                value={this.state.categoriesSelected}
+                styles={selectStyles}
                 isMulti
                 isClearable
               />
@@ -428,6 +490,8 @@ class SearchSection extends React.Component {
                 placeholder='Years...'
                 options={this.state.yearOptions}
                 onChange={this.handleYearSelect}
+                value={this.state.yearsSelected}
+                styles={selectStyles}
                 isMulti
                 isClearable
               />
@@ -436,6 +500,8 @@ class SearchSection extends React.Component {
                 placeholder='Lengths...'
                 options={lengthOptions}
                 onChange={this.handleLengthSelect}
+                value={this.state.lengthsSelected}
+                styles={selectStyles}
                 isMulti
                 isClearable
               />
