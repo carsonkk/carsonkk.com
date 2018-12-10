@@ -1,5 +1,5 @@
 ---
-name: highdim
+title: highdim
 description: A simple tool for analyzing Gaussians in high-order dimensional space
 category: Software
 icon: code

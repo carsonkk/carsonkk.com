@@ -1,5 +1,5 @@
 ---
-name: Gestur
+title: Gestur
 description: Glove-based VR controller with haptic feedback
 category: Hardware
 icon: microchip

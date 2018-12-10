@@ -1,5 +1,5 @@
 ---
-name: blockstore
+title: blockstore
 description: A distributed key-value storage system built on top of blockchain technology
 category: Software
 icon: code

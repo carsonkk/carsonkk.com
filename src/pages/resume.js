@@ -797,7 +797,7 @@ export const pageQuery = graphql`
     allProjectsJson {
       edges {
         node {
-          name
+          title
           slug
           github
           website
@@ -818,7 +818,7 @@ export const pageQuery = graphql`
             slug
           }
           frontmatter {
-            name
+            title
             description
             github
             website

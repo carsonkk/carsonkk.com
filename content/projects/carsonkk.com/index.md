@@ -1,5 +1,5 @@
 ---
-name: carsonkk.com
+title: carsonkk.com
 description: Personal site for articles, project write-ups, and whatever else
 category: Web
 icon: desktop

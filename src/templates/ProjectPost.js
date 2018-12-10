@@ -330,7 +330,7 @@ class ProjectPost extends React.Component {
                   {frontmatter.logo &&
                     <Img fixed={frontmatter.logo.childImageSharp.fixed} alt="logo"/>
                   }
-                  <h1>{frontmatter.name}</h1>
+                  <h1>{frontmatter.title}</h1>
                 </NameWrapper>
                 <div>
                   <div>
@@ -444,7 +444,7 @@ export const pageQuery = graphql`
             }
           }
         }
-        name
+        title
         description
         feature
         draft

@@ -1,5 +1,5 @@
 ---
-name: git clone all
+title: git clone all
 description: Clone all repos owned by a given user or organization with a single command
 category: Software
 icon: code

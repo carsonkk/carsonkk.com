@@ -1,6 +1,6 @@
 [
   {
-    "name": "Sealarg",
+    "title": "Sealarg",
     "slug": "",
     "github": "",
     "website": "",
@@ -13,7 +13,7 @@
     ]
   },
   {
-    "name": "Clog",
+    "title": "Clog",
     "slug": "",
     "github": "",
     "website": "",
@@ -26,7 +26,7 @@
     ]
   },
   {
-    "name": "highdim",
+    "title": "highdim",
     "slug": "",
     "github": "",
     "website": "",
@@ -39,7 +39,7 @@
     ]
   },
   {
-    "name": "Luber",
+    "title": "Luber",
     "slug": "",
     "github": "",
     "website": "",
@@ -53,7 +53,7 @@
     ]
   },
   {
-    "name": "drngs",
+    "title": "drngs",
     "slug": "",
     "github": "",
     "website": "",
@@ -67,7 +67,7 @@
     ]
   },
   {
-    "name": "blockstore",
+    "title": "blockstore",
     "slug": "",
     "github": "",
     "website": "",

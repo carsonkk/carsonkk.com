@@ -1,5 +1,5 @@
 ---
-name: socialcli
+title: socialcli
 description: CLI-based social networking platform/simulator
 category: Software
 icon: code

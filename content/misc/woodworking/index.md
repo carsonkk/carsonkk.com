@@ -1,7 +1,8 @@
 ---
-name: Woodworking
+title: Woodworking
 description: Internal site example
-icon: code
+category: Other
+icon: atom
 tags:
   - Woodworking
   - Hobby

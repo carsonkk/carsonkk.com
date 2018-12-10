@@ -1,5 +1,5 @@
 ---
-name: KFS
+title: KFS
 description: Linux-compliant file system using FUSE
 category: Software
 icon: code

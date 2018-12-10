@@ -1,5 +1,5 @@
 ---
-name: Clog
+title: Clog
 description: A simple, versatile logging library for C
 category: Software
 icon: code

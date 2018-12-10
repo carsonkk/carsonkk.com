@@ -10,9 +10,9 @@ export default class TextPreview extends React.Component {
     // eslint-disable-next-line
     const { frontmatter, fields, id, timeToRead, excerpt } = this.props.data
     const { kind, date, slug, tagSlugs } = fields
-    const { title, name, category, icon, tags, description } = frontmatter
+    const { title, category, icon, tags, description } = frontmatter
     const TextPreviewWrapper = Styled.div`
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
     `
     const Title = Styled.div`
       line-height: 1;
@@ -42,23 +42,22 @@ export default class TextPreview extends React.Component {
 
     return (
       <TextPreviewWrapper>
-        <Title>
-          <Link to={`${slug}`}>
-            <div></div>
-            {title && 
+        {title && slug &&
+          <Title>
+            <Link to={`${slug}`}>
+              <div></div>
               <h3>{title}</h3>
-            }
-            {name && 
-              <h3>{name}</h3>
-            }
-          </Link>
-        </Title>
-        <MetaText
-          type='text'
-          icon={['fas', icon]}
-          texts={[`${category} ${kind.charAt(0).toUpperCase()}${kind.slice(1)}`]}
-          isInline={true}
-        />
+            </Link>
+          </Title>
+        }
+        {kind && category && icon && 
+          <MetaText
+            type='text'
+            icon={['fas', icon]}
+            texts={[`${category} ${kind.charAt(0).toUpperCase()}${kind.slice(1)}`]}
+            isInline={true}
+          />
+        }
         {date &&
           <MetaText
             type='text'
@@ -67,18 +66,22 @@ export default class TextPreview extends React.Component {
             isInline={true}
           />
         }
-        <MetaText
-          type='text'
-          icon={['far', 'clock']}
-          texts={[`${timeToRead} min read`]}
-          isInline={true}
-        />
-        <MetaText
-          type='internal'
-          icon={['fas', 'tags']}
-          texts={tags}
-          links={tagSlugs}
+        {timeToRead &&
+          <MetaText
+            type='text'
+            icon={['far', 'clock']}
+            texts={[`${timeToRead} min read`]}
+            isInline={true}
           />
+        }
+        {tags && tagSlugs && 
+          <MetaText
+            type='internal'
+            icon={['fas', 'tags']}
+            texts={tags}
+            links={tagSlugs}
+          />
+        }
         <div>
           {excerpt && kind === 'article' &&
             <span>{excerpt}</span>
@@ -105,7 +108,6 @@ export const componentQuery = graphql`
     }
     frontmatter {
       title
-      name
       category
       icon
       tags

@@ -138,7 +138,7 @@ class ImagePreview extends React.Component {
         <Link to={`${post.fields.slug}`}>
           <PostPreview>
             <div></div>
-            <h2>{frontmatter.name}</h2>
+            <h2>{frontmatter.title}</h2>
             <Description>
               <span>{frontmatter.description}</span>
             </Description>

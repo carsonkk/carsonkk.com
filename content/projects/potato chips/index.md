@@ -1,5 +1,5 @@
 ---
-name: potato chips
+title: potato chips
 description: Distributed Systems meets Combinatorial Mathematics, come party with Ramsey
 category: Software
 icon: code

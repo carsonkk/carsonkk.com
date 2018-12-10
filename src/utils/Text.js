@@ -91,3 +91,7 @@ export const FontSerif = `
   "PT Serif", 
   ${FontBase}
 `
+
+export function pluralize(number, word) {
+  return number === 1 ? `${number} ${word}` : `${number} ${word}s`
+}

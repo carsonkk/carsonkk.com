@@ -232,8 +232,9 @@ export const pageQuery = graphql`
                 }
               }
             }
+            category
             icon
-            name
+            title
             description
           }
         }

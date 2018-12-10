@@ -1,7 +1,8 @@
 ---
 banner: neature.jpg
-name: Photography
+title: Photography
 description: Check out these sweet pics
-icon: code
+category: Other
+icon: atom
 website: //google.com
 ---

@@ -1,5 +1,5 @@
 ---
-name: smptcp
+title: smptcp
 description: A client wrapper and simplified implementation of MultiPath TCP
 category: Software
 icon: code

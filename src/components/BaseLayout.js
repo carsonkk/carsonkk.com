@@ -19,7 +19,7 @@ export default class BaseLayout extends React.Component {
     this.handleClickTheme = this.handleClickTheme.bind(this)
   }
 
-  handleClickTheme() {
+  handleClickTheme(e) {
     const { theme } = this.state
     let newTheme
     if(theme === 'dark') {

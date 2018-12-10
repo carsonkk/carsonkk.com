@@ -2,7 +2,7 @@
 banner: luber-logo-lg.png
 allowCropping: false
 logo: favicon.png
-name: Luber
+title: Luber
 description: A ridesharing App
 category: Web
 icon: desktop

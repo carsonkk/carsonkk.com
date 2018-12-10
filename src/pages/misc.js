@@ -70,7 +70,7 @@ export const pageQuery = graphql`
               }
             }
             icon
-            name
+            title
             description
           }
         }

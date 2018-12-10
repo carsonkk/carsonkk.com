@@ -1,5 +1,5 @@
 ---
-name: HeckaDBMS
+title: HeckaDBMS
 description: DBMS stack including storage, two transaction proccessing protocols, and a client for submitting requests
 category: Software
 icon: code

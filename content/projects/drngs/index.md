@@ -1,5 +1,5 @@
 ---
-name: drngs
+title: drngs
 description: Experimenting with deterministic RNGs
 category: Software
 icon: code

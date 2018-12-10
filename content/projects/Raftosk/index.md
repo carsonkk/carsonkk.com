@@ -1,5 +1,5 @@
 ---
-name: Raftosk
+title: Raftosk
 description: Distributed ticketing kiosk implemented using the Raft Consensus Algorithm
 category: Software
 icon: code

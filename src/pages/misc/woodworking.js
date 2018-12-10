@@ -42,7 +42,7 @@ export const pageQuery = graphql`
           }
         }
       }
-      name
+      title
       description
       tags
     }

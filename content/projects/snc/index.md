@@ -1,5 +1,5 @@
 ---
-name: snc
+title: snc
 description: A simplified implementation of the netcat utility
 category: Software
 icon: code

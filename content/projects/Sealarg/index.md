@@ -1,7 +1,7 @@
 ---
 banner: neature.jpg
 logo: seal.jpg
-name: Sealarg
+title: Sealarg
 description: An easy-to-use command line argument parsing library for C
 category: Software
 icon: code

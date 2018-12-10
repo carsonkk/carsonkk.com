@@ -1,5 +1,5 @@
 ---
-name: KOS
+title: KOS
 description: Unix-like OS written for a simulated DEC PDP-11
 category: Software
 icon: code

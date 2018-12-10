@@ -1,5 +1,5 @@
 ---
-name: Liden
+title: Liden
 description: A Linux-like micro-OS built from scratch
 category: Software
 icon: code

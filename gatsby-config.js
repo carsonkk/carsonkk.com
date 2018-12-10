@@ -101,18 +101,19 @@ module.exports = {
       options: {
         fields: [
           'title',
-          'name',
           'category',
           'tags',
+          'description',
+          'excerpt'
         ],
         resolvers: {
           MarkdownRemark: {
+            type: node => node.fields.type,
             kind: node => node.fields.kind,
             slug: node => node.fields.slug,
             tagSlugs: node => node.fields.tagSlugs,
             date: node => node.fields.date,
             title: node => node.frontmatter.title,
-            name: node => node.frontmatter.name,
             category: node => node.frontmatter.category,
             icon: node => node.frontmatter.icon,
             tags: node => node.frontmatter.tags,

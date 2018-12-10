@@ -1,5 +1,5 @@
 ---
-name: CSG
+title: CSG
 description: Combinational Sensing Glove built with Arduino Due
 category: Hardware
 icon: microchip

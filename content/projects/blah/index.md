@@ -1,5 +1,5 @@
 ---
-name: "Blah"
+title: "Blah"
 description: "Not a github project fsd Trtbrh Blah Blah Blah"
 icon: code
 feature: true
