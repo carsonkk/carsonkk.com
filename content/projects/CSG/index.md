@@ -1,15 +1,17 @@
 ---
-title: CSG
-description: Combinational Sensing Glove built with Arduino Due
-category: Hardware
-icon: microchip
+created: '2018-04-01'
+updated: '2018-04-01'
+title: 'CSG'
+description: 'Combinational Sensing Glove built with Arduino Due'
+topic: 'Hardware'
+icon: 'microchip'
 tags:
-  - CSG
-  - Ardunio
-  - Embedded Systems
-  - Sensors
-  - C
-github: carsonkk/CSG
+  - 'CSG'
+  - 'Ardunio'
+  - 'Embedded Systems'
+  - 'Sensors'
+  - 'C'
+github: 'carsonkk/CSG'
 ---
 
 ## Humble Beginnings

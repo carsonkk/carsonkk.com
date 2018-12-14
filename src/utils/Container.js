@@ -30,6 +30,7 @@ export const Container = Styled.div`
 `
 
 export const PaddedContainer = Styled(Container)`
+  position: relative;
   padding: 0rem 4rem;
 `
 

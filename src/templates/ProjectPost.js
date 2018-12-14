@@ -415,7 +415,7 @@ export const pageQuery = graphql`
   query($slug: String!, $targetTag: String!) {
     allMarkdownRemark(
       filter: {fields: {kind: {eq: "article"} targetTag: {regex: $targetTag}} frontmatter: {draft: {ne: true}}}, 
-      sort: {order: DESC, fields: [fields___date]}
+      sort: {order: DESC, fields: [frontmatter___created]}
     ) {
       edges {
         node {
@@ -446,6 +446,8 @@ export const pageQuery = graphql`
         }
         title
         description
+        created
+        updated
         feature
         draft
         tags

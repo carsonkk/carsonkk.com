@@ -1,15 +1,17 @@
 ---
-banner: neature.jpg
-logo: seal.jpg
-title: Sealarg
-description: An easy-to-use command line argument parsing library for C
-category: Software
-icon: code
+created: '2018-01-01'
+updated: '2018-01-01'
+banner: 'neature.jpg'
+logo: 'seal.jpg'
+title: 'Sealarg'
+description: 'An easy-to-use command line argument parsing library for C'
+topic: 'Software'
+icon: 'code'
 tags:
-  - Sealarg
-  - C
-  - Software Library
-github: carsonkk/sealarg
+  - 'Sealarg'
+  - 'C'
+  - 'Software Library'
+github: 'carsonkk/sealarg'
 ---
 
 # Sealarg

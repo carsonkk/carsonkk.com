@@ -1,19 +1,21 @@
 ---
-title: carsonkk.com
-description: Personal site for articles, project write-ups, and whatever else
-category: Web
-icon: desktop
+created: '2018-01-01'
+updated: '2018-01-01'
+title: 'carsonkk.com'
+description: 'Personal site for articles, project write-ups, and whatever else'
+topic: 'Web'
+icon: 'desktop'
 tags:
-  - Meta
-  - Website
-  - React
-  - Gatsby
-  - GraphQL
-  - JavaScript
-  - HTML
-  - CSS
-github: carsonkk/carsonkk.com
-website: carsonkk.com
+  - 'Meta'
+  - 'Website'
+  - 'React'
+  - 'Gatsby'
+  - 'GraphQL'
+  - 'JavaScript'
+  - 'HTML'
+  - 'CSS'
+github: 'carsonkk/carsonkk.com'
+website: 'carsonkk.com'
 ---
 
 ## Consolidation

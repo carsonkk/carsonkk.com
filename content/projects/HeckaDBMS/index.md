@@ -1,13 +1,15 @@
 ---
-title: HeckaDBMS
-description: DBMS stack including storage, two transaction proccessing protocols, and a client for submitting requests
-category: Software
-icon: code
+created: '2018-09-01'
+updated: '2018-10-09'
+title: 'HeckaDBMS'
+description: 'DBMS stack including storage, two transaction proccessing protocols, and a client for submitting requests'
+topic: 'Software'
+icon: 'code'
 tags:
-  - HeckaDBMS
-  - C Plus Plus
-  - Databases
-github: carsonkk/HeckaDBMS
+  - 'HeckaDBMS'
+  - 'C Plus Plus'
+  - 'Databases'
+github: 'carsonkk/HeckaDBMS'
 ---
 
 ## Hecka Transactions

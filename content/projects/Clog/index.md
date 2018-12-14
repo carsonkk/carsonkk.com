@@ -1,15 +1,17 @@
 ---
-title: Clog
-description: A simple, versatile logging library for C
-category: Software
-icon: code
+created: '2018-03-01'
+updated: '2018-03-01'
+title: 'Clog'
+description: 'A simple, versatile logging library for C'
+topic: 'Software'
+icon: 'code'
 tags:
-  - Clog
-  - C
-  - Logging
-  - Software Library
-github: carsonkk/Clog
-website: carsonkk.github.io/Clog
+  - 'Clog'
+  - 'C'
+  - 'Logging'
+  - 'Software Library'
+github: 'carsonkk/Clog'
+website: 'carsonkk.github.io/Clog'
 ---
 
 ## Building a Package

@@ -470,7 +470,7 @@ class ResumePage extends React.Component {
         let remark
         
         for(let pjct of allProjectsRemark.edges) {
-          if(pjct.node.frontmatter.name === node.name) {
+          if(pjct.node.frontmatter.title === node.title) {
             remark = pjct.node
             break
           }
@@ -480,7 +480,7 @@ class ResumePage extends React.Component {
         
         return(
           <SideSubsection key={i}>
-            <h3>{node.name}</h3>
+            <h3>{node.title}</h3>
             <span>
               <span>
                 <SmartLink
@@ -808,7 +808,7 @@ export const pageQuery = graphql`
       }
     }
     allProjectsRemark: allMarkdownRemark(
-      filter: {fields: {kind: {eq: "project"} type: {eq: "page"}}}
+      filter: {fields: {type: {eq: "project"} kind: {eq: "page"}}}
       sort: {order: ASC, fields: [fields___slug]}
     ) {
       edges {

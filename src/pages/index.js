@@ -180,7 +180,7 @@ export const pageQuery = graphql`
     recentArticlePosts: allMarkdownRemark(
       limit: 3
       filter: {fields: {kind: {eq: "article"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
-      sort: {order: DESC, fields: [fields___date]}
+      sort: {order: DESC, fields: [fields___number]}
     ) {
       edges {
         node {
@@ -191,7 +191,7 @@ export const pageQuery = graphql`
     featuredArticlePosts: allMarkdownRemark(
       limit: 3
       filter: {fields: {kind: {eq: "article"} type: {eq: "page"}} frontmatter: {draft: {ne: true} feature: {eq: true}}}
-      sort: {order: DESC, fields: [fields___date]}
+      sort: {order: DESC, fields: [fields___number]}
     ) {
       edges {
         node {
@@ -232,7 +232,7 @@ export const pageQuery = graphql`
                 }
               }
             }
-            category
+            topic
             icon
             title
             description

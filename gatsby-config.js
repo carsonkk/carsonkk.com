@@ -101,7 +101,7 @@ module.exports = {
       options: {
         fields: [
           'title',
-          'category',
+          'topic',
           'tags',
           'description',
           'excerpt'
@@ -112,9 +112,10 @@ module.exports = {
             kind: node => node.fields.kind,
             slug: node => node.fields.slug,
             tagSlugs: node => node.fields.tagSlugs,
-            date: node => node.fields.date,
+            created: node => node.frontmatter.created,
+            updated: node => node.frontmatter.updated,
             title: node => node.frontmatter.title,
-            category: node => node.frontmatter.category,
+            topic: node => node.frontmatter.topic,
             icon: node => node.frontmatter.icon,
             tags: node => node.frontmatter.tags,
             description: node => node.frontmatter.description,

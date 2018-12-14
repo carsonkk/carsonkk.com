@@ -1,18 +1,20 @@
 ---
-title: blockstore
-description: A distributed key-value storage system built on top of blockchain technology
-category: Software
-icon: code
+created: '2018-01-01'
+updated: '2018-01-01'
+title: 'blockstore'
+description: 'A distributed key-value storage system built on top of blockchain technology'
+topic: 'Software'
+icon: 'code'
 tags:
-  - blockstore
-  - Blockchain
-  - Databases
-  - Distributed Systems
-  - JavaScript
-  - TypeScript
-  - C Plus Plus
-github: carsonkk/blockstore
-misc: __misc__/index.md
+  - 'blockstore'
+  - 'Blockchain'
+  - 'Databases'
+  - 'Distributed Systems'
+  - 'JavaScript'
+  - 'TypeScript'
+  - 'C Plus Plus'
+github: 'carsonkk/blockstore'
+misc: '__misc__/index.md'
 ---
 
 ## Abstract

@@ -1,20 +1,22 @@
 ---
-banner: luber-logo-lg.png
+created: '2018-01-01'
+updated: '2018-01-01'
+banner: 'luber-logo-lg.png'
 allowCropping: false
-logo: favicon.png
-title: Luber
-description: A ridesharing App
-category: Web
-icon: desktop
+logo: 'favicon.png'
+title: 'Luber'
+description: 'A ridesharing App'
+topic: 'Web'
+icon: 'desktop'
 tags:
-  - Luber
-  - Ruby
-  - Rails
-  - Web Application
-  - AWS
-  - Scalable Services
-github: carsonkk/Luber
-website: luber-services.herokuapp.com
+  - 'Luber'
+  - 'Ruby'
+  - 'Rails'
+  - 'Web Application'
+  - 'AWS'
+  - 'Scalable Services'
+github: 'carsonkk/Luber'
+website: 'luber-services.herokuapp.com'
 ---
 
 # Luber

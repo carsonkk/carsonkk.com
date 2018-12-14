@@ -1,16 +1,18 @@
 ---
-title: Lamposk
-description: Distributed ticketing kiosk implemented using Lamport's Bakery Algorithm
-category: Software
-icon: code
+created: '2018-01-01'
+updated: '2018-01-01'
+title: 'Lamposk'
+description: "Distributed ticketing kiosk implemented using Lamport's Bakery Algorithm"
+topic: 'Software'
+icon: 'code'
 tags:
-  - Distributed Systems
-  - TUI
-  - C
-  - Networking
-  - Multithreaded
-  - pthreads
-github: carsonkk/Lamposk
+  - 'Distributed Systems'
+  - 'TUI'
+  - 'C'
+  - 'Networking'
+  - 'Multithreaded'
+  - 'pthreads'
+github: 'carsonkk/Lamposk'
 ---
 
 # Lamposk

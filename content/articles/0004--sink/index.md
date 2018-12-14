@@ -1,18 +1,20 @@
 ---
-banner: "banner.jpg"
-title: "Hello World: The remark Kitchen Sink"
+created: '2017-06-04'
+updated: '2017-06-04'
+banner: 'banner.jpg'
+title: 'Hello World: The remark Kitchen Sink'
 feature: true
-category: Web
-icon: desktop
+topic: 'Web'
+icon: 'desktop'
 tags:
-  - "AI"
-  - "Machine Learning"
-  - "Internet of Things"
-  - "Buzzwords"
+  - 'AI'
+  - 'Machine Learning'
+  - 'Internet of Things'
+  - 'Buzzwords'
   - Sealarg
-project: "Sealarg"
-reddit: "https://reddit.com"
-medium: "https://medium.com"
+project: 'Sealarg'
+reddit: 'https://reddit.com'
+medium: 'https://medium.com'
 ---
 
 **_Note how all headlines below show an anchor link when you hover them?_**\

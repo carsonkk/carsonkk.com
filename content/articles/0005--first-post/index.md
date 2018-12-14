@@ -1,12 +1,14 @@
 ---
-banner: "neature.jpg"
-title: "Old sink"
+created: '2016-11-06'
+updated: '2016-11-06'
+banner: 'neature.jpg'
+title: 'Old sink'
 feature: true
 draft: false
-category: Software
-icon: code
+topic: 'Software'
+icon: 'code'
 tags:
-  - "AI"
+  - 'AI'
 ---
 
 This is my first post

@@ -19,7 +19,8 @@ export default class BaseLayout extends React.Component {
     this.handleClickTheme = this.handleClickTheme.bind(this)
   }
 
-  handleClickTheme(e) {
+  handleClickTheme() {
+    const initialPos = window.pageYOffset
     const { theme } = this.state
     let newTheme
     if(theme === 'dark') {
@@ -31,7 +32,7 @@ export default class BaseLayout extends React.Component {
     }
     this.setState({
       theme: newTheme
-    })
+    }, () => {window.scrollTo(0, initialPos)})
   }
 
   render() {

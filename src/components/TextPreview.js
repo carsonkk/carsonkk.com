@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
+import _ from 'lodash'
 import Styled from 'styled-components'
 
 import MetaText from '../components/MetaText'
@@ -9,8 +10,8 @@ export default class TextPreview extends React.Component {
   render() {
     // eslint-disable-next-line
     const { frontmatter, fields, id, timeToRead, excerpt } = this.props.data
-    const { kind, date, slug, tagSlugs } = fields
-    const { title, category, icon, tags, description } = frontmatter
+    const { type, slug, tagSlugs } = fields
+    const { created, title, topic, icon, tags, description } = frontmatter
     const TextPreviewWrapper = Styled.div`
       margin-bottom: 1.25rem;
     `
@@ -50,19 +51,19 @@ export default class TextPreview extends React.Component {
             </Link>
           </Title>
         }
-        {kind && category && icon && 
+        {type && topic && icon && 
           <MetaText
             type='text'
             icon={['fas', icon]}
-            texts={[`${category} ${kind.charAt(0).toUpperCase()}${kind.slice(1)}`]}
+            texts={[`${topic} ${_.capitalize(type)}`]}
             isInline={true}
           />
         }
-        {date &&
+        {created &&
           <MetaText
             type='text'
             icon={['far', 'calendar-alt']}
-            texts={[FancyDateMDY(Date.parse(date))]}
+            texts={[FancyDateMDY(Date.parse(created))]}
             isInline={true}
           />
         }
@@ -83,10 +84,10 @@ export default class TextPreview extends React.Component {
           />
         }
         <div>
-          {excerpt && kind === 'article' &&
+          {excerpt && type === 'article' &&
             <span>{excerpt}</span>
           }
-          {description && kind !== 'article' &&
+          {description && type !== 'article' &&
             <span>{description}</span>
           }
         </div>
@@ -101,14 +102,14 @@ export const componentQuery = graphql`
     timeToRead
     excerpt(pruneLength: 140)
     fields {
-      kind
-      date
+      type
       slug
       tagSlugs
     }
     frontmatter {
+      created
       title
-      category
+      topic
       icon
       tags
       description

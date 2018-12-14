@@ -1,14 +1,16 @@
 ---
-title: drngs
-description: Experimenting with deterministic RNGs
-category: Software
-icon: code
+created: '2018-06-01'
+updated: '2018-06-01'
+title: 'drngs'
+description: 'Experimenting with deterministic RNGs'
+topic: 'Software'
+icon: 'code'
 feature: true
 tags:
-  - drngs
-  - C
-  - Software Library
-github: carsonkk/drngs
+  - 'drngs'
+  - 'C'
+  - 'Software Library'
+github: 'carsonkk/drngs'
 ---
 
 ## Random Numbers

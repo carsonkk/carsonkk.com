@@ -1,17 +1,19 @@
 ---
-banner: "banner.png"
-title: "Porting The Liquid Distortion Effect Repo"
+created: '2018-12-04'
+updated: '2018-12-22'
+banner: 'banner.png'
+title: 'Porting The Liquid Distortion Effect Repo'
 feature: true
-category: Web
-icon: desktop
+topic: 'Web'
+icon: 'desktop'
 tags:
-  - "Frontend"
-  - "React"
-  - "Javascript"
-  - "CSS"
-  - "PixiJS"
-  - "Node"
-  - "Meta"
+  - 'Frontend'
+  - 'React'
+  - 'Javascript'
+  - 'CSS'
+  - 'PixiJS'
+  - 'Node'
+  - 'Meta'
 ---
 
 I was looking for some sort of image glitch/distortion effect to add to the slideshow of background images on my [landing page](http://carsonkk.com), when I found this neat [project demo](https://tympanus.net/Development/LiquidDistortion/) over on codrops. It had a nice [outline](https://tympanus.net/codrops/2017/10/10/liquid-distortion-effects) of its usage of the PixiJS library, and seemed to be exactly the kind of thing I was looking for.

@@ -113,7 +113,7 @@ export const pageQuery = graphql`
   {
     allMarkdownRemark(
       filter: {fields: {kind: {eq: "article"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
-      sort: {order: DESC, fields: [fields___date]}
+      sort: {order: ASC, fields: [fields___number]}
     ) {
       edges {
         node {

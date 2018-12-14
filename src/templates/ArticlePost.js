@@ -22,12 +22,7 @@ class ArticlePost extends React.Component {
     const { edges } = this.props.data.allMarkdownRemark
     const { markdownRemark } = this.props.data
     const { htmlAst, fields, frontmatter, } = markdownRemark
-    const currDate = Date.parse(fields.date)
-    let someDate
-    let prevDate = -8640000000000000
-    let nextDate = 8640000000000000
-    let prevSlug = '/articles'
-    let nextSlug = '/articles'
+    const created = Date.parse(frontmatter.created)
     
     const Article = Styled.div`
       position: relative;
@@ -139,18 +134,6 @@ class ArticlePost extends React.Component {
       margin-top: 3rem;
     `
 
-    edges.forEach(edge => {
-      someDate = Date.parse(edge.node.fields.date)
-      if(someDate < currDate && someDate > prevDate) {
-        prevDate = someDate
-        prevSlug = edge.node.fields.slug
-      }
-      else if(someDate > currDate && someDate < nextDate) {
-        nextDate = someDate
-        nextSlug = edge.node.fields.slug
-      }
-    })
-
     return (
       <BaseLayout location={this.props.location}>
         <Article>
@@ -166,13 +149,13 @@ class ArticlePost extends React.Component {
                 <MetaText
                   type='text'
                   icon={['fas', frontmatter.icon]}
-                  texts={[frontmatter.category]}
+                  texts={[frontmatter.topic]}
                   isInline={true}
                 />
                 <MetaText
                   type='text'
                   icon={['far', 'calendar-alt']}
-                  texts={[FancyDateMDY(currDate)]}
+                  texts={[FancyDateMDY(created)]}
                   isInline={true}
                 />
                 <MetaText
@@ -222,7 +205,10 @@ class ArticlePost extends React.Component {
                     links={[`${frontmatter.medium}`]}
                   />
                 }
-                <AdjacentPosts prev={prevSlug} next={nextSlug}/>
+                <AdjacentPosts 
+                  prev={`/articles/${edges[fields.number-1].node.fields.slug}`} 
+                  next={`/articles/${edges[fields.number+1].node.fields.slug}`}
+                />
               </PostFooter>
             </PostContainer>
           </ShadowWrapper>
@@ -242,8 +228,10 @@ export const pageQuery = graphql`
       edges {
         node {
           fields {
-            date
             slug
+          }
+          frontmatter {
+            title
           }
         }
       }
@@ -252,12 +240,14 @@ export const pageQuery = graphql`
       htmlAst
       timeToRead
       fields {
-        date
+        number
         slug
         tagSlugs
         targetTag
       }
       frontmatter {
+        created
+        updated
         banner {
           childImageSharp {
             fluid(maxWidth: 2400, maxHeight: 1200, cropFocus: CENTER) {
@@ -266,7 +256,7 @@ export const pageQuery = graphql`
           }
         }
         title
-        category
+        topic
         icon
         tags
         project

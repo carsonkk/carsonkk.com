@@ -19,9 +19,8 @@ export default class SearchPage extends React.Component {
       <BaseLayout location={this.props.location}>
         <SearchWrapper>
           <SearchSection
-            type='text'
             index={index}
-            kinds={['article', 'project', 'misc']}
+            types={['article', 'project', 'misc']}
           />
         </SearchWrapper>
       </BaseLayout>
