@@ -9,9 +9,6 @@ export default class SearchPage extends React.Component {
   render() {
     const { index } = this.props.data.siteSearchIndex
     const SearchWrapper = Styled.div`
-      flex: 1;
-      display: flex;
-      flex-direction: column;
       width: 100%;
     `
 

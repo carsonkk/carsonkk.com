@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Index } from 'elasticlunr'
-import Styled, { withTheme } from 'styled-components'
+import Styled from 'styled-components'
 import _ from 'lodash'
+import { Index } from 'elasticlunr'
 import { withStyles } from '@material-ui/core/styles'
 import SearchBar from 'material-ui-search-bar'
 import Select from 'react-select'
@@ -64,16 +64,20 @@ const dummyResult = {
 class SearchSection extends React.Component {
   constructor(props) {
     super(props)
+
     const that = this
+    const { index, types } = this.props
     let totalResults = []
     let topicOptions = []
     let tagOptions = []
     let yearOptions = []
     let counts = {article: 0, project: 0, misc: 0}
-    const typeOptions = this.props.types.map((type) => {
+
+    const typeOptions = types.map((type) => {
       return { value: _.capitalize(type), label: _.capitalize(type) }
     })
-    _.forEach(this.props.index.documentStore.docs, function(value) {
+
+    _.forEach(index.documentStore.docs, function(value) {
       if(value.draft !== true && value.kind !== 'subpage' && _.includes(that.props.types, value.type)) {
         totalResults.push(that.formatRawDoc(value))
         if(value.topic) {
@@ -92,6 +96,7 @@ class SearchSection extends React.Component {
       }
     })
     totalResults = _.sortBy(totalResults, [option => option.frontmatter.title.toLowerCase()])
+
     this.state = {
       query: '',
       totalResults: totalResults,
@@ -122,6 +127,7 @@ class SearchSection extends React.Component {
       searchFiltersVisible: (cookies.get('searchFiltersVisible') === 'true'),
       offset: 0
     }
+
     this.issueQuery = this.issueQuery.bind(this)
     this.cancelQuery = this.cancelQuery.bind(this)
     this.toggleFilterVisibility = this.toggleFilterVisibility.bind(this)
@@ -139,17 +145,22 @@ class SearchSection extends React.Component {
   }
 
   issueQuery(query) {
+    const { index, types } = this.props
+    const { totalResults } = this.state
+
     if(query === '') {
-      this.filterQuery(query, this.state.totalResults)
+      this.filterQuery(query, totalResults)
     }
     else {
       if(!this.index) {
-        this.index = Index.load(this.props.index)
+        this.index = Index.load(index)
       }
-      const rawResults = this.index.search(query, { expand: true }).map(({ ref }) => this.index.documentStore.getDoc(ref))
+      const rawResults = this.index.search(
+        query, { expand: true }
+      ).map(({ ref }) => this.index.documentStore.getDoc(ref))
       let queriedResults = []
       rawResults.forEach((result) => {
-        if(result.draft !== true && result.kind !== 'subpage' && _.includes(this.props.types, result.type)) {
+        if(result.draft !== true && result.kind !== 'subpage' && _.includes(types, result.type)) {
           queriedResults.push(this.formatRawDoc(result))
         }
       })
@@ -168,12 +179,26 @@ class SearchSection extends React.Component {
     else {
       cookies.set('searchFiltersVisible', 'true', { path: '/' })
     }
+
     this.setState(prevState => ({
-      searchFiltersVisible: prevState.searchFiltersVisible === true ? false : true
-    }))
+      searchFiltersVisible: !prevState.searchFiltersVisible,
+      typesSelected: [],
+      topicsSelected: [],
+      tagsSelected: [],
+      lengthsSelected: [],
+      monthsSelected: [],
+      yearsSelected: [],
+      types: [],
+      topics: [],
+      tags: [],
+      lengths: [],
+      months: [],
+      years: [],
+    }), () => {this.filterQuery(this.state.query, this.state.queriedResults)})
   }
 
   handleTypeSelect = (typesSelected) => {
+    const initialPos = window.pageYOffset
     let types = []
     if(typesSelected !== []) {
       types = typesSelected.map(type => type.value)
@@ -181,10 +206,14 @@ class SearchSection extends React.Component {
     this.setState({
       typesSelected,
       types,
-    }, () => {this.filterQuery(this.state.query, this.state.queriedResults)})
+    }, () => {
+      window.scrollTo(0, initialPos)
+      this.filterQuery(this.state.query, this.state.queriedResults)
+    })
   }
 
   handleTopicSelect = (topicsSelected) => {
+    const initialPos = window.pageYOffset
     let topics = []
     if(topicsSelected !== []) {
       topics = topicsSelected.map(topic => topic.value)
@@ -192,10 +221,14 @@ class SearchSection extends React.Component {
     this.setState({
       topicsSelected,
       topics,
-    }, () => {this.filterQuery(this.state.query, this.state.queriedResults)})
+    }, () => {
+      window.scrollTo(0, initialPos)
+      this.filterQuery(this.state.query, this.state.queriedResults)
+    })
   }
 
   handleTagSelect = (tagsSelected) => {
+    const initialPos = window.pageYOffset
     let tags = []
     if(tagsSelected !== []) {
       tags = tagsSelected.map(tag => tag.value)
@@ -203,10 +236,29 @@ class SearchSection extends React.Component {
     this.setState({
       tagsSelected,
       tags,
-    }, () => {this.filterQuery(this.state.query, this.state.queriedResults)})
+    }, () => {
+      window.scrollTo(0, initialPos)
+      this.filterQuery(this.state.query, this.state.queriedResults)
+    })
+  }
+
+  handleLengthSelect = (lengthsSelected) => {
+    const initialPos = window.pageYOffset
+    let lengths = []
+    if(lengthsSelected !== []) {
+      lengths = lengthsSelected.map(length => length.value)
+    }
+    this.setState({
+      lengthsSelected,
+      lengths,
+    }, () => {
+      window.scrollTo(0, initialPos)
+      this.filterQuery(this.state.query, this.state.queriedResults)
+    })
   }
 
   handleMonthSelect = (monthsSelected) => {
+    const initialPos = window.pageYOffset
     let months = []
     console.log(monthsSelected)
     
@@ -217,10 +269,14 @@ class SearchSection extends React.Component {
     this.setState({
       monthsSelected,
       months,
-    }, () => {this.filterQuery(this.state.query, this.state.queriedResults)})
+    }, () => {
+      window.scrollTo(0, initialPos)
+      this.filterQuery(this.state.query, this.state.queriedResults)
+    })
   }
 
   handleYearSelect = (yearsSelected) => {
+    const initialPos = window.pageYOffset
     let years = []
     if(yearsSelected !== []) {
       years = yearsSelected.map(year => year.value)
@@ -228,49 +284,34 @@ class SearchSection extends React.Component {
     this.setState({
       yearsSelected,
       years,
-    }, () => {this.filterQuery(this.state.query, this.state.queriedResults)})
-  }
-
-  handleLengthSelect = (lengthsSelected) => {
-    let lengths = []
-    if(lengthsSelected !== []) {
-      lengths = lengthsSelected.map(length => length.value)
-    }
-    this.setState({
-      lengthsSelected,
-      lengths,
-    }, () => {this.filterQuery(this.state.query, this.state.queriedResults)})
+    }, () => {
+      window.scrollTo(0, initialPos)
+      this.filterQuery(this.state.query, this.state.queriedResults)
+    })
   }
 
   filterQuery(query, queriedResults) {
+    const { types, topics, tags, lengths, months, years } = this.state
+    const totalFilterLength = types.length + topics.length + tags.length + lengths.length + 
+                              months.length + years.length
     let filteredResults = []
-    const totalFilterLength = this.state.types.length + this.state.topics.length + 
-                              this.state.tags.length + this.state.months.length + 
-                              this.state.years.length + this.state.lengths.length
     let counts = {article: 0, project: 0, misc: 0}
+
     if(totalFilterLength !== 0) {
       queriedResults.forEach((result) => {
-        if(this.state.types.length !== 0 && _.intersection([_.capitalize(result.fields.type)], this.state.types).length !== 0) {
+        if(types.length !== 0 && _.intersection([_.capitalize(result.fields.type)], types).length !== 0) {
           this.updateCounts(result.fields.type, counts)
           filteredResults.push(result)
         }
-        else if(this.state.topics.length !== 0 && _.intersection([result.frontmatter.topic], this.state.topics).length !== 0) {
+        else if(topics.length !== 0 && _.intersection([result.frontmatter.topic], topics).length !== 0) {
           this.updateCounts(result.fields.type, counts)
           filteredResults.push(result)
         }
-        else if(this.state.tags.length !== 0 && _.intersection(result.frontmatter.tags, this.state.tags).length !== 0) {
+        else if(tags.length !== 0 && _.intersection(result.frontmatter.tags, tags).length !== 0) {
           this.updateCounts(result.fields.type, counts)
           filteredResults.push(result)
         }
-        else if(this.state.months.length !== 0 && result.frontmatter.created && _.intersection([result.frontmatter.created.substring(5,7)], this.state.months).length !== 0) {
-          this.updateCounts(result.fields.type, counts)
-          filteredResults.push(result)
-        }
-        else if(this.state.years.length !== 0 && result.frontmatter.created && _.intersection([result.frontmatter.created.substring(0,4)], this.state.years).length !== 0) {
-          this.updateCounts(result.fields.type, counts)
-          filteredResults.push(result)
-        }
-        else if(this.state.lengths.length !== 0) {
+        else if(lengths.length !== 0) {
           let length
           if(result.timeToRead < 10) {
             length = 'Short'
@@ -281,10 +322,22 @@ class SearchSection extends React.Component {
           else {
             length = 'Long'
           }
-          if(_.intersection([length], this.state.lengths).length !== 0) {
+          if(_.intersection([length], lengths).length !== 0) {
             this.updateCounts(result.fields.type, counts)
             filteredResults.push(result)
           }
+        }
+        else if(months.length !== 0 && result.frontmatter.created && 
+                _.intersection([result.frontmatter.created.substring(5,7)], months).length !== 0
+        ) {
+          this.updateCounts(result.fields.type, counts)
+          filteredResults.push(result)
+        }
+        else if(years.length !== 0 && result.frontmatter.created && 
+                _.intersection([result.frontmatter.created.substring(0,4)], years).length !== 0
+        ) {
+          this.updateCounts(result.fields.type, counts)
+          filteredResults.push(result)
         }
       })
     }
@@ -303,6 +356,37 @@ class SearchSection extends React.Component {
       miscCount: counts.misc,
       offset: 0
     })
+  }
+
+  buildResultString() {
+    const { types } = this.props
+    const { articleCount, projectCount, miscCount } = this.state
+    let resultString = ''
+    let addSeperator = false
+
+    if(_.includes(types, 'article')) {
+      resultString = resultString.concat(pluralize(articleCount, 'article'))
+      addSeperator = true
+    }
+    if(_.includes(types, 'project')) {
+      resultString = addSeperator ? 
+        resultString.concat(' · ', pluralize(projectCount, 'project')) : 
+        resultString.concat(pluralize(projectCount, 'project'))
+      addSeperator = true
+    }
+    if(_.includes(types, 'misc')) {
+      resultString = addSeperator ? 
+        resultString.concat(' · ', `${miscCount} misc`) : 
+        resultString.concat(`${miscCount} misc`)
+    }
+    return resultString
+  }
+
+  handlePageClick(data) {
+    const initialPos = window.pageYOffset
+    this.setState({
+      offset: Math.ceil(data.selected*perPage)
+    }, () => {window.scrollTo(0, initialPos)})
   }
 
   formatRawDoc(rawDoc) {
@@ -341,42 +425,23 @@ class SearchSection extends React.Component {
     }
   }
 
-  buildResultString() {
-    let resultString = ''
-    let addSeperator = false
-    if(_.includes(this.props.types, 'article')) {
-      resultString = resultString.concat(pluralize(this.state.articleCount, 'article'))
-      addSeperator = true
-    }
-    if(_.includes(this.props.types, 'project')) {
-      addSeperator ? resultString = resultString.concat(' · ', pluralize(this.state.projectCount, 'project')) : resultString = resultString.concat(pluralize(this.state.projectCount, 'project'))
-      addSeperator = true
-    }
-    if(_.includes(this.props.types, 'misc')) {
-      addSeperator ? resultString = resultString.concat(' · ', `${this.state.miscCount} misc`) : resultString = resultString.concat(`${this.state.miscCount} misc`)
-    }
-    return resultString
-  }
-
-  handlePageClick(data) {
-    const initialPos = window.pageYOffset
-    this.setState({
-      offset: Math.ceil(data.selected*perPage)
-    }, () => {window.scrollTo(0, initialPos)})
-  }
-
   render() {
-    const totalCount = this.state.articleCount + this.state.projectCount + this.state.miscCount
+    const { query, filteredResults, articleCount, projectCount, miscCount, searchFiltersVisible, 
+            typeOptions, typesSelected, topicOptions, topicsSelected, tagOptions, tagsSelected, 
+            lengthsSelected, monthsSelected, yearOptions, yearsSelected, offset } = this.state
+    const totalCount = articleCount + projectCount + miscCount
     const resultString = this.buildResultString()
-    let filteredResults = this.state.filteredResults
-    if(filteredResults.length%perPage !== 0 || filteredResults.length === 0) {
-      filteredResults = filteredResults.concat(Array(perPage-(filteredResults.length%perPage)).fill(dummyResult))
+    let paginatedResults = filteredResults
+    if(paginatedResults.length%perPage !== 0 || paginatedResults.length === 0) {
+      paginatedResults = paginatedResults.concat(Array(perPage-(paginatedResults.length%perPage)).fill(dummyResult))
     }
-    const searchWrapper = {
-      display: 'flex',
-      paddingTop: '4rem',
-      backgroundColor: `${this.props.theme.primary}`
-    }
+    const SearchHeader = Styled.div`
+      display: flex;
+      position: relative;
+      z-index: 2;
+      padding-top: 4rem;
+      background-color: ${props => props.theme.primary};
+    `
     const StyledSearchBar = withStyles({
       root: {
         flex: '1 1 auto',
@@ -403,6 +468,20 @@ class SearchSection extends React.Component {
         }
       }
     })(SearchBar)
+    const FilterButton = Styled(GenericButton)`
+      && {
+        margin: 0 0 1rem 0.5rem;
+        > button {
+          height: 100%;
+          > span {
+            display: flex;
+            > svg {
+              align-self: center;
+            }
+          }
+        }
+      }
+    `
     const SelectWrapper = Styled.div`
       display: flex;
       width: 100%;
@@ -464,49 +543,38 @@ class SearchSection extends React.Component {
         }
       }),
     }
-    const FilterButton = Styled(GenericButton)`
-      && {
-        margin: 0 0 1rem 0.5rem;
-        > button {
-          height: 100%;
-          > span {
-            display: flex;
-            > svg {
-              align-self: center;
-            }
-          }
-        }
-      }
-    `
-    const Results = Styled.div`
-      > div:nth-child(1) {
-        display: ${filteredResults[this.state.offset].fields.type === 'dummy' ? 'none' : 'block'};
-      }
-      > div:nth-child(2) {
-        display: ${filteredResults[this.state.offset+1].fields.type === 'dummy' ? 'none' : 'block'};
-      }
-      > div:nth-child(3) {
-        display: ${filteredResults[this.state.offset+2].fields.type === 'dummy' ? 'none' : 'block'};
-      }
-      > div:nth-child(4) {
-        display: ${filteredResults[this.state.offset+3].fields.type === 'dummy' ? 'none' : 'block'};
-      }
-      > div:nth-child(5) {
-        display: ${filteredResults[this.state.offset+4].fields.type === 'dummy' ? 'none' : 'block'};
-      }
-    `
-    const CenteredSearch = Styled.div`
+    const SearchCount = Styled.div`
       display: flex;
       flex-direction: column;
       align-items: center;
-    `
-    const ResultText = Styled(MetaText)`
-      && {
+      span {
         margin-top: 0;
         margin-bottom: 1.5rem;
       }
     `
-    const SearchPrompt = Styled.span`
+    const SearchResults = Styled.div`
+      > div:nth-child(1) {
+        display: ${paginatedResults[offset].fields.type === 'dummy' ? 'none' : 'block'};
+      }
+      > div:nth-child(2) {
+        display: ${paginatedResults[offset+1].fields.type === 'dummy' ? 'none' : 'block'};
+      }
+      > div:nth-child(3) {
+        display: ${paginatedResults[offset+2].fields.type === 'dummy' ? 'none' : 'block'};
+      }
+      > div:nth-child(4) {
+        display: ${paginatedResults[offset+3].fields.type === 'dummy' ? 'none' : 'block'};
+      }
+      > div:nth-child(5) {
+        display: ${paginatedResults[offset+4].fields.type === 'dummy' ? 'none' : 'block'};
+      }
+    `
+    const SearchFooter = Styled.div`
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    `
+    const NoResultsText = Styled.span`
       margin-top: 4rem;
       font-size: 2rem;
       font-style: italic;
@@ -566,134 +634,125 @@ class SearchSection extends React.Component {
         }
       }
     `
+
     return (
-      <div>
-        <PaddedContainer>
-
-            <div style={searchWrapper}>
-              <StyledSearchBar
-                name='search'
-                placeholder='Search...'
-                onChange={(newQuery) => this.issueQuery(newQuery)}
-                onCancelSearch={this.cancelQuery}
-                value={this.state.query}
-                closeIcon={<FontAwesomeIcon icon={['fas', 'times']}/>}
-                cancelOnEscape={true}
-                autoFocus={true}
+      <PaddedContainer>
+        <SearchHeader>
+          <StyledSearchBar
+            name='search'
+            placeholder='Search...'
+            onChange={(newQuery) => this.issueQuery(newQuery)}
+            onCancelSearch={this.cancelQuery}
+            value={query}
+            closeIcon={<FontAwesomeIcon icon={['fas', 'times']}/>}
+            cancelOnEscape={true}
+            autoFocus={true}
+          />
+          <FilterButton
+            type='action'
+            text='Filters'
+            icon={['fas', 'filter']}
+            func={this.toggleFilterVisibility}
+          />
+        </SearchHeader>
+        <div className={`${searchFiltersVisible ? 'filters' : 'filters hide'} `}>
+          <SelectWrapper>
+            <Select
+              name='type'
+              placeholder='Types...'
+              options={typeOptions}
+              onChange={this.handleTypeSelect}
+              value={typesSelected}
+              styles={selectStyles}
+              isMulti
+              isClearable
+            />
+            <Select
+              name='topic'
+              placeholder='Topics...'
+              options={topicOptions}
+              onChange={this.handleTopicSelect}
+              value={topicsSelected}
+              styles={selectStyles}
+              isMulti
+              isClearable
+            />
+            <Select
+              name='tag'
+              placeholder='Tags...'
+              options={tagOptions}
+              onChange={this.handleTagSelect}
+              value={tagsSelected}
+              styles={selectStyles}
+              isMulti
+              isClearable
+            />
+          </SelectWrapper>
+          <SelectWrapper>
+            <Select
+              name='length'
+              placeholder='Lengths...'
+              options={lengthOptions}
+              onChange={this.handleLengthSelect}
+              value={lengthsSelected}
+              styles={selectStyles}
+              isMulti
+              isClearable
+            />
+            <Select
+              name='month'
+              placeholder='Months...'
+              options={monthOptions}
+              onChange={this.handleMonthSelect}
+              value={monthsSelected}
+              styles={selectStyles}
+              isMulti
+              isClearable
+            />
+            <Select
+              name='year'
+              placeholder='Years...'
+              options={yearOptions}
+              onChange={this.handleYearSelect}
+              value={yearsSelected}
+              styles={selectStyles}
+              isMulti
+              isClearable
+            />
+          </SelectWrapper>
+        </div>
+        <SearchCount>
+          <MetaText
+            type='text'
+            texts={[resultString]}
+            iconType='none'
+          />
+        </SearchCount>
+        <SearchResults>
+          <TextPreview data={paginatedResults[offset]}/>
+          <TextPreview data={paginatedResults[offset+1]}/>
+          <TextPreview data={paginatedResults[offset+2]}/>
+          <TextPreview data={paginatedResults[offset+3]}/>
+          <TextPreview data={paginatedResults[offset+4]}/>
+        </SearchResults>
+        <SearchFooter>
+          {totalCount === 0 ? 
+            <NoResultsText>No results found</NoResultsText> : 
+            <PaginateWrapper>
+              <ReactPaginate 
+                pageCount={Math.ceil(totalCount/perPage)}
+                marginPagesDisplayed={1}
+                pageRangeDisplayed={2}
+                onPageChange={this.handlePageClick}
+                forcePage={offset/perPage}
+                activeClassName={'active'}
+                previousLabel={'prev'}
+                nextLabel={'next'}
               />
-              <FilterButton
-                type='action'
-                text='Filters'
-                icon={['fas', 'filter']}
-                func={this.toggleFilterVisibility}
-              />
-            </div>
-            <div className={`${this.state.searchFiltersVisible ? 'filters' : 'filters hide'} `}>
-              <SelectWrapper>
-                <Select
-                  name='type'
-                  placeholder='Types...'
-                  options={this.state.typeOptions}
-                  onChange={this.handleTypeSelect}
-                  value={this.state.typesSelected}
-                  styles={selectStyles}
-                  classNamePrefix="react-select"
-                  className="react-select"
-                  isMulti
-                  isClearable
-                />
-                <Select
-                  name='topic'
-                  placeholder='Topics...'
-                  options={this.state.topicOptions}
-                  onChange={this.handleTopicSelect}
-                  value={this.state.topicsSelected}
-                  styles={selectStyles}
-                  classNamePrefix="react-select"
-                  className="react-select"
-                  isMulti
-                  isClearable
-                />
-                <Select
-                  name='tag'
-                  placeholder='Tags...'
-                  options={this.state.tagOptions}
-                  onChange={this.handleTagSelect}
-                  value={this.state.tagsSelected}
-                  styles={selectStyles}
-                  classNamePrefix="react-select"
-                  className="react-select"
-                  isMulti
-                  isClearable
-                />
-              </SelectWrapper>
-              <SelectWrapper>
-                <Select
-                  name='length'
-                  placeholder='Lengths...'
-                  options={lengthOptions}
-                  onChange={this.handleLengthSelect}
-                  value={this.state.lengthsSelected}
-                  styles={selectStyles}
-                  isMulti
-                  isClearable
-                />
-                <Select
-                  name='month'
-                  placeholder='Months...'
-                  options={monthOptions}
-                  onChange={this.handleMonthSelect}
-                  value={this.state.monthsSelected}
-                  styles={selectStyles}
-                  isMulti
-                  isClearable
-                />
-                <Select
-                  name='year'
-                  placeholder='Years...'
-                  options={this.state.yearOptions}
-                  onChange={this.handleYearSelect}
-                  value={this.state.yearsSelected}
-                  styles={selectStyles}
-                  isMulti
-                  isClearable
-                />
-              </SelectWrapper>
-            </div>
-            <CenteredSearch>
-              <ResultText
-                type='text'
-                texts={[resultString]}
-                iconType='none'
-              />
-            </CenteredSearch>
-            <Results>
-              <TextPreview data={filteredResults[this.state.offset]}/>
-              <TextPreview data={filteredResults[this.state.offset+1]}/>
-              <TextPreview data={filteredResults[this.state.offset+2]}/>
-              <TextPreview data={filteredResults[this.state.offset+3]}/>
-              <TextPreview data={filteredResults[this.state.offset+4]}/>
-            </Results>
-            <CenteredSearch>
-              {totalCount === 0 ? 
-                <SearchPrompt>No results found</SearchPrompt> : 
-                <PaginateWrapper>
-                  <ReactPaginate 
-                    pageCount={Math.ceil(totalCount/perPage)}
-                    marginPagesDisplayed={1}
-                    pageRangeDisplayed={2}
-                    onPageChange={this.handlePageClick}
-                    forcePage={this.state.offset/perPage}
-                    activeClassName={'active'}
-                    previousLabel={'prev'}
-                    nextLabel={'next'}
-                  />
-                </PaginateWrapper>
-              }
-            </CenteredSearch>
-
-        </PaddedContainer>
-      </div>
+            </PaginateWrapper>
+          }
+        </SearchFooter>
+      </PaddedContainer>
     )
   }
 }
@@ -703,4 +762,4 @@ SearchSection.propTypes = {
   types: PropTypes.array.isRequired
 }
 
-export default withTheme(SearchSection)
+export default SearchSection
