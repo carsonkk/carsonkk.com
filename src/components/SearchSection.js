@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Index } from 'elasticlunr'
-import Styled from 'styled-components'
+import Styled, { withTheme } from 'styled-components'
 import _ from 'lodash'
 import { withStyles } from '@material-ui/core/styles'
 import SearchBar from 'material-ui-search-bar'
@@ -374,7 +374,8 @@ class SearchSection extends React.Component {
     }
     const searchWrapper = {
       display: 'flex',
-      marginTop: '4rem'
+      paddingTop: '4rem',
+      backgroundColor: `${this.props.theme.primary}`
     }
     const StyledSearchBar = withStyles({
       root: {
@@ -568,127 +569,129 @@ class SearchSection extends React.Component {
     return (
       <div>
         <PaddedContainer>
-          <div style={searchWrapper}>
-            <StyledSearchBar
-              name='search'
-              placeholder='Search...'
-              onChange={(newQuery) => this.issueQuery(newQuery)}
-              onCancelSearch={this.cancelQuery}
-              value={this.state.query}
-              closeIcon={<FontAwesomeIcon icon={['fas', 'times']}/>}
-              cancelOnEscape={true}
-              autoFocus={true}
-            />
-            <FilterButton
-              type='action'
-              text='Filters'
-              icon={['fas', 'filter']}
-              func={this.toggleFilterVisibility}
-            />
-          </div>
-          <div className={`${this.state.searchFiltersVisible ? 'filters' : 'filters hide'} `}>
-            <SelectWrapper>
-              <Select
-                name='type'
-                placeholder='Types...'
-                options={this.state.typeOptions}
-                onChange={this.handleTypeSelect}
-                value={this.state.typesSelected}
-                styles={selectStyles}
-                classNamePrefix="react-select"
-                className="react-select"
-                isMulti
-                isClearable
+
+            <div style={searchWrapper}>
+              <StyledSearchBar
+                name='search'
+                placeholder='Search...'
+                onChange={(newQuery) => this.issueQuery(newQuery)}
+                onCancelSearch={this.cancelQuery}
+                value={this.state.query}
+                closeIcon={<FontAwesomeIcon icon={['fas', 'times']}/>}
+                cancelOnEscape={true}
+                autoFocus={true}
               />
-              <Select
-                name='topic'
-                placeholder='Topics...'
-                options={this.state.topicOptions}
-                onChange={this.handleTopicSelect}
-                value={this.state.topicsSelected}
-                styles={selectStyles}
-                classNamePrefix="react-select"
-                className="react-select"
-                isMulti
-                isClearable
+              <FilterButton
+                type='action'
+                text='Filters'
+                icon={['fas', 'filter']}
+                func={this.toggleFilterVisibility}
               />
-              <Select
-                name='tag'
-                placeholder='Tags...'
-                options={this.state.tagOptions}
-                onChange={this.handleTagSelect}
-                value={this.state.tagsSelected}
-                styles={selectStyles}
-                classNamePrefix="react-select"
-                className="react-select"
-                isMulti
-                isClearable
-              />
-            </SelectWrapper>
-            <SelectWrapper>
-              <Select
-                name='length'
-                placeholder='Lengths...'
-                options={lengthOptions}
-                onChange={this.handleLengthSelect}
-                value={this.state.lengthsSelected}
-                styles={selectStyles}
-                isMulti
-                isClearable
-              />
-              <Select
-                name='month'
-                placeholder='Months...'
-                options={monthOptions}
-                onChange={this.handleMonthSelect}
-                value={this.state.monthsSelected}
-                styles={selectStyles}
-                isMulti
-                isClearable
-              />
-              <Select
-                name='year'
-                placeholder='Years...'
-                options={this.state.yearOptions}
-                onChange={this.handleYearSelect}
-                value={this.state.yearsSelected}
-                styles={selectStyles}
-                isMulti
-                isClearable
-              />
-            </SelectWrapper>
-          </div>
-          <CenteredSearch>
-            <ResultText
-              type='text'
-              texts={[resultString]}
-              iconType='none'
-            />
-          </CenteredSearch>
-          <Results>
-            <TextPreview data={filteredResults[this.state.offset]}/>
-            <TextPreview data={filteredResults[this.state.offset+1]}/>
-            <TextPreview data={filteredResults[this.state.offset+2]}/>
-            <TextPreview data={filteredResults[this.state.offset+3]}/>
-            <TextPreview data={filteredResults[this.state.offset+4]}/>
-          </Results>
-          <CenteredSearch>
-            {totalCount === 0 ? 
-              <SearchPrompt>No results found</SearchPrompt> : 
-              <PaginateWrapper>
-                <ReactPaginate 
-                  pageCount={Math.ceil(totalCount/perPage)}
-                  marginPagesDisplayed={1}
-                  pageRangeDisplayed={2}
-                  onPageChange={this.handlePageClick}
-                  forcePage={this.state.offset/perPage}
-                  activeClassName={'active'}
-                  previousLabel={'prev'}
-                  nextLabel={'next'}
+            </div>
+            <div className={`${this.state.searchFiltersVisible ? 'filters' : 'filters hide'} `}>
+              <SelectWrapper>
+                <Select
+                  name='type'
+                  placeholder='Types...'
+                  options={this.state.typeOptions}
+                  onChange={this.handleTypeSelect}
+                  value={this.state.typesSelected}
+                  styles={selectStyles}
+                  classNamePrefix="react-select"
+                  className="react-select"
+                  isMulti
+                  isClearable
                 />
-              </PaginateWrapper>
-            }
-          </CenteredSearch>
+                <Select
+                  name='topic'
+                  placeholder='Topics...'
+                  options={this.state.topicOptions}
+                  onChange={this.handleTopicSelect}
+                  value={this.state.topicsSelected}
+                  styles={selectStyles}
+                  classNamePrefix="react-select"
+                  className="react-select"
+                  isMulti
+                  isClearable
+                />
+                <Select
+                  name='tag'
+                  placeholder='Tags...'
+                  options={this.state.tagOptions}
+                  onChange={this.handleTagSelect}
+                  value={this.state.tagsSelected}
+                  styles={selectStyles}
+                  classNamePrefix="react-select"
+                  className="react-select"
+                  isMulti
+                  isClearable
+                />
+              </SelectWrapper>
+              <SelectWrapper>
+                <Select
+                  name='length'
+                  placeholder='Lengths...'
+                  options={lengthOptions}
+                  onChange={this.handleLengthSelect}
+                  value={this.state.lengthsSelected}
+                  styles={selectStyles}
+                  isMulti
+                  isClearable
+                />
+                <Select
+                  name='month'
+                  placeholder='Months...'
+                  options={monthOptions}
+                  onChange={this.handleMonthSelect}
+                  value={this.state.monthsSelected}
+                  styles={selectStyles}
+                  isMulti
+                  isClearable
+                />
+                <Select
+                  name='year'
+                  placeholder='Years...'
+                  options={this.state.yearOptions}
+                  onChange={this.handleYearSelect}
+                  value={this.state.yearsSelected}
+                  styles={selectStyles}
+                  isMulti
+                  isClearable
+                />
+              </SelectWrapper>
+            </div>
+            <CenteredSearch>
+              <ResultText
+                type='text'
+                texts={[resultString]}
+                iconType='none'
+              />
+            </CenteredSearch>
+            <Results>
+              <TextPreview data={filteredResults[this.state.offset]}/>
+              <TextPreview data={filteredResults[this.state.offset+1]}/>
+              <TextPreview data={filteredResults[this.state.offset+2]}/>
+              <TextPreview data={filteredResults[this.state.offset+3]}/>
+              <TextPreview data={filteredResults[this.state.offset+4]}/>
+            </Results>
+            <CenteredSearch>
+              {totalCount === 0 ? 
+                <SearchPrompt>No results found</SearchPrompt> : 
+                <PaginateWrapper>
+                  <ReactPaginate 
+                    pageCount={Math.ceil(totalCount/perPage)}
+                    marginPagesDisplayed={1}
+                    pageRangeDisplayed={2}
+                    onPageChange={this.handlePageClick}
+                    forcePage={this.state.offset/perPage}
+                    activeClassName={'active'}
+                    previousLabel={'prev'}
+                    nextLabel={'next'}
+                  />
+                </PaginateWrapper>
+              }
+            </CenteredSearch>
+
         </PaddedContainer>
       </div>
     )
@@ -700,4 +703,4 @@ SearchSection.propTypes = {
   types: PropTypes.array.isRequired
 }
 
-export default SearchSection
+export default withTheme(SearchSection)

@@ -1,18 +1,14 @@
 .filters {
-  transition: transform 0.5s, max-height 0.85s, opacity 0.5s ease-in;
+  transition: opacity 0.5s ease-in, height 0.5s;
   display: flex;
   flex-direction: column;
-  position: relative;
-  z-index: 1;
-  transform-origin: top;
-  transform: scaleY(1);
-  max-height: 800px;
   opacity: 1;
+  height: 160px;
 }
 
 .filters.hide {
-  transition: transform 0.75s 0.05s, max-height 0.70s, opacity 0.5s ease-out;
-  transform: scaleY(0);
-  max-height: 0px;
+  transition: opacity 0.5s ease-out, height 0.5s;
+  overflow: hidden;
   opacity: 0;
+  height: 0px;
 }
