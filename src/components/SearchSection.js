@@ -19,14 +19,6 @@ import { LightTheme } from '../utils/Theme'
 import '../css/search.css'
 
 const cookies = new Cookies()
-const sortOptions = [
-  { value: 'A-Z', label: 'A-Z' },
-  { value: 'Z-A', label: 'Z-A' },
-  { value: 'Newest', label: 'Newest' },
-  { value: 'Oldest', label: 'Oldest' },
-  { value: 'Shortest', label: 'Shortest' },
-  { value: 'Longest', label: 'Longest' },
-]
 const monthOptions = [
   { value: '01', label: 'January' },
   { value: '02', label: 'February' },
@@ -68,60 +60,10 @@ const dummyResult = {
     draft: false
   }
 }
-const dummyArray = Array(perPage).fill(dummyResult)
 
 class SearchSection extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      query: '',
-      totalResults: dummyArray,
-      queriedResults: dummyArray,
-      filteredResults: dummyArray,
-      totalArticleCount: dummyArray.length,
-      totalProjectCount: 0,
-      totalMiscCount: 0,
-      articleCount: dummyArray.length,
-      projectCount: 0,
-      miscCount: 0,
-      typeOptions: [],
-      topicOptions: [],
-      tagOptions: [],
-      yearOptions: [],
-      sortSelected: [sortOptions[0]],
-      typesSelected: [],
-      topicsSelected: [],
-      tagsSelected: [],
-      monthsSelected: [],
-      yearsSelected: [],
-      lengthsSelected: [],
-      types: [],
-      topics: [],
-      tags: [],
-      months: [],
-      years: [],
-      lengths: [],
-      searchFiltersVisible: cookies.get('searchFiltersVisible'),
-      offset: 0
-    }
-    this.issueQuery = this.issueQuery.bind(this)
-    this.cancelQuery = this.cancelQuery.bind(this)
-    this.toggleFilterVisibility = this.toggleFilterVisibility.bind(this)
-    this.handleSortSelect = this.handleSortSelect.bind(this)
-    this.handleTypeSelect = this.handleTypeSelect.bind(this)
-    this.handleTopicSelect = this.handleTopicSelect.bind(this)
-    this.handleTagSelect = this.handleTagSelect.bind(this)
-    this.handleMonthSelect = this.handleMonthSelect.bind(this)
-    this.handleYearSelect = this.handleYearSelect.bind(this)
-    this.handleLengthSelect = this.handleLengthSelect.bind(this)
-    this.filterQuery = this.filterQuery.bind(this)
-    this.formatRawDoc = this.formatRawDoc.bind(this)
-    this.updateCounts = this.updateCounts.bind(this)
-    this.buildResultString = this.buildResultString.bind(this)
-    this.handlePageClick = this.handlePageClick.bind(this)
-  }
-
-  componentDidMount() {
     const that = this
     let totalResults = []
     let topicOptions = []
@@ -142,16 +84,17 @@ class SearchSection extends React.Component {
             tagOptions.push({ value: tag, label: tag })
           })
         }
-        if(value.updated) {
-          const year = value.updated.substring(0,4)
+        if(value.created) {
+          const year = value.created.substring(0,4)
           yearOptions.push({ value: year, label: year })
         }
         that.updateCounts(value.type, counts)
       }
     })
     totalResults = _.sortBy(totalResults, [option => option.frontmatter.title.toLowerCase()])
-    this.setState({
-      totalResults,
+    this.state = {
+      query: '',
+      totalResults: totalResults,
       queriedResults: totalResults,
       filteredResults: totalResults,
       totalArticleCount: counts.article,
@@ -160,11 +103,39 @@ class SearchSection extends React.Component {
       articleCount: counts.article,
       projectCount: counts.project,
       miscCount: counts.misc,
-      typeOptions,
+      typeOptions: typeOptions,
       topicOptions: _.orderBy(_.uniqBy(topicOptions, 'value'), 'value', 'asc'),
       tagOptions: _.sortBy(_.uniqBy(tagOptions, 'value'), [option => option.label.toLowerCase()]),
-      yearOptions: _.orderBy(_.uniqBy(yearOptions, 'value'), 'value', 'desc')
-    })
+      yearOptions: _.orderBy(_.uniqBy(yearOptions, 'value'), 'value', 'desc'),
+      typesSelected: [],
+      topicsSelected: [],
+      tagsSelected: [],
+      monthsSelected: [],
+      yearsSelected: [],
+      lengthsSelected: [],
+      types: [],
+      topics: [],
+      tags: [],
+      months: [],
+      years: [],
+      lengths: [],
+      searchFiltersVisible: (cookies.get('searchFiltersVisible') === 'true'),
+      offset: 0
+    }
+    this.issueQuery = this.issueQuery.bind(this)
+    this.cancelQuery = this.cancelQuery.bind(this)
+    this.toggleFilterVisibility = this.toggleFilterVisibility.bind(this)
+    this.handleTypeSelect = this.handleTypeSelect.bind(this)
+    this.handleTopicSelect = this.handleTopicSelect.bind(this)
+    this.handleTagSelect = this.handleTagSelect.bind(this)
+    this.handleMonthSelect = this.handleMonthSelect.bind(this)
+    this.handleYearSelect = this.handleYearSelect.bind(this)
+    this.handleLengthSelect = this.handleLengthSelect.bind(this)
+    this.filterQuery = this.filterQuery.bind(this)
+    this.formatRawDoc = this.formatRawDoc.bind(this)
+    this.updateCounts = this.updateCounts.bind(this)
+    this.buildResultString = this.buildResultString.bind(this)
+    this.handlePageClick = this.handlePageClick.bind(this)
   }
 
   issueQuery(query) {
@@ -191,54 +162,21 @@ class SearchSection extends React.Component {
   }
 
   toggleFilterVisibility() {
-    if(this.state.searchFiltersVisible === 'true') {
+    if(this.state.searchFiltersVisible === true) {
       cookies.set('searchFiltersVisible', 'false', { path: '/' })
     }
     else {
       cookies.set('searchFiltersVisible', 'true', { path: '/' })
     }
     this.setState(prevState => ({
-      searchFiltersVisible: prevState.searchFiltersVisible === 'true' ? 'false' : 'true'
+      searchFiltersVisible: prevState.searchFiltersVisible === true ? false : true
     }))
-  }
-
-  handleSortSelect = (sortSelected) => {
-    const initialPos = window.pageYOffset
-    if(this.state.sortSelected.value !== sortSelected.value) {
-      let filteredResults = []
-      // eslint-disable-next-line
-      switch(sortSelected.value) {
-        case 'A-Z':
-          filteredResults = _.orderBy(this.state.filteredResults, [option => option.frontmatter.title.toLowerCase()], 'asc')
-          break
-        case 'Z-A':
-          filteredResults = _.orderBy(this.state.filteredResults, [option => option.frontmatter.title.toLowerCase()], 'desc')
-          break
-        case 'Newest':
-          filteredResults = _.orderBy(this.state.filteredResults, [option => new Date(option.frontmatter.updated)], 'asc')
-          break
-        case 'Oldest':
-          filteredResults = _.orderBy(this.state.filteredResults, [option => new Date(option.frontmatter.updated)], 'desc')
-          break
-        case 'Shortest':
-          filteredResults = _.orderBy(this.state.filteredResults, 'timeToRead', 'asc')
-          break
-        case 'Longest':
-          filteredResults = _.orderBy(this.state.filteredResults, 'timeToRead', 'desc')
-          break
-      }
-      this.setState({
-        sortSelected,
-        filteredResults,
-        offset: 0
-      }, () => {window.scrollTo(0, initialPos)})
-    }
   }
 
   handleTypeSelect = (typesSelected) => {
     let types = []
-    if(typesSelected[0]) {
-      types = this.state.types.concat([typesSelected[0].value])
+    if(typesSelected !== []) {
+      types = typesSelected.map(type => type.value)
     }
     this.setState({
       typesSelected,
@@ -248,8 +186,8 @@ class SearchSection extends React.Component {
 
   handleTopicSelect = (topicsSelected) => {
     let topics = []
-    if(topicsSelected[0]) {
-      topics = this.state.topics.concat([topicsSelected[0].value])
+    if(topicsSelected !== []) {
+      topics = topicsSelected.map(topic => topic.value)
     }
     this.setState({
       topicsSelected,
@@ -259,8 +197,8 @@ class SearchSection extends React.Component {
 
   handleTagSelect = (tagsSelected) => {
     let tags = []
-    if(tagsSelected[0]) {
-      tags = this.state.tags.concat([tagsSelected[0].value])
+    if(tagsSelected !== []) {
+      tags = tagsSelected.map(tag => tag.value)
     }
     this.setState({
       tagsSelected,
@@ -270,9 +208,12 @@ class SearchSection extends React.Component {
 
   handleMonthSelect = (monthsSelected) => {
     let months = []
-    if(monthsSelected[0]) {
-      months = this.state.months.concat([monthsSelected[0].value])
+    console.log(monthsSelected)
+    
+    if(monthsSelected !== []) {
+      months = monthsSelected.map(month => month.value)
     }
+    console.log(months)
     this.setState({
       monthsSelected,
       months,
@@ -281,8 +222,8 @@ class SearchSection extends React.Component {
 
   handleYearSelect = (yearsSelected) => {
     let years = []
-    if(yearsSelected[0]) {
-      years = this.state.years.concat([yearsSelected[0].value])
+    if(yearsSelected !== []) {
+      years = yearsSelected.map(year => year.value)
     }
     this.setState({
       yearsSelected,
@@ -292,8 +233,8 @@ class SearchSection extends React.Component {
 
   handleLengthSelect = (lengthsSelected) => {
     let lengths = []
-    if(lengthsSelected[0]) {
-      lengths = this.state.lengths.concat([lengthsSelected[0].value])
+    if(lengthsSelected !== []) {
+      lengths = lengthsSelected.map(length => length.value)
     }
     this.setState({
       lengthsSelected,
@@ -321,11 +262,11 @@ class SearchSection extends React.Component {
           this.updateCounts(result.fields.type, counts)
           filteredResults.push(result)
         }
-        else if(this.state.months.length !== 0 && result.frontmatter.updated && _.intersection([result.frontmatter.updated.substring(5,7)], this.state.months).length !== 0) {
+        else if(this.state.months.length !== 0 && result.frontmatter.created && _.intersection([result.frontmatter.created.substring(5,7)], this.state.months).length !== 0) {
           this.updateCounts(result.fields.type, counts)
           filteredResults.push(result)
         }
-        else if(this.state.years.length !== 0 && result.frontmatter.updated && _.intersection([result.frontmatter.updated.substring(0,4)], this.state.years).length !== 0) {
+        else if(this.state.years.length !== 0 && result.frontmatter.created && _.intersection([result.frontmatter.created.substring(0,4)], this.state.years).length !== 0) {
           this.updateCounts(result.fields.type, counts)
           filteredResults.push(result)
         }
@@ -438,7 +379,7 @@ class SearchSection extends React.Component {
     const StyledSearchBar = withStyles({
       root: {
         flex: '1 1 auto',
-        margin: '0 1rem 1rem 0rem',
+        margin: '0 0.5rem 1rem 0rem',
       },
       input: {
         fontFamily: `${FontSans}`,
@@ -461,33 +402,27 @@ class SearchSection extends React.Component {
         }
       }
     })(SearchBar)
-    const SelectSortWrapper = Styled.div`
-      min-width: 9rem;
-      margin: 0 1rem 1rem 1rem;
-      > div {
-        width: 100%;
-      }
-    `
     const SelectWrapper = Styled.div`
       display: flex;
       width: 100%;
       > div:nth-child(1) {
         width: ${100/3}%;
-        margin: 1rem 1rem 1rem 0;
+        margin: 1rem 0.5rem 1rem 0;
       }
       > div:nth-child(2) {
         width: ${100/3}%;
-        margin: 1rem;
+        margin: 1rem 0.5rem;
       }
       > div:nth-child(3) {
         width: ${100/3}%;
-        margin: 1rem 0 1rem 1rem;
+        margin: 1rem 0 1rem 0.5rem;
       }
     `
     const selectStyles = {
       control: (provided) => ({
         ...provided,
-        height: '3rem',
+        minHeight: '48px',
+        height: '100%',
         borderStyle: 'none',
         boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)'
       }),
@@ -528,32 +463,9 @@ class SearchSection extends React.Component {
         }
       }),
     }
-    const sortSelectStyles = {
-      control: (provided) => ({
-        ...provided,
-        width: '100%',
-        height: '3rem',
-        borderStyle: 'none',
-        boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
-        cursor: 'pointer'
-      }),
-      placeholder: (provided) => ({
-        ...provided,
-        color: '#9e9e9e'
-      }),
-      option: (provided) => ({
-        ...provided,
-        cursor: 'pointer',
-        color: '#2a2a2a',
-        backgroundColor: 'white',
-        '&:hover': {
-          backgroundColor: '#6ecfff'
-        }
-      }),
-    }
     const FilterButton = Styled(GenericButton)`
       && {
-        margin: 0 0 1rem 1rem;
+        margin: 0 0 1rem 0.5rem;
         > button {
           height: 100%;
           > span {
@@ -589,7 +501,8 @@ class SearchSection extends React.Component {
     `
     const ResultText = Styled(MetaText)`
       && {
-        margin-bottom: 1rem;
+        margin-top: 0;
+        margin-bottom: 1.5rem;
       }
     `
     const SearchPrompt = Styled.span`
@@ -666,18 +579,6 @@ class SearchSection extends React.Component {
               cancelOnEscape={true}
               autoFocus={true}
             />
-            <SelectSortWrapper>
-              <Select
-                name='sort'
-                options={sortOptions}
-                onChange={this.handleSortSelect}
-                value={this.state.sortSelected}
-                styles={sortSelectStyles}
-                classNamePrefix="react-select"
-                className="react-select"
-                isSearchable={false}
-              />
-            </SelectSortWrapper>
             <FilterButton
               type='action'
               text='Filters'
@@ -685,7 +586,7 @@ class SearchSection extends React.Component {
               func={this.toggleFilterVisibility}
             />
           </div>
-          <div className={`${this.state.searchFiltersVisible === 'true' ? 'filters' : 'filters hide'} `}>
+          <div className={`${this.state.searchFiltersVisible ? 'filters' : 'filters hide'} `}>
             <SelectWrapper>
               <Select
                 name='type'
@@ -726,10 +627,20 @@ class SearchSection extends React.Component {
             </SelectWrapper>
             <SelectWrapper>
               <Select
+                name='length'
+                placeholder='Lengths...'
+                options={lengthOptions}
+                onChange={this.handleLengthSelect}
+                value={this.state.lengthsSelected}
+                styles={selectStyles}
+                isMulti
+                isClearable
+              />
+              <Select
                 name='month'
                 placeholder='Months...'
                 options={monthOptions}
-                onChange={this.handleMonthsSelect}
+                onChange={this.handleMonthSelect}
                 value={this.state.monthsSelected}
                 styles={selectStyles}
                 isMulti
@@ -745,19 +656,8 @@ class SearchSection extends React.Component {
                 isMulti
                 isClearable
               />
-              <Select
-                name='length'
-                placeholder='Lengths...'
-                options={lengthOptions}
-                onChange={this.handleLengthSelect}
-                value={this.state.lengthsSelected}
-                styles={selectStyles}
-                isMulti
-                isClearable
-              />
             </SelectWrapper>
           </div>
-
           <CenteredSearch>
             <ResultText
               type='text'
