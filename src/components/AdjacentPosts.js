@@ -4,46 +4,75 @@ import Styled from 'styled-components'
 
 import GenericButton from './GenericButton'
 
-
 class AdjacentPosts extends React.Component {
   render() {
-    const { prev, next } = this.props
+    const { currentPost, allPosts } = this.props
+    let prevIndex
+    let nextIndex
+    for(let i = 0; i < allPosts.length; i++) {
+      if(allPosts[i].node.fields.slug === currentPost.fields.slug) {
+        prevIndex = (i === 0) ? -1 : i-1
+        nextIndex = (i === allPosts.length-1) ? -1 : i+1
+        break
+      }
+    }
 
     const AdjacentPostsWrapper = Styled.div`
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       margin-top: 1rem;
     `
-    const LeftButton = Styled(GenericButton)`
-      && {
-        a {
-          visibility: ${prev !== '/articles' ? 'visible' : 'hidden'};
-        }
-      }
+    const SeperatedWrapper = Styled.div`
+      display: flex;
+      justify-content: space-between;
     `
-    const RightButton = Styled(GenericButton)`
-      && {
-        a {
-          visibility: ${next !== '/articles' ? 'visible' : 'hidden'};
-        }
-      }
+    const PrevTitle = Styled.span`
+      display: block;
+      margin: 0.5rem 1rem 0 0;
+      max-width: 15rem;
+      font-style: italic;
+    `
+    const NextTitle = Styled.span`
+      display: block;
+      margin: 0.5rem 0 0 1rem;
+      max-width: 15rem;
+      font-style: italic;
+      text-align: right;
     `
 
     return (
       <AdjacentPostsWrapper>
-        <LeftButton
-          type='internal'
-          to={prev}
-          text='Prev'
-          icon={['fas', 'angle-left']}
-        />
-        <RightButton
-          type='internal'
-          to={next}
-          text='Next'
-          icon={['fas', 'angle-right']}
-          isIconLeft={false}
-        />
+        <SeperatedWrapper>
+          {prevIndex !== -1 ?
+            <GenericButton
+              type='internal'
+              to={allPosts[prevIndex].node.fields.slug}
+              text='prev'
+              icon={['fas', 'angle-left']}
+            /> :
+            <span></span>
+          }
+          {nextIndex !== -1 ?
+            <GenericButton
+              type='internal'
+              to={allPosts[nextIndex].node.fields.slug}
+              text='next'
+              icon={['fas', 'angle-right']}
+              isIconLeft={false}
+            /> :
+            <span></span>
+          }
+        </SeperatedWrapper>
+        <SeperatedWrapper>
+          {prevIndex !== -1 ?
+            <PrevTitle>{allPosts[prevIndex].node.frontmatter.title}</PrevTitle> :
+            <PrevTitle>There's nothing before this</PrevTitle>
+          }
+          {nextIndex !== -1 ?
+            <NextTitle>{allPosts[nextIndex].node.frontmatter.title}</NextTitle> :
+            <PrevTitle>This is the end (for now)</PrevTitle>
+          }
+        </SeperatedWrapper>
       </AdjacentPostsWrapper>
     )
   }

@@ -102,6 +102,21 @@ class GlitchedText extends React.Component {
         color: ${color};
         background: ${background};
         position: relative;
+        :hover {
+          cursor: vertical-text;
+          span:nth-child(2) {
+            animation: ${tearing} 3s infinite linear alternate-reverse;
+          }
+          span:nth-child(3) {
+            animation: ${tearing} 2s infinite linear alternate-reverse;
+          }
+          span:nth-child(4) {
+            animation: ${seperating} 2.75s cubic-bezier(.25, .45, .45, .95) both infinite;
+          }
+          span:nth-child(5) {
+            animation: ${seperating} 2.75s cubic-bezier(.25, .45, .45, .95) reverse both infinite;
+          }
+        }
         span:nth-child(1) {
           position: relative;
           z-index: 10;
@@ -132,20 +147,6 @@ class GlitchedText extends React.Component {
         }
         span:nth-child(5) {
           color: #ff0;
-        }
-        :hover {
-          span:nth-child(2) {
-            animation: ${tearing} 3s infinite linear alternate-reverse;
-          }
-          span:nth-child(3) {
-            animation: ${tearing} 2s infinite linear alternate-reverse;
-          }
-          span:nth-child(4) {
-            animation: ${seperating} 2.75s cubic-bezier(.25, .45, .45, .95) both infinite;
-          }
-          span:nth-child(5) {
-            animation: ${seperating} 2.75s cubic-bezier(.25, .45, .45, .95) reverse both infinite;
-          }
         }
       }
     `

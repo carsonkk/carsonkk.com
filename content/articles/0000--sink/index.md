@@ -2,8 +2,8 @@
 created: '2017-06-04'
 updated: '2017-06-04'
 banner: 'banner.jpg'
-title: 'Hello World: The remark Kitchen Sink'
-feature: true
+title: 'Sink'
+draft: true
 topic: 'Web'
 icon: 'desktop'
 tags:
@@ -11,7 +11,7 @@ tags:
   - 'Machine Learning'
   - 'Internet of Things'
   - 'Buzzwords'
-  - Sealarg
+  - 'Sealarg'
 project: 'Sealarg'
 reddit: 'https://reddit.com'
 medium: 'https://medium.com'

@@ -56,6 +56,10 @@ class CopyButton extends React.Component {
           background-color: ${DarkTheme.text};
           :hover {
             opacity: 1;
+            background-color: ${DarkTheme.text};
+            span > span {
+              color: ${DarkTheme.primary};
+            }
           }
           svg {
             font-size: 0.675rem;

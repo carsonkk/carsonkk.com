@@ -1,13 +1,13 @@
 ---
 created: '2018-01-01'
 updated: '2018-01-01'
-title: 'Testerg'
+title: 'Tester'
 description: 'Not a github project fsd Trtbrh'
 topic: 'Other'
 icon: 'dice-one'
-draft: true
+draft: false
 tags:
-  - 'Testerg'
+  - 'Tester'
   - 'C'
   - 'Command Line'
   - 'Linux'

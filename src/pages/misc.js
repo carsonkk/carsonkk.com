@@ -25,7 +25,7 @@ class MiscPage extends React.Component {
     return (
       <BaseLayout location={this.props.location}>
         <MiscPageWrapper>
-          <ImagePreviewSection posts={data.allMarkdownRemark.edges} data={data}/>
+          <ImagePreviewSection posts={data.allMarkdownRemark.edges} placeholders={data}/>
           <ShadowWrapper/>
         </MiscPageWrapper>
       </BaseLayout>
@@ -38,7 +38,7 @@ export default MiscPage
 export const pageQuery = graphql`
   {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "misc"}} frontmatter: {draft: {ne: true}}}
+      filter: {fields: {type: {eq: "misc"} kind: {ne: "subpage"}} frontmatter: {draft: {ne: true}}}
       sort: {order: ASC, fields: [fields___slug]}
     ) {
       edges {

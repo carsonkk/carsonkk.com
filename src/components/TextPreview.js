@@ -12,6 +12,7 @@ export default class TextPreview extends React.Component {
     const { frontmatter, fields, id, timeToRead, excerpt } = this.props.data
     const { type, slug, tagSlugs } = fields
     const { created, title, topic, icon, tags, description } = frontmatter
+    
     const TextPreviewWrapper = Styled.div`
       margin-bottom: 1.25rem;
     `
@@ -42,7 +43,7 @@ export default class TextPreview extends React.Component {
     `
 
     return (
-      <TextPreviewWrapper>
+      <TextPreviewWrapper key={id}>
         {title && slug &&
           <Title>
             <Link to={`${slug}`}>

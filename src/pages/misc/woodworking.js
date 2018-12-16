@@ -3,6 +3,8 @@ import { graphql } from 'gatsby'
 import Styled from 'styled-components'
 import RehypeReact from 'rehype-react'
 
+import BaseLayout from '../../components/BaseLayout'
+
 const RenderAst = new RehypeReact({
   createElement: React.createElement,
   components: {},
@@ -17,9 +19,11 @@ class WoodworkingPage extends React.Component {
     `
 
     return (
-      <Projects>
-        {RenderAst(this.props.data.markdownRemark.htmlAst)}
-      </Projects>
+      <BaseLayout location={this.props.location}>
+        <Projects>
+          {RenderAst(this.props.data.markdownRemark.htmlAst)}
+        </Projects>
+      </BaseLayout>
     )
   }
 }

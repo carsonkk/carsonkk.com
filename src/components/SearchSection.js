@@ -64,7 +64,6 @@ const dummyResult = {
 class SearchSection extends React.Component {
   constructor(props) {
     super(props)
-
     const that = this
     const { index, types } = this.props
     let totalResults = []

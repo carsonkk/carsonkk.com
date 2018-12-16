@@ -270,9 +270,7 @@ class ProjectPost extends React.Component {
         active={this.state.activeTab === tabStrs[0] ? 'active' : ''}
       />
     )
-
     contents[tabStrs[0]] = [RenderAst(htmlAst)]
-
     if(allMarkdownRemark) {
       tabs.push(
         <NavButton
@@ -285,7 +283,7 @@ class ProjectPost extends React.Component {
         />
       )
       contents[tabStrs[1]] = [allMarkdownRemark.edges.map(
-        edge => <TextPreview key={edge.node.id} post={edge.node}/>
+        edge => <TextPreview key={edge.node.id} data={edge.node}/>
       )]
     }
     if(frontmatter.misc) {
@@ -414,7 +412,7 @@ export default ProjectPost
 export const pageQuery = graphql`
   query($slug: String!, $targetTag: String!) {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "article"} targetTag: {regex: $targetTag}} frontmatter: {draft: {ne: true}}}, 
+      filter: {fields: {type: {eq: "article"} targetTag: {regex: $targetTag}} frontmatter: {draft: {ne: true}}}, 
       sort: {order: DESC, fields: [frontmatter___created]}
     ) {
       edges {

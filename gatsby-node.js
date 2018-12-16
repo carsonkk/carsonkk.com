@@ -108,7 +108,7 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
           createNodeField({ node, name: 'type', value: 'article' })
           createNodeField({ node, name: 'slug', value: `/articles/${slugTarget[1]}` })
           createNodeField({ node, name: 'kind', value: 'page' })
-          createNodeField({ node, name: 'number', value: slugTarget[0] })
+          createNodeField({ node, name: 'number', value: parseInt(slugTarget[0]) })
           break
         case 'projects':
           slugTarget = _.kebabCase(slugTarget)
@@ -142,7 +142,7 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
     createNodeField({ node, name: 'kind', value: fileNode.fields.kind })
     if(fileNode.fields.kind !== 'subpage') {
       if(fileNode.fields.type === 'article') {
-        createNodeField({ node, name: 'number', value: fileNode.fields.number })
+        createNodeField({ node, name: 'number', value: parseInt(fileNode.fields.number) })
         let articlesTargetTag = ''
         node.frontmatter.tags.forEach(tag => {
           tag = _.kebabCase(tag)

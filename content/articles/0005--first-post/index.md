@@ -1,10 +1,9 @@
 ---
-created: '2016-11-06'
-updated: '2016-11-06'
+created: '2018-12-25'
+updated: '2018-12-25'
 banner: 'neature.jpg'
-title: 'Old sink'
+title: 'first post'
 feature: true
-draft: false
 topic: 'Software'
 icon: 'code'
 tags:

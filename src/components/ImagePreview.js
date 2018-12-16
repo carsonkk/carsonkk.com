@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { DarkTheme, RandomRange, RandomColor, RandomAngle, AngleToPercents } from '../utils/Theme'
 
-
 class ImagePreview extends React.Component {
   constructor(props) {
     super(props)
@@ -22,8 +21,10 @@ class ImagePreview extends React.Component {
   }
 
   render() {
-    const { post, image } = this.props
-    const { frontmatter } = post
+    const { data, image } = this.props
+    const { frontmatter, fields } = data
+    const { slug } = fields
+    const { title, icon, description } = frontmatter
 
     const ImagePreviewWrapper = Styled.div`
       transition: all 0.3s;
@@ -135,15 +136,15 @@ class ImagePreview extends React.Component {
           <Img fluid={image} alt="Image Preview"/>
         </BackgroundImage>
         <BackgroundFilter/>
-        <Link to={`${post.fields.slug}`}>
+        <Link to={`${slug}`}>
           <PostPreview>
             <div></div>
-            <h2>{frontmatter.title}</h2>
+            <h2>{title}</h2>
             <Description>
-              <span>{frontmatter.description}</span>
+              <span>{description}</span>
             </Description>
             <Icon>
-              <FontAwesomeIcon icon={frontmatter.icon}/>
+              <FontAwesomeIcon icon={icon}/>
             </Icon>
           </PostPreview>
         </Link>
@@ -153,7 +154,7 @@ class ImagePreview extends React.Component {
 }
 
 ImagePreview.propTypes = {
-  post: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
   image: PropTypes.object.isRequired
 }
 

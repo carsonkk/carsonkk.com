@@ -8,8 +8,8 @@ import ImagePreview from './ImagePreview'
 
 class ImagePreviewSection extends React.Component {
   render() {
-    const { data, posts } = this.props
-    const { pSingle, pDouble, pTriple } = data
+    const { placeholders, posts } = this.props
+    const { pSingle, pDouble, pTriple } = placeholders
     const previews = posts.map((post, i) => {
       const { bSingle, bDouble, bTriple } = post.node.frontmatter
       let background = bSingle ? bSingle.childImageSharp.fluid : pSingle.fluid
@@ -19,7 +19,7 @@ class ImagePreviewSection extends React.Component {
       else if(posts.length%3 === 1 && i === posts.length-1) {
         background = bTriple ? bTriple.childImageSharp.fluid : pTriple.fluid
       }
-      return(<ImagePreview key={post.node.id} post={post.node} image={background}/>)
+      return(<ImagePreview key={post.node.id} data={post.node} image={background}/>)
     })
     
     const ImagePreviewSectionWrapper = Styled.div`
@@ -37,7 +37,7 @@ class ImagePreviewSection extends React.Component {
 }
 
 ImagePreviewSection.propTypes = {
-  data: PropTypes.object.isRequired,
+  placeholders: PropTypes.object.isRequired,
   posts: PropTypes.array.isRequired
 }
 

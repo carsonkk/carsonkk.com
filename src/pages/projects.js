@@ -25,7 +25,7 @@ class ProjectsPage extends React.Component {
     return (
       <BaseLayout location={this.props.location}>
         <ProjectsPageWrapper>
-          <ImagePreviewSection posts={data.allMarkdownRemark.edges} data={data}/>
+          <ImagePreviewSection posts={data.allMarkdownRemark.edges} placeholders={data}/>
           <ShadowWrapper/>
         </ProjectsPageWrapper>
       </BaseLayout>
@@ -38,7 +38,7 @@ export default ProjectsPage
 export const pageQuery = graphql`
   {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "project"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
+      filter: {fields: {type: {eq: "project"} kind: {eq: "page"}} frontmatter: {draft: {ne: true}}}
       sort: {order: ASC, fields: [fields___slug]}
     ) {
       edges {

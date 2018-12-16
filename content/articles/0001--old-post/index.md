@@ -1,12 +1,12 @@
 ---
-created: '2018-02-15'
-updated: '2018-02-15'
+created: '2016-02-15'
+updated: '2016-02-15'
 banner: 'neature.jpg'
-title: 'Next Post'
+title: 'Old Post'
 topic: 'Web'
 icon: 'desktop'
 tags:
   - 'AI'
 ---
 
-This is the next post
+This is the old post

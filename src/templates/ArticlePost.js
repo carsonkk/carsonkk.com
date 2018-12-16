@@ -206,8 +206,8 @@ class ArticlePost extends React.Component {
                   />
                 }
                 <AdjacentPosts 
-                  prev={`/articles/${edges[fields.number-1].node.fields.slug}`} 
-                  next={`/articles/${edges[fields.number+1].node.fields.slug}`}
+                  currentPost={markdownRemark}
+                  allPosts={edges}
                 />
               </PostFooter>
             </PostContainer>
@@ -223,7 +223,8 @@ export default ArticlePost
 export const pageQuery = graphql`
   query($slug: String!) {
     allMarkdownRemark(
-      filter: {fields: {kind: {eq: "article"}} frontmatter: {draft: {ne: true}}}
+      filter: {fields: {type: {eq: "article"} kind: {eq: "page"}} frontmatter: {draft: {ne: true}}}
+      sort: {order: ASC, fields: [frontmatter___created]}
     ) {
       edges {
         node {
@@ -240,10 +241,10 @@ export const pageQuery = graphql`
       htmlAst
       timeToRead
       fields {
-        number
         slug
         tagSlugs
         targetTag
+        number
       }
       frontmatter {
         created

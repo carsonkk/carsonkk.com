@@ -18,8 +18,8 @@ class IndexPage extends React.Component {
     const { data } = this.props
     const { hiking_1, hiking_2, hiking_3 } = data
     const featuredProjectPostEdges = data.featuredProjectPosts.edges
-    const recentArticlePosts = data.recentArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
-    const featuredArticlePosts = data.featuredArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} post={edge.node}/>)
+    const recentArticlePosts = data.recentArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} data={edge.node}/>)
+    const featuredArticlePosts = data.featuredArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} data={edge.node}/>)
     const images = [hiking_1, hiking_2, hiking_3]
     const rate = 8000
 
@@ -157,7 +157,7 @@ class IndexPage extends React.Component {
               </ArticleColumn>
             </ArticleSection>
           </ShadowWrapper>
-          <ImagePreviewSection posts={featuredProjectPostEdges} data={data}/>
+          <ImagePreviewSection posts={featuredProjectPostEdges} placeholders={data}/>
           <ShadowWrapper>
             <ContactSection>
               <h1>Want to get in touch?</h1>
@@ -179,8 +179,8 @@ export const pageQuery = graphql`
   {
     recentArticlePosts: allMarkdownRemark(
       limit: 3
-      filter: {fields: {kind: {eq: "article"} type: {eq: "page"}} frontmatter: {draft: {ne: true}}}
-      sort: {order: DESC, fields: [fields___number]}
+      filter: {fields: {type: {eq: "article"} kind: {eq: "page"}} frontmatter: {draft: {ne: true}}}
+      sort: {order: DESC, fields: [frontmatter___created]}
     ) {
       edges {
         node {
@@ -190,8 +190,8 @@ export const pageQuery = graphql`
     }
     featuredArticlePosts: allMarkdownRemark(
       limit: 3
-      filter: {fields: {kind: {eq: "article"} type: {eq: "page"}} frontmatter: {draft: {ne: true} feature: {eq: true}}}
-      sort: {order: DESC, fields: [fields___number]}
+      filter: {fields: {type: {eq: "article"} kind: {eq: "page"}} frontmatter: {draft: {ne: true} feature: {eq: true}}}
+      sort: {order: DESC, fields: [frontmatter___created]}
     ) {
       edges {
         node {
@@ -201,7 +201,7 @@ export const pageQuery = graphql`
     }
     featuredProjectPosts: allMarkdownRemark(
       limit: 6
-      filter: {fields: {kind: {eq: "project"} type: {eq: "page"}} frontmatter: {draft: {ne: true} feature: {eq: true}}}
+      filter: {fields: {type: {eq: "project"} kind: {eq: "page"}} frontmatter: {draft: {ne: true} feature: {eq: true}}}
       sort: {order: ASC, fields: [fields___slug]}
     ) {
       edges {
@@ -232,7 +232,6 @@ export const pageQuery = graphql`
                 }
               }
             }
-            topic
             icon
             title
             description
