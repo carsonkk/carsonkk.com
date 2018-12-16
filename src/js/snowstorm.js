@@ -10,7 +10,7 @@
 
 /*jslint nomen: true, plusplus: true, sloppy: true, vars: true, white: true */
 /*global window, document, navigator, clearInterval, setInterval */
-
+// eslint-disable-next-line
 var snowStorm = (function(window, document) {
 
   // --- common properties ---
@@ -24,7 +24,7 @@ var snowStorm = (function(window, document) {
   this.className = null;          // CSS class name for further customization on snow elements
   this.flakeBottom = null;        // Integer for Y axis snow limit, 0 or null for "full-screen" snow effect
   this.followMouse = false;       // Snow movement can respond to the user's mouse
-  this.snowColor = '#fff';        // Don't eat (or use?) yellow snow.
+  this.snowColor = '#d6e9ff';     // Don't eat (or use?) yellow snow.
   this.snowCharacter = '❅';       // &bull; = bullet, &middot; is square on some systems etc.
   this.snowStick = false;         // Whether or not snow should "stick" at the bottom. When off, will never collect.
   this.targetElement = null;      // element which snow will be appended to (null = document.body) - can be an element ID eg. 'myDiv', or a DOM node reference

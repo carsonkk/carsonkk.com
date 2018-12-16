@@ -88,7 +88,7 @@ class ProjectPost extends React.Component {
   render() {
     const { markdownRemark, allMarkdownRemark } = this.props.data
     const { htmlAst, frontmatter } = markdownRemark
-    const crop = frontmatter.allowCropping === undefined ? true : frontmatter.allowCropping
+    const crop = (frontmatter.allowCropping === false) ? false : true
     let tabs = []
     let contents = {}
 

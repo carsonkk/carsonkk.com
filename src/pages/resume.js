@@ -11,6 +11,7 @@ import canvg from 'canvg'
 import _ from 'lodash'
 
 import '../css/resume.css'
+import santaHat from '../images/santa-hat.png'
 import BaseLayout from '../components/BaseLayout'
 import GenericButton from '../components/GenericButton'
 import SmartLink from '../components/SmartLink'
@@ -211,6 +212,13 @@ class ResumePage extends React.Component {
       line-height: 1.375;
       color: ${props => props.theme.text};
       background-color: white;
+    `
+    const SantaHat = Styled.img`
+      width: 9rem;
+      position: absolute;
+      top: 16rem;
+      left: 4rem;
+      z-index: 2;
     `
     const Header = Styled.div`
       display: flex;
@@ -706,6 +714,7 @@ class ResumePage extends React.Component {
               />
             </FilterWrapper>
           </FilterContainer>
+          <SantaHat src={santaHat} alt='Santa Hat'/>
           <ThemeProvider theme={LightTheme}>
             <ResumeContainer>
               <ResumeWrapper className='resume-root' ref={(resume) => this.resume = resume}>
