@@ -3,7 +3,7 @@ created: '2017-06-04'
 updated: '2017-06-04'
 banner: 'banner.jpg'
 title: 'Sink'
-draft: true
+draft: false
 topic: 'Web'
 icon: 'desktop'
 tags:
@@ -30,6 +30,8 @@ punctuation through [retext-smartypants][7].
 
 The examples on this page cover the basic Markdown syntax and are adapted from
 [Markdown Here's Cheatsheet][3] ([CC-BY][4]).
+
+`youtube: https://www.youtube.com/watch?v=2Xc9gXyf2G4` 
 
 ---
 

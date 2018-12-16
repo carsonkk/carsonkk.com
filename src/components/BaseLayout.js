@@ -5,6 +5,7 @@ import Styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import Cookies from 'universal-cookie'
 
 import '../css/prism-material.css'
+import '../js/snowstorm.js'
 import Header from './Header'
 import Footer from './Footer'
 import { DarkTheme, LightTheme } from '../utils/Theme'
@@ -38,6 +39,21 @@ export default class BaseLayout extends React.Component {
   render() {
     const { theme } = this.state
     const { children, location } = this.props
+    const BaseWrapper = Styled.div`
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      height: 100%;
+      position: relative;
+      z-index: 1;
+      font-family: ${FontSans};
+      font-size: 1.25rem;
+      line-height: 1.5;
+      text-align: left;
+      box-sizing: border-box;
+      color: ${props => props.theme.text};
+      background-color: ${props => props.theme.primary};
+    `
     const GlobalStyle = createGlobalStyle`
       body {
         margin: 0;
@@ -69,21 +85,6 @@ export default class BaseLayout extends React.Component {
           }
         }
       }
-    `
-    const BaseWrapper = Styled.div`
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      height: 100%;
-      position: relative;
-      z-index: 1;
-      font-family: ${FontSans};
-      font-size: 1.25rem;
-      line-height: 1.5;
-      text-align: left;
-      box-sizing: border-box;
-      color: ${props => props.theme.text};
-      background-color: ${props => props.theme.primary};
     `
     const MainWrapper = Styled.main`
       flex: 1 1 auto;

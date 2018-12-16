@@ -10,13 +10,13 @@ import ReactPaginate from 'react-paginate'
 import Cookies from 'universal-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import '../css/search.css'
 import TextPreview from './TextPreview'
 import MetaText from './MetaText'
 import GenericButton from './GenericButton'
 import { PaddedContainer } from '../utils/Container'
 import { FontSans, pluralize } from '../utils/Text'
 import { LightTheme } from '../utils/Theme'
-import '../css/search.css'
 
 const cookies = new Cookies()
 const monthOptions = [

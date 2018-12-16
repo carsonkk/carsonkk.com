@@ -33,6 +33,7 @@ class ImagePreview extends React.Component {
       overflow: hidden;
       :hover {
         > div:first-child {
+          filter: blur(0);
           transform: scale(1.1);
         }
         > div:nth-child(2) {
@@ -119,7 +120,8 @@ class ImagePreview extends React.Component {
       }
     `
     const BackgroundImage = frontmatter.bSingle ? Styled.div`
-      transition: transform 0.4s;
+      transition: transform 0.4s, filter 0.6s;
+      filter: blur(0.25rem);
     `
     : Styled.div`
       background: linear-gradient(${this.state.angle}deg, ${this.state.lightColor}, ${this.state.darkColor});

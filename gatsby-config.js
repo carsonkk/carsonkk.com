@@ -1,9 +1,9 @@
 'use strict';
-const _ = require(`lodash`)
+const _ = require('lodash')
 const remark = require('remark')
-const sanitizeHTML = require(`sanitize-html`)
-const toHAST = require(`mdast-util-to-hast`)
-const hastToHTML = require(`hast-util-to-html`)
+const sanitizeHTML = require('sanitize-html')
+const toHAST = require('mdast-util-to-hast')
+const hastToHTML = require('hast-util-to-html')
 const visit = require('unist-util-visit')
 
 module.exports = {
@@ -19,67 +19,98 @@ module.exports = {
   plugins: [
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-styled-components',
-    `gatsby-plugin-sharp`,
-    `gatsby-transformer-sharp`,
-    `gatsby-transformer-json`,
+    'gatsby-plugin-sharp',
+    'gatsby-transformer-sharp',
+    'gatsby-transformer-json',
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'pages',
-        path: `${__dirname}/src/pages`,
-      },
+        path: `${__dirname}/src/pages`
+      }
     },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'images',
-        path: `${__dirname}/src/images`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `content`,
-        path: `${__dirname}/content`,
+        path: `${__dirname}/src/images`
       }
     },
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: `data`,
-        path: `${__dirname}/data`,
+        name: 'content',
+        path: `${__dirname}/content`
       }
     },
     {
-      resolve: `gatsby-transformer-remark`,
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'data',
+        path: `${__dirname}/data`
+      }
+    },
+    {
+      resolve: 'gatsby-transformer-remark',
       options: {
         plugins: [
-          'gatsby-remark-autolink-headers',
+          {
+            resolve: 'gatsby-remark-autolink-headers',
+            options: {
+              offsetY: -680
+            }
+          },
+          {
+            resolve: 'gatsby-remark-emojis',
+            options: {
+              active: false,
+              class: 'emoji-icon',
+              size: 64,
+              styles: {
+                display: 'inline',
+                margin: '0',
+                marginTop: '1px',
+                position: 'relative',
+                top: '5px',
+                width: '25px'
+              }
+            }
+          },
+          {
+            resolve: 'gatsby-remark-images',
+            options: {
+              maxWidth: 992,
+              backgroundColor: 'black',
+              linkImagesToOriginal: false
+            }
+          },
+          {
+            resolve: 'gatsby-remark-embed-video',
+            options: {
+              width: 992,
+              related: false,
+              noIframeBorder: true
+            }
+          },
+          'gatsby-remark-external-links',
+          'gatsby-remark-responsive-iframe',
           {
             resolve: 'gatsby-remark-prismjs',
             options: {
-              classPrefix: "language-",
-            },
-          },
-          {
-            resolve: `gatsby-remark-images`,
-            options: {
-              maxWidth: 800,
-              backgroundColor: 'black',
-              linkImagesToOriginal: false,
-            },
-          },
-        ],
-      },
+              classPrefix: "language-"
+            }
+          }
+        ]
+      }
     },
     {
-      resolve: `gatsby-plugin-google-analytics`,
+      resolve: 'gatsby-plugin-google-analytics',
       options: {
-        trackingId: "YOUR_GOOGLE_ANALYTICS_TRACKING_ID",
-      },
+        trackingId: "YOUR_GOOGLE_ANALYTICS_TRACKING_ID"
+      }
     },
     {
-      resolve: `gatsby-plugin-favicon`,
+      resolve: 'gatsby-plugin-favicon',
       options: {
         logo: "./src/images/favicon.png",
         injectHTML: true,
@@ -97,7 +128,7 @@ module.exports = {
       }
     },
     {
-      resolve: `@gatsby-contrib/gatsby-plugin-elasticlunr-search`,
+      resolve: '@gatsby-contrib/gatsby-plugin-elasticlunr-search',
       options: {
         fields: [
           'title',
@@ -141,10 +172,10 @@ module.exports = {
                 timeToRead = 1
               }
               return timeToRead
-            },
+            }
           }
         }
       }
-    },
-  ],
+    }
+  ]
 }
