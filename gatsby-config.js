@@ -62,22 +62,6 @@ module.exports = {
             }
           },
           {
-            resolve: 'gatsby-remark-emojis',
-            options: {
-              active: false,
-              class: 'emoji-icon',
-              size: 64,
-              styles: {
-                display: 'inline',
-                margin: '0',
-                marginTop: '1px',
-                position: 'relative',
-                top: '5px',
-                width: '25px'
-              }
-            }
-          },
-          {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 992,
@@ -93,14 +77,30 @@ module.exports = {
               noIframeBorder: true
             }
           },
-          'gatsby-remark-external-links',
           'gatsby-remark-responsive-iframe',
           {
             resolve: 'gatsby-remark-prismjs',
             options: {
               classPrefix: "language-"
             }
-          }
+          },
+          {
+            resolve: 'gatsby-remark-emojis',
+            options: {
+              active: true,
+              class: 'emoji-icon',
+              size: 64,
+              styles: {
+                display: 'inline',
+                margin: '0',
+                marginTop: '1px',
+                position: 'relative',
+                top: '5px',
+                width: '25px'
+              }
+            }
+          },
+          'gatsby-remark-external-links'
         ]
       }
     },

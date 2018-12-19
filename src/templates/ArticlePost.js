@@ -21,15 +21,16 @@ class ArticlePost extends React.Component {
   render() {
     const { edges } = this.props.data.allMarkdownRemark
     const { markdownRemark } = this.props.data
-    const { htmlAst, fields, frontmatter, } = markdownRemark
-    const created = Date.parse(frontmatter.created)
-    
+    const { htmlAst, timeToRead, tableOfContents, fields, frontmatter, } = markdownRemark
+    const { tagSlugs, targetTag } = fields
+    const { created, updated, banner, title, topic, icon, tags, project, misc, toc, github, reddit, medium } = frontmatter
+
     const Article = Styled.div`
       position: relative;
       display: flex;
       flex-direction: column;
       width: 100%;
-      h1 {
+      .title {
         font-family: ${FontSerif};
       }
     `
@@ -50,83 +51,32 @@ class ArticlePost extends React.Component {
     `
     const PostHeader = Styled.div`
       margin-bottom: 3rem;
-
       h1 {
         margin-top: 0;
         margin-bottom: 0.5rem;
-        font-size: 3.5rem;
+        font-size: 4rem;
         font-weight: normal;
       }
     `
     const PostBody = Styled.div`
       position: relative;
-
-      h1, h2, h3, h4, h5, h6 {
-        :hover {
-          a.anchor svg {
-            fill: ${props => props.theme.text};
-          }
-        }
-        a.anchor svg {
-          transition: all 0.3s;
-          fill: transparent;
-        }
+    `
+    const TableOfContents = Styled.div`
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 3rem;
+      > p {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: bold;
       }
-      a.anchor svg {
-        fill: ${props => props.theme.text};
-      }
-      h1 > a.anchor {
-        margin-left: -3rem;
-        padding-right: 0.5rem;
-
-        svg {
-          height: 2.5rem;
-          width: 2.5rem;
+      > div {
+        > ul {
+          padding-left: 2rem;
         }
-      }
-      h2 > a.anchor {
-        margin-left: -2.375rem;
-        padding-right: 0.5rem;
-
-        svg {
-          height: 1.875rem;
-          width: 1.875rem;
-        }
-      }
-      h3 > a.anchor {
-        margin-left: -1.9375rem;
-        padding-right: 0.5rem;
-
-        svg {
-          height: 1.4375rem;
-          width: 1.4375rem;
-        }
-      }
-      h4 > a.anchor {
-        margin-left: -1.75rem;
-        padding-right: 0.5rem;
-
-        svg {
-          height: 1.25rem;
-          width: 1.25rem;
-        }
-      }
-      h5 > a.anchor {
-        margin-left: -1.5rem;
-        padding-right: 0.5rem;
-
-        svg {
-          height: 1rem;
-          width: 1rem;
-        }
-      }
-      h6 > a.anchor {
-        margin-left: -1.3125rem;
-        padding-right: 0.5rem;
-
-        svg {
-          height: 0.8125rem;
-          width: 0.8125rem;
+        ul {
+          margin: 0;
+          list-style-type: upper-roman;
         }
       }
     `
@@ -139,70 +89,91 @@ class ArticlePost extends React.Component {
         <Article>
           <Banner>
             <div>
-              <Img fluid={frontmatter.banner.childImageSharp.fluid} alt="Banner"/>
+              <Img fluid={banner.childImageSharp.fluid} alt="Banner"/>
             </div>
           </Banner>
           <ShadowWrapper>
             <PostContainer>
               <PostHeader>
-                <h1>{frontmatter.title}</h1>
+                <h1 className='title'>{title}</h1>
                 <MetaText
                   type='text'
-                  icon={['fas', frontmatter.icon]}
-                  texts={[frontmatter.topic]}
+                  icon={['fas', icon]}
+                  texts={[topic]}
                   isInline={true}
                 />
                 <MetaText
                   type='text'
                   icon={['far', 'calendar-alt']}
-                  texts={[FancyDateMDY(created)]}
+                  texts={[FancyDateMDY(Date.parse(created))]}
                   isInline={true}
                 />
                 <MetaText
                   type='text'
                   icon={['far', 'clock']}
-                  texts={[`${markdownRemark.timeToRead} min read`]}
+                  texts={[`${timeToRead} min read`]}
                   isInline={true}
                 />
                 <MetaText
                   type='internal'
                   icon={['fas', 'tags']}
-                  texts={markdownRemark.frontmatter.tags}
-                  links={markdownRemark.fields.tagSlugs}
+                  texts={tags}
+                  links={tagSlugs}
                 />
-                {frontmatter.project &&
+                {project &&
                   <MetaText
                     type='internal'
                     icon={['fas', 'asterisk']}
-                    texts={[`Related Project: ${frontmatter.project}`]}
-                    links={[`/projects/${fields.targetTag}`]}
+                    texts={[`Related Project: ${project}`]}
+                    links={[`/projects/${targetTag}`]}
                   />
                 }
-                {frontmatter.misc &&
+                {misc &&
                   <MetaText
                     type='internal'
                     icon={['fas', 'asterisk']}
-                    texts={[`Related Misc: ${frontmatter.misc}`]}
-                    links={[`/misc/${fields.targetTag}`]}
+                    texts={[`Related Misc: ${misc}`]}
+                    links={[`/misc/${targetTag}`]}
+                  />
+                }
+                {updated !== created &&
+                  <MetaText
+                    type='text'
+                    icon={['fas', 'pencil-alt']}
+                    texts={[`Last updated on ${FancyDateMDY(Date.parse(updated))}`]}
                   />
                 }
               </PostHeader>
+              {toc && 
+                <TableOfContents>
+                  <p>Table of Contents</p>
+                  <div dangerouslySetInnerHTML={{__html: tableOfContents}}/>
+                </TableOfContents>
+              }
               <PostBody>{RenderAst(htmlAst)}</PostBody>
               <PostFooter>
-                {frontmatter.reddit &&
+                {github &&
+                  <MetaText
+                    type='external'
+                    icon={['fab', 'github']}
+                    texts={['Read and discuss this post on GitHub']}
+                    links={[`${github}`]}
+                  />
+                }
+                {reddit &&
                   <MetaText
                     type='external'
                     icon={['fab', 'reddit-alien']}
                     texts={['Read and discuss this post on Reddit']}
-                    links={[`${frontmatter.reddit}`]}
+                    links={[`${reddit}`]}
                   />
                 }
-                {frontmatter.medium &&
+                {medium &&
                   <MetaText
                     type='external'
                     icon={['fab', 'medium-m']}
                     texts={['Read and discuss this post on Medium']}
-                    links={[`${frontmatter.medium}`]}
+                    links={[`${medium}`]}
                   />
                 }
                 <AdjacentPosts 
@@ -240,6 +211,7 @@ export const pageQuery = graphql`
     markdownRemark(fields: {slug: {eq: $slug}}) {
       htmlAst
       timeToRead
+      tableOfContents(pathToSlugField: "fields.slug")
       fields {
         slug
         tagSlugs
@@ -261,6 +233,8 @@ export const pageQuery = graphql`
         icon
         tags
         project
+        toc
+        github
         reddit
         medium
       }

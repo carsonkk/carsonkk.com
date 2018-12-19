@@ -131,3 +131,5 @@ export const VerticalInsetShadow = `::after {
   height: 100%;
   box-shadow: inset 0rem 0.5rem 1.25rem -0.5rem black, inset 0rem -0.5rem 1.25rem -0.5rem black;
 }`
+
+export const MUIBoxShadow = '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)'

@@ -16,7 +16,7 @@ import MetaText from './MetaText'
 import GenericButton from './GenericButton'
 import { PaddedContainer } from '../utils/Container'
 import { FontSans, pluralize } from '../utils/Text'
-import { LightTheme } from '../utils/Theme'
+import { LightTheme, MUIBoxShadow } from '../utils/Theme'
 
 const cookies = new Cookies()
 const monthOptions = [
@@ -503,7 +503,7 @@ class SearchSection extends React.Component {
         minHeight: '48px',
         height: '100%',
         borderStyle: 'none',
-        boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)'
+        boxShadow: `${MUIBoxShadow}`
       }),
       valueContainer: (provided) => ({
         ...provided,

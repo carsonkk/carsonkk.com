@@ -8,13 +8,13 @@ import Cookies from 'universal-cookie'
 import '../css/prism-material.css'
 import Header from './Header'
 import Footer from './Footer'
-import { DarkTheme, LightTheme } from '../utils/Theme'
+import { DarkTheme, LightTheme, MUIBoxShadow } from '../utils/Theme'
 import { FontSans, LinkStyle } from '../utils/Text'
 
 const cookies = new Cookies()
 const now = new Date()
 const currentMonth = now.getMonth()+1
-if(currentMonth === 12) {
+if(currentMonth === 11) {
   import('../js/snowstorm.js')
 }
 
@@ -63,20 +63,6 @@ export default class BaseLayout extends React.Component {
       body {
         margin: 0;
       }
-      h1, h2, h3, h4, h5, h6 {
-        font-family: ${FontSans};
-        line-height: 1;
-      }
-      blockquote {
-        margin: 0;
-      }
-      li > p {
-        margin: 0;
-      }
-      a {
-        text-decoration: none;
-        color: ${props => props.theme.text};
-      }
       p, li {
         ${LinkStyle}
         a {
@@ -90,12 +76,188 @@ export default class BaseLayout extends React.Component {
           }
         }
       }
+      a {
+        text-decoration: none;
+        color: ${props => props.theme.text};
+        .anchor svg {
+          fill: ${props => props.theme.text};
+        }
+      }
+      ul, ol {
+        padding-left: 1.375rem;
+      }
+      li > p {
+        margin: 0;
+      }
+      blockquote {
+        position: relative;
+        margin: 0 0 2.5em 0;
+        font-style: italic;
+        color: ${props => props.theme.caption};
+        ::before, ::after {
+          display: inline-block;
+          height: 1rem;
+          vertical-align: top;
+          font-size: 8rem;
+          line-height: 0.775;
+        }
+        ::before {
+          content: '“';
+        }
+        ::after {
+          content: '”';
+          position: absolute;
+          right: 0;
+          margin-right: 1.5rem;
+        }
+        p {
+          margin: 0 2rem;
+          font-size: 1.75rem;
+          text-align: justify;
+        }
+      }
+      table {
+        width: 100%;
+        border-spacing: 0;
+        border-radius: 0.5em;
+        box-shadow: ${MUIBoxShadow};
+        th, td {
+          padding: 0.5rem;
+        }
+        th {
+          padding-top: 0.75rem;
+          padding-bottom: 0.75rem;
+          color: ${DarkTheme.text};
+          background-color: ${props => props.theme.color};
+          :first-child {
+            border-top-left-radius: 0.5em;
+          }
+          :last-child {
+            border-top-right-radius: 0.5em;
+          }
+        }
+        tr {
+          :nth-child(even) {
+            background-color: ${props => props.theme.secondary};
+          }
+          :last-child {
+            td {
+              :first-child {
+                border-bottom-left-radius: 0.5em;
+              }
+              :last-child {
+                border-bottom-right-radius: 0.5em;
+              }
+            }
+          }
+        }
+      }
+      .footnotes {
+        p {
+          display: inline-block;
+        }
+        .footnote-backref {
+          margin-left: 0.5rem;
+          vertical-align: middle;
+        }
+      }
+      .gatsby-resp-image-wrapper {
+        border-radius: 0.5em;
+        .gatsby-resp-image-image {
+          border-radius: 0.5em;
+        }
+      }
+      .gatsby-resp-image-wrapper, .gatsby-resp-iframe-wrapper, .gatsby-highlight {
+        box-shadow: ${MUIBoxShadow};
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: ${FontSans};
+        line-height: 1;
+        :hover {
+          a.anchor svg {
+            fill: ${props => props.theme.text};
+          }
+        }
+        a.anchor svg {
+          transition: all 0.3s;
+          fill: transparent;
+        }
+      }
+      h1 {
+        font-size: 2.25em;
+        > a.anchor {
+          margin-left: -3rem;
+          padding-right: 0.5rem;
+          svg {
+            height: 2.5rem;
+            width: 2.5rem;
+          }
+        }
+      }
+      h2 {
+        font-size: 2em;
+        > a.anchor {
+          margin-left: -2.375rem;
+          padding-right: 0.5rem;
+          svg {
+            height: 1.875rem;
+            width: 1.875rem;
+          }
+        }
+      }
+      h3 {
+        font-size: 1.75em;
+        > a.anchor {
+          margin-left: -1.9375rem;
+          padding-right: 0.5rem;
+  
+          svg {
+            height: 1.4375rem;
+            width: 1.4375rem;
+          }
+        }
+      }
+      h4 {
+        font-size: 1.5em;
+        > a.anchor {
+          margin-left: -1.75rem;
+          padding-right: 0.5rem;
+  
+          svg {
+            height: 1.25rem;
+            width: 1.25rem;
+          }
+        }
+      }
+      h5 {
+        font-size: 1.25em;
+        > a.anchor {
+          margin-left: -1.5rem;
+          padding-right: 0.5rem;
+  
+          svg {
+            height: 1rem;
+            width: 1rem;
+          }
+        }
+      }
+      h6 {
+        font-size: 1em;
+        > a.anchor {
+          margin-left: -1.3125rem;
+          padding-right: 0.5rem;
+  
+          svg {
+            height: 0.8125rem;
+            width: 0.8125rem;
+          }
+        }
+      }
     `
     const MainWrapper = Styled.main`
       flex: 1 1 auto;
       display: flex;
     `
-
     return(
       <StaticQuery
         query={graphql`
