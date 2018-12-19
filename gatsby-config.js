@@ -92,11 +92,10 @@ module.exports = {
               size: 64,
               styles: {
                 display: 'inline',
-                margin: '0',
-                marginTop: '1px',
                 position: 'relative',
-                top: '5px',
-                width: '25px'
+                width: '1.5rem',
+                margin: '0',
+                verticalAlign: 'text-top'
               }
             }
           },

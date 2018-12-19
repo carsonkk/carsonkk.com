@@ -11,7 +11,6 @@ import canvg from 'canvg'
 import _ from 'lodash'
 
 import '../css/resume.css'
-import santaHat from '../images/santa-hat.png'
 import BaseLayout from '../components/BaseLayout'
 import GenericButton from '../components/GenericButton'
 import SmartLink from '../components/SmartLink'
@@ -141,7 +140,7 @@ class ResumePage extends React.Component {
     const { data } = this.props
     const { siteMetadata } = data.site
     const { allSocialJson, allExperienceJson, allProjectsJson, allProjectsRemark, 
-      allEducationJson, skillsJson, interestsJson, techJson, headshot, favicon } = data
+      allEducationJson, skillsJson, interestsJson, techJson, headshot, santahat, favicon } = data
     
     const ResumePageWrapper = Styled.div`
       display: flex;
@@ -213,13 +212,6 @@ class ResumePage extends React.Component {
       color: ${props => props.theme.text};
       background-color: white;
     `
-    const SantaHat = Styled.img`
-      width: 9rem;
-      position: absolute;
-      top: 16rem;
-      left: 4rem;
-      z-index: 2;
-    `
     const Header = Styled.div`
       display: flex;
       flex-direction: column;
@@ -244,12 +236,6 @@ class ResumePage extends React.Component {
       display: flex;
       flex-direction: row;
       align-items: center;
-      .gatsby-image-wrapper {
-        margin-right: 1rem;
-        img {
-          border-radius: 100%;
-        }
-      }
       h1 {
         margin-top: 0;
         margin-bottom: 0.25rem;
@@ -260,6 +246,20 @@ class ResumePage extends React.Component {
         font-weight: bold;
         font-size: 1.25rem;
         color: ${props => props.theme.caption};
+      }
+    `
+    const Headshot = Styled.div`
+      position: relative;
+      .headshot {
+        margin: 0.5rem 1rem 0 0;
+        img {
+          border-radius: 100%;
+        }
+      }
+      .santa-hat {
+        position: absolute;
+        top: -2.875rem;
+        left: -2.5rem;
       }
     `
     const HeaderRight = Styled.div`
@@ -714,7 +714,6 @@ class ResumePage extends React.Component {
               />
             </FilterWrapper>
           </FilterContainer>
-          <SantaHat src={santaHat} alt='Santa Hat'/>
           <ThemeProvider theme={LightTheme}>
             <ResumeContainer>
               <ResumeWrapper className='resume-root' ref={(resume) => this.resume = resume}>
@@ -722,9 +721,16 @@ class ResumePage extends React.Component {
                   <HeaderTop>
                     <HeaderLeft>
                       <NameWrapper>
-                        {headshot &&
-                          <Img fixed={headshot.fixed} alt='Me'/>
-                        }
+                        <Headshot>
+                          {headshot &&
+                            <Img className='headshot' fixed={headshot.fixed} alt='Me'/>
+                          }
+                          {santahat &&
+                            <div className='santa-hat'>
+                              <Img fixed={santahat.fixed} alt='Santa Hat'/>
+                            </div>
+                          }
+                        </Headshot>
                         <div>
                           <h1>{siteMetadata.author}</h1>
                           <span>{siteMetadata.about}</span>
@@ -881,6 +887,11 @@ export const pageQuery = graphql`
     }
     headshot: imageSharp(fixed: {originalName: {regex: "/headshot.png/"}}) {
       fixed(width: 100, height: 100) {
+        ...GatsbyImageSharpFixed
+      }
+    }
+    santahat: imageSharp(fixed: {originalName: {regex: "/santa-hat.png/"}}) {
+      fixed(width: 144) {
         ...GatsbyImageSharpFixed
       }
     }

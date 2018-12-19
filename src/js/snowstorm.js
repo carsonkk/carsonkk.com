@@ -11,7 +11,7 @@
 /*jslint nomen: true, plusplus: true, sloppy: true, vars: true, white: true */
 /*global window, document, navigator, clearInterval, setInterval */
 // eslint-disable-next-line
-var snowStorm = (function(window, document) {
+define(function(window, document) {
 
   // --- common properties ---
 
@@ -37,7 +37,7 @@ var snowStorm = (function(window, document) {
 
   this.freezeOnBlur = false;      // Only snow when the window is in focus (foreground.) Saves CPU.
   this.flakeLeftOffset = 0;       // Left margin/gutter space on edge of container (eg. browser window.) Bump up these values if seeing horizontal scrollbars.
-  this.flakeRightOffset = 0;      // Right margin/gutter space on edge of container
+  this.flakeRightOffset = -40;      // Right margin/gutter space on edge of container
   this.flakeWidth = 16;           // Max pixel width reserved for snow element
   this.flakeHeight = 16;          // Max pixel height reserved for snow element
   this.vMaxX = 2;                 // Maximum X velocity range for snow
@@ -309,7 +309,7 @@ var snowStorm = (function(window, document) {
 
   this.toggleSnow = function() {
     if (!storm.flakes.length) {
-      // first run
+      //first run
       storm.start();
     } else {
       storm.active = !storm.active;
@@ -657,7 +657,9 @@ var snowStorm = (function(window, document) {
   }
 
   // hooks for starting the snow
-  if (storm.autoStart) {
+  var now = new Date();
+  var currentMonth = now.getMonth()+1;
+  if (storm.autoStart && currentMonth === 12) {
     storm.events.add(window, 'load', doStart, false);
   }
 

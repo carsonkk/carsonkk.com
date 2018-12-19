@@ -20,7 +20,7 @@ class AdjacentPosts extends React.Component {
     const AdjacentPostsWrapper = Styled.div`
       display: flex;
       flex-direction: column;
-      margin-top: 1rem;
+      margin-top: 3rem;
     `
     const SeperatedWrapper = Styled.div`
       display: flex;
@@ -49,6 +49,7 @@ class AdjacentPosts extends React.Component {
               to={allPosts[prevIndex].node.fields.slug}
               text='prev'
               icon={['fas', 'angle-left']}
+              intRel='prev'
             /> :
             <span></span>
           }
@@ -59,6 +60,7 @@ class AdjacentPosts extends React.Component {
               text='next'
               icon={['fas', 'angle-right']}
               isIconLeft={false}
+              intRel='next'
             /> :
             <span></span>
           }
@@ -66,7 +68,7 @@ class AdjacentPosts extends React.Component {
         <SeperatedWrapper>
           {prevIndex !== -1 ?
             <PrevTitle>{allPosts[prevIndex].node.frontmatter.title}</PrevTitle> :
-            <PrevTitle>There's nothing before this</PrevTitle>
+            <PrevTitle>This is where it all begins</PrevTitle>
           }
           {nextIndex !== -1 ?
             <NextTitle>{allPosts[nextIndex].node.frontmatter.title}</NextTitle> :

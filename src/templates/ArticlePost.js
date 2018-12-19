@@ -6,6 +6,7 @@ import RehypeReact from 'rehype-react'
 
 import BaseLayout from '../components/BaseLayout'
 import MetaText from '../components/MetaText'
+import GenericButton from '../components/GenericButton'
 import CopyButton from '../components/CopyButton'
 import AdjacentPosts from '../components/AdjacentPosts'
 import { PostContainer } from '../utils/Container'
@@ -24,6 +25,7 @@ class ArticlePost extends React.Component {
     const { htmlAst, timeToRead, tableOfContents, fields, frontmatter, } = markdownRemark
     const { tagSlugs, targetTag } = fields
     const { created, updated, banner, title, topic, icon, tags, project, misc, toc, github, reddit, medium } = frontmatter
+    const comments = (github || reddit || medium)
 
     const Article = Styled.div`
       position: relative;
@@ -81,7 +83,16 @@ class ArticlePost extends React.Component {
       }
     `
     const PostFooter = Styled.div`
-      margin-top: 3rem;
+      margin-top: 2rem;
+    `
+    const PostFooterTagline = Styled.span`
+      font-size: 1.5rem;
+      font-style: italic;
+    `
+    const PostButtonsWrapper = Styled.div`
+      display: flex;
+      justify-content: space-evenly;
+      margin-top: 0.5rem;
     `
 
     return (
@@ -151,30 +162,38 @@ class ArticlePost extends React.Component {
                 </TableOfContents>
               }
               <PostBody>{RenderAst(htmlAst)}</PostBody>
+              <hr/>
               <PostFooter>
-                {github &&
-                  <MetaText
-                    type='external'
-                    icon={['fab', 'github']}
-                    texts={['Read and discuss this post on GitHub']}
-                    links={[`${github}`]}
-                  />
-                }
-                {reddit &&
-                  <MetaText
-                    type='external'
-                    icon={['fab', 'reddit-alien']}
-                    texts={['Read and discuss this post on Reddit']}
-                    links={[`${reddit}`]}
-                  />
-                }
-                {medium &&
-                  <MetaText
-                    type='external'
-                    icon={['fab', 'medium-m']}
-                    texts={['Read and discuss this post on Medium']}
-                    links={[`${medium}`]}
-                  />
+                {comments &&
+                  <div>
+                    <PostFooterTagline>Questions? Comments? Join the discussion over on the...</PostFooterTagline>
+                    <PostButtonsWrapper>
+                      {github &&
+                        <GenericButton
+                          type='external'
+                          to={github}
+                          text='GitHub Issue'
+                          icon={['fab', 'github']}
+                        />
+                      }
+                      {reddit &&
+                        <GenericButton
+                          type='external'
+                          to={reddit}
+                          text='Reddit Post'
+                          icon={['fab', 'reddit-alien']}
+                        />
+                      }
+                      {medium &&
+                        <GenericButton
+                          type='external'
+                          to={medium}
+                          text='Medium Article'
+                          icon={['fab', 'medium-m']}
+                        />
+                      }
+                    </PostButtonsWrapper>
+                  </div>
                 }
                 <AdjacentPosts 
                   currentPost={markdownRemark}

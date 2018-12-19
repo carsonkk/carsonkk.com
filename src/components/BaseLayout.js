@@ -1,6 +1,5 @@
 import React from 'react'
-// eslint-disable-next-line
-import { StaticQuery, graphql, withPrefix } from 'gatsby'
+import { StaticQuery, graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 import Styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import Cookies from 'universal-cookie'
@@ -12,11 +11,6 @@ import { DarkTheme, LightTheme, MUIBoxShadow } from '../utils/Theme'
 import { FontSans, LinkStyle } from '../utils/Text'
 
 const cookies = new Cookies()
-const now = new Date()
-const currentMonth = now.getMonth()+1
-if(currentMonth === 11) {
-  import('../js/snowstorm.js')
-}
 
 export default class BaseLayout extends React.Component {
   constructor(props) {
@@ -287,9 +281,6 @@ export default class BaseLayout extends React.Component {
                 <meta name="description" content={data.site.siteMetadata.description}/>
                 <meta name="author" content={data.site.siteMetadata.author}/>
                 <link rel="canonical" href={`${data.site.siteMetadata.url}${location.pathname}`}/>
-                {/* {currentMonth === 12 &&
-                  <script type='text/javascript' src={withPrefix('/snowstorm-min.js')}/>
-                } */}
               </Helmet>
               <Header/>
               <MainWrapper>

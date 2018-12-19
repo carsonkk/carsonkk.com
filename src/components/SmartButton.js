@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class SmartButton extends React.Component {
   render() {
-    const { className, type, to, text, title, icon, func, isIconLeft, isFixedWidth, active } = this.props
+    const { className, type, to, text, title, icon, func, isIconLeft, isFixedWidth, active, intRel, extRel } = this.props
     const iconText = (icon.length !== 0 && text.length !== 0)
     const content = <span>
       {(icon.length !== 0 && isIconLeft) &&
@@ -42,12 +42,12 @@ class SmartButton extends React.Component {
     return (
       <SmartButtonWrapper className={className}>
         {type === 'internal' &&
-          <Link to={to} title={title} activeClassName={'active'}>
+          <Link to={to} title={title} activeClassName={'active'} rel={intRel}>
             {content}
           </Link>
         }
         {type === 'external' &&
-          <OutboundLink href={to} title={title} target="_blank">
+          <OutboundLink href={to} title={title} target="_blank" rel={extRel}>
             {content}
           </OutboundLink>
         }
@@ -69,7 +69,9 @@ SmartButton.defaultProps = {
   func: () => { return },
   isIconLeft: true,
   isFixedWidth: false,
-  active: ''
+  active: '',
+  intRel: '',
+  extRel: 'external nofollow noopener noreferrer'
 }
 
 SmartButton.propTypes = {
@@ -85,7 +87,9 @@ SmartButton.propTypes = {
   func: PropTypes.func,
   isIconLeft: PropTypes.bool,
   isFixedWidth: PropTypes.bool,
-  active: PropTypes.string
+  active: PropTypes.string,
+  intRel: PropTypes.string,
+  extRel: PropTypes.string
 }
 
 export default SmartButton

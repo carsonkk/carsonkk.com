@@ -1,13 +1,42 @@
 import React from 'react'
 import Styled, { keyframes } from 'styled-components'
 import { fadeInUp, fadeOutDown } from 'react-animations'
+import Cookies from 'universal-cookie'
 
+import snowstorm from '../js/snowstorm.js'
 import GenericButton from './GenericButton'
 import Logo from './Logo'
 import { RandomIcon } from '../utils/Theme'
 
+const cookies = new Cookies()
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {snow: (cookies.get('snow') === 'true')}
+    this.toggleSnow = this.toggleSnow.bind(this)
+  }
+
+  componentDidMount() {
+    if(!this.state.snow) {
+      snowstorm.start()
+      snowstorm.active = !snowstorm.active
+      snowstorm.stop()
+      snowstorm.freeze()
+    }
+  }
+
+  toggleSnow() {
+    if(this.state.snow === true) {
+      cookies.set('snow', 'false', { path: '/' })
+    }
+    else {
+      cookies.set('snow', 'true', { path: '/' })
+    }
+    snowstorm.toggleSnow()
+    this.setState(prevState => ({snow: !prevState.snow}))
+  }
+  
   render() {
     const NavHeader = Styled.header`
       flex: 0 1 auto;
@@ -53,6 +82,12 @@ class Header extends React.Component {
     `
     return (
       <NavHeader>
+        <GenericButton
+          type='action'
+          text=''
+          icon={['far', 'snowflake']}
+          func={this.toggleSnow}
+        />
         <Logo size={4}/>
         <NavItems>
           <TabButton

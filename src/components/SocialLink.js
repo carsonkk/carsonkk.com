@@ -27,7 +27,7 @@ class SocialLink extends React.Component {
 
     return (
       <SocialWrapper>
-        <OutboundLink href={this.props.href} title={this.props.title} target="_blank">
+        <OutboundLink href={this.props.href} title={this.props.title} target="_blank" rel="external nofollow noopener noreferrer">
           <FontAwesomeIcon icon={this.props.icon} fixedWidth/>
         </OutboundLink>
       </SocialWrapper>

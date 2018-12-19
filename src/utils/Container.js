@@ -67,7 +67,6 @@ const PaperMedia = Object.keys(PaperMinWidth).reduce((acc, label) => {
 
 export const PaperContainer = Styled.div`
   margin: auto;
-  overflow: hidden;
   ${PaperMedia.s`width: ${PaperWidth.s}px`}
   ${PaperMedia.m`width: ${PaperWidth.m}px`}
   ${PaperMedia.l`width: ${PaperWidth.l}px`}

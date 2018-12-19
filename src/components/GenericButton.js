@@ -8,7 +8,7 @@ import { FontSans } from '../utils/Text'
 
 class GenericButton extends React.Component {
   render() {
-    const { className, type, to, text, title, icon, func, isIconLeft, isFixedWidth, active } = this.props
+    const { className, type, to, text, title, icon, func, isIconLeft, isFixedWidth, active, intRel, extRel } = this.props
 
     const GenericButtonWrapper = Styled(SmartButton)`
       a, button {
@@ -74,6 +74,8 @@ class GenericButton extends React.Component {
         isIconLeft={isIconLeft}
         isFixedWidth={isFixedWidth}
         active={active}
+        intRel={intRel}
+        extRel={extRel}
       />
     )
   }
@@ -87,7 +89,9 @@ GenericButton.defaultProps = {
   func: () => { return },
   isIconLeft: true,
   isFixedWidth: false,
-  active: ''
+  active: '',
+  intRel: '',
+  extRel: 'external nofollow noopener noreferrer'
 }
 
 GenericButton.propTypes = {
@@ -103,7 +107,9 @@ GenericButton.propTypes = {
   func: PropTypes.func,
   isIconLeft: PropTypes.bool,
   isFixedWidth: PropTypes.bool,
-  active: PropTypes.string
+  active: PropTypes.string,
+  intRel: PropTypes.string,
+  extRel: PropTypes.string
 }
 
 export default GenericButton

@@ -8,4 +8,7 @@ export function onClientEntry() {
   if(cookies.get('searchFiltersVisible') === undefined) {
     cookies.set('searchFiltersVisible', 'false', { path: '/' })
   }
+  if(cookies.get('snow') === undefined) {
+    cookies.set('snow', 'false', { path: '/' })
+  }
 }
