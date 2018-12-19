@@ -41,9 +41,10 @@ class ImagePreview extends React.Component {
         }
         > a > div:last-child > h2 {
           transition-delay: 0s;
-          transform: translateY(-0.5rem);
+          top: 2%;
+          transform: translate(-50%, 2%);
         }
-        > a > div:last-child > div:nth-child(3) {
+        > a > div:last-child > div:nth-child(2) {
           transition-delay: 0.1s;
           opacity: 1;
         }
@@ -67,18 +68,19 @@ class ImagePreview extends React.Component {
       height: 100%;
       overflow: hidden;
       color: ${DarkTheme.text};
-      div:first-child {
-        flex: 2;
-      }
-      h2 {
-        transition: transform 0.3s;
-        transition-delay: 0.1s;
-        transform: translateY(1.5rem);
-        margin: 0;
-        font-size: 2.5em;
-        text-align: center;
-        padding: 0 1rem;
-      }
+    `
+    const PostTitle = Styled.h2`
+      transition: all 0.3s;
+      transition-delay: 0.1s;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: calc(100% - 2rem);
+      margin: 0;
+      padding: 0 1rem;
+      font-size: 2.5em;
+      text-align: center;
     `
     const BackgroundFilter = Styled.div`
       transition: opacity 0.3s;
@@ -93,18 +95,23 @@ class ImagePreview extends React.Component {
     const Description = Styled.div`
       transition: opacity 0.3s;
       transition-delay: 0s;
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       padding: 0 1rem;
       opacity: 0;
       text-align: center;
-      flex-grow: 1;
       span {
         font-style: italic;
       }
     `
     const Icon = Styled.div`
       transition: opacity 0.3s;
-      align-self: flex-end;
-      margin: 0 1rem 0.5rem 0;
+      position: absolute;
+      top: 98%;
+      left: 98%;
+      transform: translate(-98%, -98%);
       opacity: 0;
       font-size: 2rem;
     `
@@ -138,10 +145,9 @@ class ImagePreview extends React.Component {
           <Img fluid={image} alt="Image Preview"/>
         </BackgroundImage>
         <BackgroundFilter/>
-        <Link to={`${slug}`}>
+        <Link to={slug}>
           <PostPreview>
-            <div></div>
-            <h2>{title}</h2>
+            <PostTitle>{title}</PostTitle>
             <Description>
               <span>{description}</span>
             </Description>
