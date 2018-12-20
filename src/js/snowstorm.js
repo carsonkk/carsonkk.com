@@ -11,10 +11,10 @@
 /*jslint nomen: true, plusplus: true, sloppy: true, vars: true, white: true */
 /*global window, document, navigator, clearInterval, setInterval */
 // eslint-disable-next-line
-define(function(window, document) {
+const snowing = function(window, document) {
 
   // --- common properties ---
-
+  console.log(this)
   this.autoStart = true;          // Whether the snow should start automatically or not.
   this.excludeMobile = false;     // Snow is likely to be bad news for mobile phones' CPUs (and batteries.) Enable at your own risk.
   this.flakesMax = 64;            // Limit total amount of snow made (falling + sticking)
@@ -665,4 +665,6 @@ define(function(window, document) {
 
   return this;
 
-}(window, document));
+};
+
+export default snowing
