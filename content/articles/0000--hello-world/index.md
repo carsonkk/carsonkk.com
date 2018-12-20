@@ -340,15 +340,16 @@ Footnotes are also not a core feature of markdown, but they're a common extensio
 
 ```markdown
 This line has a footnote [^1]. Scroll down or click the link to see it.
+This line also has a footnote [^2].
 ```
 
 That renders like this:
 
 This line has a footnote [^1]. Scroll down or click the link to see it.
-This line has a footnote [^2]. Scroll down or click the link to see it.
+This line also has a footnote [^2].
 
-[^1]: The footnote appears at the bottom of the page
-[^2]: The footnote appears at the bottom of the page
+[^1]: This footnote appears at the bottom of the page
+[^2]: This foonote appears after the first one. Click the arrows to return to their references
 
 ## Blockquotes
 
@@ -445,7 +446,7 @@ Creates responsive images with additional effects. See the [Images](#images) sec
 
 ## gatsby-remark-embed-video
 
-Allows for a responsive embeedding of videos from ppular platforms, including YouTube, Twitch, Vimeo, and VideoPress Full documentation can be found [here](https://www.gatsbyjs.org/packages/gatsby-remark-embed-video/)
+Allows for a responsive embeedding of videos from ppular platforms, including YouTube, Twitch, Vimeo, and VideoPress. Full documentation can be found [here](https://www.gatsbyjs.org/packages/gatsby-remark-embed-video/)
 
 ```text
 `video: https://www.youtube.com/watch?v=v5ai8iNSK9Q`

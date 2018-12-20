@@ -1,18 +1,18 @@
 import Styled, { css } from 'styled-components'
 
 
-const MinWidth = {
+export const MinWidth = {
   s: 608,
   m: 832,
   l: 1056
 }
-const MaxWidth = {
+export const MaxWidth = {
   s: 544,
   m: 768,
   l: 992
 }
 
-const Media = Object.keys(MinWidth).reduce((acc, label) => {
+export const Media = Object.keys(MinWidth).reduce((acc, label) => {
   acc[label] = (...args) => css`
     @media (min-width: ${MinWidth[label]/16}rem) {
       ${css(...args)}

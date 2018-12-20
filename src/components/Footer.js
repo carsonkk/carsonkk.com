@@ -22,7 +22,7 @@ class Footer extends React.Component {
       display: flex;
       justify-content: center;
       width: 100%;
-      padding-bottom: 1.5rem;
+      padding-bottom: 1rem;
       :hover {
         > div:first-child, > div:last-child {
           > span {
@@ -117,7 +117,7 @@ class Footer extends React.Component {
           line-height: 1.75;
           a {
             margin: 0 0.5rem;
-            padding: 0.25rem 0.125rem 0.5rem 0.125rem;
+            padding: 0.25rem 0.125rem;
             :hover {
               background-color: ${props => props.theme.social};
               svg {

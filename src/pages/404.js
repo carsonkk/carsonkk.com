@@ -39,7 +39,7 @@ class NotFoundPage extends React.Component {
         <PaddedContainer>
           <FoFWrapper>
             <Title>404</Title>
-            <Tagline>The page you were looking for has either been deleted, removed, or is currently under maintenance.</Tagline>
+            <Tagline>The page you were looking for has either been deleted, moved elsewhere, or is currently under maintenance.</Tagline>
             <ButtonWrapper>
               <GenericButton
                 type='internal'
