@@ -42,7 +42,7 @@ export const pageQuery = graphql`
     htmlAst
     fields {
       slug
-      tagSlugs
+      tagStates
     }
     frontmatter {
       banner {

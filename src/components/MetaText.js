@@ -9,7 +9,7 @@ import SmartLink from './SmartLink'
 
 class MetaText extends React.Component {
   render() {
-    const { className, type, icon, texts, links, iconType, isInline } = this.props
+    const { className, type, icon, texts, links, linkStates, iconType, isInline } = this.props
 
     const MetaText = Styled.div`
       display: ${isInline ? 'inline-flex' : 'flex'};
@@ -50,7 +50,7 @@ class MetaText extends React.Component {
       else {
         return (
           <span key={i}>
-            <MetaLink className={className} type={type} to={links[i]} text={text}/>{divider}
+            <MetaLink className={className} type={type} to={links[i]} text={text} linkState={linkStates[i]}/>{divider}
           </span>
         )
       }
@@ -85,6 +85,7 @@ class MetaText extends React.Component {
 MetaText.defaultProps = {
   icon: [],
   links: [],
+  linkStates: [],
   iconType: 'fa',
   isInline: false
 }
@@ -98,6 +99,7 @@ MetaText.propTypes = {
   texts: PropTypes.array.isRequired,
   icon: PropTypes.array,
   links: PropTypes.array,
+  linkStates: PropTypes.array,
   iconType: PropTypes.oneOf([
     'none',
     'fa',

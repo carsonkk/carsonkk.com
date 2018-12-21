@@ -10,7 +10,7 @@ class TextPreview extends React.Component {
   render() {
     // eslint-disable-next-line
     const { frontmatter, fields, id, timeToRead, excerpt } = this.props.data
-    const { type, slug, tagSlugs } = fields
+    const { type, slug, tagStates } = fields
     const { created, title, topic, icon, tags, description } = frontmatter
     
     const TextPreviewWrapper = Styled.div`
@@ -76,12 +76,13 @@ class TextPreview extends React.Component {
             isInline={true}
           />
         }
-        {tags && tagSlugs && 
+        {tags && tagStates && 
           <MetaText
             type='internal'
             icon={['fas', 'tags']}
             texts={tags}
-            links={tagSlugs}
+            links={Array(tags.length).fill('/search')}
+            linkStates={tagStates}
           />
         }
         <div>
@@ -107,7 +108,7 @@ export const componentQuery = graphql`
     fields {
       type
       slug
-      tagSlugs
+      tagStates
     }
     frontmatter {
       created

@@ -47,7 +47,7 @@ const dummyResult = {
     type: 'dummy',
     kind: 'page',
     slug: '',
-    tagSlugs: []
+    tagStates: []
   },
   frontmatter: {
     created: '',
@@ -397,7 +397,7 @@ class SearchSection extends React.Component {
         type: rawDoc.type,
         kind: rawDoc.kind,
         slug: rawDoc.slug,
-        tagSlugs: rawDoc.tagSlugs
+        tagStates: rawDoc.tagStates
       },
       frontmatter: {
         created: rawDoc.created,

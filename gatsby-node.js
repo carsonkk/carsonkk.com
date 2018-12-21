@@ -68,24 +68,6 @@ exports.createPages = ({ graphql, actions }) => {
           }
         }
       })
-      // let tags = []
-      // result.data.allMarkdownRemark.edges.forEach(edge => {
-      //   const { frontmatter } = edge.node
-      //   if(frontmatter.tags && !frontmatter.draft) {
-      //     tags = tags.concat(frontmatter.tags)
-      //   }
-      // })
-      // tags = _.uniq(tags)
-      // tags.forEach(tag => {
-      //   const tagPath = `/tags/${_.kebabCase(tag)}`
-      //   createPage({
-      //     path: tagPath,
-      //     component: path.resolve('src/templates/TaggedPosts.js'),
-      //     context: {
-      //       tag,
-      //     },
-      //   })
-      // })
       resolve()
     })
   })
@@ -156,10 +138,10 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
       }
       createNodeField({ node, name: 'slug', value: fileNode.fields.slug })
       if(node.frontmatter.tags) {
-        const tagSlugs = node.frontmatter.tags.map(
-          tag => `/tags/${_.kebabCase(tag)}/`
-        )
-        createNodeField({ node, name: 'tagSlugs', value: tagSlugs })
+        const tagStates = node.frontmatter.tags.map((tag) => {
+          return {tag: tag}
+        })
+        createNodeField({ node, name: 'tagStates', value: tagStates })
       }
     }
   }

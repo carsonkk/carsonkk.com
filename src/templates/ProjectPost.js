@@ -189,9 +189,19 @@ class ProjectPost extends React.Component {
           border-bottom: 1px solid ${props => props.theme.caption};
         }
         blockquote {
+          margin: 0;
           padding: 0 1em;
           color: ${props => props.theme.caption};
           border-left: 0.25em solid ${props => props.theme.caption};
+          ::before, ::after {
+            display: none;
+          }
+          p {
+            margin: 0;
+            font-size: 1.25rem;
+            font-style: normal;
+            text-align: left;
+          }
         }
       }
     `
@@ -279,7 +289,8 @@ class ProjectPost extends React.Component {
                     type='internal'
                     icon={['fas', 'tags']}
                     texts={markdownRemark.frontmatter.tags}
-                    links={markdownRemark.fields.tagSlugs}
+                    links={Array(markdownRemark.frontmatter.tags.length).fill('/search')}
+                    linkStates={markdownRemark.fields.tagStates}
                   />
                 </div>
               </Left>
@@ -366,7 +377,7 @@ export const pageQuery = graphql`
       htmlAst
       fields {
         slug
-        tagSlugs
+        tagStates
       }
       frontmatter {
         banner {

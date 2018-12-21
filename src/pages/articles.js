@@ -17,7 +17,7 @@ const dummyResult = {
     type: 'dummy',
     kind: 'page',
     slug: '',
-    tagSlugs: []
+    tagStates: []
   },
   frontmatter: {
     created: '',

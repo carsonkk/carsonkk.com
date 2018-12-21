@@ -9,7 +9,7 @@ import { LinkStyle } from '../utils/Text'
 
 class SmartLink extends React.Component {
   render() {
-    const { className, type, to, text, title, intRel, extRel } = this.props
+    const { className, type, to, text, title, linkState, intRel, extRel } = this.props
 
     const SmartLinkWrapper = Styled.span`
       ${LinkStyle}
@@ -28,7 +28,7 @@ class SmartLink extends React.Component {
     return (
       <SmartLinkWrapper className={className}>
         {type === 'internal' &&
-          <Link to={to} title={title} activeClassName={`active`} rel={intRel}>
+          <Link to={to} title={title} activeClassName={`active`} state={linkState} rel={intRel}>
             {text}
           </Link>
         }
@@ -44,6 +44,7 @@ class SmartLink extends React.Component {
 
 SmartLink.defaultProps = {
   title: '',
+  linkState: {},
   intRel: '',
   extRel: 'external nofollow noopener noreferrer'
 }
@@ -56,6 +57,7 @@ SmartLink.propTypes = {
   to: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   title: PropTypes.string,
+  linkState: PropTypes.object,
   intRel: PropTypes.string,
   extRel: PropTypes.string
 }

@@ -12,7 +12,7 @@ class SearchPage extends React.Component {
     const SearchWrapper = Styled.div`
       width: 100%;
     `
-
+    console.log(this.props.location)
     return (
       <BaseLayout>
         <SEO
