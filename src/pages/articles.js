@@ -16,8 +16,7 @@ const dummyResult = {
   fields: {
     type: 'dummy',
     kind: 'page',
-    slug: '',
-    tagStates: []
+    slug: ''
   },
   frontmatter: {
     created: '',

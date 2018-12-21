@@ -12,7 +12,6 @@ class SearchPage extends React.Component {
     const SearchWrapper = Styled.div`
       width: 100%;
     `
-    console.log(this.props.location)
     return (
       <BaseLayout>
         <SEO
@@ -24,6 +23,7 @@ class SearchPage extends React.Component {
           <SearchSection
             index={index}
             types={['article', 'project', 'misc']}
+            context={this.props.location.state}
           />
         </SearchWrapper>
       </BaseLayout>

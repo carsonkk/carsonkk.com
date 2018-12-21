@@ -46,8 +46,7 @@ const dummyResult = {
   fields: {
     type: 'dummy',
     kind: 'page',
-    slug: '',
-    tagStates: []
+    slug: ''
   },
   frontmatter: {
     created: '',
@@ -141,6 +140,30 @@ class SearchSection extends React.Component {
     this.updateCounts = this.updateCounts.bind(this)
     this.buildResultString = this.buildResultString.bind(this)
     this.handlePageClick = this.handlePageClick.bind(this)
+  }
+
+  componentDidMount() {
+    const { context } = this.props
+    const { searchFiltersVisible } = this.state
+    let tagsSelected = []
+    let tags = []
+
+    if(context !== null) {
+      if(context.tag !== undefined) {
+        if(!searchFiltersVisible) {
+          cookies.set('searchFiltersVisible', 'true', { path: '/' })
+        }
+        tagsSelected = [{value: context.tag, label: context.tag}]
+        tags = [context.tag]
+        this.setState({
+          searchFiltersVisible: true,
+          tagsSelected,
+          tags,
+        }, () => {
+          this.filterQuery(this.state.query, this.state.queriedResults)
+        })
+      }
+    }
   }
 
   issueQuery(query) {
@@ -396,8 +419,7 @@ class SearchSection extends React.Component {
       fields: {
         type: rawDoc.type,
         kind: rawDoc.kind,
-        slug: rawDoc.slug,
-        tagStates: rawDoc.tagStates
+        slug: rawDoc.slug
       },
       frontmatter: {
         created: rawDoc.created,
@@ -758,7 +780,8 @@ class SearchSection extends React.Component {
 
 SearchSection.propTypes = {
   index: PropTypes.object.isRequired,
-  types: PropTypes.array.isRequired
+  types: PropTypes.array.isRequired,
+  context: PropTypes.object.isRequired
 }
 
 export default SearchSection

@@ -137,12 +137,6 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
         createNodeField({ node, name: 'targetTag', value: fileNode.fields.targetTag })
       }
       createNodeField({ node, name: 'slug', value: fileNode.fields.slug })
-      if(node.frontmatter.tags) {
-        const tagStates = node.frontmatter.tags.map((tag) => {
-          return {tag: tag}
-        })
-        createNodeField({ node, name: 'tagStates', value: tagStates })
-      }
     }
   }
 }

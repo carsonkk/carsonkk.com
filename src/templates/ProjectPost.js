@@ -290,7 +290,7 @@ class ProjectPost extends React.Component {
                     icon={['fas', 'tags']}
                     texts={markdownRemark.frontmatter.tags}
                     links={Array(markdownRemark.frontmatter.tags.length).fill('/search')}
-                    linkStates={markdownRemark.fields.tagStates}
+                    linkStates={markdownRemark.frontmatter.tags.map(tag => ({tag: tag}))}
                   />
                 </div>
               </Left>
@@ -377,7 +377,6 @@ export const pageQuery = graphql`
       htmlAst
       fields {
         slug
-        tagStates
       }
       frontmatter {
         banner {

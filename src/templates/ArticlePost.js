@@ -24,7 +24,7 @@ class ArticlePost extends React.Component {
     const { edges } = this.props.data.allMarkdownRemark
     const { markdownRemark } = this.props.data
     const { htmlAst, timeToRead, tableOfContents, excerpt, fields, frontmatter, } = markdownRemark
-    const { tagStates, targetTag } = fields
+    const { targetTag } = fields
     const { created, updated, banner, title, topic, icon, tags, project, misc, toc, github, reddit, medium } = frontmatter
     const comments = (github || reddit || medium)
 
@@ -137,7 +137,7 @@ class ArticlePost extends React.Component {
                   icon={['fas', 'tags']}
                   texts={tags}
                   links={Array(tags.length).fill('/search')}
-                  linkStates={tagStates}
+                  linkStates={tags.map(tag => ({tag: tag}))}
                 />
                 {project &&
                   <MetaText
@@ -242,7 +242,6 @@ export const pageQuery = graphql`
       excerpt(pruneLength: 140)
       fields {
         slug
-        tagStates
         targetTag
         number
       }

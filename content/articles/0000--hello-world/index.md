@@ -125,7 +125,7 @@ Any of the reccomended/optional frontmatter fields can be left out, which result
 
 ## Fields
 
-Fields represent a data source more internal to Gatsby and don't actually come up when writing an article. They do, however, effect how an article is rendered. Articles receive **slug**, **tagStates**, **targetTag**, and **number** fields, which correspond to the article url, state contexts for each tag, the tag that matches the associated project or misc entry, and what number article this is, respectively. The actual url for the article (as well as the number) comes from the name of the folder containing the article's markdown file and any associated data files.
+Fields represent a data source more internal to Gatsby and don't actually come up when writing an article. They do, however, effect how an article is rendered. Articles receive **slug**, **targetTag**, and **number** fields, which correspond to the article url, the tag that matches the associated project or misc entry, and what number article this is, respectively. The actual url for the article (as well as the number) comes from the name of the folder containing the article's markdown file and any associated data files.
 
 ## Misc
 

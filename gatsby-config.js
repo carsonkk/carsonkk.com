@@ -145,7 +145,6 @@ module.exports = {
             type: node => node.fields.type,
             kind: node => node.fields.kind,
             slug: node => node.fields.slug,
-            tagStates: node => node.fields.tagStates,
             created: node => node.frontmatter.created,
             updated: node => node.frontmatter.updated,
             title: node => node.frontmatter.title,
