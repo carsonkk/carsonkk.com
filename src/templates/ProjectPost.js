@@ -6,6 +6,7 @@ import Styled from 'styled-components'
 import RehypeReact from 'rehype-react'
 
 import BaseLayout from '../components/BaseLayout'
+import SEO from '../components/SEO'
 import GenericButton from '../components/GenericButton'
 import MetaText from '../components/MetaText'
 import TextPreview from '../components/TextPreview'
@@ -249,7 +250,12 @@ class ProjectPost extends React.Component {
     }
 
     return (
-      <BaseLayout location={this.props.location}>
+      <BaseLayout>
+        <SEO
+          pathname={this.props.location.pathname}
+          title={frontmatter.title}
+          description={frontmatter.description}
+        />
         <ProjectPostWrapper>
           <PostHeader>
             {frontmatter.banner &&

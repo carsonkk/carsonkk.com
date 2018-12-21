@@ -68,24 +68,24 @@ exports.createPages = ({ graphql, actions }) => {
           }
         }
       })
-      let tags = []
-      result.data.allMarkdownRemark.edges.forEach(edge => {
-        const { frontmatter } = edge.node
-        if(frontmatter.tags && !frontmatter.draft) {
-          tags = tags.concat(frontmatter.tags)
-        }
-      })
-      tags = _.uniq(tags)
-      tags.forEach(tag => {
-        const tagPath = `/tags/${_.kebabCase(tag)}`
-        createPage({
-          path: tagPath,
-          component: path.resolve('src/templates/TaggedPosts.js'),
-          context: {
-            tag,
-          },
-        })
-      })
+      // let tags = []
+      // result.data.allMarkdownRemark.edges.forEach(edge => {
+      //   const { frontmatter } = edge.node
+      //   if(frontmatter.tags && !frontmatter.draft) {
+      //     tags = tags.concat(frontmatter.tags)
+      //   }
+      // })
+      // tags = _.uniq(tags)
+      // tags.forEach(tag => {
+      //   const tagPath = `/tags/${_.kebabCase(tag)}`
+      //   createPage({
+      //     path: tagPath,
+      //     component: path.resolve('src/templates/TaggedPosts.js'),
+      //     context: {
+      //       tag,
+      //     },
+      //   })
+      // })
       resolve()
     })
   })
@@ -162,5 +162,20 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
         createNodeField({ node, name: 'tagSlugs', value: tagSlugs })
       }
     }
+  }
+}
+
+exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+  if (stage === "build-html") {
+    actions.setWebpackConfig({
+      module: {
+        rules: [
+          {
+            test: /pixi\.js/,
+            use: loaders.null(),
+          },
+        ],
+      },
+    })
   }
 }

@@ -4,6 +4,7 @@ import Styled from 'styled-components'
 import RehypeReact from 'rehype-react'
 
 import BaseLayout from '../../components/BaseLayout'
+import SEO from '../../components/SEO'
 
 const RenderAst = new RehypeReact({
   createElement: React.createElement,
@@ -19,7 +20,12 @@ class WoodworkingPage extends React.Component {
     `
 
     return (
-      <BaseLayout location={this.props.location}>
+      <BaseLayout>
+        <SEO
+          pathname={this.props.location.pathname}
+          title={this.props.data.markdownRemark.frontmatter.title}
+          description={this.props.data.markdownRemark.frontmatter.description}
+        />
         <Projects>
           {RenderAst(this.props.data.markdownRemark.htmlAst)}
         </Projects>

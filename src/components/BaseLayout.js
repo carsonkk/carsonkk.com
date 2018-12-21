@@ -1,6 +1,5 @@
 import React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
-import Helmet from 'react-helmet'
 import Styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import Cookies from 'universal-cookie'
 
@@ -12,7 +11,7 @@ import { FontSans, LinkStyle } from '../utils/Text'
 
 const cookies = new Cookies()
 
-export default class BaseLayout extends React.Component {
+class BaseLayout extends React.Component {
   constructor(props) {
     super(props)
     this.state = {theme: cookies.get('theme')}
@@ -37,7 +36,7 @@ export default class BaseLayout extends React.Component {
 
   render() {
     const { theme } = this.state
-    const { children, location } = this.props
+    const { children } = this.props
     const BaseWrapper = Styled.div`
       display: flex;
       flex-direction: column;
@@ -261,7 +260,7 @@ export default class BaseLayout extends React.Component {
               title
               author
               description
-              url
+              siteUrl
             }
           }
           allSocialJson {
@@ -277,11 +276,6 @@ export default class BaseLayout extends React.Component {
           <ThemeProvider theme={theme === 'dark' ? DarkTheme : LightTheme}>
             <BaseWrapper>
               <GlobalStyle/>
-              <Helmet defaultTitle={data.site.siteMetadata.title} titleTemplate={`%s | ${data.site.siteMetadata.title}`}>
-                <meta name="description" content={data.site.siteMetadata.description}/>
-                <meta name="author" content={data.site.siteMetadata.author}/>
-                <link rel="canonical" href={`${data.site.siteMetadata.url}${location.pathname}`}/>
-              </Helmet>
               <Header/>
               <MainWrapper>
                 {children}
@@ -298,3 +292,5 @@ export default class BaseLayout extends React.Component {
     )
   }
 }
+
+export default BaseLayout

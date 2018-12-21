@@ -212,7 +212,7 @@ class Slideshow extends React.Component {
         fullScreen: true,
         centerSprites: true,
         wacky: true,
-        appendElement : document.querySelector('.slideshow-container')
+        appendElement: document.querySelector('.slideshow-container')
       })
       setPixiValues()
       renderPixiAnimation()

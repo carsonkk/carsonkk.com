@@ -3,9 +3,10 @@ import { graphql } from 'gatsby'
 import Styled from 'styled-components'
 
 import BaseLayout from '../components/BaseLayout'
+import SEO from '../components/SEO'
 import SearchSection from '../components/SearchSection'
 
-export default class SearchPage extends React.Component {
+class SearchPage extends React.Component {
   render() {
     const { index } = this.props.data.siteSearchIndex
     const SearchWrapper = Styled.div`
@@ -13,7 +14,12 @@ export default class SearchPage extends React.Component {
     `
 
     return (
-      <BaseLayout location={this.props.location}>
+      <BaseLayout>
+        <SEO
+          pathname={this.props.location.pathname}
+          title='Search'
+          description="Search through my articles, projects, and more"
+        />
         <SearchWrapper>
           <SearchSection
             index={index}
@@ -24,6 +30,8 @@ export default class SearchPage extends React.Component {
     )
   }
 }
+
+export default SearchPage
 
 export const pageQuery = graphql`
   {

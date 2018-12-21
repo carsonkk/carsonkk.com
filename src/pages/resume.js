@@ -12,6 +12,7 @@ import _ from 'lodash'
 
 import '../css/resume.css'
 import BaseLayout from '../components/BaseLayout'
+import SEO from '../components/SEO'
 import GenericButton from '../components/GenericButton'
 import SmartLink from '../components/SmartLink'
 import MetaText from '../components/MetaText'
@@ -35,7 +36,7 @@ class ResumePage extends React.Component {
       resumeTypeSelected: resumeTypeOptions[0],
       canvasLoaded: false,
       pdfScale: 0.5,
-      windowWidth: window.innerWidth,
+      windowWidth: 1920,
       icons: [
         {
           arr: ["far", "envelope"],
@@ -66,7 +67,7 @@ class ResumePage extends React.Component {
 
   componentDidMount() {
     this.convertSVGToImage(this.state.icons)
-    this.updateWindowDimensions();
+    this.updateWindowDimensions()
     window.addEventListener('resize', this.updateWindowDimensions);
   }
 
@@ -693,7 +694,12 @@ class ResumePage extends React.Component {
     </SideSection>
 
     return (
-      <BaseLayout location={this.props.location}>
+      <BaseLayout>
+        <SEO
+          pathname={this.props.location.pathname}
+          title='Resume'
+          description="My personal, professional, and educational experiences"
+        />
         <ResumePageWrapper>
           {!canvasLoaded && <canvas ref='canvas' style={{ display: 'none' }}/>}
           <FilterContainer>

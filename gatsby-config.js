@@ -11,11 +11,13 @@ module.exports = {
   siteMetadata: {
     author: 'Kyle Carson',
     about: 'Software & Computer Engineer',
-    title: 'kk.',
+    title: 'Welcome',
+    titleTemplate: "%s // kk.",
     description: 'My personal site for articles, project write-ups, and whatever else',
-    url: 'http://carsonkk.com',
+    siteUrl: 'http://carsonkk.com',
     text: 'carsonkk.com',
-    home: '/'
+    home: '/',
+    image: '/images/me.jpg'
   },
   plugins: [
     'gatsby-plugin-sitemap',
@@ -107,7 +109,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-google-analytics',
       options: {
-        trackingId: "YOUR_GOOGLE_ANALYTICS_TRACKING_ID"
+        trackingId: 'UA-131250967-1'
       }
     },
     {

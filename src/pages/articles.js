@@ -4,6 +4,7 @@ import Styled from 'styled-components'
 import ReactPaginate from 'react-paginate'
 
 import BaseLayout from '../components/BaseLayout'
+import SEO from '../components/SEO'
 import TextPreview from '../components/TextPreview'
 import { PaddedContainer } from '../utils/Container'
 
@@ -137,7 +138,12 @@ class ArticlesPage extends React.Component {
     `
 
     return (
-      <BaseLayout location={this.props.location}>
+      <BaseLayout>
+        <SEO
+          pathname={this.props.location.pathname}
+          title='Articles'
+          description="Articles I've written"
+        />
         <ArticlesPageWrapper>
           <PaddedContainer>
             <ArticlesWrapper>

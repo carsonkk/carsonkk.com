@@ -3,6 +3,7 @@ import { graphql } from 'gatsby'
 import Styled from 'styled-components'
 
 import BaseLayout from '../components/BaseLayout'
+import SEO from '../components/SEO'
 import Slideshow from '../components/Slideshow'
 import BackgroundSlideshow from '../components/BackgroundSlideshow'
 import GenericButton from '../components/GenericButton'
@@ -115,7 +116,10 @@ class IndexPage extends React.Component {
     `
 
     return (
-      <BaseLayout location={this.props.location}>
+      <BaseLayout>
+        <SEO
+          pathname={this.props.location.pathname}
+        />
         <IndexWrapper>
           <IntroSection>
             <Slideshow images={images} rate={rate} subject='hiking'/>

@@ -3,6 +3,7 @@ import { graphql } from 'gatsby'
 import Styled from 'styled-components'
 
 import BaseLayout from '../components/BaseLayout'
+import SEO from '../components/SEO'
 import ImagePreviewSection from '../components/ImagePreviewSection'
 
 class MiscPage extends React.Component {
@@ -23,7 +24,12 @@ class MiscPage extends React.Component {
     `
 
     return (
-      <BaseLayout location={this.props.location}>
+      <BaseLayout>
+        <SEO
+          pathname={this.props.location.pathname}
+          title='Misc'
+          description="Miscellaneous things"
+        />
         <MiscPageWrapper>
           <ImagePreviewSection posts={data.allMarkdownRemark.edges} placeholders={data}/>
           <ShadowWrapper/>

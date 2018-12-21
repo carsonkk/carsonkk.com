@@ -3,6 +3,7 @@ import { graphql } from 'gatsby'
 import Styled from 'styled-components'
 
 import BaseLayout from '../components/BaseLayout'
+import SEO from '../components/SEO'
 import GenericButton from '../components/GenericButton'
 import { PaddedContainer } from '../utils/Container'
 import { RandomRange } from '../utils/Theme'
@@ -35,7 +36,12 @@ class NotFoundPage extends React.Component {
     `
 
     return (
-      <BaseLayout location={this.props.location}>
+      <BaseLayout>
+        <SEO
+          pathname={this.props.location.pathname}
+          title='404'
+          description="The page could not be found"
+        />
         <PaddedContainer>
           <FoFWrapper>
             <Title>404</Title>

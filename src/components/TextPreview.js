@@ -6,7 +6,7 @@ import Styled from 'styled-components'
 import MetaText from '../components/MetaText'
 import { FancyDateMDY } from '../utils/Date'
 
-export default class TextPreview extends React.Component {
+class TextPreview extends React.Component {
   render() {
     // eslint-disable-next-line
     const { frontmatter, fields, id, timeToRead, excerpt } = this.props.data
@@ -96,6 +96,8 @@ export default class TextPreview extends React.Component {
     )
   }
 }
+
+export default TextPreview
 
 export const componentQuery = graphql`
   fragment TextPreviewFragment on MarkdownRemark {

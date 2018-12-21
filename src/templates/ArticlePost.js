@@ -5,6 +5,7 @@ import Styled from 'styled-components'
 import RehypeReact from 'rehype-react'
 
 import BaseLayout from '../components/BaseLayout'
+import SEO from '../components/SEO'
 import MetaText from '../components/MetaText'
 import GenericButton from '../components/GenericButton'
 import CopyButton from '../components/CopyButton'
@@ -22,7 +23,7 @@ class ArticlePost extends React.Component {
   render() {
     const { edges } = this.props.data.allMarkdownRemark
     const { markdownRemark } = this.props.data
-    const { htmlAst, timeToRead, tableOfContents, fields, frontmatter, } = markdownRemark
+    const { htmlAst, timeToRead, tableOfContents, excerpt, fields, frontmatter, } = markdownRemark
     const { tagSlugs, targetTag } = fields
     const { created, updated, banner, title, topic, icon, tags, project, misc, toc, github, reddit, medium } = frontmatter
     const comments = (github || reddit || medium)
@@ -96,7 +97,13 @@ class ArticlePost extends React.Component {
     `
 
     return (
-      <BaseLayout location={this.props.location}>
+      <BaseLayout>
+        <SEO
+          pathname={this.props.location.pathname}
+          title={title}
+          description={excerpt}
+          article={true}
+        />
         <Article>
           <Banner>
             <div>
@@ -231,6 +238,7 @@ export const pageQuery = graphql`
       htmlAst
       timeToRead
       tableOfContents(pathToSlugField: "fields.slug")
+      excerpt(pruneLength: 140)
       fields {
         slug
         tagSlugs
