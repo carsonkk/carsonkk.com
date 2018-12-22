@@ -16,7 +16,7 @@ import SEO from '../components/SEO'
 import GenericButton from '../components/GenericButton'
 import SmartLink from '../components/SmartLink'
 import MetaText from '../components/MetaText'
-import { LightTheme } from '../utils/Theme'
+import { LightTheme, MUIBoxShadow } from '../utils/Theme'
 import { FontSans, TextI } from '../utils/Text'
 import { PaperMinWidth, PaperWidthContainer, PaperContainer } from '../utils/Container'
 
@@ -82,6 +82,7 @@ class ResumePage extends React.Component {
     const { siteMetadata } = this.props.data.site
     const today = new Date()
     let resumeType
+    let title
     let pdfScale
 
     if(this.state.windowWidth >= PaperMinWidth.xl) {
@@ -104,12 +105,17 @@ class ResumePage extends React.Component {
     else {
       resumeType = this.state.resumeTypeSelected.label
     }
+    title = `${siteMetadata.author} ${resumeType} Resume`
 
     savePDF(ReactDOM.findDOMNode(this.resume), {
+      title: title,
+      subject: `${resumeType} Resume`,
       author: siteMetadata.author,
       creator: siteMetadata.author,
+      producer: siteMetadata.author,
+      keywords: 'Kyle Carson Resume Computer Engineering Software Engineering Computer Science',
+      fileName: `${title} ${today.toLocaleDateString("en-US").replace(/\//g, '-')}.pdf`,
       paperSize: 'Letter',
-      fileName: `Kyle Carson ${resumeType} Resume ${today.toLocaleDateString("en-US").replace(/\//g, '-')}.pdf`,
       scale: pdfScale,
       keepTogether: '.dont-split'
     })
@@ -149,8 +155,6 @@ class ResumePage extends React.Component {
       width: 100%;
       margin-bottom: 2rem;
       padding: 2rem;
-    `
-    const FilterContainer = Styled(PaperWidthContainer)`
     `
     const FilterWrapper = Styled.div`
       display: flex;
@@ -199,7 +203,7 @@ class ResumePage extends React.Component {
       }
     `
     const ResumeContainer = Styled(PaperContainer)`
-      box-shadow: 0.5rem 0.5rem 1.5rem rgba(0,0,0,0.3);
+      box-shadow: ${MUIBoxShadow};
     `
     const ResumeWrapper = Styled.div`
       padding: 2rem;
@@ -699,7 +703,7 @@ class ResumePage extends React.Component {
         />
         <ResumePageWrapper>
           {!canvasLoaded && <canvas ref='canvas' style={{ display: 'none' }}/>}
-          <FilterContainer>
+          <PaperWidthContainer>
             <FilterWrapper>
               <Select
                 name='resume-type'
@@ -716,7 +720,7 @@ class ResumePage extends React.Component {
                 func={this.handleDownloadPdf}
               />
             </FilterWrapper>
-          </FilterContainer>
+          </PaperWidthContainer>
           <ThemeProvider theme={LightTheme}>
             <ResumeContainer>
               <ResumeWrapper className='resume-root' ref={(resume) => this.resume = resume}>
