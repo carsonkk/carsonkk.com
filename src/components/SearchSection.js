@@ -674,6 +674,7 @@ class SearchSection extends React.Component {
             text='Filters'
             icon={['fas', 'filter']}
             func={this.toggleFilterVisibility}
+            active={searchFiltersVisible ? 'active' : ''}
           />
         </SearchHeader>
         <div className={`${searchFiltersVisible ? 'filters' : 'filters hide'} `}>

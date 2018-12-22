@@ -27,6 +27,13 @@ class ArticlePost extends React.Component {
     const { targetTag } = fields
     const { created, updated, banner, title, topic, icon, tags, project, misc, toc, github, reddit, medium } = frontmatter
     const comments = (github || reddit || medium)
+    const srcSetRegex = /,\n(.*) .*$/g
+    let seoImg = null
+
+    if(banner) {
+      seoImg = srcSetRegex.exec(banner.childImageSharp.fluid.srcSet)
+      seoImg = seoImg[1]
+    } 
 
     const Article = Styled.div`
       position: relative;
@@ -102,6 +109,7 @@ class ArticlePost extends React.Component {
           pathname={this.props.location.pathname}
           title={title}
           description={excerpt}
+          image={seoImg}
           article={true}
         />
         <Article>

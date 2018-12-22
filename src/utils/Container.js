@@ -65,17 +65,26 @@ const PaperMedia = Object.keys(PaperMinWidth).reduce((acc, label) => {
   return acc
 }, {})
 
-export const PaperContainer = Styled.div`
+export const PaperWidthContainer = Styled.div`
   margin: auto;
-  ${PaperMedia.s`width: ${PaperWidth.s}px`}
-  ${PaperMedia.m`width: ${PaperWidth.m}px`}
-  ${PaperMedia.l`width: ${PaperWidth.l}px`}
-  ${PaperMedia.xl`width: ${PaperWidth.xl}px`}
+  ${PaperMedia.s`width: ${PaperWidth.s}px;`}
+  ${PaperMedia.m`width: ${PaperWidth.m}px;`}
+  ${PaperMedia.l`width: ${PaperWidth.l}px;`}
+  ${PaperMedia.xl`width: ${PaperWidth.xl}px;`}
 `
 
-export const PaperSizedContainer = Styled(PaperContainer)`
-  ${PaperMedia.s`height: ${PaperHeight.s}px`}
-  ${PaperMedia.m`height: ${PaperHeight.m}px`}
-  ${PaperMedia.l`height: ${PaperHeight.l}px`}
-  ${PaperMedia.xl`height: ${PaperHeight.xl}px`}
+export const PaperHeightContainer = Styled.div`
+  margin: auto;
+  ${PaperMedia.s`height: ${PaperHeight.s}px;`}
+  ${PaperMedia.m`height: ${PaperHeight.m}px;`}
+  ${PaperMedia.l`height: ${PaperHeight.l}px;`}
+  ${PaperMedia.xl`height: ${PaperHeight.xl}px;`}
+`
+
+export const PaperContainer = Styled(PaperWidthContainer)`
+  display: flex;
+  ${PaperMedia.s`min-height: ${PaperHeight.s}px;`}
+  ${PaperMedia.m`min-height: ${PaperHeight.m}px;`}
+  ${PaperMedia.l`min-height: ${PaperHeight.l}px;`}
+  ${PaperMedia.xl`min-height: ${PaperHeight.xl}px;`}
 `

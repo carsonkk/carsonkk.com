@@ -11,6 +11,10 @@
   display: inline;
 }
 
+.k-pdf-export .santa-hat {
+  display: none;
+}
+
 @font-face {
   font-family: "PT Sans";
   src: url("../fonts/PTSansRegular.ttf") format("truetype");

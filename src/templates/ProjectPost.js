@@ -90,8 +90,19 @@ class ProjectPost extends React.Component {
     const { markdownRemark, allMarkdownRemark } = this.props.data
     const { htmlAst, frontmatter } = markdownRemark
     const crop = (frontmatter.allowCropping === false) ? false : true
+    const srcSetRegex = /,\n(.*) .*$/g
+    let seoImg = null
     let tabs = []
     let contents = {}
+
+    if(frontmatter.banner) {
+      seoImg = srcSetRegex.exec(frontmatter.banner.childImageSharp.fluid.srcSet)
+      seoImg = seoImg[1]
+    } 
+    else if(frontmatter.logo) {
+      seoImg = srcSetRegex.exec(frontmatter.logo.childImageSharp.fixed.srcSet)
+      seoImg = seoImg[1]
+    }
 
     const ProjectPostWrapper = Styled(PostContainer)`
       width: 100%;
@@ -265,6 +276,7 @@ class ProjectPost extends React.Component {
           pathname={this.props.location.pathname}
           title={frontmatter.title}
           description={frontmatter.description}
+          image={seoImg}
         />
         <ProjectPostWrapper>
           <PostHeader>

@@ -18,7 +18,7 @@ import SmartLink from '../components/SmartLink'
 import MetaText from '../components/MetaText'
 import { LightTheme } from '../utils/Theme'
 import { FontSans, TextI } from '../utils/Text'
-import { PaperContainer, PaperSizedContainer, PaperMinWidth } from '../utils/Container'
+import { PaperMinWidth, PaperWidthContainer, PaperContainer } from '../utils/Container'
 
 const resumeTypeOptions = [
   { value: 'software', label: 'Software' },
@@ -35,7 +35,6 @@ class ResumePage extends React.Component {
     this.state = {
       resumeTypeSelected: resumeTypeOptions[0],
       canvasLoaded: false,
-      pdfScale: 0.5,
       windowWidth: 1920,
       icons: [
         {
@@ -97,7 +96,7 @@ class ResumePage extends React.Component {
     else {
       pdfScale = 4/3
     }
-    this.setState({pdfScale: pdfScale})
+    //this.setState({pdfScale: pdfScale})
 
     if(this.state.resumeTypeSelected.value === 'all') {
       resumeType = 'CV'
@@ -111,7 +110,8 @@ class ResumePage extends React.Component {
       creator: siteMetadata.author,
       paperSize: 'Letter',
       fileName: `Kyle Carson ${resumeType} Resume ${today.toLocaleDateString("en-US").replace(/\//g, '-')}.pdf`,
-      scale: this.state.pdfScale
+      scale: pdfScale,
+      keepTogether: '.dont-split'
     })
   }
 
@@ -150,8 +150,7 @@ class ResumePage extends React.Component {
       margin-bottom: 2rem;
       padding: 2rem;
     `
-    const FilterContainer = Styled(PaperContainer)`
-      padding-bottom: 20rem;
+    const FilterContainer = Styled(PaperWidthContainer)`
     `
     const FilterWrapper = Styled.div`
       display: flex;
@@ -199,15 +198,13 @@ class ResumePage extends React.Component {
         }
       }
     `
-    const ResumeContainer = Styled(PaperSizedContainer)`
-      margin-top: -20rem;
+    const ResumeContainer = Styled(PaperContainer)`
       box-shadow: 0.5rem 0.5rem 1.5rem rgba(0,0,0,0.3);
     `
     const ResumeWrapper = Styled.div`
       padding: 2rem;
       display: flex;
       flex-direction: column;
-      height: calc(100% - 4rem);
       font-size: 1rem;
       line-height: 1.375;
       color: ${props => props.theme.text};
