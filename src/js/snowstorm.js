@@ -659,8 +659,7 @@ define(function(window, document) {
 
     // hooks for starting the snow
     var now = new Date();
-    var currentMonth = now.getMonth()+1;
-    if (storm.autoStart && currentMonth === 12) {
+    if (storm.autoStart && now.getMonth()+1 === 12) {
       storm.events.add(window, 'load', doStart, false);
     }
 

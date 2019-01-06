@@ -49,7 +49,7 @@ const PaperWidth = {
   l: 918,   // 1.5x
   xl: 1224  // 2x
 }
-const PaperHeight = {
+export const PaperHeight = {
   s: 594,   // 0.75x
   m: 792,   // 1x (original, 72ppi x 11in)
   l: 1188,  // 1.5x

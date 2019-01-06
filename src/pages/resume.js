@@ -18,13 +18,13 @@ import SmartLink from '../components/SmartLink'
 import MetaText from '../components/MetaText'
 import { LightTheme, MUIBoxShadow } from '../utils/Theme'
 import { FontSans, TextI } from '../utils/Text'
-import { PaperMinWidth, PaperWidthContainer, PaperContainer } from '../utils/Container'
+import { PaperMinWidth, PaperHeight, PaperWidthContainer, PaperContainer } from '../utils/Container'
 
 const resumeTypeOptions = [
-  { value: 'software', label: 'Software' },
-  { value: 'web', label: 'Web' },
-  { value: 'hardware', label: 'Hardware' },
-  { value: 'all', label: 'All (CV)' },
+  { value: 'Software', label: 'Software' },
+  { value: 'Web', label: 'Web' },
+  { value: 'Hardware', label: 'Hardware' },
+  { value: 'CV', label: 'All (CV)' },
 ]
 
 class ResumePage extends React.Component {
@@ -68,6 +68,10 @@ class ResumePage extends React.Component {
     this.convertSVGToImage(this.state.icons)
     this.updateWindowDimensions()
     window.addEventListener('resize', this.updateWindowDimensions);
+    console.log(this.resume.clientHeight)
+    console.log(this.resume.children[0].clientHeight)
+    console.log(this.headerRef.clientHeight)
+    console.log(this.bodyRef.clientHeight)
   }
 
   componentWillUnmount() {
@@ -81,8 +85,8 @@ class ResumePage extends React.Component {
   handleDownloadPdf = () => {
     const { siteMetadata } = this.props.data.site
     const today = new Date()
-    let resumeType
-    let title
+    const resumeType = this.state.resumeTypeSelected.value
+    const title = `${siteMetadata.author} ${resumeType} Resume`
     let pdfScale
 
     if(this.state.windowWidth >= PaperMinWidth.xl) {
@@ -99,14 +103,6 @@ class ResumePage extends React.Component {
     }
     //this.setState({pdfScale: pdfScale})
 
-    if(this.state.resumeTypeSelected.value === 'all') {
-      resumeType = 'CV'
-    }
-    else {
-      resumeType = this.state.resumeTypeSelected.label
-    }
-    title = `${siteMetadata.author} ${resumeType} Resume`
-
     savePDF(ReactDOM.findDOMNode(this.resume), {
       title: title,
       subject: `${resumeType} Resume`,
@@ -117,7 +113,8 @@ class ResumePage extends React.Component {
       fileName: `${title} ${today.toLocaleDateString("en-US").replace(/\//g, '-')}.pdf`,
       paperSize: 'Letter',
       scale: pdfScale,
-      keepTogether: '.dont-split'
+      forcePageBreak: ".page-break",
+      keepTogether: ".keep-together"
     })
   }
 
@@ -148,6 +145,9 @@ class ResumePage extends React.Component {
     const { siteMetadata } = data.site
     const { allSocialJson, allExperienceJson, allProjectsJson, allProjectsRemark, 
       allEducationJson, skillsJson, interestsJson, techJson, headshot, santahat, favicon } = data
+    const now = new Date()
+    const pageHeight = PaperHeight.xl
+    const pagePadding = 32
     
     const ResumePageWrapper = Styled.div`
       display: flex;
@@ -158,47 +158,69 @@ class ResumePage extends React.Component {
     `
     const FilterWrapper = Styled.div`
       display: flex;
-      margin: 2rem 0rem;
-      > :first-child {
-        min-width: 12rem;
-        > div:first-child {
-          transition: all 0.3s;
-          color: ${props => props.theme.text};
-          background-color: transparent;
-          :hover, :active {
-            cursor: pointer;
-            color: ${props => props.theme.primary};
-            background-color: ${props => props.theme.text};
-            > div > div {
-              color: ${props => props.theme.primary};
+      width: 100%;
+      margin: 1rem 0;
+      > div:nth-child(1) {
+        width: ${100/3}%;
+        margin: 1rem 0.5rem 1rem 0;
+      }
+    `
+    const selectStyles = {
+      control: (provided) => ({
+        ...provided,
+        minHeight: '48px',
+        height: '100%',
+        borderStyle: 'none',
+        boxShadow: `${MUIBoxShadow}`
+      }),
+      valueContainer: (provided) => ({
+        ...provided,
+        cursor: 'text'
+      }),
+      clearIndicator: (provided) => ({
+        ...provided,
+        cursor: 'pointer'
+      }),
+      dropdownIndicator: (provided) => ({
+        ...provided,
+        cursor: 'pointer'
+      }),
+      placeholder: (provided) => ({
+        ...provided,
+        color: '#9e9e9e'
+      }),
+      multiValue: (provided) => ({
+        ...provided,
+        borderRadius: '0.5rem',
+        border: '0.125rem solid #6ecfff',
+        color: '#2a2a2a',
+        backgroundColor: 'white'
+      }),
+      multiValueRemove: (provided) => ({
+        ...provided,
+        cursor: 'pointer'
+      }),
+      option: (provided) => ({
+        ...provided,
+        cursor: 'pointer',
+        color: '#2a2a2a',
+        backgroundColor: 'white',
+        '&:hover': {
+          backgroundColor: '#6ecfff'
+        }
+      }),
+    }
+    const DownloadButton = Styled(GenericButton)`
+      && {
+        margin: 1rem 0 1rem 0.5rem;
+        > button {
+          height: 100%;
+          > span {
+            display: flex;
+            > svg {
+              align-self: center;
             }
           }
-          *:focus {
-            outline: none;
-          }
-          > div > div {
-            color: ${props => props.theme.text};
-          }
-        }
-        > div:nth-child(3) {
-          transition: all 0.3s;
-          color: ${props => props.theme.primary};
-          background-color: ${props => props.theme.text};
-          :hover, :active {
-            cursor: pointer;
-          }
-          *:focus {
-            outline: none;
-          }
-        }
-      }
-      > :not(:last-child) {
-        margin-right: 2rem;
-      }
-      > :last-child {
-        align-self: center;
-        svg {
-          margin-right: 0.5rem;
         }
       }
     `
@@ -295,7 +317,7 @@ class ResumePage extends React.Component {
     const Body = Styled.div`
       display: flex;
       justify-content: flex-end;
-      margin-top: 1rem;
+      padding-top: 1rem;
       height: 100%;
       h2, h3 {
         position: relative;
@@ -428,11 +450,11 @@ class ResumePage extends React.Component {
     </TextI>
 
     // Experience section
-    const experienceSection = <SideSection>
+    const experienceSection = <SideSection ref={(experienceRef) => this.experienceRef = experienceRef}>
       <h2>EXPERIENCE</h2>
       {allExperienceJson.edges.filter((edge) => {
         const { node } = edge
-        if(node.tags.includes(resumeTypeSelected.value) || resumeTypeSelected.value === 'all') {
+        if(node.tags.includes(resumeTypeSelected.value) || resumeTypeSelected.value === 'CV') {
           return true
         }
         return false
@@ -467,11 +489,11 @@ class ResumePage extends React.Component {
     </SideSection>
 
     // Projects section
-    const projectsSection = <SideSection>
+    const projectsSection = <SideSection ref={(projectsRef) => this.projectsRef = projectsRef}>
       <h2>PROJECTS</h2>
       {allProjectsJson.edges.filter((edge) => {
         const { node } = edge
-        if(node.tags.includes(resumeTypeSelected.value) || resumeTypeSelected.value === 'all') {
+        if(node.tags.includes(resumeTypeSelected.value) || resumeTypeSelected.value === 'CV') {
           return true
         }
         return false
@@ -545,7 +567,7 @@ class ResumePage extends React.Component {
     </SideSection>
 
     // Education side section
-    const educationSection = <SideSection>
+    const educationSection = <SideSection ref={(educationRef) => this.educationRef = educationRef}>
       <h2>EDUCATION</h2>
       {allEducationJson.edges.map((edge, i) => {
         const { node } = edge
@@ -577,7 +599,7 @@ class ResumePage extends React.Component {
     </SideSection>
 
     // Skills side section
-    const skillsSection = <SideSection>
+    const skillsSection = <SideSection ref={(skillsRef) => this.skillsRef = skillsRef}>
       <h2>SKILLS</h2>
       <SideSubsection>
         <h3>SOFTWARE</h3>
@@ -587,7 +609,7 @@ class ResumePage extends React.Component {
           )
         })}
       </SideSubsection>
-      {['software', 'web', 'all'].includes(resumeTypeSelected.value) && 
+      {['Software', 'Web', 'CV'].includes(resumeTypeSelected.value) && 
         <SideSubsection>
           <h3>WEB</h3>
           {skillsJson.web.map((skill, i) => {
@@ -597,7 +619,7 @@ class ResumePage extends React.Component {
           })}
         </SideSubsection>
       }
-      {['hardware', 'all'].includes(resumeTypeSelected.value) && 
+      {['Hardware', 'CV'].includes(resumeTypeSelected.value) && 
         <SideSubsection>
           <h3>HARDWARE</h3>
           {skillsJson.hardware.map((skill, i) => {
@@ -611,13 +633,13 @@ class ResumePage extends React.Component {
 
     // Tech side section
     let techType
-    if(resumeTypeSelected.value === 'software') {
+    if(resumeTypeSelected.value === 'Software') {
       techType = techJson.software
     }
-    else if(resumeTypeSelected.value === 'web') {
+    else if(resumeTypeSelected.value === 'Web') {
       techType = techJson.web
     }
-    else if(resumeTypeSelected.value === 'hardware') {
+    else if(resumeTypeSelected.value === 'Hardware') {
       techType = techJson.hardware
     }
     else {
@@ -638,7 +660,7 @@ class ResumePage extends React.Component {
         techJson.hardware.softwares,
       )
     }
-    const techSection = <SideSection>
+    const techSection = <SideSection ref={(techRef) => this.techRef = techRef}>
       <h2>TECH</h2>
       <SideSubsectionList>
         <h3>LANGUAGES</h3>
@@ -685,7 +707,7 @@ class ResumePage extends React.Component {
     </SideSection>
 
     // Interests side section
-    const interestsSection = <SideSection>
+    const interestsSection = <SideSection ref={(interestsRef) => this.interestsRef = interestsRef}>
       <h2>INTERESTS</h2>
       {interestsJson.buzzwords.map((buzzword, i) => {
         return (
@@ -706,14 +728,14 @@ class ResumePage extends React.Component {
           <PaperWidthContainer>
             <FilterWrapper>
               <Select
-                name='resume-type'
+                name='resume'
                 options={resumeTypeOptions}
                 value={resumeTypeSelected}
                 onChange={this.handleResumeSelect}
                 isSearchable={false}
-                className='resume-select'
+                styles={selectStyles}
               />
-              <GenericButton
+              <DownloadButton
                 type='action'
                 text='Download'
                 icon={['fas', 'download']}
@@ -724,7 +746,7 @@ class ResumePage extends React.Component {
           <ThemeProvider theme={LightTheme}>
             <ResumeContainer>
               <ResumeWrapper className='resume-root' ref={(resume) => this.resume = resume}>
-                <Header>
+                <Header ref={(headerRef) => this.headerRef = headerRef}>
                   <HeaderTop>
                     <HeaderLeft>
                       <NameWrapper>
@@ -732,7 +754,7 @@ class ResumePage extends React.Component {
                           {headshot &&
                             <Img className='headshot' fixed={headshot.fixed} alt='Me'/>
                           }
-                          {santahat &&
+                          {santahat && now.getMonth()+1 === 12 &&
                             <div className='santa-hat'>
                               <Img fixed={santahat.fixed} alt='Santa Hat'/>
                             </div>
@@ -755,7 +777,7 @@ class ResumePage extends React.Component {
                     {statusSection}
                   </HeaderBottom>
                 </Header>
-                <Body>
+                <Body ref={(bodyRef) => this.bodyRef = bodyRef}>
                   <BodyLeft>
                     {experienceSection}
                     {projectsSection}

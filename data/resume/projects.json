@@ -9,7 +9,7 @@
       "Similar interface to Python's argparse library"
     ],
     "tags": [
-      "software"
+      "Software"
     ]
   },
   {
@@ -22,7 +22,7 @@
       "Verbose set of features including multithreading support"
     ],
     "tags": [
-      "software"
+      "Software"
     ]
   },
   {
@@ -35,7 +35,7 @@
       "Tool for analyzing Gaussians"
     ],
     "tags": [
-      "software"
+      "Software"
     ]
   },
   {
@@ -49,7 +49,7 @@
       "Built to be a scalable service running on AWS Elastic Beanstalk/EC2 with load testing through Tsung"
     ],
     "tags": [
-      "web"
+      "Web"
     ]
   },
   {
@@ -63,7 +63,7 @@
       "C library wrapper for a better RNG function"
     ],
     "tags": [
-      "software"
+      "Software"
     ]
   },
   {
@@ -77,8 +77,8 @@
       "Key-value store interface with support for batched queries"
     ],
     "tags": [
-      "software",
-      "web"
+      "Software",
+      "Web"
     ]
   },
   {
@@ -92,8 +92,8 @@
       "Key-value store interface with support for batched queries"
     ],
     "tags": [
-      "software",
-      "web"
+      "Software",
+      "Web"
     ]
   },
   {
@@ -107,8 +107,8 @@
       "Key-value store interface with support for batched queries"
     ],
     "tags": [
-      "software",
-      "web"
+      "Software",
+      "Web"
     ]
   },
   {
@@ -122,8 +122,23 @@
       "Key-value store interface with support for batched queries"
     ],
     "tags": [
-      "software",
-      "web"
+      "Software",
+      "Web"
+    ]
+  },
+  {
+    "title": "blockstore",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+      "Database using a blockchain implementation for distributed reads and writes",
+      "Key-value store interface with support for batched queries"
+    ],
+    "tags": [
+      "Software",
+      "Web"
     ]
   }
 ]
