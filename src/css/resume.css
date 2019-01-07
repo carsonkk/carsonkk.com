@@ -15,6 +15,10 @@
   display: none;
 }
 
+.k-pdf-export .extra-page {
+  display: flex;
+}
+
 @font-face {
   font-family: "PT Sans";
   src: url("../fonts/PTSansRegular.ttf") format("truetype");

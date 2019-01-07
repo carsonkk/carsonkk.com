@@ -73,15 +73,15 @@ export const PaperWidthContainer = Styled.div`
   ${PaperMedia.xl`width: ${PaperWidth.xl}px;`}
 `
 
-export const PaperHeightContainer = Styled.div`
-  margin: auto;
+export const PaperHeightContainer = Styled(PaperWidthContainer)`
+  display: flex;
   ${PaperMedia.s`height: ${PaperHeight.s}px;`}
   ${PaperMedia.m`height: ${PaperHeight.m}px;`}
   ${PaperMedia.l`height: ${PaperHeight.l}px;`}
   ${PaperMedia.xl`height: ${PaperHeight.xl}px;`}
 `
 
-export const PaperContainer = Styled(PaperWidthContainer)`
+export const PaperMinHeightContainer = Styled(PaperWidthContainer)`
   display: flex;
   ${PaperMedia.s`min-height: ${PaperHeight.s}px;`}
   ${PaperMedia.m`min-height: ${PaperHeight.m}px;`}
