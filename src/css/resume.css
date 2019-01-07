@@ -11,8 +11,16 @@
   display: inline;
 }
 
-.k-pdf-export .santa-hat {
+.k-pdf-export .resume-root .santa-hat {
   display: none;
+}
+
+.k-pdf-export .resume-root .readable-url {
+  display: none;
+}
+
+.k-pdf-export .resume-root .verbose-url {
+  display: inline;
 }
 
 @font-face {

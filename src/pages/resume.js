@@ -9,6 +9,7 @@ import Select from 'react-select'
 import { savePDF } from '@progress/kendo-react-pdf'
 import canvg from 'canvg'
 import _ from 'lodash'
+import Cookies from 'universal-cookie'
 
 import '../css/resume.css'
 import BaseLayout from '../components/BaseLayout'
@@ -20,13 +21,13 @@ import { LightTheme, MUIBoxShadow } from '../utils/Theme'
 import { FontSans, TextI } from '../utils/Text'
 import { PaperHeight, PaperWidthContainer, PaperMinHeightContainer, PaperHeightContainer } from '../utils/Container'
 
+const cookies = new Cookies()
 const resumeTypeOptions = [
   { value: 'CV', label: 'All (CV)' },
   { value: 'Software', label: 'Software' },
   { value: 'Web', label: 'Web' },
   { value: 'Hardware', label: 'Hardware' }
 ]
-
 const Body = Styled.div`
   display: flex;
   h2, h3 {
@@ -97,20 +98,30 @@ const SideSubsection = Styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 0.75rem;
+  .verbose-url {
+    display: none;
+  }
 `
 const SideSubsectionList = Styled.div`
   padding-top: 0.75rem;
-`
-const FillerSection = Styled.div`
-  flex-grow: 1;
 `
 
 class ResumePage extends React.Component {
   constructor(props) {
     super(props)
+    const resumeCookie = cookies.get('resume')
+    let cookiedResumeOption
+
+    for(let option of resumeTypeOptions) {
+      if(resumeCookie === option.value) {
+        cookiedResumeOption = option
+        break
+      }
+    }
+
     this.state = {
       multiPaged: false,
-      resumeTypeSelected: resumeTypeOptions[0],
+      resumeTypeSelected: cookiedResumeOption,
       canvasLoaded: false,
       windowWidth: 1920,
       icons: [
@@ -140,7 +151,6 @@ class ResumePage extends React.Component {
     }
     this.handleResumeSelect = this.handleResumeSelect.bind(this)
     this.handleDownloadPdf = this.handleDownloadPdf.bind(this)
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     this.buildResumeContent = this.buildResumeContent.bind(this)
   }
 
@@ -342,7 +352,6 @@ class ResumePage extends React.Component {
                     {newContent.leftColumn[i].projects}
                   </SideSection>
                 }
-                <FillerSection/>
               </BodyLeft>
             }
             {newContent.leftColumn[i] && newContent.rightColumn[i] && 
@@ -370,7 +379,6 @@ class ResumePage extends React.Component {
                     {newContent.rightColumn[i].interests}
                   </SideSection>
                 }
-                <FillerSection/>
               </BodyRight>
             }
           </Body>
@@ -384,12 +392,9 @@ class ResumePage extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    //window.removeEventListener('resize', this.updateWindowDimensions);
-  }
-
   handleResumeSelect = (resumeTypeSelected) => {
     if(resumeTypeSelected.value !== this.state.resumeTypeSelected.value) {
+      cookies.set('resume', resumeTypeSelected.value, { path: '/' })
       this.buildResumeContent(resumeTypeSelected)
       this.setState({
         multiPaged: false,
@@ -399,25 +404,34 @@ class ResumePage extends React.Component {
   }
 
   handleDownloadPdf = () => {
-    const { author } = this.props.data.site.siteMetadata
-    const today = new Date()
     const resumeType = this.state.resumeTypeSelected.value
+    const { author } = this.props.data.site.siteMetadata
+    const { skillsJson, techJson, interestsJson, } = this.props.data
+    const today = new Date()
+    const day = today.getDate() < 10 ? "0" + today.getDate() : today.getDate()
+    const month = today.getMonth()+1 < 10 ? "0"+(today.getMonth()+1) : today.getMonth()+1
+    const year = today.getFullYear()
     const title = `${author} ${resumeType} Resume`
-    let pdfScale
-
-    //if(this.state.windowWidth >= PaperMinWidth.xl) {
-      pdfScale = 0.5
-    // }
-    // else if(this.state.windowWidth >= PaperMinWidth.l) {
-    //   pdfScale = 0.75
-    // }
-    // else if(this.state.windowWidth >= PaperMinWidth.m) {
-    //   pdfScale = 1.0
-    // }
-    // else {
-    //   pdfScale = 4/3
-    // }
-    //this.setState({pdfScale: pdfScale})
+    const skillsMeta = [skillsJson.software.join(), skillsJson.web.join(), skillsJson.hardware.join()].join()
+    const techs = {'languages': [], 'libraries': [], 'softwares': []}
+    techs.languages = _.union(
+      techJson.software.languages, 
+      techJson.web.languages, 
+      techJson.hardware.languages,
+    )
+    techs.libraries = _.union(
+      techJson.software.libraries, 
+      techJson.web.libraries, 
+      techJson.hardware.libraries,
+    )
+    techs.softwares = _.union(
+      techJson.software.softwares, 
+      techJson.web.softwares, 
+      techJson.hardware.softwares,
+    )
+    const techMeta = [techs.languages.join(), techs.libraries.join(), techs.softwares.join()].join()
+    const interestsMeta = interestsJson.buzzwords.join()
+    const miscMeta = "Regents Scholar, Honors Program, Computer Engineering, Software Engineering, Computer Science, BS, MS, Masters, Hackathon, TBP"
 
     savePDF(ReactDOM.findDOMNode(this.resumeRef), {
       title: title,
@@ -425,17 +439,13 @@ class ResumePage extends React.Component {
       author: author,
       creator: author,
       producer: author,
-      keywords: 'Kyle Carson Resume Computer Engineering Software Engineering Computer Science',
-      fileName: `${title} ${today.toLocaleDateString("en-US").replace(/\//g, '-')}.pdf`,
+      keywords: `${author},${resumeType},Resume,${skillsMeta},${techMeta},${interestsMeta},${miscMeta}`,
+      fileName: `${title} ${month}-${day}-${year}.pdf`,
       paperSize: 'Letter',
-      scale: pdfScale,
+      scale: 0.5,
       forcePageBreak: ".page-break",
       keepTogether: ".keep-together"
     })
-  }
-
-  updateWindowDimensions() {
-    //this.setState({windowWidth: window.innerWidth})
   }
 
   buildResumeContent(resumeTypeSelected) {
@@ -482,7 +492,9 @@ class ResumePage extends React.Component {
                 to={node.company.url}
                 text={node.company.text}
               />
-              <span>, {node.location}</span>
+              {/* eslint-disable-next-line */}
+              <b> // </b>
+              <span> {node.location}</span>
             </span>
             <TextI>{node.begin} - {node.end}</TextI>
             <ul>
@@ -528,22 +540,34 @@ class ResumePage extends React.Component {
             <h3>{node.title}</h3>
             <span>
               <span>
-                <SmartLink
+                <SmartLink className="readable-url"
                   theme={LightTheme}
                   type='internal'
                   to={node.slug ? node.slug : slug}
                   text='Writeup'
+                />
+                <SmartLink className="verbose-url"
+                  theme={LightTheme}
+                  type='internal'
+                  to={node.slug ? node.slug : slug}
+                  text={`carsonkk.com${node.slug ? node.slug : slug}`}
                 />
               </span>
               {(node.github || github) &&
                 <span>
                   {/* eslint-disable-next-line */}
                   <b> // </b>
-                  <SmartLink
+                  <SmartLink className="readable-url"
                     theme={LightTheme}
                     type='external'
                     to={node.github ? node.github : `//github.com/${github}`}
                     text='GitHub'
+                  />
+                  <SmartLink className="verbose-url"
+                    theme={LightTheme}
+                    type='external'
+                    to={node.github ? node.github : `//github.com/${github}`}
+                    text={node.github ? node.github : `github.com/${github}`}
                   />
                 </span>
               }
@@ -551,11 +575,17 @@ class ResumePage extends React.Component {
                 <span>
                   {/* eslint-disable-next-line */}
                   <b> // </b>
-                  <SmartLink
+                  <SmartLink className="readable-url"
                     theme={LightTheme}
                     type='external'
                     to={node.website ? node.website : `//${website}`}
                     text='Website'
+                  />
+                  <SmartLink className="verbose-url"
+                    theme={LightTheme}
+                    type='external'
+                    to={node.website ? node.website : `//${website}`}
+                    text={node.website ? node.website : `${website}`}
                   />
                 </span>
               }
@@ -881,7 +911,7 @@ class ResumePage extends React.Component {
       display: flex;
       flex-direction: column;
       width: 100%;
-      padding: 2rem;
+      padding: 3rem;
       font-size: 1rem;
       line-height: 1.375;
       color: ${props => props.theme.text};
