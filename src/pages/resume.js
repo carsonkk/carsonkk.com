@@ -18,7 +18,7 @@ import SmartLink from '../components/SmartLink'
 import MetaText from '../components/MetaText'
 import { LightTheme, MUIBoxShadow } from '../utils/Theme'
 import { FontSans, TextI } from '../utils/Text'
-import { PaperHeight, PaperWidthContainer, PaperHeightContainer, PaperMinHeightContainer } from '../utils/Container'
+import { PaperHeight, PaperWidthContainer, PaperMinHeightContainer, PaperHeightContainer } from '../utils/Container'
 
 const resumeTypeOptions = [
   { value: 'CV', label: 'All (CV)' },
@@ -28,6 +28,7 @@ const resumeTypeOptions = [
 ]
 
 const Body = Styled.div`
+  display: flex;
   h2, h3 {
     position: relative;
     margin-top: 0;
@@ -75,6 +76,7 @@ const BodyLeft = Styled.div`
 `
 const BodyColumn = Styled.div`
   width: 0.125rem;
+  align-self: stretch;
   background-color: rgba(0,0,0,0.1);
 `
 const BodyRight = Styled.div`
@@ -98,6 +100,9 @@ const SideSubsection = Styled.div`
 `
 const SideSubsectionList = Styled.div`
   padding-top: 0.75rem;
+`
+const FillerSection = Styled.div`
+  flex-grow: 1;
 `
 
 class ResumePage extends React.Component {
@@ -136,11 +141,305 @@ class ResumePage extends React.Component {
     this.handleResumeSelect = this.handleResumeSelect.bind(this)
     this.handleDownloadPdf = this.handleDownloadPdf.bind(this)
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
+    this.buildResumeContent = this.buildResumeContent.bind(this)
   }
 
   componentDidMount() {
     this.convertSVGToImage(this.state.icons)
-    const { resumeTypeSelected, icons } = this.state
+    this.buildResumeContent(this.state.resumeTypeSelected)
+    this.setState({
+      canvasLoaded: true
+    })
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.state.multiPaged === false) {
+      const experienceNodes = this.state.originalContent.leftColumn[0].experience.props.children
+      const projectNodes = this.state.originalContent.leftColumn[0].projects.props.children
+      const educationNodes = this.state.originalContent.rightColumn[0].education.props.children
+      const skillNodes = this.state.originalContent.rightColumn[0].skills.props.children
+      const techNodes = this.state.originalContent.rightColumn[0].tech.props.children
+      const interestNodes = this.state.originalContent.rightColumn[0].interests.props.children
+      const headerHeight = this.headerRef.clientHeight
+      const paperPadding = 32
+      const maxFirstPageHeight = PaperHeight.xl - 16 - headerHeight - paperPadding * 2
+      const maxNthPageHeight = PaperHeight.xl - 16 - paperPadding * 2
+      let currentPage
+      let currentHeight
+      let newContent = {
+        leftColumn: [
+          {
+            experience: [],
+            projects: []
+          }
+        ],
+        rightColumn: [
+          {
+            education: [],
+            skills: [],
+            tech: [],
+            interests: []
+          }
+        ]
+      }
+      
+      currentPage = 0
+      currentHeight = 0
+      // Parse through experience nodes
+      if(this.experienceRef) {
+        currentHeight += this.experienceRef.children[0].clientHeight + this.experienceRef.children[1].clientHeight
+        if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
+            (currentPage !== 0 && currentHeight > maxNthPageHeight)
+        ) {
+          currentPage++
+          currentHeight = this.experienceRef.children[0].clientHeight + this.experienceRef.children[1].clientHeight
+          newContent.leftColumn.push({experience: [], projects: []})
+        }
+        newContent.leftColumn[currentPage].experience.push(experienceNodes[0])
+        newContent.leftColumn[currentPage].experience.push(experienceNodes[1][0])
+        for(let i = 1; i < experienceNodes[1].length; i++) {
+          currentHeight += this.experienceRef.children[i+1].clientHeight
+          if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
+            (currentPage !== 0 && currentHeight > maxNthPageHeight)
+          ) {
+            currentPage++
+            currentHeight = this.experienceRef.children[i+1].clientHeight
+            newContent.leftColumn.push({experience: [], projects: []})
+          }
+          newContent.leftColumn[currentPage].experience.push(experienceNodes[1][i])
+        }
+      }
+      // Parse through project nodes
+      if(this.projectsRef) {
+        currentHeight += this.projectsRef.children[0].clientHeight + this.projectsRef.children[1].clientHeight
+        if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
+            (currentPage !== 0 && currentHeight > maxNthPageHeight)
+        ) {
+          currentPage++
+          currentHeight = this.projectsRef.children[0].clientHeight + this.projectsRef.children[1].clientHeight
+          newContent.leftColumn.push({experience: [], projects: []})
+        }
+        newContent.leftColumn[currentPage].projects.push(projectNodes[0])
+        newContent.leftColumn[currentPage].projects.push(projectNodes[1][0])
+        for(let i = 1; i < projectNodes[1].length; i++) {
+          currentHeight += this.projectsRef.children[i+1].clientHeight
+          if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
+            (currentPage !== 0 && currentHeight > maxNthPageHeight)
+          ) {
+            currentPage++
+            currentHeight = this.projectsRef.children[i+1].clientHeight
+            newContent.leftColumn.push({experience: [], projects: []})
+          }
+          newContent.leftColumn[currentPage].projects.push(projectNodes[1][i])
+        }
+      }
+      const leftPages = currentPage
+      currentPage = 0
+      currentHeight = 0
+
+      // Parse through education nodes
+      currentHeight += this.educationRef.children[0].clientHeight + this.educationRef.children[1].clientHeight
+      if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
+          (currentPage !== 0 && currentHeight > maxNthPageHeight)
+      ) {
+        currentPage++
+        currentHeight = this.educationRef.children[0].clientHeight + this.educationRef.children[1].clientHeight
+        newContent.rightColumn.push({education: [], skills: [], tech: [], interests: []})
+      }
+      newContent.rightColumn[currentPage].education.push(educationNodes[0])
+      newContent.rightColumn[currentPage].education.push(educationNodes[1][0])
+      for(let i = 1; i < educationNodes[1].length; i++) {
+        currentHeight += this.educationRef.children[i+1].clientHeight
+        if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
+          (currentPage !== 0 && currentHeight > maxNthPageHeight)
+        ) {
+          currentPage++
+          currentHeight = this.educationRef.children[i+1].clientHeight
+          newContent.rightColumn.push({education: [], skills: [], tech: [], interests: []})
+        }
+        newContent.rightColumn[currentPage].education.push(educationNodes[1][i])
+      }
+      // Parse through skill nodes
+      for(let i = 0, j = 0; i < skillNodes.length;) {
+        if(skillNodes[i] === false) {
+          i++
+        }
+        else {
+          currentHeight += this.skillsRef.children[j].clientHeight
+          if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
+            (currentPage !== 0 && currentHeight > maxNthPageHeight)
+          ) {
+            currentPage++
+            currentHeight = this.skillsRef.children[j].clientHeight
+            newContent.rightColumn.push({education: [], skills: [], tech: [], interests: []})
+          }
+          newContent.rightColumn[currentPage].skills.push(skillNodes[i])
+          i++
+          j++
+        }
+      }
+      // Parse through tech nodes
+      currentHeight += this.techRef.children[0].clientHeight + this.techRef.children[1].clientHeight
+      if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
+          (currentPage !== 0 && currentHeight > maxNthPageHeight)
+      ) {
+        currentPage++
+        currentHeight = this.techRef.children[0].clientHeight + this.techRef.children[1].clientHeight
+        newContent.rightColumn.push({education: [], skills: [], tech: [], interests: []})
+      }
+      newContent.rightColumn[currentPage].tech.push(techNodes[0])
+      newContent.rightColumn[currentPage].tech.push(techNodes[1])
+      for(let i = 2; i < techNodes.length; i++) {
+        currentHeight += this.techRef.children[i].clientHeight
+        if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
+          (currentPage !== 0 && currentHeight > maxNthPageHeight)
+        ) {
+          currentPage++
+          currentHeight = this.techRef.children[i].clientHeight
+          newContent.rightColumn.push({education: [], skills: [], tech: [], interests: []})
+        }
+        newContent.rightColumn[currentPage].tech.push(techNodes[i])
+      }
+      // Parse through interests nodes
+      currentHeight += this.interestsRef.children[0].clientHeight + this.interestsRef.children[1].clientHeight
+      if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
+          (currentPage !== 0 && currentHeight > maxNthPageHeight)
+      ) {
+        currentPage++
+        currentHeight = this.interestsRef.children[0].clientHeight + this.interestsRef.children[1].clientHeight
+        newContent.rightColumn.push({education: [], skills: [], tech: [], interests: []})
+      }
+      newContent.rightColumn[currentPage].interests.push(interestNodes[0])
+      newContent.rightColumn[currentPage].interests.push(interestNodes[1])
+      for(let i = 2; i < interestNodes.length; i++) {
+        currentHeight += this.interestsRef.children[i].clientHeight
+        if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
+          (currentPage !== 0 && currentHeight > maxNthPageHeight)
+        ) {
+          currentPage++
+          currentHeight = this.interestsRef.children[i].clientHeight
+          newContent.rightColumn.push({education: [], skills: [], tech: [], interests: []})
+        }
+        newContent.rightColumn[currentPage].interests.push(interestNodes[i])
+      }
+      const rightPages = currentPage
+
+      // Structure the content
+      const maxPageCount = Math.max(leftPages, rightPages) + 1
+      let structuredContent = []
+      for(let i = 0; i < maxPageCount; i++) {
+        structuredContent.push(
+          <Body key={i} className={i > 0 ? 'body page-break' : 'body'}>
+            {newContent.leftColumn[i] && 
+              <BodyLeft>
+                {newContent.leftColumn[i].experience.length !== 0 && 
+                  <SideSection>
+                    {newContent.leftColumn[i].experience}
+                  </SideSection>
+                }
+                {newContent.leftColumn[i].projects.length !== 0 && 
+                  <SideSection>
+                    {newContent.leftColumn[i].projects}
+                  </SideSection>
+                }
+                <FillerSection/>
+              </BodyLeft>
+            }
+            {newContent.leftColumn[i] && newContent.rightColumn[i] && 
+              <BodyColumn/>
+            }
+            {newContent.rightColumn[i] && 
+              <BodyRight>
+                {newContent.rightColumn[i].education.length !== 0 && 
+                  <SideSection>
+                    {newContent.rightColumn[i].education}
+                  </SideSection>
+                }
+                {newContent.rightColumn[i].skills.length !== 0 && 
+                  <SideSection>
+                    {newContent.rightColumn[i].skills}
+                  </SideSection>
+                }
+                {newContent.rightColumn[i].tech.length !== 0 && 
+                  <SideSection>
+                    {newContent.rightColumn[i].tech}
+                  </SideSection>
+                }
+                {newContent.rightColumn[i].interests.length !== 0 && 
+                  <SideSection>
+                    {newContent.rightColumn[i].interests}
+                  </SideSection>
+                }
+                <FillerSection/>
+              </BodyRight>
+            }
+          </Body>
+        )
+      }
+    
+      this.setState({
+        multiPaged: true,
+        structuredContent
+      })
+    }
+  }
+
+  componentWillUnmount() {
+    //window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  handleResumeSelect = (resumeTypeSelected) => {
+    if(resumeTypeSelected.value !== this.state.resumeTypeSelected.value) {
+      this.buildResumeContent(resumeTypeSelected)
+      this.setState({
+        multiPaged: false,
+        resumeTypeSelected
+      })
+    }
+  }
+
+  handleDownloadPdf = () => {
+    const { author } = this.props.data.site.siteMetadata
+    const today = new Date()
+    const resumeType = this.state.resumeTypeSelected.value
+    const title = `${author} ${resumeType} Resume`
+    let pdfScale
+
+    //if(this.state.windowWidth >= PaperMinWidth.xl) {
+      pdfScale = 0.5
+    // }
+    // else if(this.state.windowWidth >= PaperMinWidth.l) {
+    //   pdfScale = 0.75
+    // }
+    // else if(this.state.windowWidth >= PaperMinWidth.m) {
+    //   pdfScale = 1.0
+    // }
+    // else {
+    //   pdfScale = 4/3
+    // }
+    //this.setState({pdfScale: pdfScale})
+
+    savePDF(ReactDOM.findDOMNode(this.resumeRef), {
+      title: title,
+      subject: `${resumeType} Resume`,
+      author: author,
+      creator: author,
+      producer: author,
+      keywords: 'Kyle Carson Resume Computer Engineering Software Engineering Computer Science',
+      fileName: `${title} ${today.toLocaleDateString("en-US").replace(/\//g, '-')}.pdf`,
+      paperSize: 'Letter',
+      scale: pdfScale,
+      forcePageBreak: ".page-break",
+      keepTogether: ".keep-together"
+    })
+  }
+
+  updateWindowDimensions() {
+    //this.setState({windowWidth: window.innerWidth})
+  }
+
+  buildResumeContent(resumeTypeSelected) {
+    const { icons } = this.state
     const { data } = this.props
     const { allExperienceJson, allProjectsJson, allProjectsRemark, 
       allEducationJson, skillsJson, interestsJson, techJson, } = data
@@ -438,10 +737,14 @@ class ResumePage extends React.Component {
     originalContent.rightColumn[0].interests = interestsSection
 
     // Structure originalContent into page-based columns
-    const structuredContent = [<Body key={0} className='body'>
+    const structuredContent = [<Body key={0} className="body">
       <BodyLeft>
-        {originalContent.leftColumn[0].experience}
-        {originalContent.leftColumn[0].projects}
+        {originalContent.leftColumn[0].experience.props.children[1].length > 0 &&
+          originalContent.leftColumn[0].experience
+        }
+        {originalContent.leftColumn[0].projects.props.children[1].length > 0 &&
+          originalContent.leftColumn[0].projects
+        }
       </BodyLeft>
       <BodyColumn/>
       <BodyRight>
@@ -453,289 +756,9 @@ class ResumePage extends React.Component {
     </Body>]
 
     this.setState({
-      canvasLoaded: true,
       originalContent,
       structuredContent
     })
-  }
-
-  componentDidUpdate() {
-    if(this.state.multiPaged === false) {
-      const experienceNodes = this.state.originalContent.leftColumn[0].experience.props.children
-      const projectNodes = this.state.originalContent.leftColumn[0].projects.props.children
-      const educationNodes = this.state.originalContent.rightColumn[0].education.props.children
-      const skillNodes = this.state.originalContent.rightColumn[0].skills.props.children
-      const techNodes = this.state.originalContent.rightColumn[0].tech.props.children
-      const interestNodes = this.state.originalContent.rightColumn[0].interests.props.children
-      const headerHeight = this.headerRef.clientHeight
-      const paperPadding = 32
-      const maxFirstPageHeight = PaperHeight.xl - 16 - headerHeight - paperPadding * 2
-      const maxNthPageHeight = PaperHeight.xl - 16 - paperPadding * 2
-      let currentPage
-      let currentHeight
-      let newContent = {
-        leftColumn: [
-          {
-            experience: [],
-            projects: []
-          }
-        ],
-        rightColumn: [
-          {
-            education: [],
-            skills: [],
-            tech: [],
-            interests: []
-          }
-        ]
-      }
-      
-      currentPage = 0
-      currentHeight = 0
-
-      // Parse through experience nodes
-      currentHeight += this.experienceRef.children[0].clientHeight + this.experienceRef.children[1].clientHeight
-      if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
-          (currentPage !== 0 && currentHeight > maxNthPageHeight)
-      ) {
-        currentPage++
-        currentHeight = this.experienceRef.children[0].clientHeight + this.experienceRef.children[1].clientHeight
-        newContent.leftColumn.push({experience: [], projects: []})
-      }
-      newContent.leftColumn[currentPage].experience.push(experienceNodes[0])
-      newContent.leftColumn[currentPage].experience.push(experienceNodes[1][0])
-      for(let i = 1; i < experienceNodes[1].length; i++) {
-        currentHeight += this.experienceRef.children[i+1].clientHeight
-        if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
-          (currentPage !== 0 && currentHeight > maxNthPageHeight)
-        ) {
-          currentPage++
-          currentHeight = this.experienceRef.children[i+1].clientHeight
-          newContent.leftColumn.push({experience: [], projects: []})
-        }
-        newContent.leftColumn[currentPage].experience.push(experienceNodes[1][i])
-      }
-      // Parse through project nodes
-      currentHeight += this.projectsRef.children[0].clientHeight + this.projectsRef.children[1].clientHeight
-      if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
-          (currentPage !== 0 && currentHeight > maxNthPageHeight)
-      ) {
-        currentPage++
-        currentHeight = this.projectsRef.children[0].clientHeight + this.projectsRef.children[1].clientHeight
-        newContent.leftColumn.push({experience: [], projects: []})
-      }
-      newContent.leftColumn[currentPage].projects.push(projectNodes[0])
-      newContent.leftColumn[currentPage].projects.push(projectNodes[1][0])
-      for(let i = 1; i < projectNodes[1].length; i++) {
-        currentHeight += this.projectsRef.children[i+1].clientHeight
-        if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
-          (currentPage !== 0 && currentHeight > maxNthPageHeight)
-        ) {
-          currentPage++
-          currentHeight = this.projectsRef.children[i+1].clientHeight
-          newContent.leftColumn.push({experience: [], projects: []})
-        }
-        newContent.leftColumn[currentPage].projects.push(projectNodes[1][i])
-      }
-      const leftPages = currentPage
-
-      currentPage = 0
-      currentHeight = 0
-
-      // Parse through education nodes
-      currentHeight += this.educationRef.children[0].clientHeight + this.educationRef.children[1].clientHeight
-      if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
-          (currentPage !== 0 && currentHeight > maxNthPageHeight)
-      ) {
-        currentPage++
-        currentHeight = this.educationRef.children[0].clientHeight + this.educationRef.children[1].clientHeight
-        newContent.rightColumn.push({education: [], skills: [], tech: [], interests: []})
-      }
-      newContent.rightColumn[currentPage].education.push(educationNodes[0])
-      newContent.rightColumn[currentPage].education.push(educationNodes[1][0])
-      for(let i = 1; i < educationNodes[1].length; i++) {
-        currentHeight += this.educationRef.children[i+1].clientHeight
-        if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
-          (currentPage !== 0 && currentHeight > maxNthPageHeight)
-        ) {
-          currentPage++
-          currentHeight = this.educationRef.children[i+1].clientHeight
-          newContent.rightColumn.push({education: [], skills: [], tech: [], interests: []})
-        }
-        newContent.rightColumn[currentPage].education.push(educationNodes[1][i])
-      }
-      // Parse through skill nodes
-      for(let i = 0, j = 0; i < skillNodes.length;) {
-        if(skillNodes[i] === false) {
-          i++
-        }
-        else {
-          currentHeight += this.skillsRef.children[j].clientHeight
-          if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
-            (currentPage !== 0 && currentHeight > maxNthPageHeight)
-          ) {
-            currentPage++
-            currentHeight = this.skillsRef.children[j].clientHeight
-            newContent.rightColumn.push({education: [], skills: [], tech: [], interests: []})
-          }
-          newContent.rightColumn[currentPage].skills.push(skillNodes[i])
-          i++
-          j++
-        }
-      }
-      // Parse through tech nodes
-      currentHeight += this.techRef.children[0].clientHeight + this.techRef.children[1].clientHeight
-      if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
-          (currentPage !== 0 && currentHeight > maxNthPageHeight)
-      ) {
-        currentPage++
-        currentHeight = this.techRef.children[0].clientHeight + this.techRef.children[1].clientHeight
-        newContent.rightColumn.push({education: [], skills: [], tech: [], interests: []})
-      }
-      newContent.rightColumn[currentPage].tech.push(techNodes[0])
-      newContent.rightColumn[currentPage].tech.push(techNodes[1])
-      for(let i = 2; i < techNodes.length; i++) {
-        currentHeight += this.techRef.children[i].clientHeight
-        if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
-          (currentPage !== 0 && currentHeight > maxNthPageHeight)
-        ) {
-          currentPage++
-          currentHeight = this.techRef.children[i].clientHeight
-          newContent.rightColumn.push({education: [], skills: [], tech: [], interests: []})
-        }
-        newContent.rightColumn[currentPage].tech.push(techNodes[i])
-      }
-      // Parse through interests nodes
-      currentHeight += this.interestsRef.children[0].clientHeight + this.interestsRef.children[1].clientHeight
-      if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
-          (currentPage !== 0 && currentHeight > maxNthPageHeight)
-      ) {
-        currentPage++
-        currentHeight = this.interestsRef.children[0].clientHeight + this.interestsRef.children[1].clientHeight
-        newContent.rightColumn.push({education: [], skills: [], tech: [], interests: []})
-      }
-      newContent.rightColumn[currentPage].interests.push(interestNodes[0])
-      newContent.rightColumn[currentPage].interests.push(interestNodes[1])
-      for(let i = 2; i < interestNodes.length; i++) {
-        currentHeight += this.interestsRef.children[i].clientHeight
-        if((currentPage === 0 && currentHeight > maxFirstPageHeight) ||
-          (currentPage !== 0 && currentHeight > maxNthPageHeight)
-        ) {
-          currentPage++
-          currentHeight = this.interestsRef.children[i].clientHeight
-          newContent.rightColumn.push({education: [], skills: [], tech: [], interests: []})
-        }
-        newContent.rightColumn[currentPage].interests.push(interestNodes[i])
-      }
-      const rightPages = currentPage
-
-      // Structure the content
-      const maxPageCount = Math.max(leftPages, rightPages) + 1
-      let structuredContent = []
-      for(let i = 0; i < maxPageCount; i++) {
-        structuredContent.push(
-          <Body key={i} className={i > 0 ? 'extra-page page-break' : 'body'}>
-            {newContent.leftColumn[i] && 
-              <BodyLeft>
-                {newContent.leftColumn[i].experience.length !== 0 && 
-                  <SideSection>
-                    {newContent.leftColumn[i].experience}
-                  </SideSection>
-                }
-                {newContent.leftColumn[i].projects.length !== 0 && 
-                  <SideSection>
-                    {newContent.leftColumn[i].projects}
-                  </SideSection>
-                }
-              </BodyLeft>
-            }
-            {newContent.leftColumn[i] && newContent.rightColumn[i] && 
-              <BodyColumn/>
-            }
-            {newContent.rightColumn[i] && 
-              <BodyRight>
-                {newContent.rightColumn[i].education.length !== 0 && 
-                  <SideSection>
-                    {newContent.rightColumn[i].education}
-                  </SideSection>
-                }
-                {newContent.rightColumn[i].skills.length !== 0 && 
-                  <SideSection>
-                    {newContent.rightColumn[i].skills}
-                  </SideSection>
-                }
-                {newContent.rightColumn[i].tech.length !== 0 && 
-                  <SideSection>
-                    {newContent.rightColumn[i].tech}
-                  </SideSection>
-                }
-                {newContent.rightColumn[i].interests.length !== 0 && 
-                  <SideSection>
-                    {newContent.rightColumn[i].interests}
-                  </SideSection>
-                }
-              </BodyRight>
-            }
-          </Body>
-        )
-      }
-      console.log(structuredContent)
-    
-      this.setState({
-        multiPaged: true,
-        structuredContent
-      })
-    }
-  }
-
-  componentWillUnmount() {
-    //window.removeEventListener('resize', this.updateWindowDimensions);
-  }
-
-  handleResumeSelect = (resumeTypeSelected) => {
-    if(resumeTypeSelected.value !== this.state.resumeTypeSelected.value) {
-      this.setState({resumeTypeSelected})
-    }
-  }
-
-  handleDownloadPdf = () => {
-    const { author } = this.props.data.site.siteMetadata
-    const today = new Date()
-    const resumeType = this.state.resumeTypeSelected.value
-    const title = `${author} ${resumeType} Resume`
-    let pdfScale
-
-    //if(this.state.windowWidth >= PaperMinWidth.xl) {
-      pdfScale = 0.5
-    // }
-    // else if(this.state.windowWidth >= PaperMinWidth.l) {
-    //   pdfScale = 0.75
-    // }
-    // else if(this.state.windowWidth >= PaperMinWidth.m) {
-    //   pdfScale = 1.0
-    // }
-    // else {
-    //   pdfScale = 4/3
-    // }
-    //this.setState({pdfScale: pdfScale})
-
-    savePDF(ReactDOM.findDOMNode(this.resumeRef), {
-      title: title,
-      subject: `${resumeType} Resume`,
-      author: author,
-      creator: author,
-      producer: author,
-      keywords: 'Kyle Carson Resume Computer Engineering Software Engineering Computer Science',
-      fileName: `${title} ${today.toLocaleDateString("en-US").replace(/\//g, '-')}.pdf`,
-      paperSize: 'Letter',
-      scale: pdfScale,
-      forcePageBreak: ".page-break",
-      keepTogether: ".keep-together"
-    })
-  }
-
-  updateWindowDimensions() {
-    //this.setState({windowWidth: window.innerWidth})
   }
 
   convertSVGToImage(icons) {
@@ -760,7 +783,6 @@ class ResumePage extends React.Component {
     const { siteMetadata } = data.site
     const { allSocialJson, allExperienceJson, headshot, santahat, favicon } = data
     const now = new Date()
-    let extraPages = []
     
     const ResumePageWrapper = Styled.div`
       display: flex;
@@ -844,21 +866,17 @@ class ResumePage extends React.Component {
         margin-top: 2rem;
       }
     `
-    // let ResumeContainer
-    // if(this.state.multiPaged) {
-    //   ResumeContainer = Styled(PaperHeightContainer)`
-    //     box-shadow: ${MUIBoxShadow};
-    //   `
-    // }
-    // else {
-    //   ResumeContainer = Styled(PaperMinHeightContainer)`
-    //     box-shadow: ${MUIBoxShadow};
-    //   `
-    // }
-    const ResumeContainer = Styled(PaperMinHeightContainer)`
-      box-shadow: ${MUIBoxShadow};
-      
-    `
+    let ResumeContainer
+    if(this.state.multiPaged) {
+      ResumeContainer = Styled(PaperHeightContainer)`
+        box-shadow: ${MUIBoxShadow};
+      `
+    }
+    else {
+      ResumeContainer = Styled(PaperMinHeightContainer)`
+        box-shadow: ${MUIBoxShadow};
+      `
+    }
     const ResumeWrapper = Styled.div`
       display: flex;
       flex-direction: column;
@@ -869,15 +887,7 @@ class ResumePage extends React.Component {
       color: ${props => props.theme.text};
       background-color: white;
       .body {
-        display: flex;
-      }
-      .extra-page {
-        display: none;
-      }
-      &&.separate-page {
-        .extra-page {
-          display: flex;
-        }
+        height: ${this.state.multiPaged ? '100%' : 'auto'};
       }
     `
     const Header = Styled.div`
@@ -1018,6 +1028,7 @@ class ResumePage extends React.Component {
       I am currently a {currentJob.title} at {currentJob.company.text} in {currentJob.location}
     </TextI>
 
+    let extraPages = []
     if(this.state.structuredContent !== null) {
       extraPages = this.state.structuredContent.slice(1)
     }
@@ -1050,9 +1061,9 @@ class ResumePage extends React.Component {
             </FilterWrapper>
           </PaperWidthContainer>
           <ThemeProvider theme={LightTheme}>
-            <ResumePages>
+            <ResumePages className='resume-root' ref={(resumeRef) => this.resumeRef = resumeRef}>
               <ResumeContainer>
-                <ResumeWrapper className='resume-root' ref={(resumeRef) => this.resumeRef = resumeRef}>
+                <ResumeWrapper>
                   <Header ref={(headerRef) => this.headerRef = headerRef}>
                     <HeaderTop>
                       <HeaderLeft>
@@ -1084,13 +1095,13 @@ class ResumePage extends React.Component {
                       {statusSection}
                     </HeaderBottom>
                   </Header>
-                  {this.state.structuredContent}
+                  {this.state.structuredContent && this.state.structuredContent[0]}
                 </ResumeWrapper>
               </ResumeContainer>
-              {extraPages.length > 0 && extraPages.map((page, i) => {
+              {extraPages.length !== 0 && extraPages.map((page, i) => {
                 return (
                   <ResumeContainer key={i}>
-                    <ResumeWrapper className='resume-root separate-page'>
+                    <ResumeWrapper>
                       {page}
                     </ResumeWrapper>
                   </ResumeContainer>
