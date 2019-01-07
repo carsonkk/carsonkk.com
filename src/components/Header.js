@@ -82,7 +82,7 @@ class Header extends React.Component {
         visibility: ${currentMonth !== 12 ? 'hidden' : 'visible'};
         margin: ${this.state.width <= MinWidth.s ? '1em 0 0 1rem' : '0.5rem 0 0 0.5rem'};
         button svg {
-          font-size: ${this.state.width <= MinWidth.s ? '3.5rem' : '2rem'};
+          font-size: ${this.state.width <= MinWidth.s ? '2.5rem' : '2rem'};
         }
       }
     `
@@ -101,7 +101,7 @@ class Header extends React.Component {
             }
           }
           svg {
-            font-size: ${this.state.menu ? '4rem' : '3.5rem'};
+            font-size: ${this.state.menu ? '3rem' : '2.5rem'};
           }
         }
       }

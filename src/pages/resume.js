@@ -57,7 +57,7 @@ const Body = Styled.div`
     li {
       position: relative;
       span {
-        top: -0.125em;
+        top: -0.25em;
         img {
           width: 0.25em;
           display: none;
@@ -813,6 +813,12 @@ class ResumePage extends React.Component {
     const { siteMetadata } = data.site
     const { allSocialJson, allExperienceJson, headshot, santahat, favicon } = data
     const now = new Date()
+    const srcSetRegex = /,\n(.*) .*$/g
+    let seoImg = null
+    if(headshot) {
+      seoImg = srcSetRegex.exec(headshot.fixed.srcSet)
+      seoImg = seoImg[1]
+    } 
     
     const ResumePageWrapper = Styled.div`
       display: flex;
@@ -999,6 +1005,11 @@ class ResumePage extends React.Component {
       margin-right: auto;
       font-size: 1.125rem;
     `
+    // Use later
+    const HorizontalScroll = Styled.div`
+      width: 400px;
+      overflow-x: scroll;
+    `
 
     // Social Links in Header
     let email, linkedin, github
@@ -1069,8 +1080,10 @@ class ResumePage extends React.Component {
           pathname={this.props.location.pathname}
           title='Resume'
           description="My personal, professional, and educational experiences"
+          image={seoImg}
         />
         <ResumePageWrapper>
+          {/* <HorizontalScroll> */}
           {!canvasLoaded && <canvas ref='canvas' style={{ display: 'none' }}/>}
           <PaperWidthContainer>
             <FilterWrapper>
@@ -1139,6 +1152,7 @@ class ResumePage extends React.Component {
               })}
             </ResumePages>
           </ThemeProvider>
+          {/* </HorizontalScroll> */}
         </ResumePageWrapper>
       </BaseLayout>
     )

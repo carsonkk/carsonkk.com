@@ -56,35 +56,17 @@ export const PaperHeight = {
   xl: 1584  // 2x
 }
 
-const PaperMedia = Object.keys(PaperMinWidth).reduce((acc, label) => {
-  acc[label] = (...args) => css`
-    @media (min-width: ${PaperMinWidth[label]}px) {
-      ${css(...args)}
-    }
-  `
-  return acc
-}, {})
-
 export const PaperWidthContainer = Styled.div`
   margin: auto;
-  ${PaperMedia.s`width: ${PaperWidth.s}px;`}
-  ${PaperMedia.m`width: ${PaperWidth.m}px;`}
-  ${PaperMedia.l`width: ${PaperWidth.l}px;`}
-  ${PaperMedia.xl`width: ${PaperWidth.xl}px;`}
+  width: ${PaperWidth.xl}px;
 `
 
 export const PaperHeightContainer = Styled(PaperWidthContainer)`
   display: flex;
-  ${PaperMedia.s`height: ${PaperHeight.s}px;`}
-  ${PaperMedia.m`height: ${PaperHeight.m}px;`}
-  ${PaperMedia.l`height: ${PaperHeight.l}px;`}
-  ${PaperMedia.xl`height: ${PaperHeight.xl}px;`}
+  height: ${PaperHeight.xl}px;
 `
 
 export const PaperMinHeightContainer = Styled(PaperWidthContainer)`
   display: flex;
-  ${PaperMedia.s`min-height: ${PaperHeight.s}px;`}
-  ${PaperMedia.m`min-height: ${PaperHeight.m}px;`}
-  ${PaperMedia.l`min-height: ${PaperHeight.l}px;`}
-  ${PaperMedia.xl`min-height: ${PaperHeight.xl}px;`}
+  min-height: ${PaperHeight.xl}px;
 `
