@@ -41,8 +41,9 @@ class ImagePreview extends React.Component {
         }
         > a > div:last-child > h2 {
           transition-delay: 0s;
-          top: 2%;
-          transform: translate(-50%, 2%);
+          transition-timing-function: ease-out;
+          top: 0.5rem;
+          transform: translate(-50%, 0.5rem);
         }
         > a > div:last-child > div:nth-child(2) {
           transition-delay: 0.1s;
@@ -78,8 +79,8 @@ class ImagePreview extends React.Component {
       transform: translate(-50%, -50%);
       width: calc(100% - 2rem);
       margin: 0;
-      padding: 0 1rem;
-      font-size: 2.5em;
+      padding: 0 2rem;
+      font-size: 3em;
       text-align: center;
     `
     const BackgroundFilter = Styled.div`
@@ -99,7 +100,7 @@ class ImagePreview extends React.Component {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 0 1rem;
+      padding: 0 2rem;
       opacity: 0;
       text-align: center;
       span {
@@ -109,11 +110,11 @@ class ImagePreview extends React.Component {
     const Icon = Styled.div`
       transition: opacity 0.3s;
       position: absolute;
-      top: 98%;
-      left: 98%;
-      transform: translate(-98%, -98%);
+      bottom: 0.5rem;
+      right: 1rem;
+      transform: translate(-1rem, -0.5rem);
       opacity: 0;
-      font-size: 2rem;
+      font-size: 3rem;
     `
     const breathing = keyframes`
       0% { 
@@ -128,7 +129,7 @@ class ImagePreview extends React.Component {
     `
     const BackgroundImage = frontmatter.bSingle ? Styled.div`
       transition: transform 0.4s, filter 0.6s;
-      filter: blur(0.25rem);
+      filter: blur(0.5rem);
     `
     : Styled.div`
       background: linear-gradient(${this.state.angle}deg, ${this.state.lightColor}, ${this.state.darkColor});
