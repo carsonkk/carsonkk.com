@@ -75,6 +75,16 @@ class BaseLayout extends React.Component {
         .anchor svg {
           fill: ${props => props.theme.text};
         }
+        :focus {
+          outline: none;
+          border: 0;
+        }
+      }
+      button {
+        ::-moz-focus-inner {
+          outline: none;
+          border: 0;
+        }
       }
       ul, ol {
         padding-left: 1.375rem;

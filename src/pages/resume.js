@@ -830,7 +830,7 @@ class ResumePage extends React.Component {
     const FilterWrapper = Styled.div`
       display: flex;
       width: 100%;
-      margin: 1rem 0;
+      margin: 1rem 0 2rem;
       > div:nth-child(1) {
         width: ${100/3}%;
         margin: 1rem 0.5rem 1rem 0;
@@ -899,7 +899,7 @@ class ResumePage extends React.Component {
       display: flex;
       flex-direction: column;
       > div:not(:first-child) {
-        margin-top: 2rem;
+        margin-top: 3rem;
       }
     `
     let ResumeContainer
