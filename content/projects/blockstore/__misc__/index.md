@@ -1,3 +1,0 @@
-# Project Proposal
-
-# Project Presentation
