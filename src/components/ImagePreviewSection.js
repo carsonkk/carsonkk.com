@@ -26,6 +26,7 @@ class ImagePreviewSection extends React.Component {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+      height: 300px;
     `
 
     return (

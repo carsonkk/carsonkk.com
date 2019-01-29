@@ -249,7 +249,6 @@ class Header extends React.Component {
           }
         </HeaderWrapper>
       </div>
-      
     )
   }
 }

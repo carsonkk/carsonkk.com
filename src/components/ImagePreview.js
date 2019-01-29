@@ -130,8 +130,10 @@ class ImagePreview extends React.Component {
     const BackgroundImage = frontmatter.bSingle ? Styled.div`
       transition: transform 0.4s, filter 0.6s;
       filter: blur(0.5rem);
+      height: 100%;
     `
     : Styled.div`
+      height: 100%;
       background: linear-gradient(${this.state.angle}deg, ${this.state.lightColor}, ${this.state.darkColor});
       background-size: 400% 400%;
       animation: ${breathing} ${this.state.duration}s ease infinite;

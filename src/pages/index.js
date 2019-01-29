@@ -1,6 +1,7 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import Styled from 'styled-components'
+import { Flex, Box } from '@rebass/grid'
 
 import BaseLayout from '../components/BaseLayout'
 import SEO from '../components/SEO'
@@ -12,6 +13,7 @@ import ImagePreviewSection from '../components/ImagePreviewSection'
 import SmartLink from '../components/SmartLink'
 import { DarkTheme } from '../utils/Theme'
 import { PaddedContainer } from '../utils/Container'
+import { MinWidth } from '../utils/Responsive'
 import GlitchedText from '../components/GlitchedText'
 
 class IndexPage extends React.Component {
@@ -22,7 +24,7 @@ class IndexPage extends React.Component {
     const recentArticlePosts = data.recentArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} data={edge.node}/>)
     const featuredArticlePosts = data.featuredArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} data={edge.node}/>)
     const images = [hiking_1, hiking_2, hiking_3]
-    const rate = 8000
+    const slideshowRate = 8000
 
     const IndexWrapper = Styled.div`
       display: flex;
@@ -31,6 +33,8 @@ class IndexPage extends React.Component {
     `
     const IntroSection = Styled.div`
       position: relative;
+      height: 67.5rem;
+      overflow-x: hidden;
       color: ${DarkTheme.text};
     `
     const BackgroundFilter = Styled.div`
@@ -43,10 +47,7 @@ class IndexPage extends React.Component {
       opacity: 0.7;
       background-color: black;
     `
-    const IntroBlurb = Styled(PaddedContainer)`
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    const IntroBlurb = Styled(Flex)`
       position: absolute;
       top: 0;
       bottom: 20%;
@@ -57,16 +58,6 @@ class IndexPage extends React.Component {
       text-align: center;
       h1 {
         font-size: 4rem;
-      }
-    `
-    const ButtonRow = Styled.div`
-      display: flex;
-      justify-content: center;
-      > span:first-child {
-        margin-right: 1.5rem;
-      }
-      > span:last-child {
-        margin-left: 1.5rem;
       }
     `
     const DarkButton = Styled(GenericButton)`
@@ -88,20 +79,16 @@ class IndexPage extends React.Component {
         }
       }
     `
-    const ArticleSection = Styled(PaddedContainer)`
-      display: flex;
-      flex-direction: row;
-      padding-top: 2rem;
-      padding-bottom: 2rem;
+    const ArticleColumnTitle = Styled.span`
+      display: block;
+      margin-top: 0.375em;
+      margin-bottom: 0.375em;
+      font-size: 3.5em;
+      font-weight: bold;
+      text-align: center;
+      line-height: 1;
     `
-    const ArticleColumn = Styled.div`
-      padding-left: 2rem;
-      padding-right: 2rem;
-    `
-    const Divider = Styled.div`
-      flex: 1 0 auto;
-      width: 0.25rem;
-      margin: 2rem;
+    const Divider = Styled(Box)`
       background-color: ${props => props.theme.text};
     `
     const ContactSection = Styled(PaddedContainer)`
@@ -122,44 +109,48 @@ class IndexPage extends React.Component {
         />
         <IndexWrapper>
           <IntroSection>
-            <Slideshow images={images} rate={rate} subject='hiking'/>
-            <BackgroundSlideshow images={images} rate={rate}/>
+            <Slideshow images={images} rate={slideshowRate} subject='hiking'/>
+            <BackgroundSlideshow images={images} rate={slideshowRate}/>
             <BackgroundFilter/>
-            <IntroBlurb>
+            <IntroBlurb flexDirection="column" justifyContent="center" width={[1, 1, 1, 992]} mx="auto" px={[5, 5, 5, 0]}>
               <h1><GlitchedText prologue="Hey, my name's " fontSize={64} lineHeight={1.3} color={DarkTheme.text}>Kyle</GlitchedText></h1>
               <p>
                 I'm a Software &amp; Computer Engineer from California with a passion for systems.
                 This site is meant to consolidate the articles, tutorials, project writeups
                 and everything else I've thrown together over the years.
               </p>
-              <ButtonRow>
-                <DarkButton
-                  type='internal'
-                  to='/projects'
-                  text='My Projects'
-                  icon={['fas', 'code']}
-                />
-                <DarkButton
-                  type='internal'
-                  to='/resume'
-                  text='My Resume'
-                  icon={['fas', 'paper-plane']}
-                />
-              </ButtonRow>
+              <Flex justifyContent="center" flexWrap='wrap'>
+                <Box width={[1, 1, 0.30, 0.25]} pr={[0, 0, 3]} mb={[2, 2, 0]}>
+                  <DarkButton
+                    type='internal'
+                    to='/projects'
+                    text='My Projects'
+                    icon={['fas', 'code']}
+                  />
+                </Box>
+                <Box width={[1, 1, 0.30, 0.25]} pl={[0, 0, 3]} mt={[2, 2, 0]}>
+                  <DarkButton
+                    type='internal'
+                    to='/resume'
+                    text='My Resume'
+                    icon={['fas', 'paper-plane']}
+                  />
+                </Box>
+              </Flex>
             </IntroBlurb>
           </IntroSection>
           <ShadowWrapper>
-            <ArticleSection>
-              <ArticleColumn>
-                <h1>Recent Posts</h1>
-                {recentArticlePosts}
-              </ArticleColumn>
-              <Divider/>
-              <ArticleColumn>
-                <h1>Featured Posts</h1>
+            <Flex justifyContent="center" flexWrap='wrap' px={[4, 5, 6, 6, 0]} py={5}>
+              <Box width={[1, 1, 1, 1, "30%"]}>
+                <ArticleColumnTitle>Featured Posts</ArticleColumnTitle>
                 {featuredArticlePosts}
-              </ArticleColumn>
-            </ArticleSection>
+              </Box>
+              <Divider width={[1, 1, 1, 1, "0.25rem"]} my={[4, 4, 4, 4, 0]} mx={[2, 2, 2, 2, 5]} pt={[1, 1, 1, 1, 0]}/>
+              <Box width={[1, 1, 1, 1, "30%"]}>
+                <ArticleColumnTitle>Recent Posts</ArticleColumnTitle>
+                {recentArticlePosts}
+              </Box>
+            </Flex>
           </ShadowWrapper>
           <ImagePreviewSection posts={featuredProjectPostEdges} placeholders={data}/>
           <ShadowWrapper>

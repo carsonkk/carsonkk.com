@@ -64,12 +64,9 @@ class ArticlePost extends React.Component {
       h1 {
         margin-top: 0;
         margin-bottom: 0.5rem;
-        font-size: 4rem;
+        font-size: 4em;
         font-weight: normal;
       }
-    `
-    const PostBody = Styled.div`
-      position: relative;
     `
     const TableOfContents = Styled.div`
       display: flex;
@@ -89,6 +86,9 @@ class ArticlePost extends React.Component {
           list-style-type: upper-roman;
         }
       }
+    `
+    const PostBody = Styled.div`
+      position: relative;
     `
     const PostFooter = Styled.div`
       margin-top: 2rem;

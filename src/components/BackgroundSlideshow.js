@@ -43,8 +43,12 @@ class BackgroundSlideshow extends React.Component {
       left: 50%;
       top: 50%;
       width: 100%;
+      height: 100%;
       z-index: 1;
       transform: translate(-51%, -51%) scale(1.02);
+      > div {
+        height: 100%;
+      }
     `
 
     return (

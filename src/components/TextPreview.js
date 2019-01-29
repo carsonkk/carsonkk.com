@@ -14,7 +14,7 @@ class TextPreview extends React.Component {
     const { created, title, topic, icon, tags, description } = frontmatter
     
     const TextPreviewWrapper = Styled.div`
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.5em;
     `
     const Title = Styled.div`
       line-height: 1;

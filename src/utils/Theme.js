@@ -42,6 +42,7 @@ export function RandomIcon() {
   ]
   return icons[Math.floor(Math.random()*icons.length)]
 }
+const breakpoints = ['40em', '52em', '64em', '100em']
 export const DarkTheme = {
   primary:   '#282c34',
   secondary: '#21252b',
@@ -51,7 +52,8 @@ export const DarkTheme = {
   caption:   '#bbbbbb',
   social:    '#f4f4f4',
   toggle:    '#95a5a6',
-  github:    '#404040'
+  github:    '#404040',
+  breakpoints: breakpoints
 }
 export const LightTheme = {
   primary:   '#f9f9f9',
@@ -62,7 +64,8 @@ export const LightTheme = {
   caption:   '#4f4f4f',
   social:    'transparent',
   toggle:    '#dbb726',
-  github:    '#bfbfbf'
+  github:    '#bfbfbf',
+  breakpoints: breakpoints
 }
 export const Colors = {
   oneRed: '#d15d66',

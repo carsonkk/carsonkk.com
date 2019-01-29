@@ -187,7 +187,7 @@ class BaseLayout extends React.Component {
         }
       }
       h1 {
-        font-size: 2.25em;
+        font-size: 3em;
         > a.anchor {
           margin-left: -3rem;
           padding-right: 0.5rem;
@@ -198,7 +198,7 @@ class BaseLayout extends React.Component {
         }
       }
       h2 {
-        font-size: 2em;
+        font-size: 2.5em;
         > a.anchor {
           margin-left: -2.375rem;
           padding-right: 0.5rem;
@@ -209,7 +209,7 @@ class BaseLayout extends React.Component {
         }
       }
       h3 {
-        font-size: 1.75em;
+        font-size: 2.125em;
         > a.anchor {
           margin-left: -1.9375rem;
           padding-right: 0.5rem;
@@ -221,7 +221,7 @@ class BaseLayout extends React.Component {
         }
       }
       h4 {
-        font-size: 1.5em;
+        font-size: 1.75em;
         > a.anchor {
           margin-left: -1.75rem;
           padding-right: 0.5rem;
@@ -233,7 +233,7 @@ class BaseLayout extends React.Component {
         }
       }
       h5 {
-        font-size: 1.25em;
+        font-size: 1.375em;
         > a.anchor {
           margin-left: -1.5rem;
           padding-right: 0.5rem;

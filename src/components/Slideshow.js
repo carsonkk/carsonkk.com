@@ -225,8 +225,9 @@ class Slideshow extends React.Component {
     const { images, subject } = this.props
 
     const SlideshowWrapper = Styled.div`
+      position: absolute;
+      width: 100%;
       height: 100%;
-      position: relative;
       > div:first-child {
         position: absolute;
         z-index: 0;
