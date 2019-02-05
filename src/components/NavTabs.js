@@ -5,7 +5,7 @@ class NavTabs extends React.Component {
   render() {
     const NavTabs = Styled.div`
       display: flex;
-      border-top: 0.125rem solid ${Colors.text};
+      border-top: 0.125em solid ${Colors.text};
     `
 
     return (

@@ -8,6 +8,7 @@ import Header from './Header'
 import Footer from './Footer'
 import { DarkTheme, LightTheme, MUIBoxShadow } from '../utils/Theme'
 import { FontSans, LinkStyle } from '../utils/Text'
+import { MediaMin, MediaMax } from '../utils/Responsive';
 
 const cookies = new Cookies()
 
@@ -35,7 +36,8 @@ class BaseLayout extends React.Component {
   }
 
   render() {
-    const { theme } = this.state
+    //const { theme } = this.state
+    let theme = 'dark'
     const { children } = this.props
     const BaseWrapper = Styled.div`
       display: flex;
@@ -45,16 +47,120 @@ class BaseLayout extends React.Component {
       position: relative;
       z-index: 1;
       font-family: ${FontSans};
-      font-size: 1.25rem;
-      line-height: 1.5;
       text-align: left;
       box-sizing: border-box;
       color: ${props => props.theme.text};
       background-color: ${props => props.theme.primary};
     `
     const GlobalStyle = createGlobalStyle`
+      html {
+        font-size: 1em;
+        ${MediaMin.s`
+          font-size: 1.125em;
+        `}
+        ${MediaMin.l`
+          font-size: 1.25em;
+        `}
+      }
       body {
         margin: 0;
+      }
+      h1, h2, h3, h4, h5, h6,
+      .hxxl, .hxl, .hl, .hm, .hx, .hxs {
+        display: block;
+        margin-top: 0;
+        font-family: ${FontSans};
+        font-weight: bold;
+        line-height: 1;
+        :hover {
+          a.anchor svg {
+            visibility: visible;
+            fill: ${props => props.theme.text};
+            ${MediaMax.xs`
+              visibility: hidden;
+            `}
+          }
+        }
+        a.anchor svg {
+          transition: all 0.3s;
+          visibility: hidden;
+          fill: transparent;
+        }
+      }
+      h1, .hxxl {
+        font-size: 3em;
+        margin-bottom: 0.5em;
+        > a.anchor {
+          margin-left: -1em;
+          padding-right: 0.25em;
+          svg {
+            height: 0.75em;
+            width: 0.75em;
+          }
+        }
+      }
+      h2, .hxl {
+        font-size: 2.5em;
+        margin-bottom: 0.4em;
+        > a.anchor {
+          margin-left: -1em;
+          padding-right: 0.25em;
+          svg {
+            height: 0.75em;
+            width: 0.75em;
+          }
+        }
+      }
+      h3, .hl {
+        font-size: 2.125em;
+        margin-bottom: 0.3em;
+        > a.anchor {
+          margin-left: -1em;
+          padding-right: 0.25em;
+          svg {
+            height: 0.75em;
+            width: 0.75em;
+          }
+        }
+      }
+      h4, .hm {
+        font-size: 1.75em;
+        margin-bottom: 0.2em;
+        > a.anchor {
+          margin-left: -1em;
+          padding-right: 0.25em;
+          svg {
+            height: 0.75em;
+            width: 0.75em;
+          }
+        }
+      }
+      h5, .hs {
+        font-size: 1.375em;
+        margin-bottom: 0.2em;
+        > a.anchor {
+          margin-left: -1em;
+          padding-right: 0.25em;
+          svg {
+            height: 0.75em;
+            width: 0.75em;
+          }
+        }
+      }
+      h6, .hxs {
+        font-size: 1em;
+        margin-bottom: 0.2em;
+        > a.anchor {
+          margin-left: -1em;
+          padding-right: 0.25em;
+          svg {
+            height: 0.75em;
+            width: 0.75em;
+          }
+        }
+      }
+      p, li {
+        line-height: 1.5;
       }
       p, li {
         ${LinkStyle}
@@ -87,22 +193,28 @@ class BaseLayout extends React.Component {
         }
       }
       ul, ol {
-        padding-left: 1.375rem;
+        padding-left: 1.375em;
+      }
+      .footnotes > ol > li > p {
+        display: inline;
       }
       li > p {
         margin: 0;
       }
+      hr {
+        width: 100%;
+      }
       blockquote {
         position: relative;
-        margin: 0 0 2.5em 0;
+        margin: 1em 0 3.25em 0;
         font-style: italic;
         color: ${props => props.theme.caption};
         ::before, ::after {
           display: inline-block;
-          height: 1rem;
+          height: 0.25em;
           vertical-align: top;
-          font-size: 8rem;
-          line-height: 0.775;
+          font-size: 8em;
+          line-height: 0.85;
         }
         ::before {
           content: '“';
@@ -111,25 +223,27 @@ class BaseLayout extends React.Component {
           content: '”';
           position: absolute;
           right: 0;
-          margin-right: 1.5rem;
+          margin-right: 0.2em;
+          line-height: 0.8;
         }
         p {
-          margin: 0 2rem;
-          font-size: 1.75rem;
+          margin: 0 2.25em 0 2em;
+          font-size: 1.5em;
           text-align: justify;
         }
       }
       table {
         width: 100%;
+        margin: 1em 0;
         border-spacing: 0;
         border-radius: 0.5em;
         box-shadow: ${MUIBoxShadow};
         th, td {
-          padding: 0.5rem;
+          padding: 0.5em;
         }
         th {
-          padding-top: 0.75rem;
-          padding-bottom: 0.75rem;
+          padding-top: 0.75em;
+          padding-bottom: 0.75em;
           color: ${DarkTheme.text};
           background-color: ${props => props.theme.color};
           :first-child {
@@ -160,7 +274,7 @@ class BaseLayout extends React.Component {
           display: inline-block;
         }
         .footnote-backref {
-          margin-left: 0.5rem;
+          margin-left: 0.5em;
           vertical-align: middle;
         }
       }
@@ -172,89 +286,6 @@ class BaseLayout extends React.Component {
       }
       .gatsby-resp-image-wrapper, .gatsby-resp-iframe-wrapper, .gatsby-highlight {
         box-shadow: ${MUIBoxShadow};
-      }
-      h1, h2, h3, h4, h5, h6 {
-        font-family: ${FontSans};
-        line-height: 1;
-        :hover {
-          a.anchor svg {
-            fill: ${props => props.theme.text};
-          }
-        }
-        a.anchor svg {
-          transition: all 0.3s;
-          fill: transparent;
-        }
-      }
-      h1 {
-        font-size: 3em;
-        > a.anchor {
-          margin-left: -3rem;
-          padding-right: 0.5rem;
-          svg {
-            height: 2.5rem;
-            width: 2.5rem;
-          }
-        }
-      }
-      h2 {
-        font-size: 2.5em;
-        > a.anchor {
-          margin-left: -2.375rem;
-          padding-right: 0.5rem;
-          svg {
-            height: 1.875rem;
-            width: 1.875rem;
-          }
-        }
-      }
-      h3 {
-        font-size: 2.125em;
-        > a.anchor {
-          margin-left: -1.9375rem;
-          padding-right: 0.5rem;
-  
-          svg {
-            height: 1.4375rem;
-            width: 1.4375rem;
-          }
-        }
-      }
-      h4 {
-        font-size: 1.75em;
-        > a.anchor {
-          margin-left: -1.75rem;
-          padding-right: 0.5rem;
-  
-          svg {
-            height: 1.25rem;
-            width: 1.25rem;
-          }
-        }
-      }
-      h5 {
-        font-size: 1.375em;
-        > a.anchor {
-          margin-left: -1.5rem;
-          padding-right: 0.5rem;
-  
-          svg {
-            height: 1rem;
-            width: 1rem;
-          }
-        }
-      }
-      h6 {
-        font-size: 1em;
-        > a.anchor {
-          margin-left: -1.3125rem;
-          padding-right: 0.5rem;
-  
-          svg {
-            height: 0.8125rem;
-            width: 0.8125rem;
-          }
-        }
       }
     `
     const MainWrapper = Styled.main`

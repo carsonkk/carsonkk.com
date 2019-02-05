@@ -60,7 +60,7 @@ class Header extends React.Component {
     snowstorm.toggleSnow()
     this.setState(prevState => ({snow: !prevState.snow}))
   }
-  
+
   render() {
     const now = new Date()
     const currentMonth = now.getMonth()+1
@@ -70,9 +70,9 @@ class Header extends React.Component {
       flex-direction: column;
       justify-content: space-between;
       position: relative;
-      z-index: 1000;
+      z-index: 1002;
       background-color: ${props => props.theme.secondary};
-      box-shadow: 0 0 1rem 0 black;
+      box-shadow: 0 0 1em 0 black;
     `
     const SnowButton = Styled(GenericButton)`
       && {
@@ -80,9 +80,9 @@ class Header extends React.Component {
         top: 0;
         left: 0;
         visibility: ${currentMonth !== 12 ? 'hidden' : 'visible'};
-        margin: ${this.state.width <= MinWidth.s ? '1em 0 0 1rem' : '0.5rem 0 0 0.5rem'};
+        margin: ${this.state.width <= MinWidth.s ? '0.5em 0 0 0.5em' : '0.25em 0 0 0.25em'};
         button svg {
-          font-size: ${this.state.width <= MinWidth.s ? '2.5rem' : '2rem'};
+          font-size: ${this.state.width <= MinWidth.s ? '3em' : '2.5em'};
         }
       }
     `
@@ -91,8 +91,8 @@ class Header extends React.Component {
         position: ${this.state.menu ? 'fixed' : 'absolute'};
         top: 0;
         right: 0;
-        z-index: 10010;
-        margin: 1rem 1rem 0 0;
+        z-index: 1003;
+        margin: 0.5em 0.5em 0 0;
         button {
           :hover {
             background-color: transparent;
@@ -101,7 +101,7 @@ class Header extends React.Component {
             }
           }
           svg {
-            font-size: ${this.state.menu ? '3rem' : '2.5rem'};
+            font-size: ${this.state.menu ? '3em' : '2.5em'};
           }
         }
       }
@@ -122,7 +122,7 @@ class Header extends React.Component {
     const TabButton = Styled(GenericButton)`
       && {
         a {
-          border-radius: 0.5rem 0.5rem 0 0;
+          border-radius: 0.25em 0.25em 0 0;
           :hover {
             svg {
               animation: 0.3s ${keyframes`${fadeInUp}`};
@@ -148,11 +148,11 @@ class Header extends React.Component {
       && {
         width: 100%;
         a {
-          padding: 2rem calc(100% - 1rem) 2rem 1rem;
+          padding: 1em calc(100% - 0.5em) 1em 0.5em;
           border-radius: 0;
-          font-size: 2.5rem;
+          font-size: 2.5em;
           svg {
-            font-size: 2.5rem;
+            font-size: 1em;
           }
         }
       }

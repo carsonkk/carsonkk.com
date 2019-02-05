@@ -460,17 +460,17 @@ class SearchSection extends React.Component {
       display: flex;
       position: relative;
       z-index: 2;
-      padding-top: 4rem;
+      padding-top: 4em;
       background-color: ${props => props.theme.primary};
     `
     const StyledSearchBar = withStyles({
       root: {
         flex: '1 1 auto',
-        margin: '0 0.5rem 1rem 0rem',
+        margin: '0 0.5em 1em 0em',
       },
       input: {
         fontFamily: `${FontSans}`,
-        fontSize: '1.25rem',
+        fontSize: '1.25em',
         color: `${LightTheme.text}`
       },
       searchIconButton: {
@@ -478,7 +478,7 @@ class SearchSection extends React.Component {
       },
       iconButton: {
         transition: 'all 0.3s',
-        fontSize: '1rem',
+        fontSize: '1em',
         color: 'hsl(0, 0%, 60%)',
         '&:hover': {
           color: 'hsl(0, 0%, 40%)',
@@ -491,7 +491,7 @@ class SearchSection extends React.Component {
     })(SearchBar)
     const FilterButton = Styled(GenericButton)`
       && {
-        margin: 0 0 1rem 0.5rem;
+        margin: 0 0 1em 0.5em;
         > button {
           height: 100%;
           > span {
@@ -508,15 +508,15 @@ class SearchSection extends React.Component {
       width: 100%;
       > div:nth-child(1) {
         width: ${100/3}%;
-        margin: 1rem 0.5rem 1rem 0;
+        margin: 1em 0.5em 1em 0;
       }
       > div:nth-child(2) {
         width: ${100/3}%;
-        margin: 1rem 0.5rem;
+        margin: 1em 0.5em;
       }
       > div:nth-child(3) {
         width: ${100/3}%;
-        margin: 1rem 0 1rem 0.5rem;
+        margin: 1em 0 1em 0.5em;
       }
     `
     const selectStyles = {
@@ -545,8 +545,8 @@ class SearchSection extends React.Component {
       }),
       multiValue: (provided) => ({
         ...provided,
-        borderRadius: '0.5rem',
-        border: '0.125rem solid #6ecfff',
+        borderRadius: '0.5em',
+        border: '0.125em solid #6ecfff',
         color: '#2a2a2a',
         backgroundColor: 'white'
       }),
@@ -570,7 +570,7 @@ class SearchSection extends React.Component {
       align-items: center;
       span {
         margin-top: 0;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.5em;
       }
     `
     const SearchResults = Styled.div`
@@ -596,8 +596,8 @@ class SearchSection extends React.Component {
       align-items: center;
     `
     const NoResultsText = Styled.span`
-      margin-top: 4rem;
-      font-size: 2rem;
+      margin-top: 4em;
+      font-size: 2em;
       font-style: italic;
     `
     const PaginateWrapper = Styled.div`
@@ -606,8 +606,8 @@ class SearchSection extends React.Component {
         display: flex;
         justify-content: center;
         list-style-type: none;
-        margin: 0.5rem 0;
-        padding: 0.75rem 0 1rem 0;
+        margin: 0.5em 0;
+        padding: 0.75em 0 1em 0;
         overflow: hidden;
         li {
           display: flex;
@@ -617,10 +617,10 @@ class SearchSection extends React.Component {
           a {
             transition: all 0.3s;
             margin: 0;
-            padding: 0.125rem 0.75rem;
+            padding: 0.125em 0.75em;
             border: none;
-            border-radius: 0.375rem;
-            font-size: 1.5rem;
+            border-radius: 0.375em;
+            font-size: 1.5em;
             color: ${props => props.theme.text};
             background-color: transparent;
             :focus {
@@ -644,13 +644,13 @@ class SearchSection extends React.Component {
         }
         .previous {
           flex: 1 0 auto;
-          margin-right: 2rem;
+          margin-right: 2em;
           font-weight: bold;
         }
         .next {
           flex: 1 0 auto;
           justify-content flex-end;
-          margin-left: 2rem;
+          margin-left: 2em;
           font-weight: bold;
         }
       }

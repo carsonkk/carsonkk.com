@@ -1,12 +1,13 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import Styled from 'styled-components'
+import { Flex } from '@rebass/grid'
+import { ResMinWidthEm } from '../utils/Responsive'
 import ReactPaginate from 'react-paginate'
 
 import BaseLayout from '../components/BaseLayout'
 import SEO from '../components/SEO'
 import TextPreview from '../components/TextPreview'
-import { PaddedContainer } from '../utils/Container'
 
 const perPage = 5
 const dummyResult = {
@@ -55,7 +56,6 @@ class ArticlesPage extends React.Component {
     }
 
     const ArticlesPageWrapper = Styled.div`
-      padding-top: 4rem;
       width: 100%;
     `
     const ArticlesWrapper = Styled.div`
@@ -86,8 +86,8 @@ class ArticlesPage extends React.Component {
         display: flex;
         justify-content: center;
         list-style-type: none;
-        margin: 0.5rem 0;
-        padding: 0.75rem 0 1rem 0;
+        margin: 0.5em 0;
+        padding: 0.375em 0 0.5em 0;
         overflow: hidden;
         li {
           display: flex;
@@ -97,10 +97,10 @@ class ArticlesPage extends React.Component {
           a {
             transition: all 0.3s;
             margin: 0;
-            padding: 0.125rem 0.75rem;
+            padding: 0.125em 0.375em;
             border: none;
-            border-radius: 0.375rem;
-            font-size: 1.5rem;
+            border-radius: 0.25em;
+            font-size: 1.5em;
             color: ${props => props.theme.text};
             background-color: transparent;
             :focus {
@@ -124,14 +124,20 @@ class ArticlesPage extends React.Component {
         }
         .previous {
           flex: 1 0 auto;
-          margin-right: 2rem;
+          margin-right: 2em;
           font-weight: bold;
+          a {
+            padding-top: 0.05em;
+          }
         }
         .next {
           flex: 1 0 auto;
           justify-content flex-end;
-          margin-left: 2rem;
+          margin-left: 2em;
           font-weight: bold;
+          a {
+            padding-top: 0.05em;
+          }
         }
       }
     `
@@ -144,7 +150,7 @@ class ArticlesPage extends React.Component {
           description="Articles I've written"
         />
         <ArticlesPageWrapper>
-          <PaddedContainer>
+          <Flex flexDirection="column" width={[1, 1, 1, 1, ResMinWidthEm.s]} mx="auto" px={[4, 5, 6, 6, 0]} py={5}>
             <ArticlesWrapper>
               <TextPreview data={paginatedResults[offset]}/>
               <TextPreview data={paginatedResults[offset+1]}/>
@@ -166,7 +172,7 @@ class ArticlesPage extends React.Component {
                 />
               </PaginateWrapper>
             </SearchFooter>
-          </PaddedContainer>
+          </Flex>
         </ArticlesPageWrapper>
       </BaseLayout>
     )

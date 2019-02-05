@@ -26,7 +26,7 @@ class SmartButton extends React.Component {
         display: inline-flex;
         cursor: pointer;
         svg {
-          padding: 0 ${(iconText && isIconLeft) ? `0.25rem` : `0`} 0 ${(iconText && !isIconLeft) ? `0.25rem` : `0`};
+          padding: 0 ${(iconText && isIconLeft) ? `0.25em` : `0`} 0 ${(iconText && !isIconLeft) ? `0.25em` : `0`};
         }
         > span {
           display: inline-flex;
@@ -44,7 +44,7 @@ class SmartButton extends React.Component {
     return (
       <SmartButtonWrapper className={className}>
         {type === 'internal' &&
-          <Link to={to} title={title} activeClassName={'active'} rel={intRel}>
+          <Link to={to} title={title} getProps={({isPartiallyCurrent}) => {return isPartiallyCurrent ? {className: "active"} : null}} rel={intRel}>
             {content}
           </Link>
         }

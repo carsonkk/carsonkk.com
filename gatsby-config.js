@@ -67,7 +67,7 @@ module.exports = {
           {
             resolve: 'gatsby-remark-images',
             options: {
-              maxWidth: 992,
+              maxWidth: 1000,
               backgroundColor: 'black',
               linkImagesToOriginal: false
             }
@@ -75,7 +75,7 @@ module.exports = {
           {
             resolve: 'gatsby-remark-embed-video',
             options: {
-              width: 992,
+              width: 1000,
               related: false,
               noIframeBorder: true
             }
@@ -96,7 +96,7 @@ module.exports = {
               styles: {
                 display: 'inline',
                 position: 'relative',
-                width: '1.5rem',
+                width: '1.5em',
                 margin: '0',
                 verticalAlign: 'text-top'
               }

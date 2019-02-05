@@ -108,9 +108,9 @@ class ProjectPost extends React.Component {
       width: 100%;
     `
     const Banner = Styled.div`
-      margin-bottom: 2rem;
+      margin-bottom: 2em;
       .gatsby-image-wrapper {
-        max-height: 12rem;
+        max-height: 12em;
         img {
           right: 0 !important;
           margin: auto !important;
@@ -121,32 +121,32 @@ class ProjectPost extends React.Component {
     const PostHeader = Styled.div`
       display: flex;
       flex-direction: column;
-      margin-bottom: 3rem;
+      margin-bottom: 3em;
     `
     const HeaderContent = Styled.div`
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      margin-bottom: 1rem;
+      margin-bottom: 1em;
     `
     const Left = Styled.div`
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding-right: 4rem;
+      padding-right: 4em;
     `
     const NameWrapper = Styled.div`
       display: flex;
       flex-direction: row;
       align-items: center;
       .gatsby-image-wrapper {
-        margin-right: 1rem;
+        margin-right: 1em;
         img {
           border-radius: 50%;
         }
       }
       h1 {
-        margin: 0 0 0.5rem 0;
+        margin: 0 0 0.5em 0;
         font-family: ${FontSans};
         font-size: 3em;
       }
@@ -162,34 +162,34 @@ class ProjectPost extends React.Component {
     const ButtonRow = Styled.div`
       display: flex;
       flex-direction: row;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.25em;
       > span:not(:first-child) {
-        padding-left: 0.5rem;
+        padding-left: 0.5em;
       }
       > span:not(:last-child) {
-        padding-right: 0.5rem;
+        padding-right: 0.5em;
       }
     `
     const GitHubButton = Styled(GenericButton)`
       && {
         svg {
-          font-size: 0.675rem;
+          font-size: 0.675em;
         }
         a {
-          padding: 0.375rem 0.5rem;
+          padding: 0.375em 0.5em;
           border: 2px solid ${props => props.theme.text};
-          font-size: 1rem;
+          font-size: 1em;
         }
       }
     `
     const NavTabs = Styled.div`
       display: flex;
-      border-top: 0.125rem solid ${props => props.theme.text};
+      border-top: 0.125em solid ${props => props.theme.text};
     `
     const NavButton = Styled(GenericButton)`
       && {
         button {
-          border-radius: 0 0 0.5rem 0.5rem;
+          border-radius: 0 0 0.5em 0.5em;
         }
       }
     `
@@ -209,7 +209,7 @@ class ProjectPost extends React.Component {
           }
           p {
             margin: 0;
-            font-size: 1.25rem;
+            font-size: 1.25em;
             font-style: normal;
             text-align: left;
           }

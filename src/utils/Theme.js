@@ -3,6 +3,8 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 
+import { BreakpointsPx, SpacingPx } from './Responsive'
+
 library.add(
   far,
   fas,
@@ -42,7 +44,6 @@ export function RandomIcon() {
   ]
   return icons[Math.floor(Math.random()*icons.length)]
 }
-const breakpoints = ['40em', '52em', '64em', '100em']
 export const DarkTheme = {
   primary:   '#282c34',
   secondary: '#21252b',
@@ -53,7 +54,8 @@ export const DarkTheme = {
   social:    '#f4f4f4',
   toggle:    '#95a5a6',
   github:    '#404040',
-  breakpoints: breakpoints
+  breakpoints: BreakpointsPx,
+  space: SpacingPx
 }
 export const LightTheme = {
   primary:   '#f9f9f9',
@@ -65,7 +67,8 @@ export const LightTheme = {
   social:    'transparent',
   toggle:    '#dbb726',
   github:    '#bfbfbf',
-  breakpoints: breakpoints
+  breakpoints: BreakpointsPx,
+  space: SpacingPx
 }
 export const Colors = {
   oneRed: '#d15d66',
@@ -132,7 +135,7 @@ export const VerticalInsetShadow = `::after {
   top: 0;
   width: 100%;
   height: 100%;
-  box-shadow: inset 0rem 0.5rem 1.25rem -0.5rem black, inset 0rem -0.5rem 1.25rem -0.5rem black;
+  box-shadow: inset 0em 0.5em 1.25em -0.5em black, inset 0em -0.5em 1.25em -0.5em black;
 }`
 
 export const MUIBoxShadow = '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)'

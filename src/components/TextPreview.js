@@ -14,7 +14,7 @@ class TextPreview extends React.Component {
     const { created, title, topic, icon, tags, description } = frontmatter
     
     const TextPreviewWrapper = Styled.div`
-      margin-bottom: 1.5em;
+      margin-bottom: 2em;
     `
     const Title = Styled.div`
       line-height: 1;
@@ -23,7 +23,7 @@ class TextPreview extends React.Component {
         line-height: 1.5;
         :hover {
           div {
-            transform: scaleY(1);
+            transform: scaleY(0.9);
           }
         }
         div {
@@ -31,15 +31,17 @@ class TextPreview extends React.Component {
           transform-origin: top;
           transform: scaleY(0);
           width: 0.25rem;
-          margin-left: -1rem;
-          margin-right: 0.75rem;
+          margin-left: -1em;
+          margin-right: 0.75em;
           background-color: ${props => props.theme.text};
         }
-        h3 {
-          margin: 0;
-          font-size: 1.25em;
-        }
       }
+      h4 {
+        margin-bottom: 0.125em;
+      }
+    `
+    const PreviewDescription = Styled.div`
+      margin-top: 0.375em;
     `
 
     return (
@@ -48,7 +50,7 @@ class TextPreview extends React.Component {
           <Title>
             <Link to={`${slug}`}>
               <div></div>
-              <h3>{title}</h3>
+              <h4>{title}</h4>
             </Link>
           </Title>
         }
@@ -85,14 +87,14 @@ class TextPreview extends React.Component {
             linkStates={tags.map(tag => ({tag: tag}))}
           />
         }
-        <div>
+        <PreviewDescription>
           {excerpt && type === 'article' &&
             <span>{excerpt}</span>
           }
           {description && type !== 'article' &&
             <span>{description}</span>
           }
-        </div>
+        </PreviewDescription>
       </TextPreviewWrapper>
     )
   }

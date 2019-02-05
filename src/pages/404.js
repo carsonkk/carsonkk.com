@@ -16,22 +16,22 @@ class NotFoundPage extends React.Component {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 2rem;
+      margin-top: 2em;
     `
     const Title = Styled.h1`
-      margin: 0 0 1rem 0;
-      font-size: 6rem;
+      margin: 0 0 1em 0;
+      font-size: 6em;
     `
     const Tagline = Styled.span`
-      padding: 0 1rem;
+      padding: 0 1em;
       font-style: italic;
       text-align: center;
     `
     const ButtonWrapper = Styled.div`
       display: flex;
-      margin: 1rem 0 0 0;
+      margin: 1em 0 0 0;
       > span:first-child {
-        margin-right: 1rem;
+        margin-right: 1em;
       }
     `
 

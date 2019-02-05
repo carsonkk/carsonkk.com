@@ -47,10 +47,10 @@ class CopyButton extends React.Component {
         button {
           position: absolute;
           right: 0;
-          margin: 0.5rem 0.5rem 0 0;
-          padding: 0.375rem 0.5rem;
+          margin: 0.5em 0.5em 0 0;
+          padding: 0.375em 0.5em;
           opacity: 0.25;
-          font-size: 1rem;
+          font-size: 1em;
           font-weight: bold;
           color: ${DarkTheme.primary};
           background-color: ${DarkTheme.text};
@@ -62,7 +62,7 @@ class CopyButton extends React.Component {
             }
           }
           svg {
-            font-size: 0.675rem;
+            font-size: 0.675em;
             color: ${DarkTheme.color};
           }
         }

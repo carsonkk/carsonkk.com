@@ -20,7 +20,7 @@ class AdjacentPosts extends React.Component {
     const AdjacentPostsWrapper = Styled.div`
       display: flex;
       flex-direction: column;
-      margin-top: 3rem;
+      margin-top: 1em;
     `
     const SeperatedWrapper = Styled.div`
       display: flex;
@@ -28,14 +28,14 @@ class AdjacentPosts extends React.Component {
     `
     const PrevTitle = Styled.span`
       display: block;
-      margin: 0.5rem 1rem 0 0;
-      max-width: 15rem;
+      margin: 0.5em 1em 0 0;
+      max-width: 15em;
       font-style: italic;
     `
     const NextTitle = Styled.span`
       display: block;
-      margin: 0.5rem 0 0 1rem;
-      max-width: 15rem;
+      margin: 0.5em 0 0 1em;
+      max-width: 15em;
       font-style: italic;
       text-align: right;
     `

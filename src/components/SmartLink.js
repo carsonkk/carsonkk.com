@@ -28,7 +28,7 @@ class SmartLink extends React.Component {
     return (
       <SmartLinkWrapper className={className}>
         {type === 'internal' &&
-          <Link to={to} title={title} activeClassName={`active`} state={linkState} rel={intRel}>
+          <Link to={to} title={title} getProps={({isPartiallyCurrent}) => {return isPartiallyCurrent ? {className: "active"} : null}} state={linkState} rel={intRel}>
             {text}
           </Link>
         }

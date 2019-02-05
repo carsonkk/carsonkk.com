@@ -9,9 +9,9 @@ class SocialLink extends React.Component {
       a {
         transition: all 0.3s;
         display: block;
-        margin: 0 0.5rem;
-        padding: 0.25rem 0.25rem;
-        border-radius: 0.375rem;
+        margin: 0 0.5em;
+        padding: 0.25em 0.25em;
+        border-radius: 0.375em;
         line-height: 0;
         
         :hover {

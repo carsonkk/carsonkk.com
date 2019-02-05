@@ -24,17 +24,17 @@ export const Media = Object.keys(MinWidth).reduce((acc, label) => {
 export const Container = Styled.div`
   margin-left: auto;
   margin-right: auto;
-  ${Media.s`max-width: ${MaxWidth.s/16}rem`}
-  ${Media.m`max-width: ${MaxWidth.m/16}rem`}
-  ${Media.l`max-width: ${MaxWidth.l/16}rem`}
+  ${Media.s`max-width: ${MaxWidth.s/16}em`}
+  ${Media.m`max-width: ${MaxWidth.m/16}em`}
+  ${Media.l`max-width: ${MaxWidth.l/16}em`}
 `
 
 export const PaddedContainer = Styled(Container)`
-  padding: 0rem 4rem;
+  padding: 0em 4em;
 `
 
 export const PostContainer = Styled(Container)`
-  padding: 4rem;
+  padding: 4em;
 `
 
 export const PaperMinWidth = {

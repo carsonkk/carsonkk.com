@@ -2,6 +2,7 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import Img from 'gatsby-image'
 import Styled from 'styled-components'
+import { Flex } from '@rebass/grid'
 import RehypeReact from 'rehype-react'
 
 import BaseLayout from '../components/BaseLayout'
@@ -10,9 +11,9 @@ import MetaText from '../components/MetaText'
 import GenericButton from '../components/GenericButton'
 import CopyButton from '../components/CopyButton'
 import AdjacentPosts from '../components/AdjacentPosts'
-import { PostContainer } from '../utils/Container'
 import { FancyDateMDY } from '../utils/Date'
 import { FontSerif } from '../utils/Text'
+import { ResMinWidthEm } from '../utils/Responsive'
 
 const RenderAst = new RehypeReact({
   createElement: React.createElement,
@@ -45,25 +46,25 @@ class ArticlePost extends React.Component {
       }
     `
     const Banner = Styled.div`
-      flex: 0 0 20rem;
+      flex: 0 0 24em;
       div {
         position: fixed;
         width: 100%;
-        height: 34rem;
-        margin-top: -7rem;
+        height: 100%;
+        margin-top: -6em;
       }
     `
     const ShadowWrapper = Styled.div`
       position: relative;
       flex: 1;
-      box-shadow: 0rem 0rem 1.5rem -0.25rem black;
+      box-shadow: 0em 0em 1.5em -0.25em black;
       background-color: ${props => props.theme.primary};
     `
     const PostHeader = Styled.div`
-      margin-bottom: 3rem;
+      margin-bottom: 3em;
       h1 {
         margin-top: 0;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25em;
         font-size: 4em;
         font-weight: normal;
       }
@@ -71,15 +72,15 @@ class ArticlePost extends React.Component {
     const TableOfContents = Styled.div`
       display: flex;
       flex-direction: column;
-      margin-bottom: 3rem;
+      margin-bottom: 3em;
       > p {
         margin: 0;
-        font-size: 2rem;
+        font-size: 2em;
         font-weight: bold;
       }
       > div {
         > ul {
-          padding-left: 2rem;
+          padding-left: 2em;
         }
         ul {
           margin: 0;
@@ -91,16 +92,20 @@ class ArticlePost extends React.Component {
       position: relative;
     `
     const PostFooter = Styled.div`
-      margin-top: 2rem;
+      margin-top: 3em;
+      h1 {
+        margin-top: 0;
+        margin-bottom: 0.25em;
+      }
     `
     const PostFooterTagline = Styled.span`
-      font-size: 1.5rem;
+      font-size: 1.5em;
       font-style: italic;
     `
     const PostButtonsWrapper = Styled.div`
       display: flex;
       justify-content: space-evenly;
-      margin-top: 0.5rem;
+      margin-top: 0.5em;
     `
 
     return (
@@ -119,7 +124,7 @@ class ArticlePost extends React.Component {
             </div>
           </Banner>
           <ShadowWrapper>
-            <PostContainer>
+            <Flex flexDirection="column" width={[1, 1, 1, 1, ResMinWidthEm.s]} mx="auto" px={[4, 5, 6, 6, 0]} py={5}>
               <PostHeader>
                 <h1 className='title'>{title}</h1>
                 <MetaText
@@ -179,16 +184,21 @@ class ArticlePost extends React.Component {
               }
               <PostBody>{RenderAst(htmlAst)}</PostBody>
               <hr/>
+              <AdjacentPosts 
+                currentPost={markdownRemark}
+                allPosts={edges}
+              />
               <PostFooter>
                 {comments &&
                   <div>
+                    <h1>Discussion</h1>
                     <PostFooterTagline>Questions? Comments? Join the discussion over on the...</PostFooterTagline>
                     <PostButtonsWrapper>
                       {github &&
                         <GenericButton
                           type='external'
                           to={github}
-                          text='GitHub Issue'
+                          text='Issue'
                           icon={['fab', 'github']}
                         />
                       }
@@ -196,7 +206,7 @@ class ArticlePost extends React.Component {
                         <GenericButton
                           type='external'
                           to={reddit}
-                          text='Reddit Post'
+                          text='Post'
                           icon={['fab', 'reddit-alien']}
                         />
                       }
@@ -204,19 +214,15 @@ class ArticlePost extends React.Component {
                         <GenericButton
                           type='external'
                           to={medium}
-                          text='Medium Article'
+                          text='Article'
                           icon={['fab', 'medium-m']}
                         />
                       }
                     </PostButtonsWrapper>
                   </div>
                 }
-                <AdjacentPosts 
-                  currentPost={markdownRemark}
-                  allPosts={edges}
-                />
               </PostFooter>
-            </PostContainer>
+            </Flex>
           </ShadowWrapper>
         </Article>
       </BaseLayout>

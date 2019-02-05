@@ -5,6 +5,7 @@ banner: 'neature.jpg'
 logo: 'seal.jpg'
 title: 'Sealarg'
 description: 'An easy-to-use command line argument parsing library for C'
+feature: true
 topic: 'Software'
 icon: 'code'
 tags:

@@ -5,7 +5,6 @@ title: 'drngs'
 description: 'Experimenting with deterministic RNGs'
 topic: 'Software'
 icon: 'code'
-feature: true
 tags:
   - 'drngs'
   - 'C'

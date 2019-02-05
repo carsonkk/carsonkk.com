@@ -37,7 +37,7 @@ const Body = Styled.div`
     font-family: ${FontSans};
   }
   h2 {
-    padding-bottom: 0.25rem;
+    padding-bottom: 0.25em;
     font-size: 1.75em;
     ::before {
       content: '';
@@ -45,7 +45,7 @@ const Body = Styled.div`
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 0.25rem;
+      height: 4px;
       background-color: ${props => props.theme.color};
     }
   }
@@ -56,6 +56,7 @@ const Body = Styled.div`
     margin: 0;
     li {
       position: relative;
+      line-height: 1.375;
       span {
         top: -0.25em;
         img {
@@ -70,13 +71,13 @@ const BodyLeft = Styled.div`
   flex: 1 1 77%;
   display: flex;
   flex-direction: column;
-  padding-right: 1.5rem;
+  padding-right: 1.5em;
   > div:first-child {
     padding-top: 0;
   }
 `
 const BodyColumn = Styled.div`
-  width: 0.125rem;
+  width: 0.125em;
   align-self: stretch;
   background-color: rgba(0,0,0,0.1);
 `
@@ -84,7 +85,7 @@ const BodyRight = Styled.div`
   flex: 1 1 22%;
   display: flex;
   flex-direction: column;
-  padding-left: 1.5rem;
+  padding-left: 1.5em;
   > div:first-child {
     padding-top: 0;
   }
@@ -92,18 +93,18 @@ const BodyRight = Styled.div`
 const SideSection = Styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 1rem;
+  padding-top: 1em;
 `
 const SideSubsection = Styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 0.75rem;
+  padding-top: 0.75em;
   .verbose-url {
     display: none;
   }
 `
 const SideSubsectionList = Styled.div`
-  padding-top: 0.75rem;
+  padding-top: 0.75em;
 `
 
 class ResumePage extends React.Component {
@@ -824,16 +825,18 @@ class ResumePage extends React.Component {
       display: flex;
       flex-direction: column;
       width: 100%;
-      margin-bottom: 2rem;
-      padding: 2rem;
+      overflow-x: hidden;
+      margin-bottom: 2em;
+      padding: 2em 0;
     `
     const FilterWrapper = Styled.div`
       display: flex;
       width: 100%;
-      margin: 1rem 0 2rem;
+      margin: 1em 0 2em;
+      padding: 0 2em;
       > div:nth-child(1) {
         width: ${100/3}%;
-        margin: 1rem 0.5rem 1rem 0;
+        margin: 1em 0.5em 1em 0;
       }
     `
     const selectStyles = {
@@ -862,8 +865,8 @@ class ResumePage extends React.Component {
       }),
       multiValue: (provided) => ({
         ...provided,
-        borderRadius: '0.5rem',
-        border: '0.125rem solid #6ecfff',
+        borderRadius: '0.5em',
+        border: '0.125em solid #6ecfff',
         color: '#2a2a2a',
         backgroundColor: 'white'
       }),
@@ -883,7 +886,7 @@ class ResumePage extends React.Component {
     }
     const DownloadButton = Styled(GenericButton)`
       && {
-        margin: 1rem 0 1rem 0.5rem;
+        margin: 1em 0 1em 0.5em;
         > button {
           height: 100%;
           > span {
@@ -899,27 +902,31 @@ class ResumePage extends React.Component {
       display: flex;
       flex-direction: column;
       > div:not(:first-child) {
-        margin-top: 3rem;
+        margin-top: 3em;
       }
     `
     let ResumeContainer
     if(this.state.multiPaged) {
       ResumeContainer = Styled(PaperHeightContainer)`
         box-shadow: ${MUIBoxShadow};
+        transform-origin: 0 0;
+        transform: scale(0.5);
       `
     }
     else {
       ResumeContainer = Styled(PaperMinHeightContainer)`
         box-shadow: ${MUIBoxShadow};
+        transform-origin: 0 0;
+        transform: scale(0.5);
       `
     }
     const ResumeWrapper = Styled.div`
       display: flex;
       flex-direction: column;
       width: 100%;
-      padding: 3rem;
-      font-size: 1rem;
+      padding: 3em;
       line-height: 1.375;
+      font-size: 16px;
       color: ${props => props.theme.text};
       background-color: white;
       .body {
@@ -929,8 +936,8 @@ class ResumePage extends React.Component {
     const Header = Styled.div`
       display: flex;
       flex-direction: column;
-      margin-bottom: 1rem;
-      border-bottom: 0.125rem solid rgba(0,0,0,0.1);
+      margin-bottom: 1em;
+      border-bottom: 0.125em solid rgba(0,0,0,0.1);
     `
     const HeaderTop = Styled.div`
       display: flex;
@@ -953,62 +960,60 @@ class ResumePage extends React.Component {
       align-items: center;
       h1 {
         margin-top: 0;
-        margin-bottom: 0.25rem;
+        margin-bottom: 0.125em;
         font-family: ${FontSans};
-        font-size: 4rem;
+        font-size: 64px;
       }
       span {
         font-weight: bold;
-        font-size: 1.25rem;
+        font-size: 20px;
         color: ${props => props.theme.caption};
       }
     `
     const Headshot = Styled.div`
       position: relative;
       .headshot {
-        margin: 0.5rem 1rem 0 0;
+        margin: 0.5em 1em 0 0;
         img {
           border-radius: 100%;
         }
       }
       .santa-hat {
         position: absolute;
-        top: -2.875rem;
-        left: -2.5rem;
+        top: -2.875em;
+        left: -2.5em;
       }
     `
     const HeaderRight = Styled.div`
       display: flex;
       flex-direction: column;
-      margin-left: 1.5rem;
       color: ${props => props.theme.text};
     `
     const LinkText = Styled(MetaText)`
       && {
         margin: 0;
-        font-size: 1.125rem;
+        padding: 2px 0;
+        font-size: 18px;
         > div:first-child {
           svg, img, div {
             display: inline-block;
-            margin-right: 0.5rem;
             width: 1em;
             height: 1em;
-            vertical-align: -0.125em;
+            vertical-align: -2px;
             text-align: center; 
           }
         }
       }
     `
     const HeaderBottom = Styled.div`
-      margin-top: 0.5rem;
-      margin-left: auto;
-      margin-right: auto;
-      font-size: 1.125rem;
+      padding-top: 1em;
+      margin: 0 auto;
+      font-size: 1.125em;
     `
-    // Use later
-    const HorizontalScroll = Styled.div`
-      width: 400px;
-      overflow-x: scroll;
+    const ScrollWrapper = Styled.div`
+      width: 100%;
+      height: 500px;
+      overflow: scroll;
     `
 
     // Social Links in Header
@@ -1083,7 +1088,6 @@ class ResumePage extends React.Component {
           image={seoImg}
         />
         <ResumePageWrapper>
-          {/* <HorizontalScroll> */}
           {!canvasLoaded && <canvas ref='canvas' style={{ display: 'none' }}/>}
           <PaperWidthContainer>
             <FilterWrapper>
@@ -1103,56 +1107,57 @@ class ResumePage extends React.Component {
               />
             </FilterWrapper>
           </PaperWidthContainer>
-          <ThemeProvider theme={LightTheme}>
-            <ResumePages className='resume-root' ref={(resumeRef) => this.resumeRef = resumeRef}>
-              <ResumeContainer>
-                <ResumeWrapper>
-                  <Header ref={(headerRef) => this.headerRef = headerRef}>
-                    <HeaderTop>
-                      <HeaderLeft>
-                        <NameWrapper>
-                          <Headshot>
-                            {headshot &&
-                              <Img className='headshot' fixed={headshot.fixed} alt='Me'/>
-                            }
-                            {santahat && now.getMonth()+1 === 12 &&
-                              <div className='santa-hat'>
-                                <Img fixed={santahat.fixed} alt='Santa Hat'/>
-                              </div>
-                            }
-                          </Headshot>
-                          <div>
-                            <h1>{siteMetadata.author}</h1>
-                            <span>{siteMetadata.about}</span>
-                          </div>
-                        </NameWrapper>
-                      </HeaderLeft>
-                      <HeaderRight>
-                        {socialLinks[email]}
-                        {socialLinks[linkedin]}
-                        {socialLinks[github]}
-                        {home}
-                      </HeaderRight>
-                    </HeaderTop>
-                    <HeaderBottom>
-                      {statusSection}
-                    </HeaderBottom>
-                  </Header>
-                  {this.state.structuredContent && this.state.structuredContent[0]}
-                </ResumeWrapper>
-              </ResumeContainer>
-              {extraPages.length !== 0 && extraPages.map((page, i) => {
-                return (
-                  <ResumeContainer key={i}>
-                    <ResumeWrapper>
-                      {page}
-                    </ResumeWrapper>
-                  </ResumeContainer>
-                )
-              })}
-            </ResumePages>
-          </ThemeProvider>
-          {/* </HorizontalScroll> */}
+          <ScrollWrapper>
+            <ThemeProvider theme={LightTheme}>
+              <ResumePages className='resume-root' ref={(resumeRef) => this.resumeRef = resumeRef}>
+                <ResumeContainer>
+                  <ResumeWrapper>
+                    <Header ref={(headerRef) => this.headerRef = headerRef}>
+                      <HeaderTop>
+                        <HeaderLeft>
+                          <NameWrapper>
+                            <Headshot>
+                              {headshot &&
+                                <Img className='headshot' fixed={headshot.fixed} alt='Me'/>
+                              }
+                              {santahat && now.getMonth()+1 === 12 &&
+                                <div className='santa-hat'>
+                                  <Img fixed={santahat.fixed} alt='Santa Hat'/>
+                                </div>
+                              }
+                            </Headshot>
+                            <div>
+                              <h1>{siteMetadata.author}</h1>
+                              <span>{siteMetadata.about}</span>
+                            </div>
+                          </NameWrapper>
+                        </HeaderLeft>
+                        <HeaderRight>
+                          {socialLinks[email]}
+                          {socialLinks[linkedin]}
+                          {socialLinks[github]}
+                          {home}
+                        </HeaderRight>
+                      </HeaderTop>
+                      <HeaderBottom>
+                        {statusSection}
+                      </HeaderBottom>
+                    </Header>
+                    {this.state.structuredContent && this.state.structuredContent[0]}
+                  </ResumeWrapper>
+                </ResumeContainer>
+                {extraPages.length !== 0 && extraPages.map((page, i) => {
+                  return (
+                    <ResumeContainer key={i}>
+                      <ResumeWrapper>
+                        {page}
+                      </ResumeWrapper>
+                    </ResumeContainer>
+                  )
+                })}
+              </ResumePages>
+            </ThemeProvider>
+          </ScrollWrapper>
         </ResumePageWrapper>
       </BaseLayout>
     )

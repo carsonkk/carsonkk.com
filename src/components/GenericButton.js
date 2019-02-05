@@ -14,11 +14,11 @@ class GenericButton extends React.Component {
       a, button {
         transition: all 0.3s;
         margin: 0;
-        padding: 0.375rem 0.75rem;
+        padding: 0.375em 0.5em;
         border: none;
-        border-radius: 0.375rem;
+        border-radius: 0.25em;
         font-family: ${FontSans};
-        font-size: 1.5rem;
+        font-size: 1.25em;
         color: ${props => props.theme.text};
         background-color: transparent;
         :hover {
@@ -33,7 +33,7 @@ class GenericButton extends React.Component {
         }
         svg {
           transition: all 0.3s;
-          font-size: 1rem;
+          font-size: 1em;
           vertical-align: 0;
           color: ${props => props.theme.text};
         }

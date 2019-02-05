@@ -58,7 +58,7 @@ export const LinkStyle = `
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 0.125rem;
+      height: 0.125em;
       visibility: hidden;
       transform: scaleX(0);
     }

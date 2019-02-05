@@ -15,9 +15,9 @@ class Logo extends React.Component {
     const LogoBase = Styled.div`
       display: flex;
       flex-direction: column;
-      margin: ${size/4}rem auto;
+      margin: ${size/16}em auto;
       font-family: ${FontBase};
-      font-size: ${size}rem;
+      font-size: ${size}em;
       font-style: italic;
       font-weight: bold;
       line-height: 1;
@@ -36,18 +36,18 @@ class Logo extends React.Component {
       .wrap-border {
         display: flex;
         span {
-          padding-left: 0.5rem;
-          padding-right: 0.25rem;
+          padding-left: 0.15em;
+          padding-right: 0.075em;
         }
       }
       .top-border, .bottom-border {
         transform: scaleX(0);
         width: 100%;
-        height: ${size / 16}rem;
+        height: ${size/16}rem;
       }
       .left-border, .right-border {
         transform: scaleY(0);
-        width: ${size / 16}rem;
+        width: ${size/16}rem;
       }
     `
     switch (today.getDay()) {

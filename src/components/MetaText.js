@@ -13,11 +13,11 @@ class MetaText extends React.Component {
 
     const MetaText = Styled.div`
       display: ${isInline ? 'inline-flex' : 'flex'};
-      margin: 0.125rem ${isInline ? '1rem' : '0'} 0.125rem 0;
-      font-size: 1rem;
+      padding: 0.25em ${isInline ? '1em' : '0'} 0.25em 0;
+      font-size: 0.875em;
       color: ${props => props.theme.caption};
-      svg, img {
-        margin-right: 0.375rem;
+      > div:first-child {
+        padding-right: 0.375em;
       }
     `
     const MetaLink = Styled(SmartLink)`

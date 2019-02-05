@@ -1,26 +1,21 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import Styled from 'styled-components'
+import { Flex } from '@rebass/grid'
 
 import BaseLayout from '../components/BaseLayout'
 import SEO from '../components/SEO'
-import ImagePreviewSection from '../components/ImagePreviewSection'
+import ImagePreviewCollection from '../components/ImagePreviewCollection'
 
 class MiscPage extends React.Component {
   render() {
-    const { data } = this.props
-
-    const MiscPageWrapper = Styled.div`
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    `
+    const { edges } = this.props.data.allMarkdownRemark
     const ShadowWrapper = Styled.div`
       flex: 1;
       position: relative;
       z-index: 1;
-      min-height: 1rem;
-      box-shadow: 0rem 0rem 1rem 0 black;
+      min-height: 1em;
+      box-shadow: 0em 0em 1em 0 black;
     `
 
     return (
@@ -30,10 +25,10 @@ class MiscPage extends React.Component {
           title='Misc'
           description="Miscellaneous things"
         />
-        <MiscPageWrapper>
-          <ImagePreviewSection posts={data.allMarkdownRemark.edges} placeholders={data}/>
+        <Flex flexDirection="column" width={1}>
+          <ImagePreviewCollection edges={edges}/>
           <ShadowWrapper/>
-        </MiscPageWrapper>
+        </Flex>
       </BaseLayout>
     )
   }
@@ -54,21 +49,7 @@ export const pageQuery = graphql`
             slug
           }
           frontmatter {
-            bSingle: banner {
-              childImageSharp {
-                fluid(maxWidth: 600, maxHeight: 300, cropFocus: CENTER) {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
-            bDouble: banner {
-              childImageSharp {
-                fluid(maxWidth: 900, maxHeight: 300, cropFocus: CENTER) {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
-            bTriple: banner {
+            banner: banner {
               childImageSharp {
                 fluid(maxWidth: 1800, maxHeight: 300, cropFocus: CENTER) {
                   ...GatsbyImageSharpFluid
@@ -82,6 +63,5 @@ export const pageQuery = graphql`
         }
       }
     }
-    ...PlaceholderImageFragment
   }
 `

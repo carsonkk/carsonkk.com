@@ -68,7 +68,6 @@
         "C",
         "C++",
         "Verilog",
-        "SystemVerilog",
         "MIPS"
       ],
       "libraries": [
