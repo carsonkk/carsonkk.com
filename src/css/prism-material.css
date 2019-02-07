@@ -168,27 +168,17 @@ pre[class*="language-"] {
   border-left: 0.25em solid #c2c8d1;
 }
 
-body::-webkit-scrollbar,
-body::-webkit-scrollbar-track,
-pre::-webkit-scrollbar,
-pre::-webkit-scrollbar-track,
 div.gatsby-highlight::-webkit-scrollbar,
 div.gatsby-highlight::-webkit-scrollbar-track {
   background-color: #7a8190;
 }
 
-pre::-webkit-scrollbar,
-pre::-webkit-scrollbar-track,
 div.gatsby-highlight::-webkit-scrollbar,
 div.gatsby-highlight::-webkit-scrollbar-track {
   height: 0.5em;
   width: 0.5em;
 }
 
-body::-webkit-scrollbar-thumb,
-body::-webkit-scrollbar-corner,
-pre::-webkit-scrollbar-thumb,
-pre::-webkit-scrollbar-corner,
 div.gatsby-highlight::-webkit-scrollbar-thumb,
 div.gatsby-highlight::-webkit-scrollbar-corner {
   background-color: #c2c8d1;

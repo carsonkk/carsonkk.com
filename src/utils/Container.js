@@ -43,7 +43,7 @@ export const PaperMinWidth = {
   l: 1014,
   xl: 1320
 }
-const PaperWidth = {
+export const PaperWidth = {
   s: 459,   // 0.75x
   m: 612,   // 1x (original, 72ppi x 8.5in)
   l: 918,   // 1.5x

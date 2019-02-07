@@ -1,4 +1,4 @@
-import Styled, { css } from 'styled-components'
+import { css } from 'styled-components'
 
 // Each breakpoint corresponds to:
 //    < 608px         portrait phones
@@ -49,3 +49,16 @@ export const MediaMax = Object.keys(ResMinWidthPx).reduce((acc, label) => {
   `
   return acc
 }, {})
+
+export const PaperWidth = {
+  s: 459,   // 0.75x
+  m: 612,   // 1x (original, 72ppi x 8.5in)
+  l: 918,   // 1.5x
+  xl: 1224  // 2x
+}
+export const PaperHeight = {
+  s: 594,   // 0.75x
+  m: 792,   // 1x (original, 72ppi x 11in)
+  l: 1188,  // 1.5x
+  xl: 1584  // 2x
+}

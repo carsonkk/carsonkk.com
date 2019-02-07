@@ -7,7 +7,6 @@ import { Flex } from '@rebass/grid'
 import Logo from './Logo'
 import GenericButton from './GenericButton'
 import { LightTheme } from '../utils/Theme'
-import { ResMinWidthPx } from '../utils/Responsive'
 
 class Footer extends React.Component {
   render() {
@@ -38,37 +37,12 @@ class Footer extends React.Component {
         }
       }
     `
-    const LeftNavWrapper = Styled.div`
-      flex: 1;
-      display: flex;
-      align-items: flex-end;
-      align-content: flex-end;
-      padding-left: 1em;
-    `
-    const RightNavWrapper = Styled.div`
-      flex: 1;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-      align-content: flex-end;
-      padding-right: 1em;
-    `
-    const CenterNavWrapper = Styled.div`
-      display: flex;
-      flex-direction: column;
-    `
     const Line = Styled.div`
       flex: 1;
       align-self: center;
       height: 0.125em;
       margin: 0 1em;
       background-color: ${props => props.theme.text};
-    `
-    const NavItems = Styled.nav`
-      display: flex;
-      justify-content: center;
-      margin: 0;
-      padding: 0;
     `
     const GithubButton = Styled(GenericButton)`
       && {

@@ -65,6 +65,23 @@ class BaseLayout extends React.Component {
       body {
         margin: 0;
       }
+      body::-webkit-scrollbar,
+      body::-webkit-scrollbar-track,
+      pre::-webkit-scrollbar,
+      pre::-webkit-scrollbar-track {
+        background-color: #7a8190;
+      }
+      pre::-webkit-scrollbar,
+      pre::-webkit-scrollbar-track {
+        height: 0.5em;
+        width: 0.5em;
+      }
+      body::-webkit-scrollbar-thumb,
+      body::-webkit-scrollbar-corner,
+      pre::-webkit-scrollbar-thumb,
+      pre::-webkit-scrollbar-corner {
+        background-color: #c2c8d1;
+      }
       h1, h2, h3, h4, h5, h6,
       .hxxl, .hxl, .hl, .hm, .hx, .hxs {
         display: block;

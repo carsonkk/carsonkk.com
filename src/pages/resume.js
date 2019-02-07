@@ -4,6 +4,7 @@ import ReactDOMServer from 'react-dom/server'
 import { graphql } from 'gatsby'
 import Img from 'gatsby-image'
 import Styled, { ThemeProvider } from 'styled-components'
+import { Flex } from '@rebass/grid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Select from 'react-select'
 import { savePDF } from '@progress/kendo-react-pdf'
@@ -19,7 +20,7 @@ import SmartLink from '../components/SmartLink'
 import MetaText from '../components/MetaText'
 import { LightTheme, MUIBoxShadow } from '../utils/Theme'
 import { FontSans, TextI } from '../utils/Text'
-import { PaperHeight, PaperWidthContainer, PaperMinHeightContainer, PaperHeightContainer } from '../utils/Container'
+import { MediaMin, PaperWidth, PaperHeight } from '../utils/Responsive'
 
 const cookies = new Cookies()
 const resumeTypeOptions = [
@@ -28,6 +29,9 @@ const resumeTypeOptions = [
   { value: 'Web', label: 'Web' },
   { value: 'Hardware', label: 'Hardware' }
 ]
+const smallScaleValues = [1, 1.5, 2, 2.5]
+
+const mediumScaleValues = [1, 1.1, 1.25, 1.5]
 const Body = Styled.div`
   display: flex;
   h2, h3 {
@@ -121,10 +125,12 @@ class ResumePage extends React.Component {
     }
 
     this.state = {
-      multiPaged: false,
       resumeTypeSelected: cookiedResumeOption,
+      scaleIdx: 0,
+      originalContent: null,
+      structuredContent: null,
+      multiPaged: false,
       canvasLoaded: false,
-      windowWidth: 1920,
       icons: [
         {
           arr: ["far", "envelope"],
@@ -146,12 +152,12 @@ class ResumePage extends React.Component {
           color: '#000000',
           img: null
         }
-      ],
-      originalContent: null,
-      structuredContent: null
+      ]
     }
     this.handleResumeSelect = this.handleResumeSelect.bind(this)
     this.handleDownloadPdf = this.handleDownloadPdf.bind(this)
+    this.handleScaleDown = this.handleScaleDown.bind(this)
+    this.handleScaleUp = this.handleScaleUp.bind(this)
     this.buildResumeContent = this.buildResumeContent.bind(this)
   }
 
@@ -432,7 +438,7 @@ class ResumePage extends React.Component {
     )
     const techMeta = [techs.languages.join(), techs.libraries.join(), techs.softwares.join()].join()
     const interestsMeta = interestsJson.buzzwords.join()
-    const miscMeta = "Regents Scholar, Honors Program, Computer Engineering, Software Engineering, Computer Science, BS, MS, Masters, Hackathon, TBP"
+    const miscMeta = "Regents Scholar, Honors Program, Computer Engineering, Software Engineering, Computer Science, BS, MS, Masters, Hackathon, Tau Beta Pi, TBP"
 
     savePDF(ReactDOM.findDOMNode(this.resumeRef), {
       title: title,
@@ -444,9 +450,26 @@ class ResumePage extends React.Component {
       fileName: `${title} ${month}-${day}-${year}.pdf`,
       paperSize: 'Letter',
       scale: 0.5,
-      forcePageBreak: ".page-break",
-      keepTogether: ".keep-together"
+      forcePageBreak: ".page-break"
     })
+  }
+
+  handleScaleDown = () => {
+    const { scaleIdx } = this.state
+    if(scaleIdx !== 0) {
+      this.setState(prevState => ({
+        scaleIdx: prevState.scaleIdx - 1
+      }))
+    }
+  }
+
+  handleScaleUp = () => {
+    const { scaleIdx } = this.state
+    if(scaleIdx !== smallScaleValues.length-1) {
+      this.setState(prevState => ({
+        scaleIdx: prevState.scaleIdx + 1
+      }))
+    }
   }
 
   buildResumeContent(resumeTypeSelected) {
@@ -809,7 +832,7 @@ class ResumePage extends React.Component {
   }
 
   render() {
-    const { resumeTypeSelected, canvasLoaded, icons } = this.state
+    const { resumeTypeSelected, canvasLoaded, icons, scaleIdx } = this.state
     const { data } = this.props
     const { siteMetadata } = data.site
     const { allSocialJson, allExperienceJson, headshot, santahat, favicon } = data
@@ -819,7 +842,7 @@ class ResumePage extends React.Component {
     if(headshot) {
       seoImg = srcSetRegex.exec(headshot.fixed.srcSet)
       seoImg = seoImg[1]
-    } 
+    }
     
     const ResumePageWrapper = Styled.div`
       display: flex;
@@ -829,21 +852,10 @@ class ResumePage extends React.Component {
       margin-bottom: 2em;
       padding: 2em 0;
     `
-    const FilterWrapper = Styled.div`
-      display: flex;
-      width: 100%;
-      margin: 1em 0 2em;
-      padding: 0 2em;
-      > div:nth-child(1) {
-        width: ${100/3}%;
-        margin: 1em 0.5em 1em 0;
-      }
-    `
     const selectStyles = {
       control: (provided) => ({
         ...provided,
         minHeight: '48px',
-        height: '100%',
         borderStyle: 'none',
         boxShadow: `${MUIBoxShadow}`
       }),
@@ -884,11 +896,29 @@ class ResumePage extends React.Component {
         }
       }),
     }
+    const TextBlurb = Styled(Flex)`
+      font-size: 1.2em;
+      > svg {
+        padding-right: 0.5em;
+        font-size: 1.5em;
+      }
+    `
+    const WarningBlurb = Styled(TextBlurb)`
+      ${MediaMin.l`
+        display: none;
+      `}
+    `
+    const SelectWrapper = Styled(Flex)`
+      flex: 1 0 auto;
+      min-width: 100px;
+      max-width: 300px;
+      > div {
+        width: 100%;
+      }
+    `
     const DownloadButton = Styled(GenericButton)`
       && {
-        margin: 1em 0 1em 0.5em;
         > button {
-          height: 100%;
           > span {
             display: flex;
             > svg {
@@ -898,28 +928,48 @@ class ResumePage extends React.Component {
         }
       }
     `
-    const ResumePages = Styled.div`
-      display: flex;
-      flex-direction: column;
-      > div:not(:first-child) {
-        margin-top: 3em;
+    const ZoomWrapper = Styled(Flex)`
+      font-size: 1.2em;
+      ${MediaMin.l`
+        display: none;
+      `}
+    `
+    const ZoomValue = Styled(Flex)`
+      ::after {
+        content: "${Math.round(smallScaleValues[scaleIdx]*100)}%";
+        ${MediaMin.s`
+          content: "${Math.round(mediumScaleValues[scaleIdx]*100)}%";
+        `}
       }
     `
-    let ResumeContainer
-    if(this.state.multiPaged) {
-      ResumeContainer = Styled(PaperHeightContainer)`
-        box-shadow: ${MUIBoxShadow};
-        transform-origin: 0 0;
-        transform: scale(0.5);
-      `
-    }
-    else {
-      ResumeContainer = Styled(PaperMinHeightContainer)`
-        box-shadow: ${MUIBoxShadow};
-        transform-origin: 0 0;
-        transform: scale(0.5);
-      `
-    }
+    const ScrollWrapper = Styled.div`
+      width: 100vw;
+      height: 90vh;
+      overflow: scroll;
+      ${MediaMin.l`
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+      `}
+    `
+    const ResumeContainer = Styled(Flex)`
+      width: ${PaperWidth.xl}px;
+      min-height: ${PaperHeight.xl}px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: ${-1*PaperHeight.xl*(1-document.documentElement.clientWidth*smallScaleValues[scaleIdx]/PaperWidth.xl)}px;
+      transform: scale(${document.documentElement.clientWidth*smallScaleValues[scaleIdx]/PaperWidth.xl});
+      transform-origin: 0 0;
+      box-shadow: ${MUIBoxShadow};
+      ${MediaMin.s`
+        margin-bottom: ${-1*PaperHeight.xl*(1-document.documentElement.clientWidth*mediumScaleValues[scaleIdx]/PaperWidth.xl)}px;
+        transform: scale(${document.documentElement.clientWidth*mediumScaleValues[scaleIdx]/PaperWidth.xl});
+      `}
+      ${MediaMin.l`
+        margin-bottom: 0;
+        transform: scale(1);
+      `}
+    `
     const ResumeWrapper = Styled.div`
       display: flex;
       flex-direction: column;
@@ -1010,12 +1060,7 @@ class ResumePage extends React.Component {
       margin: 0 auto;
       font-size: 1.125em;
     `
-    const ScrollWrapper = Styled.div`
-      width: 100%;
-      height: 500px;
-      overflow: scroll;
-    `
-
+    
     // Social Links in Header
     let email, linkedin, github
     const socialLinks = allSocialJson.edges.map((edge, i) => {
@@ -1089,28 +1134,56 @@ class ResumePage extends React.Component {
         />
         <ResumePageWrapper>
           {!canvasLoaded && <canvas ref='canvas' style={{ display: 'none' }}/>}
-          <PaperWidthContainer>
-            <FilterWrapper>
-              <Select
-                name='resume'
-                options={resumeTypeOptions}
-                value={resumeTypeSelected}
-                onChange={this.handleResumeSelect}
-                isSearchable={false}
-                styles={selectStyles}
-              />
+          <Flex flexDirection={["column", "column", "column", "column", "row"]} justifyContent={["center", "center", "center", "center", "flex-start"]} width={[1, 1, 1, 1, PaperWidth.xl]} mt={[4]} mx={[0, 0, 0, 0, "auto"]} px={[4, 5, 6, 6, 0]}>
+            <WarningBlurb alignItems="center" order={0} pb={[4]}>
+              <FontAwesomeIcon icon={['fas', 'exclamation-triangle']} className="fa-fw"/>
+              <span>Resume scaling/zooming is limited on mobile. View on a desktop for easier readability.</span>
+            </WarningBlurb>
+            <TextBlurb alignItems="center" order={[1, 1, 1, 1, 2]} pb={[4]}>
+              <FontAwesomeIcon icon={['fas', 'info-circle']} className="fa-fw"/>
+              <span>
+                Send me an <SmartLink type='external' to='mailto:kyle@carsonkk.com' text='email' title='kyle@carsonkk.com'/> if 
+                you need more detailed info such as GPAs, phone number, etc.
+              </span>
+            </TextBlurb>
+            <Flex order={[2, 2, 2, 2, 1]}  width={1} pb={[4]}>
+              <SelectWrapper pr={[4]}>
+                <Select
+                  name='resume'
+                  options={resumeTypeOptions}
+                  value={resumeTypeSelected}
+                  onChange={this.handleResumeSelect}
+                  isSearchable={false}
+                  styles={selectStyles}
+                />
+              </SelectWrapper>
               <DownloadButton
                 type='action'
                 text='Download'
                 icon={['fas', 'download']}
                 func={this.handleDownloadPdf}
               />
-            </FilterWrapper>
-          </PaperWidthContainer>
+            </Flex>
+            <ZoomWrapper justifyContent="center" alignItems="center" order={3} width={[1]} pb={[4]}>
+              <GenericButton
+                type='action'
+                text=''
+                icon={['fas', 'search-minus']}
+                func={this.handleScaleDown}
+              />
+              <ZoomValue px={[5]}/>
+              <GenericButton
+                type='action'
+                text=''
+                icon={['fas', 'search-plus']}
+                func={this.handleScaleUp}
+              />
+            </ZoomWrapper>
+          </Flex>
           <ScrollWrapper>
             <ThemeProvider theme={LightTheme}>
-              <ResumePages className='resume-root' ref={(resumeRef) => this.resumeRef = resumeRef}>
-                <ResumeContainer>
+              <Flex flexDirection="column" className='resume-root' ref={(resumeRef) => this.resumeRef = resumeRef}>
+                <ResumeContainer className="resume-page">
                   <ResumeWrapper>
                     <Header ref={(headerRef) => this.headerRef = headerRef}>
                       <HeaderTop>
@@ -1148,14 +1221,14 @@ class ResumePage extends React.Component {
                 </ResumeContainer>
                 {extraPages.length !== 0 && extraPages.map((page, i) => {
                   return (
-                    <ResumeContainer key={i}>
+                    <ResumeContainer key={i} className="resume-page" mt={[3, 3, 4, 4, 5]}>
                       <ResumeWrapper>
                         {page}
                       </ResumeWrapper>
                     </ResumeContainer>
                   )
                 })}
-              </ResumePages>
+              </Flex>
             </ThemeProvider>
           </ScrollWrapper>
         </ResumePageWrapper>

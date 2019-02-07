@@ -3,6 +3,11 @@
   font-size: 1em;
 }
 
+.k-pdf-export .resume-root .resume-page {
+  transform: scale(1);
+  margin: 0;
+}
+
 .k-pdf-export .resume-root ul {
   list-style: none;
 }
