@@ -124,7 +124,7 @@ class ArticlesPage extends React.Component {
         }
         .previous {
           flex: 1 0 auto;
-          margin-right: 2em;
+          margin-right: 0.5em;
           font-weight: bold;
           a {
             padding-top: 0.05em;
@@ -133,7 +133,7 @@ class ArticlesPage extends React.Component {
         .next {
           flex: 1 0 auto;
           justify-content flex-end;
-          margin-left: 2em;
+          margin-left: 0.5em;
           font-weight: bold;
           a {
             padding-top: 0.05em;
@@ -150,7 +150,7 @@ class ArticlesPage extends React.Component {
           description="Articles I've written"
         />
         <ArticlesPageWrapper>
-          <Flex flexDirection="column" width={[1, 1, 1, 1, ResMinWidthEm.s]} mx="auto" px={[4, 5, 6, 6, 0]} py={5}>
+          <Flex flexDirection="column" width={[1, 1, 1, 1, ResMinWidthEm.s]} mx="auto" px={[4, 5, 6, 6, 0]} pt={5}>
             <ArticlesWrapper>
               <TextPreview data={paginatedResults[offset]}/>
               <TextPreview data={paginatedResults[offset+1]}/>
@@ -163,7 +163,7 @@ class ArticlesPage extends React.Component {
                 <ReactPaginate 
                   pageCount={Math.ceil(paginatedResults.length/perPage)}
                   marginPagesDisplayed={1}
-                  pageRangeDisplayed={2}
+                  pageRangeDisplayed={1}
                   onPageChange={this.handlePageClick}
                   forcePage={offset/perPage}
                   activeClassName={'active'}

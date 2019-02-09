@@ -1,11 +1,11 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import Styled from 'styled-components'
+import { Flex } from '@rebass/grid'
 
 import BaseLayout from '../components/BaseLayout'
 import SEO from '../components/SEO'
 import GenericButton from '../components/GenericButton'
-import { PaddedContainer } from '../utils/Container'
 import { RandomRange } from '../utils/Theme'
 
 class NotFoundPage extends React.Component {
@@ -42,7 +42,7 @@ class NotFoundPage extends React.Component {
           title='404'
           description="The page could not be found"
         />
-        <PaddedContainer>
+        <Flex>
           <FoFWrapper>
             <Title>404</Title>
             <Tagline>The page you were looking for has either been deleted, moved elsewhere, or is currently under maintenance.</Tagline>
@@ -64,7 +64,7 @@ class NotFoundPage extends React.Component {
               {/* Custom 404 stuff here */}
             </div>
           </FoFWrapper>
-        </PaddedContainer>
+        </Flex>
       </BaseLayout>
     )
   }

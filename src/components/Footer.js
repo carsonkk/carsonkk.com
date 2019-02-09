@@ -7,10 +7,12 @@ import { Flex } from '@rebass/grid'
 import Logo from './Logo'
 import GenericButton from './GenericButton'
 import { LightTheme } from '../utils/Theme'
+import { MediaMin } from '../utils/Responsive'
 
 class Footer extends React.Component {
   render() {
     const { links, theme, handleClickTheme } = this.props
+    const articleRgx = /\/articles\//g
 
     const FooterWrapper = Styled.footer`
       display: flex;
@@ -18,8 +20,20 @@ class Footer extends React.Component {
       align-items: center;
       position: relative;
       z-index: 100;
-      padding-top: 4em;
+      padding-top: 8em;
       background-color: ${props => props.theme.primary};
+      box-shadow: ${articleRgx.test(window.location.href) ? '0em 0em 1.5em -0.25em black' : 'none'};
+      ${MediaMin.s`
+        :hover {
+          > div:last-child {
+            opacity: 1;
+          }
+        }
+        > div:last-child {
+          transition: all 0.3s;
+          opacity: 0;
+        }
+      `}
     `
     const NavWrapper = Styled(Flex)`
       width: 100%;
@@ -44,6 +58,9 @@ class Footer extends React.Component {
       margin: 0 1em;
       background-color: ${props => props.theme.text};
     `
+    const SecretsWrapper = Styled(Flex)`
+      
+    `
     const GithubButton = Styled(GenericButton)`
       && {
         a {
@@ -58,6 +75,9 @@ class Footer extends React.Component {
           svg {
             vertical-align: middle;
             font-size: 1.75em;
+            ${MediaMin.s`
+              font-size: 1.5em;
+            `}
           }
         }
       }
@@ -76,10 +96,14 @@ class Footer extends React.Component {
           svg {
             vertical-align: middle;
             font-size: 1.75em;
+            ${MediaMin.s`
+              font-size: 1.5em;
+            `}
           }
         }
       }
     `
+
     let socials = links.map((link, i) => {
       const { node } = link
       const SocialButton = Styled(GenericButton)`
@@ -97,6 +121,9 @@ class Footer extends React.Component {
             svg {
               vertical-align: middle;
               font-size: 1.75em;
+              ${MediaMin.s`
+                font-size: 1.5em;
+              `}
             }
           }
         }
@@ -172,7 +199,7 @@ class Footer extends React.Component {
         <NavWrapper flexDirection="column" justifyContent="center" width={[1, 1, "38em"]} mb={[0, 0, "-56px"]}>
           <Flex justifyContent="center" mx={4} mb={[4, 4, 3]}>
             <Line/>
-            <Logo size={2.5}/>
+            <Logo size={2}/>
             <Line/>
           </Flex>
           <Flex flexWrap="wrap" justifyContent="center" mx={4}>
@@ -182,9 +209,9 @@ class Footer extends React.Component {
         <Flex justifyContent="center" width={[1, 1, 0]} px={4} mb={[4, 4, 0]}>
           <Line/>
         </Flex>
-        <Flex flexWrap="wrap" width={[1]} px={[4, 4, 0]} mb={[0, 0, 3]}>
+        <SecretsWrapper flexWrap="wrap" width={[1]} px={[4, 4, 0]} mb={[0, 0, 3]}>
           {secrets}
-        </Flex>
+        </SecretsWrapper>
       </FooterWrapper>
     )
   }

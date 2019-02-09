@@ -15,30 +15,32 @@ const cookies = new Cookies()
 class BaseLayout extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {theme: cookies.get('theme')}
+    const theme = cookies.get('theme')
+    this.state = {theme: theme}
     this.handleClickTheme = this.handleClickTheme.bind(this)
   }
 
   handleClickTheme() {
     const initialPos = window.pageYOffset
-    const { theme } = this.state
     let newTheme
-    if(theme === 'dark') {
-      newTheme = 'light'
-      cookies.set('theme', newTheme, { path: '/' })
-    } else {
-      newTheme = 'dark'
-      cookies.set('theme', newTheme, { path: '/' })
-    }
-    this.setState({
-      theme: newTheme
+    this.setState((prevState) => {
+      if(prevState.theme === 'dark') {
+        newTheme = 'light'
+        cookies.set('theme', newTheme, { path: '/' })
+      } else {
+        newTheme = 'dark'
+        cookies.set('theme', newTheme, { path: '/' })
+      }
+      return {
+        theme: newTheme
+      }
     }, () => {window.scrollTo(0, initialPos)})
   }
 
   render() {
-    //const { theme } = this.state
-    let theme = 'dark'
+    const { theme } = this.state
     const { children } = this.props
+    const currentTheme = theme === 'dark' ? DarkTheme : LightTheme
     const BaseWrapper = Styled.div`
       display: flex;
       flex-direction: column;
@@ -304,6 +306,9 @@ class BaseLayout extends React.Component {
       .gatsby-resp-image-wrapper, .gatsby-resp-iframe-wrapper, .gatsby-highlight {
         box-shadow: ${MUIBoxShadow};
       }
+      .react-select-base {
+        width: 100%;
+      }
     `
     const MainWrapper = Styled.main`
       flex: 1 1 auto;
@@ -331,7 +336,7 @@ class BaseLayout extends React.Component {
         }
       `}
         render={data => (
-          <ThemeProvider theme={theme === 'dark' ? DarkTheme : LightTheme}>
+          <ThemeProvider theme={currentTheme}>
             <BaseWrapper>
               <GlobalStyle/>
               <Header/>

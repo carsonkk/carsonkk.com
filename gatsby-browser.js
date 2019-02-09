@@ -11,7 +11,10 @@ export function onClientEntry() {
   if(cookies.get('searchFiltersVisible') === undefined) {
     cookies.set('searchFiltersVisible', 'false', { path: '/' })
   }
-  if(cookies.get('resume') === undefined) {
-    cookies.set('resume', 'CV', { path: '/' })
+  if(cookies.get('resumeType') === undefined) {
+    cookies.set('resumeType', 'CV', { path: '/' })
+  }
+  if(cookies.get('resumeScaleIdx') === undefined) {
+    cookies.set('resumeScaleIdx', '0', { path: '/' })
   }
 }

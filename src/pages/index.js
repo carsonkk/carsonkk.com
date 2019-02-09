@@ -148,7 +148,7 @@ class IndexPage extends React.Component {
           </ShadowWrapper>
           <ImagePreviewCollection edges={featuredProjectPostEdges}/>
           <ShadowWrapper>
-            <ContactSection flexDirection="column" alignItems="center" px={[4, 5, 6, 6, 0]} pt={4}>
+            <ContactSection flexDirection="column" alignItems="center" px={[4, 5, 6, 6, 0]} pt={5}>
               <span className="hxxl">Want to get in touch?</span>
               <ContactTagline>
                 Shoot me an <SmartLink type='external' to='mailto:kyle@carsonkk.com' text='email' title='kyle@carsonkk.com'/>

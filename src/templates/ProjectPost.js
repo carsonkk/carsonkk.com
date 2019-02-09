@@ -3,23 +3,37 @@ import { graphql } from 'gatsby'
 import Img from 'gatsby-image'
 import ReactMarkdown from 'react-markdown'
 import Styled from 'styled-components'
+import { Flex } from '@rebass/grid'
 import RehypeReact from 'rehype-react'
+import Select from 'react-select'
 
 import BaseLayout from '../components/BaseLayout'
 import SEO from '../components/SEO'
 import GenericButton from '../components/GenericButton'
 import MetaText from '../components/MetaText'
 import TextPreview from '../components/TextPreview'
-import { PostContainer } from '../utils/Container'
-import { FontSans } from '../utils/Text'
+import { ResMinWidthEm, MediaMin } from '../utils/Responsive'
 import AjaxGet from '../utils/Ajax'
+import { MUIBoxShadow } from '../utils/Theme'
 
 const RenderAst = new RehypeReact({
   createElement: React.createElement,
   components: {},
 }).Compiler
-
-const tabStrs = ['About', 'Posts', 'Misc', 'README']
+const tabOptions = [
+  { value: 'about', label: 'About' },
+  { value: 'posts', label: 'Posts' },
+  { value: 'misc', label: 'Misc' },
+  { value: 'readme', label: 'README' },
+]
+const NoResultsText = Styled.span`
+  width: 100%;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  font-size: 2em;
+  font-style: italic;
+  text-align: center;
+`
 
 class ProjectPost extends React.Component {
   constructor(props) {
@@ -30,54 +44,93 @@ class ProjectPost extends React.Component {
       forkCount: '',
       license: '',
       website: '',
+      tabSelected: tabOptions[0],
       readme: '',
-      activeTab: tabStrs[0],
+      contents: []
     }
-    this.handleClick = this.handleClick.bind(this)
+    this.handleTabChange = this.handleTabChange.bind(this)
   }
 
   componentDidMount() {
+    const { htmlAst } = this.props.data.markdownRemark
     const { github, website } = this.props.data.markdownRemark.frontmatter
     const reg = /\[([^#]+)]\(#.+?\)/g
-    let homepage = ''
+    let watchCount
+    let starCount
+    let forkCount
+    let license
+    let readme
+    let homepage
+    let site
+
     if(github) {
       this.xhr = AjaxGet(`//api.github.com/repos/${github}`, (res) => {
         if(!res) {
           return
         }
-        this.setState({
-          watchCount: res['subscribers_count'],
-          starCount: res['stargazers_count'],
-          forkCount: res['forks_count']
-        })
+        watchCount = res['subscribers_count']
+        starCount = res['stargazers_count']
+        forkCount = res['forks_count']
         if(res['license'] !== null) {
-          this.setState({license: res['license']['spdx_id']})
+          license = res['license']['spdx_id']
         }
-        if(res['homepage'] !== null) {
-          if(res['homepage'] !== '' && !res['homepage'].includes('carsonkk')) {
-            homepage = res['homepage']
-          }
+        if(res['homepage'] !== null && res['homepage'] !== '' && !res['homepage'].includes('carsonkk')) {
+          homepage = res['homepage']
         }
+        site = website ? website : homepage
+        this.setState({
+          watchCount,
+          starCount,
+          forkCount,
+          license,
+          website: site,
+        })
       })
       this.xhr = AjaxGet(`//api.github.com/repos/${github}/readme`, (res) => {
         if(!res) {
           return
         }
-        this.setState({readme: atob(res['content']).replace(reg, '$1')})
+        readme = atob(res['content']).replace(reg, '$1')
+        this.setState({
+          readme
+        })
       })
     }
-    if(website) {
-      this.setState({website})
-    }
-    else if(homepage) {
-      this.setState({website: homepage})
-    }
+    this.setState({
+      contents: [RenderAst(htmlAst)]
+    })
   }
 
-  handleClick = (param) => (e) => {
-    this.setState({
-      activeTab: param
-    })
+  handleTabChange = (tabSelected) => {
+    const { readme } = this.state
+    const { markdownRemark, allMarkdownRemark } = this.props.data
+    const { htmlAst, frontmatter } = markdownRemark
+    let contents
+
+    if(tabSelected.value !== this.state.tabSelected.value) {
+      if(tabSelected.value === tabOptions[0].value) {
+        contents = [RenderAst(htmlAst)]
+      }
+      else if(tabSelected.value === tabOptions[1].value && allMarkdownRemark) {
+        contents = [allMarkdownRemark.edges.map(
+          edge => <TextPreview key={edge.node.id} data={edge.node}/>
+        )]
+      }
+      else if(tabSelected.value === tabOptions[2].value && frontmatter.misc) {
+        contents = [RenderAst(frontmatter.misc.childMarkdownRemark.htmlAst)]
+      }
+      else if(tabSelected.value === tabOptions[3].value && readme !== '') {
+        contents = [<ReactMarkdown key={"readme"} className="readme" source={readme}/>]
+      }
+
+      if(contents === undefined) {
+        contents = [<NoResultsText key={0}>Nothing here yet</NoResultsText>]
+      }
+      this.setState({
+        tabSelected,
+        contents
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -87,13 +140,12 @@ class ProjectPost extends React.Component {
   }
 
   render() {
-    const { markdownRemark, allMarkdownRemark } = this.props.data
-    const { htmlAst, frontmatter } = markdownRemark
+    const { tabSelected, contents } = this.state
+    const { markdownRemark } = this.props.data
+    const { frontmatter } = markdownRemark
     const crop = (frontmatter.allowCropping === false) ? false : true
     const srcSetRegex = /,\n(.*) .*$/g
     let seoImg = null
-    let tabs = []
-    let contents = {}
 
     if(frontmatter.banner) {
       seoImg = srcSetRegex.exec(frontmatter.banner.childImageSharp.fluid.srcSet)
@@ -104,13 +156,14 @@ class ProjectPost extends React.Component {
       seoImg = seoImg[1]
     }
 
-    const ProjectPostWrapper = Styled(PostContainer)`
-      width: 100%;
-    `
     const Banner = Styled.div`
       margin-bottom: 2em;
       .gatsby-image-wrapper {
-        max-height: 12em;
+        border-radius: 0.375em;
+        max-height: 10em;
+        ${MediaMin.m`
+          max-height: 16em;
+        `}
         img {
           right: 0 !important;
           margin: auto !important;
@@ -118,57 +171,22 @@ class ProjectPost extends React.Component {
         }
       }
     `
-    const PostHeader = Styled.div`
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 3em;
-    `
-    const HeaderContent = Styled.div`
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      margin-bottom: 1em;
-    `
-    const Left = Styled.div`
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding-right: 4em;
-    `
-    const NameWrapper = Styled.div`
-      display: flex;
-      flex-direction: row;
-      align-items: center;
+    const Logo = Styled.div`
+      padding-right: 1em;
+      height: 100%;
       .gatsby-image-wrapper {
-        margin-right: 1em;
-        img {
-          border-radius: 50%;
-        }
+        border-radius: 0.375em;
       }
-      h1 {
-        margin: 0 0 0.5em 0;
-        font-family: ${FontSans};
-        font-size: 3em;
-      }
+    `
+    const Name = Styled.h1`
+      margin-bottom: 0.25em;
     `
     const Description = Styled.span`
       font-style: italic;
-    `
-    const Right = Styled.div`
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    `
-    const ButtonRow = Styled.div`
-      display: flex;
-      flex-direction: row;
-      margin-bottom: 0.25em;
-      > span:not(:first-child) {
-        padding-left: 0.5em;
-      }
-      > span:not(:last-child) {
-        padding-right: 0.5em;
-      }
+      text-align: center;
+      ${MediaMin.m`
+        text-align: left;
+      `}
     `
     const GitHubButton = Styled(GenericButton)`
       && {
@@ -182,25 +200,57 @@ class ProjectPost extends React.Component {
         }
       }
     `
-    const NavTabs = Styled.div`
-      display: flex;
-      border-top: 0.125em solid ${props => props.theme.text};
-    `
-    const NavButton = Styled(GenericButton)`
-      && {
-        button {
-          border-radius: 0 0 0.5em 0.5em;
+    const selectStyles = {
+      control: (provided) => ({
+        ...provided,
+        minHeight: '48px',
+        height: '100%',
+        borderStyle: 'none',
+        boxShadow: `${MUIBoxShadow}`
+      }),
+      valueContainer: (provided) => ({
+        ...provided,
+        cursor: 'text'
+      }),
+      clearIndicator: (provided) => ({
+        ...provided,
+        cursor: 'pointer'
+      }),
+      dropdownIndicator: (provided) => ({
+        ...provided,
+        cursor: 'pointer'
+      }),
+      placeholder: (provided) => ({
+        ...provided,
+        color: '#9e9e9e'
+      }),
+      multiValue: (provided) => ({
+        ...provided,
+        borderRadius: '0.25em',
+        border: '0.125em solid #6ecfff',
+        color: '#2a2a2a',
+        backgroundColor: 'white'
+      }),
+      multiValueRemove: (provided) => ({
+        ...provided,
+        cursor: 'pointer'
+      }),
+      option: (provided) => ({
+        ...provided,
+        cursor: 'pointer',
+        color: '#2a2a2a',
+        backgroundColor: 'white',
+        '&:hover': {
+          backgroundColor: '#6ecfff'
         }
-      }
-    `
-    const PostBody = Styled.div`
+      }),
+    }
+    const PostBody = Styled(Flex)`
+      min-height: 12em;
       .readme {
-        h1, h2 {
-          padding-bottom: 0.3em;
-          border-bottom: 1px solid ${props => props.theme.caption};
-        }
+        max-width: 100%;
+        overflow-x: auto;
         blockquote {
-          margin: 0;
           padding: 0 1em;
           color: ${props => props.theme.caption};
           border-left: 0.25em solid ${props => props.theme.caption};
@@ -217,59 +267,6 @@ class ProjectPost extends React.Component {
       }
     `
 
-    tabs.push(
-      <NavButton
-        key={tabStrs[0]}
-        type='action'
-        text={tabStrs[0]}
-        icon={['fas', 'info-circle']}
-        func={this.handleClick(tabStrs[0])}
-        active={this.state.activeTab === tabStrs[0] ? 'active' : ''}
-      />
-    )
-    contents[tabStrs[0]] = [RenderAst(htmlAst)]
-    if(allMarkdownRemark) {
-      tabs.push(
-        <NavButton
-          key={tabStrs[1]}
-          type='action'
-          text={tabStrs[1]}
-          icon={['far', 'comment']}
-          func={this.handleClick(tabStrs[1])}
-          active={this.state.activeTab === tabStrs[1] ? 'active' : ''}
-        />
-      )
-      contents[tabStrs[1]] = [allMarkdownRemark.edges.map(
-        edge => <TextPreview key={edge.node.id} data={edge.node}/>
-      )]
-    }
-    if(frontmatter.misc) {
-      tabs.push(
-        <NavButton
-          key={tabStrs[2]}
-          type='action'
-          text={tabStrs[2]}
-          icon={['fas', 'cogs']}
-          func={this.handleClick(tabStrs[2])}
-          active={this.state.activeTab === tabStrs[2] ? 'active' : ''}
-        />
-      )
-      contents[tabStrs[2]] = [RenderAst(frontmatter.misc.childMarkdownRemark.htmlAst)]
-    }
-    if(this.state.readme !== '') {
-      tabs.push(
-        <NavButton
-          key={tabStrs[3]}
-          type='action'
-          text={tabStrs[3]}
-          icon={['fab', 'readme']}
-          func={this.handleClick(tabStrs[3])}
-          active={this.state.activeTab === tabStrs[3] ? 'active' : ''}
-        />
-      )
-      contents[tabStrs[3]] = [<ReactMarkdown key={'readme'} source={this.state.readme} className='readme'/>]
-    }
-
     return (
       <BaseLayout>
         <SEO
@@ -278,60 +275,55 @@ class ProjectPost extends React.Component {
           description={frontmatter.description}
           image={seoImg}
         />
-        <ProjectPostWrapper>
-          <PostHeader>
+        <Flex flexDirection="column" width={[1, 1, 1, 1, 1, ResMinWidthEm.m]} mx="auto" px={[4, 5, 6, 6, 6, 0]} pt={5}>
+          <Flex flexDirection="column">
             {frontmatter.banner &&
               <Banner>
                 <Img fluid={frontmatter.banner.childImageSharp.fluid} alt="banner"/>
               </Banner>
             }
-            <HeaderContent>
-              <Left>
-                <NameWrapper>
-                  {frontmatter.logo &&
+            <Flex flexDirection={["column", "column", "column", "row"]}>
+              <Flex justifyContent={["space-between", "space-between", "space-between", "flex-start"]} width={[1]} mb={4} pr={[0, 0, 0, 4]}>
+                {frontmatter.logo &&
+                  <Logo>
                     <Img fixed={frontmatter.logo.childImageSharp.fixed} alt="logo"/>
-                  }
-                  <h1>{frontmatter.title}</h1>
-                </NameWrapper>
-                <div>
-                  <div>
-                    <Description>{frontmatter.description}</Description>
-                  </div>
-                  <MetaText
-                    type='internal'
-                    icon={['fas', 'tags']}
-                    texts={markdownRemark.frontmatter.tags}
-                    links={Array(markdownRemark.frontmatter.tags.length).fill('/search')}
-                    linkStates={markdownRemark.frontmatter.tags.map(tag => ({tag: tag}))}
-                  />
-                </div>
-              </Left>
-              <Right>
-                <div>
-                  {frontmatter.github &&
-                    <ButtonRow>
+                  </Logo>
+                }
+                <Flex flexDirection="column" alignItems={["center", "center", "center", "flex-start"]} mx={["auto", "auto", "auto", 0]}>
+                  <Name>{frontmatter.title}</Name>
+                  <Description>{frontmatter.description}</Description>
+                </Flex>
+              </Flex>
+              <Flex flexDirection="column">
+                {frontmatter.github &&
+                  <Flex justifyContent={["center", "center", "center", "flex-end"]} width={[1]} mb={[4, 4, 4, 2]}>
+                    <Flex pr={[3, 3, 3, 2]}>
                       <GitHubButton
                         type='external'
                         to={`//github.com/${frontmatter.github}/watchers`}
                         text={`Watch ${this.state.watchCount}`}
                         icon={['fas', 'eye']}
                       />
+                    </Flex>
+                    <Flex px={[3, 3, 3, 2]}>
                       <GitHubButton
                         type='external'
                         to={`//github.com/${frontmatter.github}/stargazers`}
                         text={`Star ${this.state.starCount}`}
                         icon={['fas', 'star']}
                       />
+                    </Flex>
+                    <Flex pl={[3, 3, 3, 2]}>
                       <GitHubButton
                         type='external'
                         to={`//github.com/${frontmatter.github}/network`}
                         text={`Fork ${this.state.forkCount}`}
                         icon={['fas', 'code-branch']}
                       />
-                    </ButtonRow>
-                  }
-                </div>
-                <div>
+                    </Flex>
+                  </Flex>
+                }
+                <Flex flexDirection="column" alignItems="flex-start" width={[1]} mb={4}>
                   {this.state.license && 
                     <MetaText
                       type='text'
@@ -355,17 +347,30 @@ class ProjectPost extends React.Component {
                       links={[`//${this.state.website}`]}
                     />
                   }
-                </div>
-              </Right>
-            </HeaderContent>
-            <NavTabs>
-              {tabs}
-            </NavTabs>
-          </PostHeader>
-          <PostBody>
-            {contents[this.state.activeTab]}
+                  <MetaText
+                    type='internal'
+                    icon={['fas', 'tags']}
+                    texts={markdownRemark.frontmatter.tags}
+                    links={Array(markdownRemark.frontmatter.tags.length).fill('/search')}
+                    linkStates={markdownRemark.frontmatter.tags.map(tag => ({tag: tag}))}
+                  />
+                </Flex>
+              </Flex>
+            </Flex>
+            <Select
+              name="tabs"
+              options={tabOptions}
+              onChange={this.handleTabChange}
+              value={tabSelected}
+              isSearchable={false}
+              styles={selectStyles}
+              className="react-select-base"
+            />
+          </Flex>
+          <PostBody width={1} py={5}>
+            {contents}
           </PostBody>
-        </ProjectPostWrapper>
+        </Flex>
       </BaseLayout>
     )
   }
@@ -400,7 +405,7 @@ export const pageQuery = graphql`
         }
         logo {
           childImageSharp {
-            fixed(width: 100, height: 100, cropFocus: CENTER) {
+            fixed(width: 125, height: 125, cropFocus: CENTER) {
               ...GatsbyImageSharpFixed
             }
           }

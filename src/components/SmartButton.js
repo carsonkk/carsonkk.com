@@ -34,6 +34,7 @@ class SmartButton extends React.Component {
         }
         span > span {
           text-align: center;
+          white-space: nowrap;
         }
       }
       button:focus {

@@ -114,11 +114,12 @@ const SideSubsectionList = Styled.div`
 class ResumePage extends React.Component {
   constructor(props) {
     super(props)
-    const resumeCookie = cookies.get('resume')
-    let cookiedResumeOption
+    const resumeTypeCookie = cookies.get('resumeType')
+    const resumeScaleIdxCookie = parseInt(cookies.get('resumeScaleIdx'))
+    let cookiedResumeOption = resumeTypeOptions[0]
 
     for(let option of resumeTypeOptions) {
-      if(resumeCookie === option.value) {
+      if(resumeTypeCookie === option.value) {
         cookiedResumeOption = option
         break
       }
@@ -126,7 +127,7 @@ class ResumePage extends React.Component {
 
     this.state = {
       resumeTypeSelected: cookiedResumeOption,
-      scaleIdx: 0,
+      scaleIdx: resumeScaleIdxCookie,
       originalContent: null,
       structuredContent: null,
       multiPaged: false,
@@ -169,7 +170,7 @@ class ResumePage extends React.Component {
     })
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     if(this.state.multiPaged === false) {
       const experienceNodes = this.state.originalContent.leftColumn[0].experience.props.children
       const projectNodes = this.state.originalContent.leftColumn[0].projects.props.children
@@ -401,7 +402,7 @@ class ResumePage extends React.Component {
 
   handleResumeSelect = (resumeTypeSelected) => {
     if(resumeTypeSelected.value !== this.state.resumeTypeSelected.value) {
-      cookies.set('resume', resumeTypeSelected.value, { path: '/' })
+      cookies.set('resumeType', resumeTypeSelected.value, { path: '/' })
       this.buildResumeContent(resumeTypeSelected)
       this.setState({
         multiPaged: false,
@@ -454,21 +455,27 @@ class ResumePage extends React.Component {
     })
   }
 
-  handleScaleDown = () => {
+  handleScaleDown() {
     const { scaleIdx } = this.state
     if(scaleIdx !== 0) {
-      this.setState(prevState => ({
-        scaleIdx: prevState.scaleIdx - 1
-      }))
+      this.setState((prevState) => {
+        cookies.set('resumeScaleIdx', (prevState.scaleIdx-1).toString(), { path: '/' })
+        return {
+          scaleIdx: prevState.scaleIdx-1
+        }
+      })
     }
   }
 
-  handleScaleUp = () => {
+  handleScaleUp() {
     const { scaleIdx } = this.state
     if(scaleIdx !== smallScaleValues.length-1) {
-      this.setState(prevState => ({
-        scaleIdx: prevState.scaleIdx + 1
-      }))
+      this.setState((prevState) => {
+        cookies.set('resumeScaleIdx', (prevState.scaleIdx+1).toString(), { path: '/' })
+        return {
+          scaleIdx: prevState.scaleIdx+1
+        }
+      })
     }
   }
 
@@ -844,13 +851,8 @@ class ResumePage extends React.Component {
       seoImg = seoImg[1]
     }
     
-    const ResumePageWrapper = Styled.div`
-      display: flex;
-      flex-direction: column;
-      width: 100%;
+    const ResumePageWrapper = Styled(Flex)`
       overflow-x: hidden;
-      margin-bottom: 2em;
-      padding: 2em 0;
     `
     const selectStyles = {
       control: (provided) => ({
@@ -912,9 +914,6 @@ class ResumePage extends React.Component {
       flex: 1 0 auto;
       min-width: 100px;
       max-width: 300px;
-      > div {
-        width: 100%;
-      }
     `
     const DownloadButton = Styled(GenericButton)`
       && {
@@ -949,6 +948,7 @@ class ResumePage extends React.Component {
       ${MediaMin.l`
         width: 100%;
         height: auto;
+        padding: 0.25em 0;
         overflow: hidden;
       `}
     `
@@ -1132,7 +1132,7 @@ class ResumePage extends React.Component {
           description="My personal, professional, and educational experiences"
           image={seoImg}
         />
-        <ResumePageWrapper>
+        <ResumePageWrapper flexDirection="column" width={1} pt={5}>
           {!canvasLoaded && <canvas ref='canvas' style={{ display: 'none' }}/>}
           <Flex flexDirection={["column", "column", "column", "column", "row"]} justifyContent={["center", "center", "center", "center", "flex-start"]} width={[1, 1, 1, 1, PaperWidth.xl]} mt={[4]} mx={[0, 0, 0, 0, "auto"]} px={[4, 5, 6, 6, 0]}>
             <WarningBlurb alignItems="center" order={0} pb={[4]}>
@@ -1146,15 +1146,16 @@ class ResumePage extends React.Component {
                 you need more detailed info such as GPAs, phone number, etc.
               </span>
             </TextBlurb>
-            <Flex order={[2, 2, 2, 2, 1]}  width={1} pb={[4]}>
+            <Flex justifyContent={["center", "center", "center", "center", "flex-start"]} alignItems="flex-end" order={[2, 2, 2, 2, 1]} width={1} pb={[4]}>
               <SelectWrapper pr={[4]}>
                 <Select
                   name='resume'
                   options={resumeTypeOptions}
-                  value={resumeTypeSelected}
                   onChange={this.handleResumeSelect}
+                  value={resumeTypeSelected}
                   isSearchable={false}
                   styles={selectStyles}
+                  className="react-select-base"
                 />
               </SelectWrapper>
               <DownloadButton

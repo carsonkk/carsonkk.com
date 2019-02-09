@@ -35,12 +35,13 @@ class ArticlePost extends React.Component {
       seoImg = srcSetRegex.exec(banner.childImageSharp.fluid.srcSet)
       seoImg = seoImg[1]
     } 
-
+    
     const Article = Styled.div`
       position: relative;
       display: flex;
       flex-direction: column;
       width: 100%;
+      margin-bottom: 12em;
       .title {
         font-family: ${FontSerif};
       }
@@ -50,8 +51,8 @@ class ArticlePost extends React.Component {
       div {
         position: fixed;
         width: 100%;
-        height: 100%;
-        margin-top: -6em;
+        height: 101%;
+        margin-top: -5em;
       }
     `
     const ShadowWrapper = Styled.div`
@@ -61,7 +62,7 @@ class ArticlePost extends React.Component {
       background-color: ${props => props.theme.primary};
     `
     const PostHeader = Styled.div`
-      margin-bottom: 3em;
+      margin-bottom: 2em;
       h1 {
         margin-top: 0;
         margin-bottom: 0.25em;
@@ -130,7 +131,7 @@ class ArticlePost extends React.Component {
                 <MetaText
                   type='text'
                   icon={['fas', icon]}
-                  texts={[topic]}
+                  texts={[`${topic} Article`]}
                   isInline={true}
                 />
                 <MetaText

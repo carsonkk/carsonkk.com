@@ -1,5 +1,6 @@
 import React from 'react'
 import Styled, { keyframes, withTheme } from 'styled-components'
+import { Flex } from '@rebass/grid'
 import { fadeInUp, fadeOutDown } from 'react-animations'
 import Cookies from 'universal-cookie'
 
@@ -7,7 +8,7 @@ import '../css/header.css'
 import snowstorm from '../js/snowstorm.js'
 import GenericButton from './GenericButton'
 import Logo from './Logo'
-import { MinWidth } from '../utils/Container'
+import { ResMinWidthPx, MediaMin } from '../utils/Responsive'
 import { RandomIcon } from '../utils/Theme'
 
 const cookies = new Cookies()
@@ -16,34 +17,22 @@ class Header extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      width: 1920,
       menu: false,
-      snow: (cookies.get('snow') === 'true')
+      snow: (cookies.get('snow') === 'true'),
+      miscIcon: RandomIcon()
     }
-    this.resize = this.resize.bind(this)
     this.toggleMenu = this.toggleMenu.bind(this)
     this.toggleSnow = this.toggleSnow.bind(this)
+    console.log(this.state.miscIcon)
   }
 
   componentDidMount() {
-    this.resize()
     if(!this.state.snow) {
       snowstorm.start()
       snowstorm.active = !snowstorm.active
       snowstorm.stop()
       snowstorm.freeze()
     }
-    window.addEventListener("resize", this.resize)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.resize)
-  }
-
-  resize() {
-    this.setState({
-      width: window.innerWidth
-    })
   }
 
   toggleMenu() {
@@ -51,17 +40,22 @@ class Header extends React.Component {
   }
 
   toggleSnow() {
-    if(this.state.snow === true) {
-      cookies.set('snow', 'false', { path: '/' })
-    }
-    else {
-      cookies.set('snow', 'true', { path: '/' })
-    }
-    snowstorm.toggleSnow()
-    this.setState(prevState => ({snow: !prevState.snow}))
+    this.setState((prevState) => {
+      if(this.state.snow === true) {
+        cookies.set('snow', 'false', { path: '/' })
+      }
+      else {
+        cookies.set('snow', 'true', { path: '/' })
+      }
+      snowstorm.toggleSnow()
+      return {
+        snow: !prevState.snow
+      }
+    })
   }
 
   render() {
+    const { miscIcon } = this.state
     const now = new Date()
     const currentMonth = now.getMonth()+1
     const HeaderWrapper = Styled.header`
@@ -80,14 +74,24 @@ class Header extends React.Component {
         top: 0;
         left: 0;
         visibility: ${currentMonth !== 12 ? 'hidden' : 'visible'};
-        margin: ${this.state.width <= MinWidth.s ? '0.5em 0 0 0.5em' : '0.25em 0 0 0.25em'};
+        margin: 0.5em 0 0 0.5em;
+        ${MediaMin.s`
+          margin: 0.25em 0 0 0.25em;
+        `}
         button svg {
-          font-size: ${this.state.width <= MinWidth.s ? '3em' : '2.5em'};
+          font-size: 3em;
+          ${MediaMin.s`
+            font-size: 2.5em;
+          `}
         }
       }
     `
     const MobileMenuButton = Styled(GenericButton)`
       && {
+        display: block;
+        ${MediaMin.s`
+          display: none;
+        `}
         position: ${this.state.menu ? 'fixed' : 'absolute'};
         top: 0;
         right: 0;
@@ -110,14 +114,14 @@ class Header extends React.Component {
       display: flex;
       flex-direction: column;
       position: relative;
-      top: 50%;
-      transform: translateY(-50%);
     `
     const PCButtonWrapper = Styled.nav`
-      flex: 1;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
+      display: none;
+      ${MediaMin.s`
+        display: flex;
+        flex: 1;
+        justify-content: center;
+      `}
     `
     const TabButton = Styled(GenericButton)`
       && {
@@ -146,11 +150,12 @@ class Header extends React.Component {
     `
     const MenuButton = Styled(GenericButton)`
       && {
+
         width: 100%;
         a {
-          padding: 1em calc(100% - 0.5em) 1em 0.5em;
+          padding: 0.75em calc(100% - 0.5em) 0.75em 0.5em;
           border-radius: 0;
-          font-size: 2.5em;
+          font-size: 2em;
           svg {
             font-size: 1em;
           }
@@ -160,14 +165,12 @@ class Header extends React.Component {
 
     return (
       <div style={{backgroundColor: this.props.theme.secondary}}>
-        {this.state.width <= MinWidth.s &&
-          <MobileMenuButton
-            type='action'
-            text=''
-            icon={this.state.menu? ['fas', 'times'] : ['fas', 'bars']}
-            func={this.toggleMenu}
-          />
-        }
+        <MobileMenuButton
+          type='action'
+          text=''
+          icon={this.state.menu? ['fas', 'times'] : ['fas', 'bars']}
+          func={this.toggleMenu}
+        />
         <div className={`${this.state.menu ? 'fullscreen-menu show' : 'fullscreen-menu'}`}>
           <MobileButtonWrapper>
             <MenuButton
@@ -186,7 +189,7 @@ class Header extends React.Component {
               type='internal'
               to='/misc'
               text='Misc'
-              icon={RandomIcon()}
+              icon={miscIcon}
               isFixedWidth={true}
             />
             <MenuButton
@@ -212,41 +215,39 @@ class Header extends React.Component {
             active={this.state.snow ? 'active' : ''}
           />
           <Logo size={4}/>
-          {this.state.width > MinWidth.s &&
-            <PCButtonWrapper>
-              <TabButton
-                type='internal'
-                to='/articles'
-                text='Articles'
-                icon={['far', 'comment']}
-              />
-              <TabButton
-                type='internal'
-                to='/projects'
-                text='Projects'
-                icon={['fas', 'code']}
-              />
-              <TabButton
-                type='internal'
-                to='/misc'
-                text='Misc'
-                icon={RandomIcon()}
-                isFixedWidth={true}
-              />
-              <TabButton
-                type='internal'
-                to='/resume'
-                text='Resume'
-                icon={['fas', 'paper-plane']}
-              />
-              <TabButton
-                type='internal'
-                to='/search'
-                text='Search'
-                icon={['fas', 'search']}
-              />
-            </PCButtonWrapper>
-          }
+          <PCButtonWrapper>
+            <TabButton
+              type='internal'
+              to='/articles'
+              text='Articles'
+              icon={['far', 'comment']}
+            />
+            <TabButton
+              type='internal'
+              to='/projects'
+              text='Projects'
+              icon={['fas', 'code']}
+            />
+            <TabButton
+              type='internal'
+              to='/misc'
+              text='Misc'
+              icon={RandomIcon()}
+              isFixedWidth={true}
+            />
+            <TabButton
+              type='internal'
+              to='/resume'
+              text='Resume'
+              icon={['fas', 'paper-plane']}
+            />
+            <TabButton
+              type='internal'
+              to='/search'
+              text='Search'
+              icon={['fas', 'search']}
+            />
+          </PCButtonWrapper>
         </HeaderWrapper>
       </div>
     )

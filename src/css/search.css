@@ -1,7 +1,5 @@
 .filters {
   transition: all 0.6s;
-  display: flex;
-  flex-direction: column;
   opacity: 1;
   margin-top: 0;
 }
@@ -9,5 +7,11 @@
 .filters.hide {
   overflow: hidden;
   opacity: 0;
-  margin-top: -10em;
+  margin-top: -30em;
+}
+
+@media only screen and (min-width: 800px) {
+  .filters.hide {
+    margin-top: -8.5em;
+  }
 }

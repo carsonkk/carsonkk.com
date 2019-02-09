@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Styled from 'styled-components'
+import { Flex } from '@rebass/grid'
 import _ from 'lodash'
 import { Index } from 'elasticlunr'
 import { withStyles } from '@material-ui/core/styles'
@@ -14,9 +15,9 @@ import '../css/search.css'
 import TextPreview from './TextPreview'
 import MetaText from './MetaText'
 import GenericButton from './GenericButton'
-import { PaddedContainer } from '../utils/Container'
 import { FontSans, pluralize } from '../utils/Text'
 import { LightTheme, MUIBoxShadow } from '../utils/Theme'
+import { ResMinWidthEm } from '../utils/Responsive'
 
 const cookies = new Cookies()
 const monthOptions = [
@@ -460,7 +461,6 @@ class SearchSection extends React.Component {
       display: flex;
       position: relative;
       z-index: 2;
-      padding-top: 4em;
       background-color: ${props => props.theme.primary};
     `
     const StyledSearchBar = withStyles({
@@ -503,22 +503,6 @@ class SearchSection extends React.Component {
         }
       }
     `
-    const SelectWrapper = Styled.div`
-      display: flex;
-      width: 100%;
-      > div:nth-child(1) {
-        width: ${100/3}%;
-        margin: 1em 0.5em 1em 0;
-      }
-      > div:nth-child(2) {
-        width: ${100/3}%;
-        margin: 1em 0.5em;
-      }
-      > div:nth-child(3) {
-        width: ${100/3}%;
-        margin: 1em 0 1em 0.5em;
-      }
-    `
     const selectStyles = {
       control: (provided) => ({
         ...provided,
@@ -545,7 +529,7 @@ class SearchSection extends React.Component {
       }),
       multiValue: (provided) => ({
         ...provided,
-        borderRadius: '0.5em',
+        borderRadius: '0.25em',
         border: '0.125em solid #6ecfff',
         color: '#2a2a2a',
         backgroundColor: 'white'
@@ -568,10 +552,7 @@ class SearchSection extends React.Component {
       display: flex;
       flex-direction: column;
       align-items: center;
-      span {
-        margin-top: 0;
-        margin-bottom: 1.5em;
-      }
+      padding-bottom: 2em;
     `
     const SearchResults = Styled.div`
       > div:nth-child(1) {
@@ -597,6 +578,7 @@ class SearchSection extends React.Component {
     `
     const NoResultsText = Styled.span`
       margin-top: 4em;
+      margin-bottom: 2em;
       font-size: 2em;
       font-style: italic;
     `
@@ -607,7 +589,7 @@ class SearchSection extends React.Component {
         justify-content: center;
         list-style-type: none;
         margin: 0.5em 0;
-        padding: 0.75em 0 1em 0;
+        padding: 0.375em 0 0.5em 0;
         overflow: hidden;
         li {
           display: flex;
@@ -617,9 +599,9 @@ class SearchSection extends React.Component {
           a {
             transition: all 0.3s;
             margin: 0;
-            padding: 0.125em 0.75em;
+            padding: 0.125em 0.375em;
             border: none;
-            border-radius: 0.375em;
+            border-radius: 0.25em;
             font-size: 1.5em;
             color: ${props => props.theme.text};
             background-color: transparent;
@@ -644,20 +626,26 @@ class SearchSection extends React.Component {
         }
         .previous {
           flex: 1 0 auto;
-          margin-right: 2em;
+          margin-right: 0.5em;
           font-weight: bold;
+          a {
+            padding-top: 0.05em;
+          }
         }
         .next {
           flex: 1 0 auto;
           justify-content flex-end;
-          margin-left: 2em;
+          margin-left: 0.5em;
           font-weight: bold;
+          a {
+            padding-top: 0.05em;
+          }
         }
       }
     `
 
     return (
-      <PaddedContainer>
+      <Flex flexDirection="column" width={[1, 1, 1, 1, ResMinWidthEm.s]} mx="auto" px={[4, 5, 6, 6, 0]} pt={5}>
         <SearchHeader>
           <StyledSearchBar
             name='search'
@@ -677,8 +665,8 @@ class SearchSection extends React.Component {
             active={searchFiltersVisible ? 'active' : ''}
           />
         </SearchHeader>
-        <div className={`${searchFiltersVisible ? 'filters' : 'filters hide'} `}>
-          <SelectWrapper>
+        <Flex flexDirection={["column", "column", "row"]} flexWrap="wrap" width={1} className={`${searchFiltersVisible ? 'filters' : 'filters hide'}`}>
+          <Flex width={[1, 1, 1/3]} py={[3]} pr={[0, 0, 3]}>
             <Select
               name='type'
               placeholder='Types...'
@@ -686,9 +674,12 @@ class SearchSection extends React.Component {
               onChange={this.handleTypeSelect}
               value={typesSelected}
               styles={selectStyles}
+              className="react-select-base"
               isMulti
               isClearable
             />
+          </Flex>
+          <Flex width={[1, 1, 1/3]} py={[3]} px={[0, 0, 3]}>
             <Select
               name='topic'
               placeholder='Topics...'
@@ -696,9 +687,12 @@ class SearchSection extends React.Component {
               onChange={this.handleTopicSelect}
               value={topicsSelected}
               styles={selectStyles}
+              className="react-select-base"
               isMulti
               isClearable
             />
+          </Flex>
+          <Flex width={[1, 1, 1/3]} py={[3]} pl={[0, 0, 3]}>
             <Select
               name='tag'
               placeholder='Tags...'
@@ -706,11 +700,12 @@ class SearchSection extends React.Component {
               onChange={this.handleTagSelect}
               value={tagsSelected}
               styles={selectStyles}
+              className="react-select-base"
               isMulti
               isClearable
             />
-          </SelectWrapper>
-          <SelectWrapper>
+          </Flex>
+          <Flex width={[1, 1, 1/3]} py={[3]} pr={[0, 0, 3]}>
             <Select
               name='length'
               placeholder='Lengths...'
@@ -718,19 +713,12 @@ class SearchSection extends React.Component {
               onChange={this.handleLengthSelect}
               value={lengthsSelected}
               styles={selectStyles}
+              className="react-select-base"
               isMulti
               isClearable
             />
-            <Select
-              name='month'
-              placeholder='Months...'
-              options={monthOptions}
-              onChange={this.handleMonthSelect}
-              value={monthsSelected}
-              styles={selectStyles}
-              isMulti
-              isClearable
-            />
+          </Flex>
+          <Flex width={[1, 1, 1/3]} py={[3]} px={[0, 0, 3]}>
             <Select
               name='year'
               placeholder='Years...'
@@ -738,11 +726,25 @@ class SearchSection extends React.Component {
               onChange={this.handleYearSelect}
               value={yearsSelected}
               styles={selectStyles}
+              className="react-select-base"
               isMulti
               isClearable
             />
-          </SelectWrapper>
-        </div>
+          </Flex>
+          <Flex width={[1, 1, 1/3]} py={[3]} pl={[0, 0, 3]}>
+            <Select
+              name='month'
+              placeholder='Months...'
+              options={monthOptions}
+              onChange={this.handleMonthSelect}
+              value={monthsSelected}
+              styles={selectStyles}
+              className="react-select-base"
+              isMulti
+              isClearable
+            />
+          </Flex>
+        </Flex>
         <SearchCount>
           <MetaText
             type='text'
@@ -764,7 +766,7 @@ class SearchSection extends React.Component {
               <ReactPaginate 
                 pageCount={Math.ceil(totalCount/perPage)}
                 marginPagesDisplayed={1}
-                pageRangeDisplayed={2}
+                pageRangeDisplayed={1}
                 onPageChange={this.handlePageClick}
                 forcePage={offset/perPage}
                 activeClassName={'active'}
@@ -774,7 +776,7 @@ class SearchSection extends React.Component {
             </PaginateWrapper>
           }
         </SearchFooter>
-      </PaddedContainer>
+      </Flex>
     )
   }
 }
@@ -782,7 +784,7 @@ class SearchSection extends React.Component {
 SearchSection.propTypes = {
   index: PropTypes.object.isRequired,
   types: PropTypes.array.isRequired,
-  context: PropTypes.object.isRequired
+  context: PropTypes.object
 }
 
 export default SearchSection
