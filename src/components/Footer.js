@@ -22,7 +22,9 @@ class Footer extends React.Component {
       z-index: 100;
       padding-top: 8em;
       background-color: ${props => props.theme.primary};
-      box-shadow: ${articleRgx.test(window.location.href) ? '0em 0em 1.5em -0.25em black' : 'none'};
+      ${typeof window !== `undefined` && `
+        box-shadow: ${articleRgx.test(window.location.href) ? '0em 0em 1.5em -0.25em black' : 'none'};
+      `}
       ${MediaMin.s`
         :hover {
           > div:last-child {

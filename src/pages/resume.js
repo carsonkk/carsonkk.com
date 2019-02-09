@@ -957,13 +957,17 @@ class ResumePage extends React.Component {
       min-height: ${PaperHeight.xl}px;
       margin-left: auto;
       margin-right: auto;
-      margin-bottom: ${-1*PaperHeight.xl*(1-document.documentElement.clientWidth*smallScaleValues[scaleIdx]/PaperWidth.xl)}px;
-      transform: scale(${document.documentElement.clientWidth*smallScaleValues[scaleIdx]/PaperWidth.xl});
+      ${typeof document !== `undefined` && `
+        margin-bottom: ${-1*PaperHeight.xl*(1-document.documentElement.clientWidth*smallScaleValues[scaleIdx]/PaperWidth.xl)}px;
+        transform: scale(${document.documentElement.clientWidth*smallScaleValues[scaleIdx]/PaperWidth.xl});
+      `}
       transform-origin: 0 0;
       box-shadow: ${MUIBoxShadow};
       ${MediaMin.s`
-        margin-bottom: ${-1*PaperHeight.xl*(1-document.documentElement.clientWidth*mediumScaleValues[scaleIdx]/PaperWidth.xl)}px;
-        transform: scale(${document.documentElement.clientWidth*mediumScaleValues[scaleIdx]/PaperWidth.xl});
+        ${typeof document !== `undefined` && `
+          margin-bottom: ${-1*PaperHeight.xl*(1-document.documentElement.clientWidth*mediumScaleValues[scaleIdx]/PaperWidth.xl)}px;
+          transform: scale(${document.documentElement.clientWidth*mediumScaleValues[scaleIdx]/PaperWidth.xl});
+        `}
       `}
       ${MediaMin.l`
         margin-bottom: 0;
