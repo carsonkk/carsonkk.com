@@ -461,6 +461,7 @@ class SearchSection extends React.Component {
       display: flex;
       position: relative;
       z-index: 2;
+      padding-top: 4em;
       background-color: ${props => props.theme.primary};
     `
     const StyledSearchBar = withStyles({
@@ -645,7 +646,7 @@ class SearchSection extends React.Component {
     `
 
     return (
-      <Flex flexDirection="column" width={[1, 1, 1, 1, ResMinWidthEm.s]} mx="auto" px={[4, 5, 6, 6, 0]} pt={5}>
+      <Flex flexDirection="column" width={[1, 1, 1, 1, ResMinWidthEm.s]} mx="auto" px={[4, 5, 6, 6, 0]}>
         <SearchHeader>
           <StyledSearchBar
             name='search'

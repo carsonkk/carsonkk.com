@@ -1,6 +1,5 @@
 import React from 'react'
 import Styled, { keyframes, withTheme } from 'styled-components'
-import { Flex } from '@rebass/grid'
 import { fadeInUp, fadeOutDown } from 'react-animations'
 import Cookies from 'universal-cookie'
 
@@ -8,7 +7,7 @@ import '../css/header.css'
 import snowstorm from '../js/snowstorm.js'
 import GenericButton from './GenericButton'
 import Logo from './Logo'
-import { ResMinWidthPx, MediaMin } from '../utils/Responsive'
+import { MediaMin } from '../utils/Responsive'
 import { RandomIcon } from '../utils/Theme'
 
 const cookies = new Cookies()
@@ -23,7 +22,6 @@ class Header extends React.Component {
     }
     this.toggleMenu = this.toggleMenu.bind(this)
     this.toggleSnow = this.toggleSnow.bind(this)
-    console.log(this.state.miscIcon)
   }
 
   componentDidMount() {
@@ -194,15 +192,15 @@ class Header extends React.Component {
             />
             <MenuButton
               type='internal'
-              to='/resume'
-              text='Resume'
-              icon={['fas', 'paper-plane']}
-            />
-            <MenuButton
-              type='internal'
               to='/search'
               text='Search'
               icon={['fas', 'search']}
+            />
+            <MenuButton
+              type='internal'
+              to='/resume'
+              text='Resume'
+              icon={['fas', 'paper-plane']}
             />
           </MobileButtonWrapper>
         </div>
@@ -232,20 +230,20 @@ class Header extends React.Component {
               type='internal'
               to='/misc'
               text='Misc'
-              icon={RandomIcon()}
+              icon={miscIcon}
               isFixedWidth={true}
-            />
-            <TabButton
-              type='internal'
-              to='/resume'
-              text='Resume'
-              icon={['fas', 'paper-plane']}
             />
             <TabButton
               type='internal'
               to='/search'
               text='Search'
               icon={['fas', 'search']}
+            />
+            <TabButton
+              type='internal'
+              to='/resume'
+              text='Resume'
+              icon={['fas', 'paper-plane']}
             />
           </PCButtonWrapper>
         </HeaderWrapper>
