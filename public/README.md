@@ -1,1 +1,0 @@
-This is the production branch of [carsonkk.com](http://carsonkk.com). For the original source code, check the master branch.
