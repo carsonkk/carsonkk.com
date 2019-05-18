@@ -7,7 +7,6 @@ const hastToHTML = require('hast-util-to-html')
 const visit = require('unist-util-visit')
 
 module.exports = {
-  pathPrefix: '',
   siteMetadata: {
     author: 'Kyle Carson',
     about: 'Software & Computer Engineer',
