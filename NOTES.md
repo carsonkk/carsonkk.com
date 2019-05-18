@@ -1,0 +1,204 @@
+# TODO
+
+## REL 1
+
+- ~~data-title on button/link (data-text instead?)~~
+- ~~re-import crystalize functionality~~
+- ~~fix canvas scaling issue~~
+- ~~Footer fragment?~~
+- ~~tab button color on fadeout~~
+- ~~persist theme options after refresh/leave and return (cookies)~~
+- ~~fixed project post image cropping~~
+- ~~gatsby 2.0~~
+- ~~search page~~
+  - ~~fix pagination bugwhere goin to third page, then typing more so theres one page~~
+  - ~~hook filters into controlling output as well~~
+  - ~~style pagination~~
+  - ~~minor styling tweaks~~
+    - ~~no outline~~
+    - ~~cursor pointer on hovers~~
+    - ~~color/background colors~~
+    - ~~box shadow~~
+  - ~~enforce prop usage~~
+  - ~~Dynamic categories~~
+  - ~~no query returns all results~~
+  - ~~inspect/fix filter/sorting functionality~~
+  - ~~filter drawer transition~~
+  - ~~replace close icon in searchbar/style to match selects~~
+  - ~~sorting~~
+  - ~~rename categories/kinds/types/topics/etc~~
+    - ~~date from fields to frontmatter~~
+    - ~~id for blog posts in fields~~
+    - ~~category to topic~~
+    - ~~type to kind~~
+    - ~~kind to type~~
+    - ~~Add dates to projects/misc (define a project date?)~~
+  - ~~Filters for month and kind~~
+  - ~~cleanup component~~
+- ~~Fix other pages after search changes~~
+- ~~Articles~~
+  - ~~pagination~~
+- ~~Simple 404 page~~
+  - ~~redirect to home or a random article~~
+- ~~prev/next buttons~~
+- ~~styling quotes/emphasis texts/line breaks for articles~~
+- ~~Fully featured hello world sink~~
+- ~~ToC~~
+- ~~categories~~
+- ~~comment section buttons~~
+  - ~~github issue~~
+  - ~~medium~~
+  - ~~reddit~~
+- ~~Scroll trick on other components~~
+- ~~external pages baselayout~~
+- ~~holiday/seasonal theming~~
+  - ~~christmas~~
+    - ~~snow~~
+    - ~~button to toggle snow (function call in API)~~
+    - ~~christmas hat on resume (wrapper container around pic)~~
+    - ~~snowstorm spawning/leaving sides of screen too soon~~
+- ~~blur effect on images~~
+- ~~header links dont go to top of page~~
+- ~~target and rel for external links~~
+- ~~Image section content alignment consistency~~
+- ~~Responsiveness~~
+  - ~~Mobile header just logo and menu icon~~
+  - ~~clicking menu drops header div down to Max screen revealing options~~
+  - ~~align with aux/snow button~~
+  - ~~make responsive against viewport width~~
+  - ~~button feature to transition between two different icons~~
+  - ~~animate menu expansion~~
+- ~~Resume:~~
+  - ~~Performance hit after v1->v2 port? Fix download button?~~
+  - ~~Responsive CSS/CV multi-page css (dynamic height detection)~~
+  - ~~investigate margins in adobe acrobat/other pdf software~~
+  - ~~Proper select box styling/usage~~
+  - ~~snow fucked up on resume page when not snowing when loaded~~
+  - ~~rendering writeup/github/website as links when downloading~~
+  - ~~change keywords to use the json data~~
+  - ~~cookie for resume type selected~~
+  - ~~remove paper/content scaling, always xl, force horizontal scrolling~~
+  - ~~bullet points look funky~~
+- ~~sitemap~~
+- ~~google analytics~~
+- ~~tag links, go to search with tag preselected (intra page context/params)~~
+- ~~blockquotes on READMEs~~
+- ~~title in tabs meta~~
+- ~~SEO/metadata~~
+- ~~Debug HTML build~~
+- ~~Deployment~~
+  - ~~Cleanup content/draft enable beforehand~~
+  - ~~select platform/read up on comparisons~~
+  - ~~deploy to platform~~
+- ~~Responsiveness~~
+  - ~~Grid library substitutions where needed~~
+  - ~~index posts~~
+  - ~~image preview min-height~~
+  - ~~change header width stuff to media queries only/menu button scaling~~
+  - ~~search~~
+  - ~~project posts~~
+  - ~~footer?~~
+  - ~~Image sections 3/2/1 images wide~~
+- CONTENT
+- Resume:
+  - CONTENT
+  - means to create custom resumes on developer side
+- production crossbrowser/platform testing
+  - All
+    - ~~Active tab doesn't remain active on subpage (/articles, active, /articles/blah, not active)~~
+    - laggy hovering over image preview posts
+    - svg icons load huge initially
+    - Theme is super messed up till you start clicking elsewhere on site (on reload)
+      - Has to do with way theme is being set relative to state
+    - image preview transition timing/picking colors (gradient static till hovered? better gradients)
+    - buttons underneath index articles/projects
+    - copy button position attached to bottom of code block
+  - Chrome
+    - buttons (resume) glitchy on first hover
+      - Only on buttons with the /resume route wtf?
+      - prefetching size of assets in <head> is large, possible reason?
+  - Firefox
+    - ~~dashed outline on URLs/buttons~~
+    - Links that get line-wrapped don't have an underline
+    - youtube video(s?) won't load in remark plugin
+  - Safari
+  - Edge
+- ACCOUNTS! (twitch, soundcloud, twitter, youtube, postimages, vimeo, product-hunt, quora, steam, discord, slack, imgur, stackexchange, gitlab, bitbucket, codepen, check sherlock, +any others)
+  - setup new gmails, redirects, de-associate carsonkk@gmail from everything, etc
+- DNS mapping
+
+## REL 2
+
+- desktop mode
+- refractor everything with flex/box responmsive
+- glitch name text with background
+- header menu on mobile just out of site when scrolling down, appears fixed when scrolling up, just like chrome mobile URL bar
+- tweak transisiton curve for tab buttons so icons stay invisble longer in beginning
+- search begins after three characters have been typed
+- ux/ui thing- implement desktop interfaces from old video game console/computer OS's
+- add search/pagination to projects/misc/articles
+- rethink the theme/snow/visit on github/ui+ux button easter eggs
+- easter egg tracker?
+- types link to search context state (ie Web Article, web and article both link, the month and year link)
+- Animations in styled-components
+- animal crossing time soundtrack play easter egg
+- 404 page
+  - emoji support
+  - desk of stuff made from icons, computer screen with gifs/videos playing (talks, music, webm ygyl memes, etc)
+  - redirect to home or a random article
+- collections of articles (part 1, 2, 3, etc)
+- /articles, /projects, /misc each have a quote thing at the top
+  - articles is various quotes
+  - projects is ```sudo symlink bucketlist project backlog``` code thing: (ln -s ~/Code/project-backlog.md ~/Documents/bucket-list.md)
+  - misc is quote "the 'whatever else' portion of the site"
+- RSS feed for articles? mailing list for new posts?
+- custom console log on home page (https://wiki.base22.com/btg/creating-a-fancy-message-using-console-log-116722335.html)
+- Article Comments
+  - Load Comments button
+  - Loading performs an ajax request to each valid source, gethers comment data, and rebuilds comment/response trees with custom formatting on site
+- Button/input/select re-styling
+- articles sorting/filtering
+- Handle multiple reddit post links/comments
+- extra pages on project pages customization
+- holiday/seasonal theming
+  - christmas
+    - design/implement: wreath hanging from header
+    - design/implement: wreath plants on footer lines
+- Render README's using html/ast/md parser function?
+- proper seo schemas (https://schema.org/ https://developers.google.com/search/docs/guides/intro-structured-data)
+- accessability
+- switch pagination to official gatsby method (performance? using in context of search? https://www.gatsbyjs.org/docs/adding-pagination/)
+- Resume:
+  - updated library/api?
+  - Mobile performance/quality?
+- lighthouse audit
+  - ssr
+  - pwa
+  - manifest
+  - offline
+- cleanup codebase
+- general testing
+- Prismjs plugins/functionality
+  - Autolinker
+  - Command-line
+  - Line Numbers
+  - show language above code
+  - preview of code in sandboxes
+- crossbrowser testing
+- index on headings of stuff for search (https://www.gatsbyjs.org/packages/gatsby-transformer-remark/)
+
+# Not sure what TODO
+
+- metatext svg option?
+- extend postcontainers instead of wrapping them
+- z-indexing on project/misc/background images (background image component?)
+- narrow window on projects/misc page where shit freaks out???
+- double slashes on links
+- Luber README- text overflowing page
+- styled components rendering seperate css classes for each image preview
+- snowstorm sometimes doesn't update properly when button is clicked
+
+# ISSUES
+
+- gatsby image critical prop usage - even with crit on and fadein off, if refreshed when viewport isnt over image, lazy loads?
+- styled-components re-rendering everything on theme change
