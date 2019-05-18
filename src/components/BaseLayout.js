@@ -40,7 +40,12 @@ class BaseLayout extends React.Component {
   render() {
     const { theme } = this.state
     const { children } = this.props
-    const currentTheme = theme === 'dark' ? DarkTheme : LightTheme
+
+    let currentTheme = DarkTheme
+    if(theme !== 'dark') {
+      currentTheme = LightTheme
+    }
+
     const BaseWrapper = Styled.div`
       display: flex;
       flex-direction: column;
