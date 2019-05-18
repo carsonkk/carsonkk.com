@@ -73,5 +73,8 @@
   "devDependencies": {
     "gh-pages": "2.0.1",
     "prettier": "1.15.3"
+  },
+  "scripts": {
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
   }
 }
