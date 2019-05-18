@@ -3,7 +3,7 @@ import { StaticQuery, graphql } from 'gatsby'
 import Styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import Cookies from 'universal-cookie'
 
-import '../css/prism-material.css'
+import '../css/prism-atom-dark.css'
 import Header from './Header'
 import Footer from './Footer'
 import { DarkTheme, LightTheme, MUIBoxShadow } from '../utils/Theme'

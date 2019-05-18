@@ -51,8 +51,8 @@ class ArticlePost extends React.Component {
       div {
         position: fixed;
         width: 100%;
-        height: 101%;
-        margin-top: -5em;
+        height: 100vh;
+        top: 0;
       }
     `
     const ShadowWrapper = Styled.div`
@@ -91,6 +91,13 @@ class ArticlePost extends React.Component {
     `
     const PostBody = Styled.div`
       position: relative;
+      > div {
+        > p > img {
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
     `
     const PostFooter = Styled.div`
       margin-top: 3em;
@@ -125,7 +132,7 @@ class ArticlePost extends React.Component {
             </div>
           </Banner>
           <ShadowWrapper>
-            <Flex flexDirection="column" width={[1, 1, 1, 1, ResMinWidthEm.s]} mx="auto" px={[4, 5, 6, 6, 0]} py={5}>
+            <Flex flexDirection="column" width={[1, 1, 1, 1, ResMinWidthEm.s]} mx="auto" px={[4, 5, 6, 6, 0]} pt={5}>
               <PostHeader>
                 <h1 className='title'>{title}</h1>
                 <MetaText

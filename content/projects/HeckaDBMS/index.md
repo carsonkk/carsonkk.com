@@ -12,7 +12,7 @@ tags:
 github: 'carsonkk/HeckaDBMS'
 ---
 
-## Hecka Transactions
+# Hecka Transactions
 
 **HeckaDBMS** is a fully-implemented database management system written in C++. The top-down view of the system includes:
 

@@ -1,8 +1,6 @@
 ---
 created: '2018-01-01'
 updated: '2018-01-01'
-banner: 'neature.jpg'
-logo: 'seal.jpg'
 title: 'Sealarg'
 description: 'An easy-to-use command line argument parsing library for C'
 feature: true
@@ -16,3 +14,5 @@ github: 'carsonkk/sealarg'
 ---
 
 # Sealarg
+
+*More information coming soon*

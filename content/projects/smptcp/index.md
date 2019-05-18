@@ -9,7 +9,9 @@ tags:
   - 'smptcp'
   - 'C'
   - 'Networking'
-github: 'carsonkk/smptcp'
+#github: 'carsonkk/smptcp'
 ---
 
 # smptcp
+
+*More information coming soon*

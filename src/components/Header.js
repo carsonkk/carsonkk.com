@@ -9,6 +9,7 @@ import GenericButton from './GenericButton'
 import Logo from './Logo'
 import { MediaMin } from '../utils/Responsive'
 import { RandomIcon } from '../utils/Theme'
+import { relative } from 'path';
 
 const cookies = new Cookies()
 
@@ -53,15 +54,17 @@ class Header extends React.Component {
   }
 
   render() {
-    const { miscIcon } = this.state
+    const { menu, miscIcon } = this.state
     const now = new Date()
     const currentMonth = now.getMonth()+1
+
     const HeaderWrapper = Styled.header`
       flex: 0 1 auto;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      position: relative;
+      width: 100%;
+      position: ${menu ? 'fixed' : 'relative'};
       z-index: 1002;
       background-color: ${props => props.theme.secondary};
       box-shadow: 0 0 1em 0 black;
@@ -247,6 +250,7 @@ class Header extends React.Component {
             />
           </PCButtonWrapper>
         </HeaderWrapper>
+        <div style={{paddingTop: menu ? '104px' : '0px'}}></div>
       </div>
     )
   }

@@ -15,7 +15,9 @@ tags:
   - 'Python'
   - 'GAE'
   - 'Super Computers'
-github: 'carsonkk/potato-chips'
+#github: 'carsonkk/potato-chips'
 ---
 
 # potato chips
+
+*More information coming soon*

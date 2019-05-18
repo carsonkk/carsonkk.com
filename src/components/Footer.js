@@ -12,7 +12,7 @@ import { MediaMin } from '../utils/Responsive'
 class Footer extends React.Component {
   render() {
     const { links, theme, handleClickTheme } = this.props
-    const articleRgx = /\/articles\//g
+    const articleRgx = /\/articles\/.+?/g
 
     const FooterWrapper = Styled.footer`
       display: flex;

@@ -27,6 +27,7 @@
     "gatsby-plugin-sitemap": "2.0.3",
     "gatsby-plugin-styled-components": "3.0.4",
     "gatsby-remark-autolink-headers": "2.0.12",
+    "gatsby-remark-copy-linked-files": "2.0.9",
     "gatsby-remark-embed-video": "1.4.0",
     "gatsby-remark-emojis": "0.2.3",
     "gatsby-remark-external-links": "0.0.4",

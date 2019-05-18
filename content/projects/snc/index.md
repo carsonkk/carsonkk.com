@@ -11,7 +11,9 @@ tags:
   - 'Networking'
   - 'Linux'
   - 'Software Utility'
-github: 'carsonkk/snc'
+#github: 'carsonkk/snc'
 ---
 
 # snc
+
+*More information coming soon*

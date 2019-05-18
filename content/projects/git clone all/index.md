@@ -5,12 +5,13 @@ title: 'git clone all'
 description: 'Clone all repos owned by a given user or organization with a single command'
 topic: 'Software'
 icon: 'code'
-draft: true
 tags:
   - 'git clone all'
-  - 'git'
+  - 'Git'
   - 'Software Tool'
-github: 'carsonkk/git-clone-all'
+#github: 'carsonkk/git-clone-all'
 ---
 
 # git clone all
+
+*More information coming soon*

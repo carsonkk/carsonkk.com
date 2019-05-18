@@ -7,9 +7,12 @@ topic: Software
 icon: code
 tags:
   - KFS
-  - File Systems
-  - Operating Systems
+  - File System
+  - Operating System
   - Linux
+  - C
 ---
 
 # KFS
+
+*More information coming soon*

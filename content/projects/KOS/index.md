@@ -7,9 +7,11 @@ topic: 'Software'
 icon: 'code'
 tags:
   - 'KOS'
-  - 'Operating Systems'
+  - 'Operating System'
   - 'Linux'
   - 'C'
 ---
 
 # KOS
+
+*More information coming soon*

@@ -7,7 +7,14 @@ topic: 'Software'
 icon: 'code'
 tags:
   - 'socialcli'
-github: 'carsonkk/socialcli'
+  - C Plus Plus
+  - TUI
+  - Data Structures
+  - Algorithms
+  - Network Graphs
+#github: 'carsonkk/socialcli'
 ---
 
 # socialcli
+
+*More information coming soon*

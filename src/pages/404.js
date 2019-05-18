@@ -42,7 +42,7 @@ class NotFoundPage extends React.Component {
           title='404'
           description="The page could not be found"
         />
-        <Flex>
+        <Flex mx="auto">
           <FoFWrapper>
             <Title>404</Title>
             <Tagline>The page you were looking for has either been deleted, moved elsewhere, or is currently under maintenance.</Tagline>

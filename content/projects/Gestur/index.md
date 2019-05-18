@@ -7,10 +7,12 @@ topic: 'Hardware'
 icon: 'microchip'
 tags:
   - 'Gestur'
-  - 'VR'
   - 'Embedded Systems'
   - 'Sensors'
-  - 'dotNET'
+  - 'Haptic Feedback'
+  - 'Glove'
+  - 'VR'
+  - 'DotNET'
   - 'C'
   - 'C Sharp'
   - 'Software Application'
@@ -18,3 +20,5 @@ tags:
 ---
 
 # Gestur
+
+*More information coming soon*

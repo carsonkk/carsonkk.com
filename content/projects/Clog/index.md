@@ -11,14 +11,26 @@ tags:
   - 'Logging'
   - 'Software Library'
 github: 'carsonkk/Clog'
-website: 'carsonkk.github.io/Clog'
+#website: 'carsonkk.github.io/Clog'
 ---
 
-## Building a Package
+# Logging Made Easy
+
+Clog is meant to be a drop-in solution to logging in C projects. It combines a verbose set of customizable options with a set of smart defaults making it easy to get immediate feedback. Some of its more appealing features include:
+
+- Severity level hierarchy
+- Colored terminal output to convey severity
+- Cleanly formatted meta information for each log output
+
+All of the features listed can be customized by the developer through the library API at both the initialization as well as anytime during execution. This enables hot-swapping between different styles and hierarchies of log messages, which can be usefull when dealing with multiple log files.
+
+*This library is currently under experimental development and does not yet have a stable release*
+
+# Building a Package
 
 Clog is my first real attempt at building a software library for C that could actually be distributed. While writing a functional piece of code in C is one thing, packaging it in a usuable form for anyone else to use is another. Some of the considerations and tasks this included were:
 
-- Supporting multiple compliance guides (ANSI C/C99/POSIX)
+- Supporting multiple compliance guides (C89/C99/POSIX)
 - Supporting usage in a multi-threaded setting
 - Allowing the end-user to supply their own allocator
 - Multiple means of actually using the library:

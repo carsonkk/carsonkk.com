@@ -5,6 +5,7 @@ banner: '../../../src/images/neature.jpg'
 title: 'Hello World'
 topic: 'Web'
 icon: 'desktop'
+feature: true
 tags:
   - 'Meta'
   - 'Markdown'
@@ -276,6 +277,9 @@ Here's some pictures (hover to see the title text):
 Internal File (with no alt text)
 ![](../../../src/images/neature.jpg)
 
+Internal File (with no alt text and transparency)
+![](polar-bear.gif)
+
 Inline-style:
 ![alt text](https://pbs.twimg.com/profile_images/875556871427375106/Xuq8DypK_bigger.jpg "Logo Title Text 1")
 
@@ -289,6 +293,9 @@ Here's some pictures (hover to see the title text):
 
 Internal File (with no alt text)
 ![](../../../src/images/neature.jpg)
+
+Internal File (with no alt text and transparency)
+![](polar-bear.gif)
 
 Inline-style:
 ![alt text](https://pbs.twimg.com/profile_images/875556871427375106/Xuq8DypK_bigger.jpg "Logo Title Text 1")
@@ -398,7 +405,7 @@ Hyphens
 Asterisks
 
 ---
-
+let's keep writing to make sure this is long enough to actually wrap for everyone. Oh, you can put Markdown into a
 Underscores
 
 ## Line Breaks
@@ -423,8 +430,6 @@ This line is also begins a separate paragraph, but...\
 This line is only separated by a single newline, so it's a separate line in the _same
 paragraph_.
 
-
-
 [1]: https://www.gatsbyjs.org/packages/gatsby-transformer-remark/
 [2]: http://remark.js.org/
 [3]: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
@@ -432,7 +437,6 @@ paragraph_.
 [5]: https://www.gatsbyjs.org/packages/gatsby-remark-autolink-headers/
 [6]: https://www.gatsbyjs.org/packages/gatsby-remark-smartypants/
 [7]: https://github.com/wooorm/retext-smartypants
-
 
 # Remark Markdown Addons
 
@@ -443,6 +447,10 @@ Notice how each heading on this page has a clickable anchor tag next to it when 
 ## gatsby-remark-images
 
 Creates responsive images with additional effects. See the [Images](#images) section above, specifically the internal file example. Full documentation can be found [here](https://www.gatsbyjs.org/packages/gatsby-remark-images/)
+
+## gatsby-remark-copy-linked-files
+
+Allows for linking of files for download such as `.pdf`'s, as well as rendering of `.gif`'s and `.svg`'s. See the [Images](#images) section above, specifically the internal file example. Full documentation can be found [here](https://www.gatsbyjs.org/packages/gatsby-remark-copy-linked-files)
 
 ## gatsby-remark-embed-video
 

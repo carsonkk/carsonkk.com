@@ -2,7 +2,7 @@
 created: '2018-01-01'
 updated: '2018-01-01'
 title: 'Lamposk'
-description: "Distributed ticketing kiosk implemented using Lamport's Bakery Algorithm"
+description: "Distributed ticketing kiosk toy app implemented using Lamport's Bakery Algorithm"
 topic: 'Software'
 icon: 'code'
 tags:
@@ -12,7 +12,9 @@ tags:
   - 'Networking'
   - 'Multithreaded'
   - 'pthreads'
-github: 'carsonkk/Lamposk'
+#github: 'carsonkk/Lamposk'
 ---
 
 # Lamposk
+
+*More information coming soon*

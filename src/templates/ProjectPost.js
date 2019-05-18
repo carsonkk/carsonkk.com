@@ -144,6 +144,8 @@ class ProjectPost extends React.Component {
     const { markdownRemark } = this.props.data
     const { frontmatter } = markdownRemark
     const crop = (frontmatter.allowCropping === false) ? false : true
+    const transparentBanner = (frontmatter.transparentBanner === true) ? true : false
+    const transparentLogo = (frontmatter.transparentLogo === true) ? true : false
     const srcSetRegex = /,\n(.*) .*$/g
     let seoImg = null
 
@@ -161,6 +163,7 @@ class ProjectPost extends React.Component {
       .gatsby-image-wrapper {
         border-radius: 0.375em;
         max-height: 10em;
+        box-shadow: ${transparentBanner ? "none" : MUIBoxShadow};
         ${MediaMin.m`
           max-height: 16em;
         `}
@@ -176,6 +179,7 @@ class ProjectPost extends React.Component {
       height: 100%;
       .gatsby-image-wrapper {
         border-radius: 0.375em;
+        box-shadow: ${transparentLogo ? "none" : MUIBoxShadow};
       }
     `
     const Name = Styled.h1`
@@ -289,14 +293,14 @@ class ProjectPost extends React.Component {
                     <Img fixed={frontmatter.logo.childImageSharp.fixed} alt="logo"/>
                   </Logo>
                 }
-                <Flex flexDirection="column" alignItems={["center", "center", "center", "flex-start"]} mx={["auto", "auto", "auto", 0]}>
+                <Flex flexDirection="column" justifyContent="center" alignItems={["center", "center", "center", "flex-start"]} mx={["auto", "auto", "auto", 0]}>
                   <Name>{frontmatter.title}</Name>
                   <Description>{frontmatter.description}</Description>
                 </Flex>
               </Flex>
               <Flex flexDirection="column">
                 {frontmatter.github &&
-                  <Flex justifyContent={["center", "center", "center", "flex-end"]} width={[1]} mb={[4, 4, 4, 2]}>
+                  <Flex justifyContent={["center", "center", "center", "flex-start"]} width={[1]} mb={[4, 4, 4, 2]}>
                     <Flex pr={[3, 3, 3, 2]}>
                       <GitHubButton
                         type='external'
@@ -357,17 +361,19 @@ class ProjectPost extends React.Component {
                 </Flex>
               </Flex>
             </Flex>
-            <Select
-              name="tabs"
-              options={tabOptions}
-              onChange={this.handleTabChange}
-              value={tabSelected}
-              isSearchable={false}
-              styles={selectStyles}
-              className="react-select-base"
-            />
+            <Flex width={[1, 1, "20em"]} mx="auto">
+              <Select
+                name="tabs"
+                options={tabOptions}
+                onChange={this.handleTabChange}
+                value={tabSelected}
+                isSearchable={false}
+                styles={selectStyles}
+                className="react-select-base"
+              />
+            </Flex>
           </Flex>
-          <PostBody width={1} py={5}>
+          <PostBody width={1} pt={5}>
             {contents}
           </PostBody>
         </Flex>
@@ -420,6 +426,8 @@ export const pageQuery = graphql`
         github
         website
         allowCropping
+        transparentBanner
+        transparentLogo
         misc {
           childMarkdownRemark {
             htmlAst

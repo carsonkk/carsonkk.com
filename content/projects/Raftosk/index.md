@@ -2,7 +2,7 @@
 created: '2018-01-01'
 updated: '2018-01-01'
 title: 'Raftosk'
-description: 'Distributed ticketing kiosk implemented using the Raft Consensus Algorithm'
+description: 'Distributed ticketing kiosk toy app implemented using the Raft Consensus Algorithm'
 topic: 'Software'
 icon: 'code'
 tags:
@@ -12,7 +12,9 @@ tags:
   - 'Networking'
   - 'Multithreaded'
   - 'RMI'
-github: 'carsonkk/Raftosk'
+#github: 'carsonkk/Raftosk'
 ---
 
 # Raftosk
+
+*More information coming soon*
