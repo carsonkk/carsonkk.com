@@ -40,12 +40,7 @@ class BaseLayout extends React.Component {
   render() {
     const { theme } = this.state
     const { children } = this.props
-
-    let currentTheme = DarkTheme
-    if(theme !== 'dark') {
-      currentTheme = LightTheme
-    }
-
+    const themeVals = theme === 'light' ? LightTheme : DarkTheme 
     const BaseWrapper = Styled.div`
       display: flex;
       flex-direction: column;
@@ -56,8 +51,8 @@ class BaseLayout extends React.Component {
       font-family: ${FontSans};
       text-align: left;
       box-sizing: border-box;
-      color: ${props => props.theme.text};
-      background-color: ${props => props.theme.primary};
+      color: ${themeVals.text};
+      background-color: ${themeVals.primary};
     `
     const GlobalStyle = createGlobalStyle`
       html {
@@ -99,7 +94,7 @@ class BaseLayout extends React.Component {
         :hover {
           a.anchor svg {
             visibility: visible;
-            fill: ${props => props.theme.text};
+            fill: ${themeVals.text};
             ${MediaMax.xs`
               visibility: hidden;
             `}
@@ -190,20 +185,20 @@ class BaseLayout extends React.Component {
         ${LinkStyle}
         a {
           transition: all 0.3s;
-          color: ${props => props.theme.color};
+          color: ${themeVals.color};
           :hover {
-            color: ${props => props.theme.accent};
+            color: ${themeVals.accent};
           }
           ::before {
-            background-color: ${props => props.theme.accent};
+            background-color: ${themeVals.accent};
           }
         }
       }
       a {
         text-decoration: none;
-        color: ${props => props.theme.text};
+        color: ${themeVals.text};
         .anchor svg {
-          fill: ${props => props.theme.text};
+          fill: ${themeVals.text};
         }
         :focus {
           outline: none;
@@ -232,7 +227,7 @@ class BaseLayout extends React.Component {
         position: relative;
         margin: 1em 0 3.25em 0;
         font-style: italic;
-        color: ${props => props.theme.caption};
+        color: ${themeVals.caption};
         ::before, ::after {
           display: inline-block;
           height: 0.25em;
@@ -269,7 +264,7 @@ class BaseLayout extends React.Component {
           padding-top: 0.75em;
           padding-bottom: 0.75em;
           color: ${DarkTheme.text};
-          background-color: ${props => props.theme.color};
+          background-color: ${themeVals.color};
           :first-child {
             border-top-left-radius: 0.5em;
           }
@@ -279,7 +274,7 @@ class BaseLayout extends React.Component {
         }
         tr {
           :nth-child(even) {
-            background-color: ${props => props.theme.secondary};
+            background-color: ${themeVals.secondary};
           }
           :last-child {
             td {
@@ -341,7 +336,7 @@ class BaseLayout extends React.Component {
         }
       `}
         render={data => (
-          <ThemeProvider theme={currentTheme}>
+          <ThemeProvider theme={themeVals}>
             <BaseWrapper>
               <GlobalStyle/>
               <Header/>
@@ -351,6 +346,7 @@ class BaseLayout extends React.Component {
               <Footer
                 links={data.allSocialJson.edges}
                 theme={theme}
+                themeVals={themeVals}
                 handleClickTheme={this.handleClickTheme}
               />
             </BaseWrapper>

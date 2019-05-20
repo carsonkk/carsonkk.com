@@ -10,6 +10,7 @@ export default function AjaxGet(url, callback) {
     }
   }
   xhr.open('GET', url, true)
+  xhr.setRequestHeader("Access-Control-Allow-Origin", "*")
   xhr.send()
   return xhr
 }

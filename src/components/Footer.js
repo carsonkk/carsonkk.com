@@ -11,9 +11,8 @@ import { MediaMin } from '../utils/Responsive'
 
 class Footer extends React.Component {
   render() {
-    const { links, theme, handleClickTheme } = this.props
+    const { links, theme, themeVals, handleClickTheme } = this.props
     const articleRgx = /\/articles\/.+?/g
-
     const FooterWrapper = Styled.footer`
       display: flex;
       flex-direction: column;
@@ -21,7 +20,7 @@ class Footer extends React.Component {
       position: relative;
       z-index: 100;
       padding-top: 8em;
-      background-color: ${props => props.theme.primary};
+      background-color: ${themeVals.primary};
       ${typeof window !== `undefined` && `
         box-shadow: ${articleRgx.test(window.location.href) ? '0em 0em 1.5em -0.25em black' : 'none'};
       `}
@@ -58,7 +57,7 @@ class Footer extends React.Component {
       align-self: center;
       height: 0.125em;
       margin: 0 1em;
-      background-color: ${props => props.theme.text};
+      background-color: ${themeVals.text};
     `
     const SecretsWrapper = Styled(Flex)`
       
@@ -92,7 +91,7 @@ class Footer extends React.Component {
           :hover {
             background-color: transparent;
             svg {
-              color: ${props => props.theme.toggle};
+              color: ${themeVals.toggle};
             }
           }
           svg {
@@ -115,9 +114,9 @@ class Footer extends React.Component {
             margin: 0 0.5em;
             padding: 0.25em 0.125em;
             :hover {
-              background-color: ${props => props.theme.social};
+              background-color: ${themeVals.social};
               svg {
-                color: ${node.name === 'github' ? props => props.theme.github : node.color};
+                color: ${node.name === 'github' ? themeVals.github : node.color};
               }
             }
             svg {
@@ -188,10 +187,11 @@ class Footer extends React.Component {
       <Flex key={1} justifyContent={["center", "center", "flex-end"]} width={1/2} pr={[0, 0, 2]} mb={[4, 4, 0]}>
         <ThemeButton
           type='action'
-          title={theme === 'dark' ? 'Brighter than a thousand suns...' : 'My eyes, they burn! Go back!'}
-          icon={theme === 'dark' ? ['fas', 'moon'] : ['fas', 'sun']}
+          title={theme === 'light' ? 'My eyes, they burn! Go back!' : 'Brighter than a thousand suns...'}
+          icon={theme === 'light' ? ['fas', 'sun'] : ['fas', 'moon']}
           func={handleClickTheme}
           isFixedWidth={true}
+          dataAttr={theme}
         />
       </Flex>
     ]
@@ -222,6 +222,7 @@ class Footer extends React.Component {
 Footer.propTypes = {
   links: PropTypes.array.isRequired,
   theme: PropTypes.string.isRequired,
+  themeVals: PropTypes.object.isRequired,
   handleClickTheme: PropTypes.func.isRequired
 }
 
