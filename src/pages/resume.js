@@ -1185,7 +1185,7 @@ class ResumePage extends React.Component {
               />
             </ZoomWrapper>
           </Flex>
-          <ScrollWrapper>
+          <ScrollWrapper className="resume-scroll">
             <ThemeProvider theme={LightTheme}>
               <Flex flexDirection="column" className='resume-root' ref={(resumeRef) => this.resumeRef = resumeRef}>
                 <ResumeContainer className="resume-page">

@@ -124,17 +124,17 @@ class IndexPage extends React.Component {
                 </Box>
                 <Box width={[1, 1, 1, 0.25]} pl={[0, 0, 0, 3]} mt={[3, 3, 3, 0]}>
                   <DarkButton
-                    type='internal'
+                    type='router'
                     to='/resume'
                     text='My Resume'
-                    icon={['fas', 'code']}
+                    icon={['fas', 'paper-plane']}
                   />
                 </Box>
               </Flex>
             </IntroBlurb>
           </IntroSection>
           <ShadowWrapper>
-            <Flex justifyContent="center" flexWrap="wrap" width={[1, 1, 1, 1, ResMinWidthEm.m]} mx="auto" px={[4, 5, 6, 6, 0]} py={5}>
+            <Flex justifyContent="center" flexWrap="wrap" width={[1, 1, 1, 1, ResMinWidthEm.m-2]} mx="auto" px={[4, 5, 6, 6, 0]} py={5}>
               <Box width={[1, 1, 1, ResMinWidthPx.m-SpacingPx[6], 0.44]}>
                 <ArticleColumnTitle className="hxxl">Featured Posts</ArticleColumnTitle>
                 {featuredArticlePosts}

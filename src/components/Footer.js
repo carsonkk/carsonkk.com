@@ -19,7 +19,7 @@ class Footer extends React.Component {
       align-items: center;
       position: relative;
       z-index: 100;
-      padding-top: 8em;
+      padding-top: 6em;
       background-color: ${themeVals.primary};
       ${typeof window !== `undefined` && `
         box-shadow: ${articleRgx.test(window.location.href) ? '0em 0em 1.5em -0.25em black' : 'none'};
@@ -38,6 +38,8 @@ class Footer extends React.Component {
     `
     const NavWrapper = Styled(Flex)`
       width: 100%;
+      position: relative;
+      z-index: 2;
       :hover {
         > div:first-child, > div:last-child {
           > span {
@@ -58,9 +60,6 @@ class Footer extends React.Component {
       height: 0.125em;
       margin: 0 1em;
       background-color: ${themeVals.text};
-    `
-    const SecretsWrapper = Styled(Flex)`
-      
     `
     const GithubButton = Styled(GenericButton)`
       && {
@@ -211,9 +210,9 @@ class Footer extends React.Component {
         <Flex justifyContent="center" width={[1, 1, 0]} px={4} mb={[4, 4, 0]}>
           <Line/>
         </Flex>
-        <SecretsWrapper flexWrap="wrap" width={[1]} px={[4, 4, 0]} mb={[0, 0, 3]}>
+        <Flex flexWrap="wrap" width={[1]} px={[4, 4, 0]} mb={[0, 0, 3]}>
           {secrets}
-        </SecretsWrapper>
+        </Flex>
       </FooterWrapper>
     )
   }

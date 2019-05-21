@@ -454,15 +454,15 @@ Allows for linking of files for download such as `.pdf`'s, as well as rendering 
 
 ## gatsby-remark-embed-video
 
-Allows for a responsive embeedding of videos from ppular platforms, including YouTube, Twitch, Vimeo, and VideoPress. Full documentation can be found [here](https://www.gatsbyjs.org/packages/gatsby-remark-embed-video/)
+Allows for a responsive embedding of videos from popular platforms, including YouTube, Twitch, Vimeo, and VideoPress. Full documentation can be found [here](https://www.gatsbyjs.org/packages/gatsby-remark-embed-video/)
 
 ```text
-`video: https://www.youtube.com/watch?v=v5ai8iNSK9Q`
-`youtube: https://www.youtube.com/watch?v=v5ai8iNSK9Q`
-`youtube: v5ai8iNSK9Q`
+`video: https://www.youtube.com/watch?v=GSdYPkgCvtE`
+`youtube: https://www.youtube.com/watch?v=GSdYPkgCvtE`
+`youtube: GSdYPkgCvtE`
 ```
 
-`youtube: https://www.youtube.com/watch?v=v5ai8iNSK9Q`
+`youtube: https://www.youtube.com/watch?v=GSdYPkgCvtE`
 
 ## gatsby-remark-responsive-iframe
 
@@ -538,18 +538,22 @@ For example, I've created a CopyButton component that simply copies the contents
 
 ```text
 (Add an additional tick (`) before each of the two ticks below to render the codeblock properly)
+(The div is for better margins between the button and the text that follows)
 
-<copy-button></copy-button>
 ``text
-Click the Copy button to copy this text to your clipboard
+Click the Copy button to copy this text to your clipboard!
 ``
+<copy-button></copy-button>
+<div style="width: 100%; margin-bottom: 3em;"></div>
 ```
 
 And rendered on the page:
 
-<copy-button></copy-button>
+
 ```text
 Click the Copy button to copy this text to your clipboard!
 ```
+<copy-button></copy-button>
+<div style="width: 100%; margin-bottom: 3em;"></div>
 
 **This has been a full demonstration of the Markdown features enabled for this site. Check out this website's [source code](https://github.com/carsonkk/carsonkk.com) for the implementation of any of the addons or custom components shown above.** :tada:

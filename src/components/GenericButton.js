@@ -96,6 +96,7 @@ GenericButton.defaultProps = {
 
 GenericButton.propTypes = {
   type: PropTypes.oneOf([
+    'router',
     'internal',
     'external',
     'action',

@@ -84,16 +84,12 @@ export const Colors = {
   onePurple: '#b46ab3',
   onePurpleAccent: '#c379c2',
 }
+export const GradientColors = [
+  '#D15D66', '#D15D8B', '#A75DD1', '#5D6FD1', '#5D87D1', '#5DBFD1', '#5DD1C3', '#5DD192', '#5DD169', '#8BD15D', '#BED15D', '#D1C65D', '#D1A25D', '#D17D5D',
+  '#D41B32', '#D41B56', '#D41B94', '#B21BD4', '#531BD4', '#1B42D4', '#1B96D4', '#1BD4B2', '#1BD461', '#48D41B', '#88D41B', '#D4D41B', '#D4941B', '#D44B1B'
+]
 export function RandomRange(min, max) {
   return Math.floor(Math.random()*(max-min+1))+min
-}
-export function RandomColor() {
-  const colors = [
-    '#d15d66','#e06c75','#d6b16c','#e5c07b',
-    '#ece08a','#f7eb95','#89b46a','#98c379',
-    '#47a7b3','#56b6c2','#b46ab3','#c379c2',
-  ]
-  return colors[Math.floor(Math.random()*colors.length)]
 }
 export function RandomAngle() {
   const angles = [1, 20, 40, 60, 80, 100, 120, 140, 160, 

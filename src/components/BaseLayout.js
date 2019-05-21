@@ -2,6 +2,7 @@ import React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
 import Styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import Cookies from 'universal-cookie'
+import '@fortawesome/fontawesome-svg-core/styles.css' // ensure CSS is loaded pre-render for Firefox
 
 import '../css/prism-atom-dark.css'
 import Header from './Header'

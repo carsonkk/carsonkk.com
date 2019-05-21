@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link as RouterLink } from '@reach/router';
 import { Link } from 'gatsby'
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
 import Styled from 'styled-components'
@@ -44,6 +45,11 @@ class SmartButton extends React.Component {
 
     return (
       <SmartButtonWrapper className={className}>
+        {type === 'router' &&
+          <RouterLink to={to} title={title} getProps={({isPartiallyCurrent}) => {return isPartiallyCurrent ? {className: "active"} : null}} rel={intRel}>
+            {content}
+          </RouterLink>
+        }
         {type === 'internal' &&
           <Link to={to} title={title} getProps={({isPartiallyCurrent}) => {return isPartiallyCurrent ? {className: "active"} : null}} rel={intRel}>
             {content}
@@ -79,6 +85,7 @@ SmartButton.defaultProps = {
 
 SmartButton.propTypes = {
   type: PropTypes.oneOf([
+    'router',
     'internal',
     'external',
     'action',

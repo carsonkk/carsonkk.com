@@ -12,10 +12,11 @@ class CopyButton extends React.Component {
   }
 
   // Warning, here be DOM dragons
+  // Assumes the <copy-button/> element comes directly after the ```code block``` in the markdown
   handleClick = () => (e) => {
-    // Initialize codeBlock to the next sibling of its parent in the markdown flow
+    // Initialize codeBlock to the previous, previous sibling of its parent's parent
     const btn = e.currentTarget
-    let codeBlock = btn.parentNode.parentNode.nextSibling
+    let codeBlock = btn.parentNode.parentNode.previousSibling.previousSibling
 
     // Loop through nodes until the <code> node with the target text is found
     // 8:COMMENT_NODE, 3:TEXT_NODE, need to ignore these
@@ -46,24 +47,19 @@ class CopyButton extends React.Component {
       && {
         button {
           position: absolute;
+          z-index: 0;
           right: 0;
-          margin: 0.5em 0.5em 0 0;
+          margin: -1em 1em 0 0;
           padding: 0.375em 0.5em;
-          opacity: 0.25;
+          border-bottom: 2px solid ${props => props.theme.text};
+          border-left: 2px solid ${props => props.theme.text};
+          border-right: 2px solid ${props => props.theme.text};
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
           font-size: 1em;
           font-weight: bold;
-          color: ${DarkTheme.primary};
-          background-color: ${DarkTheme.text};
-          :hover {
-            opacity: 1;
-            background-color: ${DarkTheme.text};
-            span > span {
-              color: ${DarkTheme.primary};
-            }
-          }
           svg {
             font-size: 0.675em;
-            color: ${DarkTheme.color};
           }
         }
       }

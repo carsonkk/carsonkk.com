@@ -147,6 +147,8 @@ pre[class*="language-"] {
   margin: 1em 0;
   padding: 1em;
   overflow: auto;
+  position: relative;
+  z-index: 1;
 }
 
 .gatsby-highlight pre[class*="language-"] {
@@ -171,15 +173,23 @@ pre[class*="language-"] {
 div.gatsby-highlight::-webkit-scrollbar,
 div.gatsby-highlight::-webkit-scrollbar-track {
   background-color: #7a8190;
-}
-
-div.gatsby-highlight::-webkit-scrollbar,
-div.gatsby-highlight::-webkit-scrollbar-track {
   height: 0.5em;
   width: 0.5em;
 }
 
 div.gatsby-highlight::-webkit-scrollbar-thumb,
 div.gatsby-highlight::-webkit-scrollbar-corner {
+  background-color: #c2c8d1;
+}
+
+div.resume-scroll::-webkit-scrollbar,
+div.resume-scroll::-webkit-scrollbar-track {
+  background-color: #7a8190;
+  height: 0.5em;
+  width: 0.5em;
+}
+
+div.resume-scroll::-webkit-scrollbar-thumb,
+div.resume-scroll::-webkit-scrollbar-corner {
   background-color: #c2c8d1;
 }

@@ -200,7 +200,7 @@ class Header extends React.Component {
               icon={['fas', 'search']}
             />
             <MenuButton
-              type='internal'
+              type='router'
               to='/resume'
               text='Resume'
               icon={['fas', 'paper-plane']}
@@ -243,7 +243,7 @@ class Header extends React.Component {
               icon={['fas', 'search']}
             />
             <TabButton
-              type='internal'
+              type='router'
               to='/resume'
               text='Resume'
               icon={['fas', 'paper-plane']}

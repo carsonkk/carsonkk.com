@@ -41,7 +41,7 @@ class ArticlePost extends React.Component {
       display: flex;
       flex-direction: column;
       width: 100%;
-      margin-bottom: 12em;
+      margin-bottom: 16em;
       .title {
         font-family: ${FontSerif};
       }
@@ -100,7 +100,7 @@ class ArticlePost extends React.Component {
       }
     `
     const PostFooter = Styled.div`
-      margin-top: 3em;
+      margin: 4em 0;
       h1 {
         margin-top: 0;
         margin-bottom: 0.25em;
