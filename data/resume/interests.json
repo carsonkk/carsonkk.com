@@ -2,14 +2,12 @@
   {
     "buzzwords": [
       "Distributed Systems",
-      "Cloud/Edge Computing",
-      "Operating Systems",
-      "File Systems",
+      "Cloud & Edge Computing",
+      "Operating & File Systems",
       "Scalable Web Services",
-      "Databases",
-      "Networking",
+      "Databases & Networking",
       "Machine Learning",
-      "IoT/Embedded Systems",
+      "IoT & Embedded Systems",
       "Game Development"
     ]
   }

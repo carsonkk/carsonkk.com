@@ -2,7 +2,6 @@ import React from 'react'
 import Styled from 'styled-components'
 
 import GenericButton from './GenericButton'
-import { DarkTheme } from '../utils/Theme'
 
 
 class CopyButton extends React.Component {

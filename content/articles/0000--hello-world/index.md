@@ -292,7 +292,7 @@ Reference-style:
 Here's some pictures (hover to see the title text):
 
 Internal File (with no alt text)
-![](../../../src/images/neature.jpg)
+![](./neature.jpg)
 
 Internal File (with no alt text and transparency)
 ![](polar-bear.gif)

@@ -54,21 +54,34 @@ module.exports = {
       }
     },
     {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'data-custom',
+        path: `${__dirname}/data-custom`
+      }
+    },
+    {
       resolve: 'gatsby-transformer-remark',
       options: {
         plugins: [
           {
             resolve: 'gatsby-remark-autolink-headers',
             options: {
-              offsetY: -680
+              offsetY: '-2060'
             }
           },
           {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 1000,
-              backgroundColor: 'black',
               linkImagesToOriginal: false
+            }
+          },
+          {
+            resolve: 'gatsby-remark-images-zoom',
+            options: {
+              margin: 16,
+              background: 'rgba(0,0,0,0.5)'
             }
           },
           {
@@ -107,7 +120,13 @@ module.exports = {
               }
             }
           },
-          'gatsby-remark-external-links'
+          {
+            resolve: 'gatsby-remark-external-links',
+            options: {
+              target: '_blank',
+              rel: 'nofollow noopener noreferrer',
+            },
+          }
         ]
       }
     },

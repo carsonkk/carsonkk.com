@@ -23,7 +23,7 @@ class IndexPage extends React.Component {
     const recentArticlePosts = data.recentArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} data={edge.node}/>)
     const featuredArticlePosts = data.featuredArticlePosts.edges.map(edge => <TextPreview key={edge.node.id} data={edge.node}/>)
     const images = [hiking_1, hiking_2, hiking_3]
-    const slideshowRate = 8000
+    const slideshowRate = 6500
 
     const IndexWrapper = Styled.div`
       display: flex;

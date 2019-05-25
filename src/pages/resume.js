@@ -30,7 +30,6 @@ const resumeTypeOptions = [
   { value: 'Hardware', label: 'Hardware' }
 ]
 const smallScaleValues = [1, 1.5, 2, 2.5]
-
 const mediumScaleValues = [1, 1.1, 1.25, 1.5]
 const Body = Styled.div`
   display: flex;
@@ -131,6 +130,7 @@ class ResumePage extends React.Component {
       originalContent: null,
       structuredContent: null,
       multiPaged: false,
+      isCustomizeMode: false,
       canvasLoaded: false,
       icons: [
         {
@@ -414,7 +414,11 @@ class ResumePage extends React.Component {
   handleDownloadPdf = () => {
     const resumeType = this.state.resumeTypeSelected.value
     const { author } = this.props.data.site.siteMetadata
-    const { skillsJson, techJson, interestsJson, } = this.props.data
+    let { skillsJson, techJson, interestsJson, } = this.props.data
+    if(process.env.GATSBY_CUSTOM_RESUME_FILTERING === 'true') {
+      skillsJson = this.props.data.cskillsJson
+      techJson = this.props.data.ctechJson
+    }
     const today = new Date()
     const day = today.getDate() < 10 ? "0" + today.getDate() : today.getDate()
     const month = today.getMonth()+1 < 10 ? "0"+(today.getMonth()+1) : today.getMonth()+1
@@ -439,7 +443,7 @@ class ResumePage extends React.Component {
     )
     const techMeta = [techs.languages.join(), techs.libraries.join(), techs.softwares.join()].join()
     const interestsMeta = interestsJson.buzzwords.join()
-    const miscMeta = "Regents Scholar, Honors Program, Computer Engineering, Software Engineering, Computer Science, BS, MS, Masters, Hackathon, Tau Beta Pi, TBP"
+    const miscMeta = "Regents Scholar, Honors Program, Computer Engineering, Software Engineering, Computer Science, BS, MS, Masters, Graduate, SB Hacks, Hackathon, Tau Beta Pi, TBP"
 
     savePDF(ReactDOM.findDOMNode(this.resumeRef), {
       title: title,
@@ -482,9 +486,14 @@ class ResumePage extends React.Component {
   buildResumeContent(resumeTypeSelected) {
     const { icons } = this.state
     const { data } = this.props
-    const { allExperienceJson, allProjectsJson, allProjectsRemark, 
+    let { allExperienceJson, allProjectsJson, allProjectsRemark, 
       allEducationJson, skillsJson, interestsJson, techJson, } = data
-
+    if(process.env.GATSBY_CUSTOM_RESUME_FILTERING === 'true') {
+      allExperienceJson = data.allCexperienceJson
+      allProjectsJson = data.allCprojectsJson
+      skillsJson = data.cskillsJson
+      techJson = data.ctechJson
+    }
     let originalContent = {
       leftColumn: [
         {
@@ -565,7 +574,7 @@ class ResumePage extends React.Component {
         }
         const { slug } = remark.fields
         const { github, website, description } = remark.frontmatter
-        
+
         return(
           <SideSubsection key={i}>
             <h3>{node.title}</h3>
@@ -1147,7 +1156,7 @@ class ResumePage extends React.Component {
               <FontAwesomeIcon icon={['fas', 'info-circle']} className="fa-fw"/>
               <span>
                 Send me an <SmartLink type='external' to='mailto:kyle@carsonkk.com' text='email' title='kyle@carsonkk.com'/> if 
-                you need more detailed info such as GPAs, phone number, etc.
+                you need more info such as GPAs, phone number, etc.
               </span>
             </TextBlurb>
             <Flex justifyContent={["center", "center", "center", "center", "flex-start"]} alignItems="flex-end" order={[2, 2, 2, 2, 1]} width={1} pb={[4]}>
@@ -1211,10 +1220,10 @@ class ResumePage extends React.Component {
                           </NameWrapper>
                         </HeaderLeft>
                         <HeaderRight>
-                          {socialLinks[email]}
-                          {socialLinks[linkedin]}
-                          {socialLinks[github]}
                           {home}
+                          {socialLinks[email]}
+                          {socialLinks[github]}
+                          {socialLinks[linkedin]}
                         </HeaderRight>
                       </HeaderTop>
                       <HeaderBottom>
@@ -1281,7 +1290,36 @@ export const pageQuery = graphql`
         }
       }
     }
+    allCexperienceJson {
+      edges {
+        node {
+          title
+          company {
+            text
+            url
+          }
+          location
+          begin
+          end
+          details
+          tags
+        }
+      }
+    }
     allProjectsJson {
+      edges {
+        node {
+          title
+          slug
+          github
+          website
+          description
+          details
+          tags
+        }
+      }
+    }
+    allCprojectsJson {
       edges {
         node {
           title
@@ -1337,10 +1375,32 @@ export const pageQuery = graphql`
       web
       hardware
     }
+    cskillsJson {
+      software
+      web
+      hardware
+    }
     interestsJson {
       buzzwords
     }
     techJson {
+      software {
+        languages
+        libraries
+        softwares
+      }
+      web {
+        languages
+        libraries
+        softwares
+      }
+      hardware {
+        languages
+        libraries
+        softwares
+      }
+    }
+    ctechJson {
       software {
         languages
         libraries

@@ -361,7 +361,7 @@ class ProjectPost extends React.Component {
                 </Flex>
               </Flex>
             </Flex>
-            <Flex width={[1, 1, "20em"]} mx="auto">
+            <Flex width={[1, 1, 1, "20em"]} ml="auto">
               <Select
                 name="tabs"
                 options={tabOptions}

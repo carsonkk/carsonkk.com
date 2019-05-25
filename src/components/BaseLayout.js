@@ -101,83 +101,41 @@ class BaseLayout extends React.Component {
             `}
           }
         }
-        a.anchor svg {
-          transition: all 0.3s;
-          visibility: hidden;
-          fill: transparent;
+        > a.anchor {
+          margin-left: -1em;
+          padding-right: 0.25em;
+          svg {
+            transition: all 0.3s;
+            visibility: hidden;
+            fill: transparent;
+            height: 0.75em;
+            width: 0.75em;
+          }
         }
       }
       h1, .hxxl {
         font-size: 3em;
         margin-bottom: 0.5em;
-        > a.anchor {
-          margin-left: -1em;
-          padding-right: 0.25em;
-          svg {
-            height: 0.75em;
-            width: 0.75em;
-          }
-        }
       }
       h2, .hxl {
-        font-size: 2.5em;
+        font-size: 2.375em;
         margin-bottom: 0.4em;
-        > a.anchor {
-          margin-left: -1em;
-          padding-right: 0.25em;
-          svg {
-            height: 0.75em;
-            width: 0.75em;
-          }
-        }
       }
       h3, .hl {
-        font-size: 2.125em;
+        font-size: 2em;
         margin-bottom: 0.3em;
-        > a.anchor {
-          margin-left: -1em;
-          padding-right: 0.25em;
-          svg {
-            height: 0.75em;
-            width: 0.75em;
-          }
-        }
       }
       h4, .hm {
-        font-size: 1.75em;
+        font-size: 1.625em;
         margin-bottom: 0.2em;
-        > a.anchor {
-          margin-left: -1em;
-          padding-right: 0.25em;
-          svg {
-            height: 0.75em;
-            width: 0.75em;
-          }
-        }
       }
       h5, .hs {
         font-size: 1.375em;
         margin-bottom: 0.2em;
-        > a.anchor {
-          margin-left: -1em;
-          padding-right: 0.25em;
-          svg {
-            height: 0.75em;
-            width: 0.75em;
-          }
-        }
       }
       h6, .hxs {
-        font-size: 1em;
+        font-size: 1.125em;
         margin-bottom: 0.2em;
-        > a.anchor {
-          margin-left: -1em;
-          padding-right: 0.25em;
-          svg {
-            height: 0.75em;
-            width: 0.75em;
-          }
-        }
       }
       p, li {
         line-height: 1.5;
@@ -298,7 +256,7 @@ class BaseLayout extends React.Component {
           vertical-align: middle;
         }
       }
-      .gatsby-resp-image-wrapper {
+      . {
         border-radius: 0.5em;
         .gatsby-resp-image-image {
           border-radius: 0.5em;

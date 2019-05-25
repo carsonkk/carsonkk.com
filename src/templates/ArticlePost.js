@@ -5,6 +5,7 @@ import Styled from 'styled-components'
 import { Flex } from '@rebass/grid'
 import RehypeReact from 'rehype-react'
 
+
 import BaseLayout from '../components/BaseLayout'
 import SEO from '../components/SEO'
 import MetaText from '../components/MetaText'
@@ -34,8 +35,8 @@ class ArticlePost extends React.Component {
     if(banner) {
       seoImg = srcSetRegex.exec(banner.childImageSharp.fluid.srcSet)
       seoImg = seoImg[1]
-    } 
-    
+    }
+
     const Article = Styled.div`
       position: relative;
       display: flex;
@@ -91,13 +92,7 @@ class ArticlePost extends React.Component {
     `
     const PostBody = Styled.div`
       position: relative;
-      > div {
-        > p > img {
-          display: block;
-          margin-left: auto;
-          margin-right: auto;
-        }
-      }
+
     `
     const PostFooter = Styled.div`
       margin: 4em 0;
