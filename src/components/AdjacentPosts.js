@@ -68,7 +68,7 @@ class AdjacentPosts extends React.Component {
         <SeperatedWrapper>
           {prevIndex !== -1 ?
             <PrevTitle>{allPosts[prevIndex].node.frontmatter.title}</PrevTitle> :
-            <PrevTitle>This is where it all begins</PrevTitle>
+            <PrevTitle>This is where it all began</PrevTitle>
           }
           {nextIndex !== -1 ?
             <NextTitle>{allPosts[nextIndex].node.frontmatter.title}</NextTitle> :

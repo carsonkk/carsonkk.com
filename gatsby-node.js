@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const path = require('path')
 
-let targetTags = []
+let pointers = []
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
@@ -16,7 +16,7 @@ exports.createPages = ({ graphql, actions }) => {
                 slug
                 type
                 kind
-                targetTag
+                pointer
               }
               frontmatter {
                 tags
@@ -33,7 +33,7 @@ exports.createPages = ({ graphql, actions }) => {
       }
       result.data.allMarkdownRemark.edges.forEach(edge => {
         const { fields, frontmatter } = edge.node
-        if(fields.kind !== 'subpage' && !frontmatter.draft) {
+        if(!frontmatter.draft) {
           switch (fields.type) {
             case 'article':
               createPage({
@@ -50,7 +50,7 @@ exports.createPages = ({ graphql, actions }) => {
                 component: path.resolve('src/templates/ProjectPost.js'),
                 context: {
                   slug: fields.slug,
-                  targetTag: fields.targetTag,
+                  pointer: fields.pointer,
                 },
               })
               break
@@ -61,6 +61,15 @@ exports.createPages = ({ graphql, actions }) => {
                   component: path.resolve('src/templates/ExternalPost.js'),
                   context: {
                     slug: fields.slug,
+                  },
+                })
+              } else {
+                createPage({
+                  path: fields.slug,
+                  component: path.resolve('src/templates/MiscPost.js'),
+                  context: {
+                    slug: fields.slug,
+                    pointer: fields.pointer,
                   },
                 })
               }
@@ -76,7 +85,7 @@ exports.createPages = ({ graphql, actions }) => {
 exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
   const contentRgx = /\/content\/(.+?)\//g
-  const subpageRgx = /__(?:.+?)__/g
+  const customRgx = /custom\.md/g
   const externalRgx = /external\.md/g
   if (node.internal.type === 'File') {
     const filePath = node.absolutePath
@@ -95,25 +104,25 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
         case 'projects':
           slugTarget = _.kebabCase(slugTarget)
           createNodeField({ node, name: 'type', value: 'project' })
-          if(!subpageRgx.test(filePath)) {
-            createNodeField({ node, name: 'slug', value: `/projects/${slugTarget}` })
-            createNodeField({ node, name: 'kind', value: 'page' })
-            createNodeField({ node, name: 'targetTag', value: `/${slugTarget}/` })
-            targetTags.push(`/${slugTarget}/`)
-          } else {
-            createNodeField({ node, name: 'kind', value: 'subpage' })
-          }
+          createNodeField({ node, name: 'slug', value: `/projects/${slugTarget}` })
+          createNodeField({ node, name: 'kind', value: 'page' })
+          createNodeField({ node, name: 'pointer', value: `/${slugTarget}/` })
+          pointers = _.union(pointers, [slugTarget])
           break
         case 'misc':
           slugTarget = _.kebabCase(slugTarget)
           createNodeField({ node, name: 'type', value: 'misc' })
           createNodeField({ node, name: 'slug', value: `/misc/${slugTarget}` })
-          if(!externalRgx.test(filePath)) {
-            createNodeField({ node, name: 'kind', value: 'page' })
-            createNodeField({ node, name: 'targetTag', value: `/${slugTarget}/` })
-            targetTags.push(`/${slugTarget}/`)
-          } else {
+          if(externalRgx.test(filePath)) {
             createNodeField({ node, name: 'kind', value: 'external' })
+          } else {
+            if(customRgx.test(filePath)) {
+              createNodeField({ node, name: 'kind', value: 'custom' })
+            } else {
+              createNodeField({ node, name: 'kind', value: 'page' })
+            }
+            createNodeField({ node, name: 'pointer', value: `/${slugTarget}/` })
+            pointers = _.union(pointers, [slugTarget])
           }
           break
       }
@@ -122,22 +131,19 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
     const fileNode = getNode(node.parent)
     createNodeField({ node, name: 'type', value: fileNode.fields.type })
     createNodeField({ node, name: 'kind', value: fileNode.fields.kind })
-    if(fileNode.fields.kind !== 'subpage') {
-      if(fileNode.fields.type === 'article') {
-        createNodeField({ node, name: 'number', value: parseInt(fileNode.fields.number) })
-        let articlesTargetTag = ''
-        node.frontmatter.tags.forEach(tag => {
-          tag = _.kebabCase(tag)
-          if(targetTags.indexOf(`/${tag}/`) !== -1 && articlesTargetTag === '') {
-            articlesTargetTag = tag
-          }
-        })
-        createNodeField({ node, name: 'targetTag', value: articlesTargetTag })
-      } else if(fileNode.fields.kind !== 'external') {
-        createNodeField({ node, name: 'targetTag', value: fileNode.fields.targetTag })
+    if(fileNode.fields.type === 'article') {
+      createNodeField({ node, name: 'number', value: parseInt(fileNode.fields.number) })
+      
+      let articlePointer = _.kebabCase(node.frontmatter.name)
+      if(pointers.indexOf(articlePointer) === -1) {
+        articlePointer = undefined
       }
-      createNodeField({ node, name: 'slug', value: fileNode.fields.slug })
+
+      createNodeField({ node, name: 'pointer', value: articlePointer })
+    } else if(fileNode.fields.kind !== 'external') {
+      createNodeField({ node, name: 'pointer', value: fileNode.fields.pointer })
     }
+    createNodeField({ node, name: 'slug', value: fileNode.fields.slug })
   }
 }
 

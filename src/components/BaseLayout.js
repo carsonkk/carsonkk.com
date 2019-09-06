@@ -140,7 +140,7 @@ class BaseLayout extends React.Component {
       p, li {
         line-height: 1.5;
       }
-      p, li {
+      p, li, td {
         ${LinkStyle}
         a {
           transition: all 0.3s;
@@ -256,7 +256,7 @@ class BaseLayout extends React.Component {
           vertical-align: middle;
         }
       }
-      . {
+      .gatsby-resp-image-wrapper {
         border-radius: 0.5em;
         .gatsby-resp-image-image {
           border-radius: 0.5em;
@@ -267,6 +267,17 @@ class BaseLayout extends React.Component {
       }
       .react-select-base {
         width: 100%;
+      }
+      .imgur {
+        :hover::before {
+          visibility: hidden;
+          transform: none;
+        }
+        img {
+          width: 100%;
+          margin-top: 1em;
+          border-radius: 0.5em;
+        }
       }
     `
     const MainWrapper = Styled.main`

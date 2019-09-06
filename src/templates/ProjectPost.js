@@ -22,8 +22,7 @@ const RenderAst = new RehypeReact({
 }).Compiler
 const tabOptions = [
   { value: 'about', label: 'About' },
-  { value: 'posts', label: 'Posts' },
-  { value: 'misc', label: 'Misc' },
+  { value: 'articles', label: 'Articles' },
   { value: 'readme', label: 'README' },
 ]
 const NoResultsText = Styled.span`
@@ -116,10 +115,7 @@ class ProjectPost extends React.Component {
           edge => <TextPreview key={edge.node.id} data={edge.node}/>
         )]
       }
-      else if(tabSelected.value === tabOptions[2].value && frontmatter.misc) {
-        contents = [RenderAst(frontmatter.misc.childMarkdownRemark.htmlAst)]
-      }
-      else if(tabSelected.value === tabOptions[3].value && readme !== '') {
+      else if(tabSelected.value === tabOptions[2].value && readme !== '') {
         contents = [<ReactMarkdown key={"readme"} className="readme" source={readme}/>]
       }
 
@@ -140,11 +136,11 @@ class ProjectPost extends React.Component {
   }
 
   render() {
-    const { tabSelected, contents } = this.state
-    const { markdownRemark } = this.props.data
+    const { tabSelected, contents, readme } = this.state
+    const { markdownRemark, allMarkdownRemark } = this.props.data
     const { frontmatter } = markdownRemark
     const crop = (frontmatter.allowCropping === false) ? false : true
-    const transparentBanner = (frontmatter.transparentBanner === true) ? true : false
+    const showSubpageDropdown = allMarkdownRemark !== null || readme !== ''
     const transparentLogo = (frontmatter.transparentLogo === true) ? true : false
     const srcSetRegex = /,\n(.*) .*$/g
     let seoImg = null
@@ -158,32 +154,62 @@ class ProjectPost extends React.Component {
       seoImg = seoImg[1]
     }
 
-    const Banner = Styled.div`
-      margin-bottom: 2em;
-      .gatsby-image-wrapper {
-        border-radius: 0.375em;
-        max-height: 10em;
-        box-shadow: ${transparentBanner ? "none" : MUIBoxShadow};
-        ${MediaMin.m`
-          max-height: 16em;
-        `}
-        img {
-          right: 0 !important;
-          margin: auto !important;
-          width: ${crop ? '100%' : 'auto'} !important;
-        }
-      }
+    const Project = Styled.div`
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
     `
+    let Banner = crop ? Styled.div`
+      flex: 0 0 22em;
+      div {
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        top: 0;
+      }
+    ` : Styled.div`
+      width: 100%;
+      box-sizing: border-box;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 1em;
+      padding-left: 2em;
+      padding-right: 2em;
+      ${MediaMin.xs`
+        padding-left: 4em;
+        padding-right: 4em;
+      `}
+      ${MediaMin.s`
+        padding-left: 8em;
+        padding-right: 8em;
+      `}
+      ${MediaMin.m`
+        width: ${ResMinWidthEm.s};
+        padding-left: 0;
+        padding-right: 0;
+      `}
+    `
+    const ShadowWrapper = crop ? Styled.div`
+      position: relative;
+      flex: 1;
+      box-shadow: 0em 0em 1.5em -0.25em black;
+      background-color: ${props => props.theme.primary};
+    ` : Styled.div``
     const Logo = Styled.div`
-      padding-right: 1em;
       height: 100%;
       .gatsby-image-wrapper {
         border-radius: 0.375em;
-        box-shadow: ${transparentLogo ? "none" : MUIBoxShadow};
+        box-shadow: ${transparentLogo ? 'none' : MUIBoxShadow};
       }
     `
     const Name = Styled.h1`
-      margin-bottom: 0.25em;
+      margin-bottom: 0;
+      font-size: 4em;
+      text-align: center;
+      ${MediaMin.m`
+        text-align: left;
+      `}
     `
     const Description = Styled.span`
       font-style: italic;
@@ -203,6 +229,9 @@ class ProjectPost extends React.Component {
           font-size: 1em;
         }
       }
+    `
+    const SelectWrapper = Styled(Flex)`
+      min-width: 10em;
     `
     const selectStyles = {
       control: (provided) => ({
@@ -279,104 +308,119 @@ class ProjectPost extends React.Component {
           description={frontmatter.description}
           image={seoImg}
         />
-        <Flex flexDirection="column" width={[1, 1, 1, 1, 1, ResMinWidthEm.m]} mx="auto" px={[4, 5, 6, 6, 6, 0]} pt={5}>
-          <Flex flexDirection="column">
-            {frontmatter.banner &&
-              <Banner>
-                <Img fluid={frontmatter.banner.childImageSharp.fluid} alt="banner"/>
-              </Banner>
-            }
-            <Flex flexDirection={["column", "column", "column", "row"]}>
-              <Flex justifyContent={["space-between", "space-between", "space-between", "flex-start"]} width={[1]} mb={4} pr={[0, 0, 0, 4]}>
-                {frontmatter.logo &&
-                  <Logo>
-                    <Img fixed={frontmatter.logo.childImageSharp.fixed} alt="logo"/>
-                  </Logo>
-                }
-                <Flex flexDirection="column" justifyContent="center" alignItems={["center", "center", "center", "flex-start"]} mx={["auto", "auto", "auto", 0]}>
-                  <Name>{frontmatter.title}</Name>
-                  <Description>{frontmatter.description}</Description>
-                </Flex>
-              </Flex>
+        <Project>
+          {frontmatter.banner && 
+            <Banner>
+              <div>
+                <Img fluid={frontmatter.banner.childImageSharp.fluid} alt="Banner"/>
+              </div>
+            </Banner>
+          }
+          <ShadowWrapper>
+            <Flex flexDirection="column" width={[1, 1, 1, 1, ResMinWidthEm.s]} mx="auto" px={[4, 5, 6, 6, 0]} pt={5}>
               <Flex flexDirection="column">
-                {frontmatter.github &&
-                  <Flex justifyContent={["center", "center", "center", "flex-start"]} width={[1]} mb={[4, 4, 4, 2]}>
-                    <Flex pr={[3, 3, 3, 2]}>
-                      <GitHubButton
-                        type='external'
-                        to={`//github.com/${frontmatter.github}/watchers`}
-                        text={`Watch ${this.state.watchCount}`}
-                        icon={['fas', 'eye']}
-                      />
-                    </Flex>
-                    <Flex px={[3, 3, 3, 2]}>
-                      <GitHubButton
-                        type='external'
-                        to={`//github.com/${frontmatter.github}/stargazers`}
-                        text={`Star ${this.state.starCount}`}
-                        icon={['fas', 'star']}
-                      />
-                    </Flex>
-                    <Flex pl={[3, 3, 3, 2]}>
-                      <GitHubButton
-                        type='external'
-                        to={`//github.com/${frontmatter.github}/network`}
-                        text={`Fork ${this.state.forkCount}`}
-                        icon={['fas', 'code-branch']}
-                      />
+                <Flex flexDirection={["column", "column", "column", "row"]}>
+                  <Flex justifyContent={["space-between", "space-between", "space-between", "flex-start"]} width={[1]} mr={[0, 0, 0, 4]}>
+                    <Flex flexDirection="column" justifyContent="flex-start" alignItems={["center", "center", "center", "flex-start"]} mx={["auto", "auto", "auto", 0]}>
+                      <Flex flexDirection={["column", "column", "column", "row"]} alignItems="center" mb={2}>
+                        {frontmatter.logo &&
+                          <Logo>
+                            <Img fixed={frontmatter.logo.childImageSharp.fixed} alt="logo"/>
+                          </Logo>
+                        }
+                        <Name>{frontmatter.title}</Name>
+                      </Flex>
+                      <Description>{frontmatter.description}</Description>
+                      <Flex flexDirection="column" alignItems="flex-start" mt={2} width={[1]}>
+                        {markdownRemark.frontmatter.tags && 
+                          <MetaText
+                            type='internal'
+                            icon={['fas', 'tags']}
+                            texts={markdownRemark.frontmatter.tags}
+                            links={Array(markdownRemark.frontmatter.tags.length).fill('/search')}
+                            linkStates={markdownRemark.frontmatter.tags.map(tag => ({tag: tag}))}
+                          />
+                        }
+                        {this.state.website &&
+                          <MetaText
+                            type='external'
+                            icon={['fas', 'link']}
+                            texts={[this.state.website]}
+                            links={[`//${this.state.website}`]}
+                          />
+                        }
+                        {frontmatter.github &&
+                          <MetaText
+                            type='external'
+                            icon={['fab', 'github']}
+                            texts={[`github.com/${frontmatter.github}`]}
+                            links={[`//github.com/${frontmatter.github}`]}
+                          />
+                        }
+                        {this.state.license && 
+                          <MetaText
+                            type='text'
+                            icon={['fas', 'balance-scale']}
+                            texts={[`${this.state.license} License`]}
+                          />
+                        }
+                      </Flex>
                     </Flex>
                   </Flex>
-                }
-                <Flex flexDirection="column" alignItems="flex-start" width={[1]} mb={4}>
-                  {this.state.license && 
-                    <MetaText
-                      type='text'
-                      icon={['fas', 'balance-scale']}
-                      texts={[`${this.state.license} License`]}
-                    />
+                  {(frontmatter.github || showSubpageDropdown) &&
+                    <Flex flexDirection="column" justifyContent={["center", "center", "center", "flex-start"]} mx="auto" mt={[4, 4, 4, 0]}>
+                      {frontmatter.github &&
+                        <Flex justifyContent={["center", "center", "center", "flex-end"]} width={[1]} mb={4}>
+                          <Flex pr={[3, 3, 3, 2]}>
+                            <GitHubButton
+                              type='external'
+                              to={`//github.com/${frontmatter.github}/watchers`}
+                              text={`Watch ${this.state.watchCount}`}
+                              icon={['fas', 'eye']}
+                            />
+                          </Flex>
+                          <Flex px={[3, 3, 3, 2]}>
+                            <GitHubButton
+                              type='external'
+                              to={`//github.com/${frontmatter.github}/stargazers`}
+                              text={`Star ${this.state.starCount}`}
+                              icon={['fas', 'star']}
+                            />
+                          </Flex>
+                          <Flex pl={[3, 3, 3, 2]}>
+                            <GitHubButton
+                              type='external'
+                              to={`//github.com/${frontmatter.github}/network`}
+                              text={`Fork ${this.state.forkCount}`}
+                              icon={['fas', 'code-branch']}
+                            />
+                          </Flex>
+                        </Flex>
+                      }
+                      {showSubpageDropdown &&
+                        <SelectWrapper justifyContent={["center", "center", "center", "flex-end"]} mb={3}>
+                          <Select
+                            name="tabs"
+                            options={tabOptions}
+                            onChange={this.handleTabChange}
+                            value={tabSelected}
+                            isSearchable={false}
+                            styles={selectStyles}
+                            className="react-select-base"
+                          />
+                        </SelectWrapper>
+                      }
+                    </Flex>
                   }
-                  {frontmatter.github &&
-                    <MetaText
-                      type='external'
-                      icon={['fab', 'github']}
-                      texts={[`github.com/${frontmatter.github}`]}
-                      links={[`//github.com/${frontmatter.github}`]}
-                    />
-                  }
-                  {this.state.website &&
-                    <MetaText
-                      type='external'
-                      icon={['fas', 'link']}
-                      texts={[this.state.website]}
-                      links={[`//${this.state.website}`]}
-                    />
-                  }
-                  <MetaText
-                    type='internal'
-                    icon={['fas', 'tags']}
-                    texts={markdownRemark.frontmatter.tags}
-                    links={Array(markdownRemark.frontmatter.tags.length).fill('/search')}
-                    linkStates={markdownRemark.frontmatter.tags.map(tag => ({tag: tag}))}
-                  />
+                  
                 </Flex>
               </Flex>
+              <PostBody width={1} pt={5}>
+                {contents}
+              </PostBody>
             </Flex>
-            <Flex width={[1, 1, 1, "20em"]} ml="auto">
-              <Select
-                name="tabs"
-                options={tabOptions}
-                onChange={this.handleTabChange}
-                value={tabSelected}
-                isSearchable={false}
-                styles={selectStyles}
-                className="react-select-base"
-              />
-            </Flex>
-          </Flex>
-          <PostBody width={1} pt={5}>
-            {contents}
-          </PostBody>
-        </Flex>
+          </ShadowWrapper>
+        </Project>
       </BaseLayout>
     )
   }
@@ -385,9 +429,9 @@ class ProjectPost extends React.Component {
 export default ProjectPost
 
 export const pageQuery = graphql`
-  query($slug: String!, $targetTag: String!) {
+  query($slug: String!, $pointer: String!) {
     allMarkdownRemark(
-      filter: {fields: {type: {eq: "article"} targetTag: {regex: $targetTag}} frontmatter: {draft: {ne: true}}}, 
+      filter: {fields: {type: {eq: "article"} pointer: {regex: $pointer}} frontmatter: {draft: {ne: true}}}, 
       sort: {order: DESC, fields: [frontmatter___created]}
     ) {
       edges {
@@ -404,14 +448,14 @@ export const pageQuery = graphql`
       frontmatter {
         banner {
           childImageSharp {
-            fluid(maxWidth: 1600, cropFocus: CENTER) {
+            fluid(maxWidth: 2560, cropFocus: CENTER) {
               ...GatsbyImageSharpFluid
             }
           }
         }
         logo {
           childImageSharp {
-            fixed(width: 125, height: 125, cropFocus: CENTER) {
+            fixed(width: 100, height: 100, cropFocus: CENTER) {
               ...GatsbyImageSharpFixed
             }
           }
@@ -426,13 +470,7 @@ export const pageQuery = graphql`
         github
         website
         allowCropping
-        transparentBanner
         transparentLogo
-        misc {
-          childMarkdownRemark {
-            htmlAst
-          }
-        }
       }
     }
   }

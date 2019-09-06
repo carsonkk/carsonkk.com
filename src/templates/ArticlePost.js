@@ -26,8 +26,8 @@ class ArticlePost extends React.Component {
     const { edges } = this.props.data.allMarkdownRemark
     const { markdownRemark } = this.props.data
     const { htmlAst, timeToRead, tableOfContents, excerpt, fields, frontmatter, } = markdownRemark
-    const { targetTag } = fields
-    const { created, updated, banner, title, topic, icon, tags, project, misc, toc, github, reddit, medium } = frontmatter
+    const { pointer } = fields
+    const { created, updated, banner, title, topic, icon, tags, name, type, toc, github, reddit, medium } = frontmatter
     const comments = (github || reddit || medium)
     const srcSetRegex = /,\n(.*) .*$/g
     let seoImg = null
@@ -48,7 +48,7 @@ class ArticlePost extends React.Component {
       }
     `
     const Banner = Styled.div`
-      flex: 0 0 24em;
+      flex: 0 0 22em;
       div {
         position: fixed;
         width: 100%;
@@ -155,20 +155,12 @@ class ArticlePost extends React.Component {
                   links={Array(tags.length).fill('/search')}
                   linkStates={tags.map(tag => ({tag: tag}))}
                 />
-                {project &&
+                {name &&
                   <MetaText
                     type='internal'
                     icon={['fas', 'asterisk']}
-                    texts={[`Related Project: ${project}`]}
-                    links={[`/projects/${targetTag}`]}
-                  />
-                }
-                {misc &&
-                  <MetaText
-                    type='internal'
-                    icon={['fas', 'asterisk']}
-                    texts={[`Related Misc: ${misc}`]}
-                    links={[`/misc/${targetTag}`]}
+                    texts={[`Topic: ${name}`]}
+                    links={[`/${type}/${pointer}`]}
                   />
                 }
                 {updated !== created &&
@@ -259,7 +251,7 @@ export const pageQuery = graphql`
       excerpt(pruneLength: 140)
       fields {
         slug
-        targetTag
+        pointer
         number
       }
       frontmatter {
@@ -267,7 +259,7 @@ export const pageQuery = graphql`
         updated
         banner {
           childImageSharp {
-            fluid(maxWidth: 2400, maxHeight: 1200, cropFocus: CENTER) {
+            fluid(maxWidth: 2560, maxHeight: 1200, cropFocus: CENTER) {
               ...GatsbyImageSharpFluid
             }
           }
@@ -276,7 +268,8 @@ export const pageQuery = graphql`
         topic
         icon
         tags
-        project
+        name
+        type
         toc
         github
         reddit

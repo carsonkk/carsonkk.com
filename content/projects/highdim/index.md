@@ -6,10 +6,9 @@ description: 'A tool for analyzing Gaussians in high-order dimensional space'
 topic: 'Software'
 icon: 'code'
 tags:
-  - 'highdim'
   - 'Python'
   - 'Data Science'
-  - 'Software Library'
+  - 'Utility'
 github: 'carsonkk/highdim'
 ---
 

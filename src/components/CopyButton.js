@@ -44,6 +44,7 @@ class CopyButton extends React.Component {
   render() {
     const CopyButtonWrapper = Styled(GenericButton)`
       && {
+        padding-bottom: 1.25em;
         button {
           position: absolute;
           z-index: 0;

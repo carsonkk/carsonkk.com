@@ -1,15 +1,16 @@
 ---
 created: '2018-01-01'
 updated: '2018-02-02'
-banner: '../../../src/images/neature.jpg'
+banner: '../../../src/images/neature.png'
 title: 'Hello World'
 topic: 'Web'
 icon: 'desktop'
-feature: true
+feature: false
 tags:
   - 'Meta'
   - 'Markdown'
-project: 'HelloWorld'
+name: 'Fake Project'
+type: 'project'
 toc: true
 github: 'https://github.com'
 reddit: 'https://reddit.com'
@@ -98,7 +99,7 @@ Below is an example of what the frontmatter may look like for some article
 ---
 created: '2018-01-01'
 updated: '2018-01-15'
-banner: '../../../src/images/neature.jpg'
+banner: '../../../src/images/neature.png'
 title: 'Why Frontmatter Matters'
 tags:
   - 'Markdown'
@@ -230,7 +231,7 @@ There are two ways to create links.
 
 [I'm a reference-style link][Arbitrary case-insensitive reference text]
 
-[I'm a relative reference to a repository file](../../../src/images/neature.jpg)
+[I'm a relative reference to a repository file](../../../src/images/neature.png)
 
 [You can use numbers for reference-style link definitions][1]
 
@@ -253,7 +254,7 @@ Some text to show that the reference links can follow later.
 
 [I'm a reference-style link][arbitrary case-insensitive reference text]
 
-[I'm a relative reference to a repository file](../../../src/images/neature.jpg)
+[I'm a relative reference to a repository file](../../../src/images/neature.png)
 
 [You can use numbers for reference-style link definitions][1]
 
@@ -275,7 +276,7 @@ Some text to show that the reference links can follow later.
 Here's some pictures (hover to see the title text):
 
 Internal File (with no alt text)
-![](../../../src/images/neature.jpg)
+![](../../../src/images/neature.png)
 
 Internal File (with no alt text and transparency)
 ![](polar-bear.gif)
@@ -292,7 +293,7 @@ Reference-style:
 Here's some pictures (hover to see the title text):
 
 Internal File (with no alt text)
-![](./neature.jpg)
+![](./neature.png)
 
 Internal File (with no alt text and transparency)
 ![](polar-bear.gif)
@@ -544,7 +545,6 @@ For example, I've created a CopyButton component that simply copies the contents
 Click the Copy button to copy this text to your clipboard!
 ``
 <copy-button></copy-button>
-<div style="width: 100%; margin-bottom: 3em;"></div>
 ```
 
 And rendered on the page:
@@ -554,6 +554,5 @@ And rendered on the page:
 Click the Copy button to copy this text to your clipboard!
 ```
 <copy-button></copy-button>
-<div style="width: 100%; margin-bottom: 3em;"></div>
 
 **This has been a full demonstration of the Markdown features enabled for this site. Check out this website's [source code](https://github.com/carsonkk/carsonkk.com) for the implementation of any of the addons or custom components shown above.** :tada:

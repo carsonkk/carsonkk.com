@@ -1,14 +1,16 @@
 ---
 created: '2018-09-01'
 updated: '2018-10-09'
+banner: 'databases.png'
 title: 'HeckaDBMS'
 description: 'DBMS stack including storage, two transaction proccessing protocols, and a client for submitting requests'
 topic: 'Software'
 icon: 'code'
+feature: true
 tags:
-  - 'HeckaDBMS'
   - 'C Plus Plus'
   - 'Databases'
+  - 'Multithreading'
 github: 'carsonkk/HeckaDBMS'
 ---
 
@@ -23,3 +25,5 @@ github: 'carsonkk/HeckaDBMS'
 - Data storage in the form of an in-memory key-value store with an interface agnostic of the transaction protocol utilized
 
 The system was designed to be evaluated on the basis of both how much the multi-threaded support helped when faced with heavy concurrent transaction loads, as well as how the system handled various read/write loads. The results of this evaluation compared Strict 2PL against Microsoft's own protocol in order to pinpoint the tradeoffs made with their design.
+
+*This project was a joint effort between Sharon Levy and myself*

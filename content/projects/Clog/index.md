@@ -6,15 +6,14 @@ description: 'A simple, versatile logging library for C'
 topic: 'Software'
 icon: 'code'
 tags:
-  - 'Clog'
   - 'C'
   - 'Logging'
-  - 'Software Library'
+  - 'Utility'
 github: 'carsonkk/Clog'
 #website: 'carsonkk.github.io/Clog'
 ---
 
-# Logging Made Easy
+## Logging Made Easy
 
 Clog is meant to be a drop-in solution to logging in C projects. It combines a verbose set of customizable options with a set of smart defaults making it easy to get immediate feedback. Some of its more appealing features include:
 
@@ -26,7 +25,7 @@ All of the features listed can be customized by the developer through the librar
 
 *This library is currently under experimental development and does not yet have a stable release*
 
-# Building a Package
+## Building a Package
 
 Clog is my first real attempt at building a software library for C that could actually be distributed. While writing a functional piece of code in C is one thing, packaging it in a usuable form for anyone else to use is another. Some of the considerations and tasks this included were:
 

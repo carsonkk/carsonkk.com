@@ -7,7 +7,6 @@ draft: true
 topic: 'Web'
 icon: 'desktop'
 tags:
-  - 'Luber'
   - 'Frontend'
   - 'React'
   - 'Javascript'

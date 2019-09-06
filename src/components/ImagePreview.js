@@ -48,12 +48,12 @@ class ImagePreview extends React.Component {
       min-height: 15em;
       :hover {
         > div:first-child {
-          filter: blur(0);
+          filter: blur(0.5rem);
           transform: scale(1.1);
           animation: ${image ? 'none' : css`${breathing} ${this.state.duration}s ease infinite`};
         }
         > div:nth-child(2) {
-          opacity: 0.5;
+          opacity: 0.35;
         }
         > a > div:last-child > h2 {
           transition-delay: 0s;
@@ -105,7 +105,7 @@ class ImagePreview extends React.Component {
       left: 0;
       width: 100%;
       height: 100%;
-      opacity: 0.7;
+      opacity: 0.65;
       background-color: black;
     `
     const Description = Styled.div`
@@ -134,7 +134,7 @@ class ImagePreview extends React.Component {
     `
     const BackgroundImage = image ? Styled.div`
       transition: transform 0.4s, filter 0.6s;
-      filter: blur(0.5rem);
+      filter: blur(0);
       height: 100%;
       > div {
         height: 100%;

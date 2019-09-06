@@ -7,7 +7,7 @@
     },
     "location": "Santa Barbara, CA",
     "begin": "October 2016",
-    "end": "Present",
+    "end": "March 2019",
     "details": [
       "Research work related to Distributed Systems, Cloud Computing and Edge Computing"
     ],
@@ -43,8 +43,8 @@
     "begin": "June 2015",
     "end": "March 2016",
     "details": [
-      "Engineering a VB6/VBA-to-VB.NET transpiler in C# utilizing COM & Interop services and source code parsing based on a verbose set of regular expressions",
-      "Developing an automated file activity detection tool to proactively detect and handle depreciated and mal-referenced files within individual VB projects throughout the codebase"
+      "Engineering a VB6/VBA-to-VB.NET transpiler in C# utilizing COM & Interop services and source code parsing",
+      "Developing an automated file activity detection tool to proactively identify and handle deprecated file references within individual VB projects throughout the codebase"
     ],
     "tags": [
       "Software"
@@ -61,8 +61,7 @@
     "end": "May 2015",
     "details": [
       "QA testing multiple website builds and releases for functionality across various platforms",
-      "Agile development of an automated regression software package for core QA tests in Java using Selenium",
-      "Leadership position in QA team: managing workflow, daily scrums, and new QA team member training"
+      "Agile development of an automated regression software package for core QA tests in Java using Selenium"
     ],
     "tags": [
       "Software",

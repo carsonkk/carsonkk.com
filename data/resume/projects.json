@@ -1,15 +1,41 @@
 [
   {
-    "title": "Sealarg",
+    "title": "blockstore",
     "slug": "",
     "github": "",
     "website": "",
     "description": "",
     "details": [
-      "Similar interface to Python's argparse library"
+      "Database using a blockchain implementation for distributed reads and writes"
+    ],
+    "tags": [
+      "Software",
+      "Web"
+    ]
+  },
+  {
+    "title": "boARd",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
     ],
     "tags": [
       "Software"
+    ]
+  },
+  {
+    "title": "carsonkk.com",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+      "Built using Gatsby and React"
+    ],
+    "tags": [
+      "Web"
     ]
   },
   {
@@ -26,13 +52,91 @@
     ]
   },
   {
+    "title": "CSG",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+      "Can sense finger bend, touch, and the acceleration/position of the hand"
+    ],
+    "tags": [
+      "Software",
+      "Hardware"
+    ]
+  },
+  {
+    "title": "drngs",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+      "Implementation of various deterministic pseudorandom number generators"
+    ],
+    "tags": [
+      "Software"
+    ]
+  },
+  {
+    "title": "FFS",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+      "Supports most core filesystem functions, enabling commands like touch, mv, cp, git, tar, and more"
+    ],
+    "tags": [
+      "Software"
+    ]
+  },
+  {
+    "title": "Gestur",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+      "Provides a highly detailed 3D mapping of the human hand down to the precision of each finger's digits"
+    ],
+    "tags": [
+      "Software",
+      "Hardware"
+    ]
+  },
+  {
+    "title": "HeckaDBMS",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+    ],
+    "tags": [
+      "Software"
+    ]
+  },
+  {
     "title": "highdim",
     "slug": "",
     "github": "",
     "website": "",
     "description": "",
     "details": [
-      "Tool for analyzing Gaussians"
+    ],
+    "tags": [
+      "Software"
+    ]
+  },
+  {
+    "title": "Lamposk",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+      "Uses pthreads and sockets for distributed, multithreaded communication"
     ],
     "tags": [
       "Software"
@@ -45,7 +149,6 @@
     "website": "",
     "description": "",
     "details": [
-      "Web application targeted at gig-economy car rental",
       "Built to be a scalable service running on AWS Elastic Beanstalk/EC2 with load testing through Tsung"
     ],
     "tags": [
@@ -53,32 +156,91 @@
     ]
   },
   {
-    "title": "drngs",
+    "title": "Mandrake",
     "slug": "",
     "github": "",
     "website": "",
     "description": "",
     "details": [
-      "Implementation and evaluation of various deterministic RNG's",
-      "C library wrapper for a better RNG function"
+      "Published in the 2019 IEEE Conference on Edge Computing (EDGE)"
+    ],
+    "tags": [
+      "Software",
+      "Web"
+    ]
+  },
+  {
+    "title": "passcrack",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
     ],
     "tags": [
       "Software"
     ]
   },
   {
-    "title": "blockstore",
+    "title": "Raftosk",
     "slug": "",
     "github": "",
     "website": "",
     "description": "",
     "details": [
-      "Database using a blockchain implementation for distributed reads and writes",
-      "Key-value store interface with support for batched queries"
+      "Implemented in Java using RMI for distributed consensus"
     ],
     "tags": [
-      "Software",
-      "Web"
+      "Software"
+    ]
+  },
+  {
+    "title": "Sealarg",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+      "Similarly designed interface as Python's argparse library"
+    ],
+    "tags": [
+      "Software"
+    ]
+  },
+  {
+    "title": "smptcp",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+    ],
+    "tags": [
+      "Software"
+    ]
+  },
+  {
+    "title": "snc",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+    ],
+    "tags": [
+      "Software"
+    ]
+  },
+  {
+    "title": "socialcli",
+    "slug": "",
+    "github": "",
+    "website": "",
+    "description": "",
+    "details": [
+    ],
+    "tags": [
+      "Software"
     ]
   }
 ]

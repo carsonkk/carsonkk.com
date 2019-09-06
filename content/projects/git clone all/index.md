@@ -9,7 +9,8 @@ tags:
   - 'git clone all'
   - 'Git'
   - 'Software Tool'
-#github: 'carsonkk/git-clone-all'
+github: 'carsonkk/git-clone-all'
+draft: true
 ---
 
 # git clone all

@@ -16,7 +16,7 @@ module.exports = {
     siteUrl: 'http://carsonkk.com',
     text: 'carsonkk.com',
     home: '/',
-    image: '/images/me.jpg'
+    image: '/images/me.png'
   },
   plugins: [
     'gatsby-plugin-sitemap',
@@ -85,10 +85,7 @@ module.exports = {
             }
           },
           {
-            resolve: 'gatsby-remark-copy-linked-files',
-            options: {
-              destinationDir: 'linked-files',
-            }
+            resolve: 'gatsby-remark-copy-linked-files'
           },
           {
             resolve: 'gatsby-remark-embed-video',

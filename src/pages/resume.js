@@ -33,6 +33,7 @@ const smallScaleValues = [1, 1.5, 2, 2.5]
 const mediumScaleValues = [1, 1.1, 1.25, 1.5]
 const Body = Styled.div`
   display: flex;
+  padding-top: 1em;
   h2, h3 {
     position: relative;
     margin-top: 0;
@@ -41,7 +42,7 @@ const Body = Styled.div`
   }
   h2 {
     padding-bottom: 0.25em;
-    font-size: 1.75em;
+    font-size: 1.5em;
     ::before {
       content: '';
       position: absolute;
@@ -53,7 +54,7 @@ const Body = Styled.div`
     }
   }
   h3 {
-    font-size: 1.15em;
+    font-size: 1.1em;
   }
   ul {
     margin: 0;
@@ -998,18 +999,15 @@ class ResumePage extends React.Component {
     `
     const Header = Styled.div`
       display: flex;
-      flex-direction: column;
-      margin-bottom: 1em;
+      justify-content: space-between;
+      padding-bottom: 1em;
       border-bottom: 0.125em solid rgba(0,0,0,0.1);
     `
-    const HeaderTop = Styled.div`
-      display: flex;
-      justify-content: space-between;
-    `
     const HeaderLeft = Styled.div`
-      flex: 1;
+      flex: 1 1 77%;
       display: flex;
       flex-direction: column;
+      padding-right: 1.5em;
       div {
         span {
           display: block;
@@ -1048,8 +1046,10 @@ class ResumePage extends React.Component {
       }
     `
     const HeaderRight = Styled.div`
+      flex: 1 1 22%;
       display: flex;
       flex-direction: column;
+      padding-left: 1.5em;
       color: ${props => props.theme.text};
     `
     const LinkText = Styled(MetaText)`
@@ -1067,11 +1067,6 @@ class ResumePage extends React.Component {
           }
         }
       }
-    `
-    const HeaderBottom = Styled.div`
-      padding-top: 1em;
-      margin: 0 auto;
-      font-size: 1.125em;
     `
     
     // Social Links in Header
@@ -1200,35 +1195,30 @@ class ResumePage extends React.Component {
                 <ResumeContainer className="resume-page">
                   <ResumeWrapper>
                     <Header ref={(headerRef) => this.headerRef = headerRef}>
-                      <HeaderTop>
-                        <HeaderLeft>
-                          <NameWrapper>
-                            <Headshot>
-                              {headshot &&
-                                <Img className='headshot' fixed={headshot.fixed} alt='Me'/>
-                              }
-                              {santahat && now.getMonth()+1 === 12 &&
-                                <div className='santa-hat'>
-                                  <Img fixed={santahat.fixed} alt='Santa Hat'/>
-                                </div>
-                              }
-                            </Headshot>
-                            <div>
-                              <h1>{siteMetadata.author}</h1>
-                              <span>{siteMetadata.about}</span>
-                            </div>
-                          </NameWrapper>
-                        </HeaderLeft>
-                        <HeaderRight>
-                          {home}
-                          {socialLinks[email]}
-                          {socialLinks[github]}
-                          {socialLinks[linkedin]}
-                        </HeaderRight>
-                      </HeaderTop>
-                      <HeaderBottom>
-                        {statusSection}
-                      </HeaderBottom>
+                      <HeaderLeft>
+                        <NameWrapper>
+                          <Headshot>
+                            {headshot &&
+                              <Img className='headshot' fixed={headshot.fixed} alt='Me'/>
+                            }
+                            {santahat && now.getMonth()+1 === 12 &&
+                              <div className='santa-hat'>
+                                <Img fixed={santahat.fixed} alt='Santa Hat'/>
+                              </div>
+                            }
+                          </Headshot>
+                          <div>
+                            <h1>{siteMetadata.author}</h1>
+                            <span>{siteMetadata.about}</span>
+                          </div>
+                        </NameWrapper>
+                      </HeaderLeft>
+                      <HeaderRight>
+                        {home}
+                        {socialLinks[email]}
+                        {socialLinks[github]}
+                        {socialLinks[linkedin]}
+                      </HeaderRight>
                     </Header>
                     {this.state.structuredContent && this.state.structuredContent[0]}
                   </ResumeWrapper>

@@ -7,18 +7,18 @@
     "icon": ["far", "envelope"]
   },
   {
-    "name": "linkedin",
-    "url": "https://www.linkedin.com/in/carsonkk",
-    "text": "LinkedIn",
-    "color": "#0077b5",
-    "icon": ["fab", "linkedin-in"]
-  },
-  {
     "name": "github",
     "url": "https://github.com/carsonkk",
     "text": "GitHub",
     "color": "#333",
     "icon": ["fab", "github"]
+  },
+  {
+    "name": "linkedin",
+    "url": "https://www.linkedin.com/in/carsonkk",
+    "text": "LinkedIn",
+    "color": "#0077b5",
+    "icon": ["fab", "linkedin-in"]
   },
   {
     "name": "reddit",

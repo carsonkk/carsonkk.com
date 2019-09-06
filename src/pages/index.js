@@ -57,6 +57,7 @@ class IndexPage extends React.Component {
     `
     const IntroTagline = Styled.span`
       font-size: 1.25em;
+      padding-bottom: 1em;
     `
     const DarkButton = Styled(GenericButton)`
       && {
@@ -113,7 +114,10 @@ class IndexPage extends React.Component {
                 This site is meant to consolidate the articles, project writeups,
                 and everything else I've thrown together over the years.
               </IntroTagline>
-              <Flex justifyContent="center" flexWrap="wrap" pt={4}>
+              <IntroTagline>
+                Since this site is fairly new, I'm still in the process of adding writeups and compiling past notes/findings into articles, so please check back sometime in the future for more stuff!
+              </IntroTagline>
+              <Flex justifyContent="center" flexWrap="wrap">
                 <Box width={[1, 1, 1, 0.25]} pr={[0, 0, 0, 3]} mb={[3, 3, 3, 0]}>
                   <DarkButton
                     type='internal'
@@ -214,17 +218,17 @@ export const pageQuery = graphql`
         }
       }
     }
-    hiking_1: imageSharp(fluid: {originalName: {regex: "/hiking-1.jpg/"}}) {
+    hiking_1: imageSharp(fluid: {originalName: {regex: "/hiking-1.png/"}}) {
       fluid(maxWidth: 1920, maxHeight: 1080, cropFocus: NORTH) {
         ...GatsbyImageSharpFluid
       }
     }
-    hiking_2: imageSharp(fluid: {originalName: {regex: "/hiking-2.jpg/"}}) {
+    hiking_2: imageSharp(fluid: {originalName: {regex: "/hiking-2.png/"}}) {
       fluid(maxWidth: 1920, maxHeight: 1080) {
         ...GatsbyImageSharpFluid
       }
     }
-    hiking_3: imageSharp(fluid: {originalName: {regex: "/hiking-3.jpg/"}}) {
+    hiking_3: imageSharp(fluid: {originalName: {regex: "/hiking-3.png/"}}) {
       fluid(maxWidth: 1920, maxHeight: 1080, cropFocus: SOUTH) {
         ...GatsbyImageSharpFluid
       }
