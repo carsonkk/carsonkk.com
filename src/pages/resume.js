@@ -667,7 +667,7 @@ class ResumePage extends React.Component {
               />
               {`, ${node.university.abbreviation}`}
             </span>
-            <TextI>Class of {node.degree.class}, {process.env.GATSBY_CUSTOM_RESUME_FILTERING === 'true' && `${node.degree.gpa} GPA`}</TextI>
+            <TextI>Class of {node.degree.class}{process.env.GATSBY_CUSTOM_RESUME_FILTERING === 'true' && `, ${node.degree.gpa} GPA`}</TextI>
             <ul>
               {node.details.map((detail, i) => {
                 return (
