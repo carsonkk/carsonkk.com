@@ -1,21 +1,21 @@
 [
   {
     "software": [
-      "Software Development",
+      "Application Development",
+      "Systems Design",
       "Object Oriented Programming",
       "Multithreaded Programming"
     ],
     "web": [
-      "Frontend Web Development",
-      "Backend Web Development",
+      "Full Stack Web Development",
       "API Design",
-      "Web Design"
+      "UI/UX Design"
     ],
     "hardware": [
       "Board Design & Layout",
+      "Sensor Interfacing",
       "Analog Circuit Design",
-      "Digital Circuit Design",
-      "Sensor Interfacing"
+      "Digital Circuit Design"
     ]
   }
 ]

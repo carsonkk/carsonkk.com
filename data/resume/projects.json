@@ -85,7 +85,7 @@
     "website": "",
     "description": "",
     "details": [
-      "Supports most core filesystem functions, enabling commands like touch, mv, cp, git, tar, and more"
+      "Supports core filesystem functions, enabling commands like touch, mv, cp, git, tar, and more"
     ],
     "tags": [
       "Software"
@@ -149,7 +149,7 @@
     "website": "",
     "description": "",
     "details": [
-      "Built to be a scalable service running on AWS Elastic Beanstalk/EC2 with load testing through Tsung"
+      "Built to be a scalable service running on AWS EC2 via Elastic Beanstalk with load testing through Tsung"
     ],
     "tags": [
       "Web"
@@ -162,6 +162,7 @@
     "website": "",
     "description": "",
     "details": [
+      "Enables virtualized services to make more informed decisions by breaking the \"cloud abstraction\"",
       "Published in the 2019 IEEE Conference on Edge Computing (EDGE)"
     ],
     "tags": [

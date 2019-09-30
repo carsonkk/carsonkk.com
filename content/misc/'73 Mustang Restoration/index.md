@@ -6,6 +6,7 @@ title: '''73 Mustang Restoration'
 description: 'Rebuilding and restoring a 1973 Ford Mustang'
 topic: 'Other'
 icon: 'hammer'
+feature: true
 tags:
   - 'DIY'
   - 'Cars'
@@ -106,3 +107,5 @@ The 175+ picture album detailing the rebuild process can be found [here](https:/
 <a class="imgur" href="https://imgur.com/a/PLbfEVh#176" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://imgur.com/u31xAXE.jpg"/></a>
 
 <a class="imgur" href="https://imgur.com/a/PLbfEVh#178" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://imgur.com/5nWvYD7.jpg"/></a>
+
+*This project was a joint effort between my Dad and myself, with plenty of support and patience from my Mom.*

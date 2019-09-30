@@ -21,7 +21,7 @@ Clog is meant to be a drop-in solution to logging in C projects. It combines a v
 - Colored terminal output to convey severity
 - Cleanly formatted meta information for each log output
 
-All of the features listed can be customized by the developer through the library API at both the initialization as well as anytime during execution. This enables hot-swapping between different styles and hierarchies of log messages, which can be usefull when dealing with multiple log files.
+All of the features listed can be customized by the developer through the library API at both the initialization as well as anytime during execution. This enables hot-swapping between different styles and hierarchies of log messages, which can be useful when dealing with multiple log files.
 
 *This library is currently under experimental development and does not yet have a stable release*
 

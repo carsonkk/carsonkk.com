@@ -33,7 +33,7 @@ const smallScaleValues = [1, 1.5, 2, 2.5]
 const mediumScaleValues = [1, 1.1, 1.25, 1.5]
 const Body = Styled.div`
   display: flex;
-  padding-top: 1em;
+  padding-top: 0.75em;
   h2, h3 {
     position: relative;
     margin-top: 0;
@@ -667,7 +667,7 @@ class ResumePage extends React.Component {
               />
               {`, ${node.university.abbreviation}`}
             </span>
-            <TextI>Class of {node.degree.class}</TextI>
+            <TextI>Class of {node.degree.class}, {process.env.GATSBY_CUSTOM_RESUME_FILTERING === 'true' && `${node.degree.gpa} GPA`}</TextI>
             <ul>
               {node.details.map((detail, i) => {
                 return (
@@ -1000,7 +1000,7 @@ class ResumePage extends React.Component {
     const Header = Styled.div`
       display: flex;
       justify-content: space-between;
-      padding-bottom: 1em;
+      padding-bottom: 0.75em;
       border-bottom: 0.125em solid rgba(0,0,0,0.1);
     `
     const HeaderLeft = Styled.div`
@@ -1355,6 +1355,7 @@ export const pageQuery = graphql`
           degree {
             fullname
             class
+            gpa
           }
           details
         }

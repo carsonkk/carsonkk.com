@@ -9,7 +9,8 @@
     "begin": "October 2016",
     "end": "March 2019",
     "details": [
-      "Research work related to Distributed Systems, Cloud Computing and Edge Computing"
+      "Research work related to Distributed Systems, Cloud Computing and Edge Computing",
+      "Development of a software system for improving the fault tolerance and long-term performance of small-scale edge clouds"
     ],
     "tags": [
       "Software",
@@ -26,8 +27,7 @@
     "begin": "June 2016",
     "end": "September 2016",
     "details": [
-      "Research & development focused on integrating hardware designs for high definition image capture with an internal development platform using Xilinx Vivado and SDK",
-      "Configuring & documenting an image-capture storage system for said platform"
+      "Research & development focused on integrating hardware designs for high definition image capture with an internal development platform using Xilinx Vivado and SDK"
     ],
     "tags": [
       "Hardware"

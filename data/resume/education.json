@@ -14,9 +14,11 @@
     "degree": {
       "fullname": "Master's of Science",
       "abbreviation": "MS",
-      "class": "2019"
+      "class": "2019",
+      "gpa": "3.78"
     },
     "details": [
+      "5-Year BS/MS Program",
       "Emphasis in Systems",
       "Graduate Student Researcher",
       "Teaching Assistant"
@@ -37,13 +39,15 @@
     "degree": {
       "fullname": "Bachelor's of Science",
       "abbreviation": "BS",
-      "class": "2017"
+      "class": "2017",
+      "gpa": "3.76"
     },
     "details": [
       "Regents Scholar",
       "Honors Program",
       "SB Hacks Organizer",
-      "TBP Honors Society Officer"
+      "TBP Honors Society Officer",
+      "Little/Big Engineers Officer"
     ]
   }
 ]

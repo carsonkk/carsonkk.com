@@ -25,7 +25,7 @@ When approaching this, I considered three options:
 
 I decided upon implementing a combination of 1 and 3. While there may be advantages to using the "random version" of the brute force attack, I wanted the code to be consistent for testing and output
 
-By including a level system in the dictionary attack, the more simplistic permutations would be attempted first with the rationale being the avergae user is more likely to have a simpler password than a complex one due to laziness. Another important feature of the level system is that the the total findings outputted from one level are used as the "base" input to the next level. For instance, if the word "the" is in the originally provided dictionary file, then after level 1, a new file will be written which will contain:
+By including a level system in the dictionary attack, the more simplistic permutations would be attempted first with the rationale being the average user is more likely to have a simpler password than a complex one due to laziness. Another important feature of the level system is that the the total findings outputted from one level are used as the "base" input to the next level. For instance, if the word "the" is in the originally provided dictionary file, then after level 1, a new file will be written which will contain:
 
 ```text
 ...

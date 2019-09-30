@@ -11,7 +11,7 @@ tags:
   - 'Algorithms'
   - 'Network Graphs'
   - 'CLI'
-github: 'carsonkk/socialcli'
+#github: 'carsonkk/socialcli'
 ---
 
 ## Data Structures & Social Media

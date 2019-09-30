@@ -112,7 +112,7 @@ class IndexPage extends React.Component {
               <IntroTagline>
                 I'm a Software &amp; Computer Engineer from California with a passion for systems.
                 This site is meant to consolidate the articles, project writeups,
-                and everything else I've thrown together over the years.
+                and everything else I've put together over the years.
               </IntroTagline>
               <IntroTagline>
                 Since this site is fairly new, I'm still in the process of adding writeups and compiling past notes/findings into articles, so please check back sometime in the future for more stuff!
@@ -194,7 +194,7 @@ export const pageQuery = graphql`
     }
     featuredProjectPosts: allMarkdownRemark(
       limit: 6
-      filter: {fields: {type: {eq: "project"} kind: {eq: "page"}} frontmatter: {draft: {ne: true} feature: {eq: true}}}
+      filter: {fields: {type: {in: ["project", "misc"]} kind: {eq: "page"}} frontmatter: {draft: {ne: true} feature: {eq: true}}}
       sort: {order: ASC, fields: [fields___slug]}
     ) {
       edges {

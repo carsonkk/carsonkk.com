@@ -3,7 +3,7 @@ created: '2018-01-01'
 updated: '2018-01-01'
 banner: 'blockchain.png'
 title: 'blockstore'
-description: 'A distributed key-value storage system built on top of blockchain technology™'
+description: 'A distributed key-value storage system built on top of blockchain technology'
 topic: 'Software'
 icon: 'code'
 tags:
@@ -30,7 +30,7 @@ Another interesting aspect of this system is the economy it can create on the pl
 
 ## Afterword
 
-When we conceived the idea for this project, Bitcoin was coming off it's major 2017/2018 peak and everyone and their mother was on about blockchain. It seemed like every day a new startup was announced with the goal of needlessly building something that already worked, *but with blockchain*. This was our attempt to both better understand the underlying implementation of a blockchain, as well as have some fun with our own needlessly-blockchained invention. I do however still like the idea of gig-economy websites that this project had the potential to fuel. Whether it be through users' helping host the website, serve the data, or administer it in some other manner, its a fun concept that builds a sense of community on the userbase. There are a couple examples of sites like this out there (beyond just having a "donate to keep the site alive" button), but often the system by which users contribute to the site's functionality seems to bog down the actual experience of using the website. It would be interesting to see the concept expanded further in some form or another.
+When we conceived the idea for this project, Bitcoin was coming off it's major 2017/2018 peak and *everyone* was on about "the blockchain". It seemed like every day a new startup was announced with the goal of needlessly building something that already worked, *but with blockchain*. This was our attempt to both better understand the underlying implementation of a blockchain, as well as have some fun with our own needlessly-blockchained invention. I do, however, still like the idea of gig-economy websites that this project had the potential to fuel, and more broadly speaking, the concept of a fully distributed internet. Whether it be through users' helping host the website, serve the data, or administer it in some other manner, it feels like a fun concept that could build a sense of community within a userbase. There are a couple examples of sites like this out there (beyond just having a "donate to keep the site alive" button), but often the system by which users contribute to the site's functionality seems to bog down the actual experience of using the website. The concept isn't without its faults, but it certainly has the potential to be expanded upon.
 
 View the project proposal [here](Blockstore-Project-Summary.pdf) and the project presentation [here](Blockstore-Project-Presentation.pdf).
 
