@@ -1,6 +1,6 @@
 ---
-created: '2014-04-04'
-updated: '2014-04-04'
+created: '2019-09-06'
+updated: '2019-09-30'
 banner: mustang.png
 title: '''73 Mustang Restoration'
 description: 'Rebuilding and restoring a 1973 Ford Mustang'

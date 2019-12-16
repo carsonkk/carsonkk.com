@@ -1,6 +1,6 @@
 ---
-created: '2018-02-01'
-updated: '2018-02-01'
+created: '2018-10-11'
+updated: '2019-09-06'
 title: 'highdim'
 description: 'A tool for analyzing Gaussians in high-order dimensional space'
 topic: 'Software'

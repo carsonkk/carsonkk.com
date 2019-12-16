@@ -589,8 +589,8 @@ class ResumePage extends React.Component {
                 />
                 <SmartLink className="verbose-url"
                   theme={LightTheme}
-                  type='internal'
-                  to={node.slug ? node.slug : slug}
+                  type='external'
+                  to={`//carsonkk.com${node.slug ? node.slug : slug}`}
                   text={`carsonkk.com${node.slug ? node.slug : slug}`}
                 />
               </span>
@@ -1109,7 +1109,17 @@ class ResumePage extends React.Component {
         </span>
       )
     })
-    const home = <span>
+    const home = (process.env.GATSBY_CUSTOM_RESUME_FILTERING === 'true') ? <span>
+      {canvasLoaded &&
+        <LinkText
+          type='external'
+          icon={[favicon.fluid]}
+          texts={['carsonkk.com']}
+          links={['//carsonkk.com']}
+          iconType='gimg'
+        />
+      }
+    </span> : <span>
       {canvasLoaded &&
         <LinkText
           type='internal'
@@ -1123,9 +1133,9 @@ class ResumePage extends React.Component {
 
     // Current Job status in Header
     const currentJob = allExperienceJson.edges[0].node
-    const statusSection = <TextI>
-      I am currently a {currentJob.title} at {currentJob.company.text} in {currentJob.location}
-    </TextI>
+    // const statusSection = <TextI>
+    //   I am currently a {currentJob.title} at {currentJob.company.text} in {currentJob.location}
+    // </TextI>
 
     let extraPages = []
     if(this.state.structuredContent !== null) {

@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie'
 import '@fortawesome/fontawesome-svg-core/styles.css' // ensure CSS is loaded pre-render for Firefox
 
 import '../css/prism-atom-dark.css'
+import snowstorm from '../js/snowstorm.js'
 import Header from './Header'
 import Footer from './Footer'
 import { DarkTheme, LightTheme, MUIBoxShadow } from '../utils/Theme'
@@ -17,8 +18,28 @@ class BaseLayout extends React.Component {
   constructor(props) {
     super(props)
     const theme = cookies.get('theme')
-    this.state = {theme: theme}
+    this.state = {
+      theme: theme,
+      snow: (cookies.get('snow') === 'true')
+    }
     this.handleClickTheme = this.handleClickTheme.bind(this)
+  }
+
+  componentDidMount() {
+    const now = new Date()
+    if(now.getMonth()+1 === 12 && !this.state.snow) {
+      snowstorm.start()
+      snowstorm.active = !snowstorm.active
+      cookies.set('snow', 'true', { path: '/' })
+      this.setState(prevState => ({snow: !prevState.snow}))
+    }
+    else if(now.getMonth()+1 !== 12 && this.state.snow) {
+      snowstorm.active = !snowstorm.active
+      snowstorm.stop()
+      snowstorm.freeze()
+      cookies.set('snow', 'false', { path: '/' })
+      this.setState(prevState => ({snow: !prevState.snow}))
+    }
   }
 
   handleClickTheme() {

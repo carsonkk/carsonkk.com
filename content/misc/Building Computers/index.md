@@ -1,6 +1,5 @@
 ---
-created: '2014-04-04'
-updated: '2014-04-04'
+created: '2019-09-06'
 banner: parts.png
 title: 'Building Computers'
 description: 'Parting and assembling computers for myself and others'

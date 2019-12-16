@@ -1,6 +1,5 @@
 ---
-created: '2018-11-01'
-updated: '2018-01-01'
+created: '2019-09-06'
 banner: 'storage.png'
 title: FFS
 description: Linux-compliant file system using libfuse

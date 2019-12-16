@@ -1,6 +1,6 @@
 ---
-created: '2018-01-01'
-updated: '2018-01-01'
+created: '2018-11-06'
+updated: '2019-09-30'
 title: 'Sealarg'
 description: 'An easy-to-use command line argument parsing library for C'
 topic: 'Software'

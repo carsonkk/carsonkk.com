@@ -1,6 +1,6 @@
 ---
-created: '2018-01-01'
-updated: '2018-01-01'
+created: '2018-10-11'
+updated: '2019-09-30'
 banner: 'blockchain.png'
 title: 'blockstore'
 description: 'A distributed key-value storage system built on top of blockchain technology'

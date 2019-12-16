@@ -1,6 +1,6 @@
 ---
-created: '2018-09-01'
-updated: '2018-10-09'
+created: '2018-11-06'
+updated: '2019-09-30'
 banner: 'databases.png'
 title: 'HeckaDBMS'
 description: 'DBMS stack including storage, two transaction proccessing protocols, and a client for submitting requests'

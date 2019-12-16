@@ -1,6 +1,6 @@
 ---
-created: '2017-01-01'
-updated: '2017-01-01'
+created: '2018-11-06'
+updated: '2019-09-06'
 banner: 'netcat.png'
 title: 'snc'
 description: 'A simplified implementation of the netcat utility'

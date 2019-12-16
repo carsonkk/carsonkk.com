@@ -1,6 +1,6 @@
 ---
-created: '2018-01-01'
-updated: '2018-01-01'
+created: '2018-09-06'
+updated: '2019-09-30'
 banner: 'password.png'
 title: 'passcrack'
 description: 'Simple password cracking script based on a breadth-first manipulation of a given search dictionary'

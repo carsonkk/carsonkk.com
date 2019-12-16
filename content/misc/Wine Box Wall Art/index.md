@@ -1,6 +1,5 @@
 ---
-created: '2014-04-04'
-updated: '2014-04-04'
+created: '2019-09-06'
 banner: wineart.png
 title: 'Wine Box Wall Art'
 description: 'Decorative wall art made from recycled wine boxes'

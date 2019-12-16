@@ -4,6 +4,7 @@ import { graphql } from 'gatsby'
 import Styled from 'styled-components'
 import { Flex } from '@rebass/grid'
 
+import ground from '../images/snowy-cliff.png'
 import Logo from './Logo'
 import GenericButton from './GenericButton'
 import { LightTheme } from '../utils/Theme'
@@ -13,6 +14,9 @@ class Footer extends React.Component {
   render() {
     const { links, theme, themeVals, handleClickTheme } = this.props
     const articleRgx = /\/articles\/.+?/g
+    const now = new Date()
+    const currentMonth = now.getMonth()+1
+
     const FooterWrapper = Styled.footer`
       display: flex;
       flex-direction: column;
@@ -26,11 +30,11 @@ class Footer extends React.Component {
       `}
       ${MediaMin.s`
         :hover {
-          > div:last-child {
+          > div:nth-child(3) {
             opacity: 1;
           }
         }
-        > div:last-child {
+        > div:nth-child(3) {
           transition: all 0.3s;
           opacity: 0;
         }
@@ -102,6 +106,14 @@ class Footer extends React.Component {
           }
         }
       }
+    `
+    const Ground = Styled.div`
+      width: 100%;
+      height: 40px;
+      background-image: url(${ground});
+      background-position: center center;
+      background-repeat: repeat;
+      background-size: contain;
     `
 
     let socials = links.map((link, i) => {
@@ -213,6 +225,9 @@ class Footer extends React.Component {
         <Flex flexWrap="wrap" width={[1]} px={[4, 4, 0]} mb={[0, 0, 3]}>
           {secrets}
         </Flex>
+        {currentMonth === 12 && 
+          <Ground></Ground>
+        }
       </FooterWrapper>
     )
   }

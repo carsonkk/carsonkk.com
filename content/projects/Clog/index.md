@@ -1,6 +1,6 @@
 ---
-created: '2018-03-01'
-updated: '2018-03-01'
+created: '2018-11-06'
+updated: '2019-09-30'
 title: 'Clog'
 description: 'A simple, versatile logging library for C'
 topic: 'Software'

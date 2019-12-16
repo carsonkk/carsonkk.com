@@ -1,6 +1,6 @@
 ---
-created: '2018-01-01'
-updated: '2018-01-01'
+created: '2019-09-06'
+updated: '2019-09-30'
 banner: experimental-cloud.png
 title: 'Mandrake'
 description: 'Durability and fault tolerance for small-scale clouds at the network edge'
@@ -18,6 +18,7 @@ tags:
   - 'Multithreading'
   - 'Networking'
   - 'API'
+website: 'ieeexplore.ieee.org/document/8812212'
 ---
 
 ## Durability at the Edge

@@ -1,6 +1,5 @@
 ---
-created: '2014-04-04'
-updated: '2014-04-04'
+created: '2019-09-06'
 banner: couches.png
 title: 'Home Theater Platforms And Storage'
 description: 'The college house dream: a double decker couch'

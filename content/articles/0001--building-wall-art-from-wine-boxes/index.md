@@ -1,6 +1,5 @@
 ---
-created: '2019-01-01'
-updated: '2019-02-02'
+created: '2019-09-06'
 banner: 'wineart.png'
 title: 'Building Wall Art from Wine Boxes'
 topic: 'Other'

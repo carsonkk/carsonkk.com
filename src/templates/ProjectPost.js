@@ -95,6 +95,11 @@ class ProjectPost extends React.Component {
         })
       })
     }
+    else if(website) {
+      this.setState({
+        website: website,
+      })
+    }
     this.setState({
       contents: [RenderAst(htmlAst)]
     })

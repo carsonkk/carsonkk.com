@@ -1,56 +1,26 @@
 import React from 'react'
 import Styled, { keyframes, withTheme } from 'styled-components'
 import { fadeInUp, fadeOutDown } from 'react-animations'
-import Cookies from 'universal-cookie'
 
+import lights from '../images/christmas-lights.png'
 import '../css/header.css'
-import snowstorm from '../js/snowstorm.js'
 import GenericButton from './GenericButton'
 import Logo from './Logo'
 import { MediaMin } from '../utils/Responsive'
 import { RandomIcon } from '../utils/Theme'
-import { relative } from 'path';
-
-const cookies = new Cookies()
 
 class Header extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       menu: false,
-      snow: (cookies.get('snow') === 'true'),
       miscIcon: RandomIcon()
     }
     this.toggleMenu = this.toggleMenu.bind(this)
-    this.toggleSnow = this.toggleSnow.bind(this)
-  }
-
-  componentDidMount() {
-    if(!this.state.snow) {
-      snowstorm.start()
-      snowstorm.active = !snowstorm.active
-      snowstorm.stop()
-      snowstorm.freeze()
-    }
   }
 
   toggleMenu() {
     this.setState(prevState => ({menu: !prevState.menu}))
-  }
-
-  toggleSnow() {
-    this.setState((prevState) => {
-      if(this.state.snow === true) {
-        cookies.set('snow', 'false', { path: '/' })
-      }
-      else {
-        cookies.set('snow', 'true', { path: '/' })
-      }
-      snowstorm.toggleSnow()
-      return {
-        snow: !prevState.snow
-      }
-    })
   }
 
   render() {
@@ -68,24 +38,6 @@ class Header extends React.Component {
       z-index: 1002;
       background-color: ${props => props.theme.secondary};
       box-shadow: 0 0 1em 0 black;
-    `
-    const SnowButton = Styled(GenericButton)`
-      && {
-        position: absolute;
-        top: 0;
-        left: 0;
-        visibility: ${currentMonth !== 12 ? 'hidden' : 'visible'};
-        margin: 0.5em 0 0 0.5em;
-        ${MediaMin.s`
-          margin: 0.25em 0 0 0.25em;
-        `}
-        button svg {
-          font-size: 3em;
-          ${MediaMin.s`
-            font-size: 2.5em;
-          `}
-        }
-      }
     `
     const MobileMenuButton = Styled(GenericButton)`
       && {
@@ -163,6 +115,17 @@ class Header extends React.Component {
         }
       }
     `
+    const Lights = Styled.div`
+      position: absolute;
+      z-index: 1002;
+      width: 100%;
+      height: 50px;
+      margin-top: -25px;
+      background-image: url(${lights});
+      background-position: center center;
+      background-repeat: repeat;
+      background-size: contain;
+    `
 
     return (
       <div style={{backgroundColor: this.props.theme.secondary}}>
@@ -208,13 +171,6 @@ class Header extends React.Component {
           </MobileButtonWrapper>
         </div>
         <HeaderWrapper>
-          <SnowButton
-            type='action'
-            text=''
-            icon={['far', 'snowflake']}
-            func={this.toggleSnow}
-            active={this.state.snow ? 'active' : ''}
-          />
           <Logo size={4}/>
           <PCButtonWrapper>
             <TabButton
@@ -251,6 +207,9 @@ class Header extends React.Component {
           </PCButtonWrapper>
         </HeaderWrapper>
         <div style={{paddingTop: menu ? '104px' : '0px'}}></div>
+        {currentMonth == 12 && 
+          <Lights></Lights>
+        }
       </div>
     )
   }

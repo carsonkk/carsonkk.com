@@ -1,6 +1,6 @@
 ---
-created: '2018-06-01'
-updated: '2018-06-01'
+created: '2018-07-07'
+updated: '2019-09-06'
 title: 'drngs'
 description: 'Evaluating various deterministic RNGs'
 topic: 'Software'

@@ -1,6 +1,5 @@
 ---
-created: '2019-01-01'
-updated: '2019-02-02'
+created: '2019-09-06'
 banner: 'couches.png'
 title: 'Constructing a Home Theater Around a Double Decker Couch'
 topic: 'Other'

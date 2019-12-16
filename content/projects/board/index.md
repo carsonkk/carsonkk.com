@@ -1,6 +1,5 @@
 ---
-created: '2018-01-01'
-updated: '2018-01-01'
+created: '2019-09-06'
 banner: 'checkers.png'
 title: 'boARd'
 description: 'Augmented reality Android application for local multiplayer board games'
